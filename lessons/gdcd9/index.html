@@ -111,6 +111,45 @@ nav.tabs button:hover:not(.active){background:var(--sky-soft);color:var(--sky-2)
 .hidden{display:none}
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
+
+/* === Step-by-step deep-practice UI === */
+.step-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.step-header{font-size:16px;font-weight:700;color:#0369a1;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.step-why{background:#fef3c7;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;font-style:italic;border-left:3px solid #f59e0b}
+.step-mnem{background:#fff7ed;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;border-left:3px solid #f59e0b}
+.step-body{margin:14px 0;font-size:14px;line-height:1.6}
+.step-blueprint{background:#f0f9ff;border:1px solid #e0f2fe;border-radius:10px;padding:12px;margin:12px 0;position:relative}
+.step-bp-tag{display:inline-block;background:#0284c7;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-bp-q{font-size:13px;color:var(--ink);margin-bottom:6px}
+.step-bp-a{font-size:13px;color:#0369a1;background:#fff;padding:8px 12px;border-radius:6px;border-left:3px solid #0284c7}
+.step-attempt{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;margin:12px 0}
+.step-at-tag{display:inline-block;background:#f59e0b;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-at-q{font-size:13px;color:var(--ink);margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.opt-btn{background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:8px;font-size:13px;cursor:pointer;text-align:left;color:var(--ink);transition:all .15s;font-family:inherit}
+.opt-btn:hover:not(:disabled){border-color:#0284c7;background:#f0f9ff}
+.opt-btn:disabled{cursor:not-allowed}
+.opt-btn.right{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:600}
+.opt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d}
+.step-feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px}
+.step-feedback.err{background:#fee2e2;color:#7f1d1d;border-left:3px solid #dc2626}
+.step-feedback.ok{background:#dcfce7;color:#14532d;border-left:3px solid #16a34a}
+.tries-left{font-size:11px;opacity:.8;display:block;margin-top:4px}
+.step-after{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.6);border-radius:8px;font-size:13px;color:#14532d;font-style:italic}
+.step-pause{margin-top:10px;padding:14px;background:#fff7ed;border-radius:10px;text-align:center;font-size:13px;color:#78350f;border:1.5px dashed #f59e0b}
+.step-pause-timer{font-size:34px;font-weight:700;color:#f59e0b;margin-top:8px}
+.step-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;background:#fff;padding:12px;border-radius:14px;box-shadow:var(--shadow)}
+.step-nav-btn{background:#fff;border:1.5px solid var(--line);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-2);font-family:inherit}
+.step-nav-btn:hover:not(:disabled){border-color:#0284c7;color:#0369a1}
+.step-nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.step-nav-btn.primary{background:#0284c7;color:#fff;border-color:#0284c7}
+.step-nav-btn.primary:hover:not(:disabled){background:#0369a1}
+.step-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.step-dot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .15s}
+.step-dot.curr{background:#0284c7;transform:scale(1.4)}
+.step-dot.done{background:#e0f2fe;border:1.5px solid #0284c7}
+@media (max-width:600px){.opts{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -369,6 +408,9 @@ const steps = [
     analogy:'Lí tưởng giống như "phim em muốn đóng vai chính" — nhưng phim em chọn không phải về em một mình, mà về cộng đồng, đất nước.',
     before:'Trước: lí tưởng nghe to tát, không liên quan tới em.',
     after:'Sau: lí tưởng đơn giản là câu trả lời cho "em muốn cuộc đời em có ý nghĩa gì?"'
+  ,
+    blueprint:{problem:`Lí tưởng = câu trả lời cho "em muốn cuộc đời em có ý nghĩa gì?"`,solution:`Bài hôm nay khám phá: lí tưởng là gì và tại sao quan trọng.`},
+    attempt:{type:`choice`,prompt:`Lí tưởng là gì?`,choices:[`Một loại bài hát`,`Mục đích cao đẹp + có ý nghĩa cho người khác`,`Một giấc mơ ngắn`,`Một lời hứa`],correct:1,errorMsg:`<b>STOP.</b> Lí tưởng = mục đích cao đẹp + ý nghĩa cho cộng đồng.`,explanation:`✅ Đúng. Mục đích cao đẹp, vì người khác.`}
   },
   {
     title:'2. Định nghĩa — sống có lí tưởng',
@@ -381,6 +423,9 @@ const steps = [
     analogy:'Như xây nhà: phải có ① bản thiết kế đẹp, ② kế hoạch xây từng bước, ③ quyết tâm đến khi hoàn thành. Thiếu một trong ba thì chỉ là mơ ước.',
     before:'Trước: lí tưởng = ước mơ to.',
     after:'Sau: lí tưởng = mục đích đẹp + kế hoạch + quyết tâm. Ba phần phải đủ.'
+  ,
+    blueprint:{problem:`Sống có lí tưởng = mục đích cao đẹp + có kế hoạch + quyết tâm phấn đấu.`,solution:`3 thành phần phải đủ. Thiếu 1 = không phải lí tưởng.`},
+    attempt:{type:`choice`,prompt:`"Sống có lí tưởng" KHÔNG bao gồm thành phần nào?`,choices:[`Mục đích cao đẹp`,`Có kế hoạch`,`Quyết tâm phấn đấu`,`Phải có nhiều tiền`],correct:3,errorMsg:`<b>STOP.</b> Tiền không phải thành phần của lí tưởng — tiền chỉ là phương tiện.`,explanation:`✅ Đúng. Lí tưởng cần đủ 3: mục đích + kế hoạch + quyết tâm.`}
   },
   {
     title:'3. Câu chuyện Hồ Chí Minh',
@@ -391,6 +436,9 @@ const steps = [
     analogy:'Bác Hồ ở vị trí cao nhất nước, nhưng "ham muốn" duy nhất là người dân được ăn no, mặc ấm, học hành — chứ không phải bản thân giàu có. Đó là sức mạnh của lí tưởng.',
     before:'Trước: lãnh đạo lớn = người có quyền lực.',
     after:'Sau: lãnh đạo lớn = người sống vì người khác, không phải vì bản thân.'
+  ,
+    blueprint:{problem:`Bác Hồ: "ham muốn tột bậc" là độc lập + tự do + dân được ăn no, mặc ấm, học hành.`,solution:`Lãnh đạo lớn = sống vì người khác, không phải vì bản thân.`},
+    attempt:{type:`choice`,prompt:`Theo lời Bác Hồ, "ham muốn tột bậc" của Bác là:`,choices:[`Tiền tài`,`Độc lập tự do, dân được ấm no học hành`,`Quyền lực`,`Du lịch`],correct:1,errorMsg:`<b>STOP.</b> Bác Hồ ở vị trí cao nhất nhưng "ham muốn" duy nhất là người dân được no ấm.`,explanation:`✅ Đúng. Sức mạnh của lí tưởng.`}
   },
   {
     title:'4. Câu chuyện Đặng Thuỳ Trâm',
@@ -401,6 +449,9 @@ const steps = [
     analogy:'Chị Trâm 28 tuổi — chỉ hơn Mika 14–15 tuổi. Tuổi đó có thể chọn an toàn, nhưng chị chọn ra chiến trường vì lí tưởng. Câu hỏi: nếu là em, em sẽ chọn gì?',
     before:'Trước: anh hùng chỉ có trong sách.',
     after:'Sau: anh hùng là người trẻ, chọn việc khó vì điều mình tin.'
+  ,
+    blueprint:{problem:`Đặng Thuỳ Trâm (1942-1970), bác sĩ trẻ, hy sinh ở chiến trường Đức Phổ khi 28 tuổi.`,solution:`Chị chọn nguy hiểm để cứu chữa thương binh — biểu tượng thanh niên có lí tưởng.`},
+    attempt:{type:`choice`,prompt:`Đặng Thuỳ Trâm là tấm gương về:`,choices:[`Sự liều lĩnh thiếu suy nghĩ`,`Sống có lí tưởng — chọn cứu người dù nguy hiểm`,`Sự may mắn`,`Lười biếng`],correct:1,errorMsg:`<b>STOP.</b> Chị có chuẩn bị (học y), có mục đích cao đẹp, có quyết tâm — đầy đủ lí tưởng.`,explanation:`✅ Đúng. Lí tưởng được sống bằng cả mạng sống.`}
   },
   {
     title:'5. Phân biệt: lí tưởng – ước mơ – mục tiêu',
@@ -411,6 +462,9 @@ const steps = [
     analogy:'Ước mơ là hình ảnh trên bầu trời. Mục tiêu là cái đích trên đường. Lí tưởng là cả con đường — có hướng đi, có ý nghĩa, đi tới cuối đời.',
     before:'Trước: ba từ này dùng lẫn lộn.',
     after:'Sau: hiểu rõ — ước mơ → mục tiêu → lí tưởng là ba mức độ khác nhau.'
+  ,
+    blueprint:{problem:`Ước mơ: chỉ mong, chưa kế hoạch. Mục tiêu: cụ thể, có thể chỉ vì mình. Lí tưởng: cao đẹp + kế hoạch + có ích cộng đồng.`,solution:`3 mức độ khác nhau — đừng nhầm.`},
+    attempt:{type:`choice`,prompt:`"Em muốn đi du lịch khắp thế giới" là gì?`,choices:[`Lí tưởng cao đẹp`,`Mục tiêu cụ thể`,`Ước mơ (chưa có kế hoạch và lợi ích cộng đồng)`,`Ảo tưởng`],correct:2,errorMsg:`<b>STOP.</b> Có muốn nhưng chưa kế hoạch, chưa có lợi ích cộng đồng → là ước mơ.`,explanation:`✅ Đúng. Ước mơ — chưa thành lí tưởng.`}
   },
   {
     title:'6. Vì sao cần sống có lí tưởng?',
@@ -422,6 +476,9 @@ const steps = [
     analogy:'Như có một ngọn đèn pha trong sương mù — em vẫn đi được dù không thấy rõ. Người không có lí tưởng giống đi trong sương mà không có đèn.',
     before:'Trước: sống không cần lí tưởng cũng được.',
     after:'Sau: lí tưởng là bộ "GPS" cho cuộc đời — không có thì lạc đường khi gặp khó khăn.'
+  ,
+    blueprint:{problem:`3 ý nghĩa: động lực vượt khó + hoàn thành mục tiêu cá nhân + đóng góp xã hội.`,solution:`Lí tưởng như đèn pha trong sương — vẫn đi được dù không thấy rõ.`},
+    attempt:{type:`choice`,prompt:`Sống có lí tưởng KHÔNG mang lại điều nào?`,choices:[`Động lực vượt khó`,`Hoàn thành mục tiêu cá nhân`,`Đóng góp cho xã hội`,`Bay được lên trời`],correct:3,errorMsg:`<b>STOP.</b> Lí tưởng không mang phép màu — chỉ giúp định hướng và đóng góp.`,explanation:`✅ Đúng. 3 ý nghĩa thực tế.`}
   },
   {
     title:'7. Lí tưởng của thanh niên Việt Nam ngày nay',
@@ -435,6 +492,9 @@ const steps = [
     analogy:'Lí tưởng "thanh niên Việt Nam" như một bản nhạc — không phải mỗi bạn chơi cùng một nốt, mà mỗi bạn đóng góp một phần để bản nhạc hay lên.',
     before:'Trước: lí tưởng thanh niên là chuyện chính trị, xa xôi.',
     after:'Sau: lí tưởng thanh niên cụ thể — học giỏi, rèn người, làm việc có ích, không né khó khăn.'
+  ,
+    blueprint:{problem:`Lí tưởng thanh niên VN ngày nay: phấn đấu vì độc lập + CNXH; học theo Bác Hồ; trở thành công dân tốt; xây dựng + bảo vệ Tổ quốc.`,solution:`Câu hỏi này thường có trong đề thi vào 10.`},
+    attempt:{type:`choice`,prompt:`Lí tưởng thanh niên Việt Nam ngày nay KHÔNG bao gồm điều nào?`,choices:[`Phấn đấu vì độc lập dân tộc`,`Học tập theo tư tưởng Hồ Chí Minh`,`Tránh xa các hoạt động cộng đồng`,`Xây dựng và bảo vệ Tổ quốc`],correct:2,errorMsg:`<b>STOP.</b> Ngược lại — thanh niên cần TÍCH CỰC tham gia hoạt động cộng đồng.`,explanation:`✅ Đúng. Tham gia, không tránh xa.`}
   },
   {
     title:'8. Hai phẩm chất cốt lõi: Trung thành & Dũng cảm',
@@ -445,6 +505,9 @@ const steps = [
     analogy:'Trung thành là <strong>la bàn</strong> — chỉ đúng hướng. Dũng cảm là <strong>đôi chân</strong> — đi được trên đường khó. Có cả hai mới đến được nơi đẹp.',
     before:'Trước: trung thành nghe khô khan.',
     after:'Sau: trung thành = giữ đúng giá trị; dũng cảm = dám hành động. Hai cái cùng nhau mới làm nên người tốt.'
+  ,
+    blueprint:{problem:`Trung thành = la bàn (giữ đúng giá trị). Dũng cảm = đôi chân (dám hành động). Cần CẢ HAI.`,solution:`Trung thành mà không dũng cảm = chỉ lời nói. Dũng cảm mà không trung thành = đi sai đường.`},
+    attempt:{type:`choice`,prompt:`Hai phẩm chất cốt lõi của thanh niên là:`,choices:[`Giàu và đẹp`,`Trung thành và dũng cảm`,`Khoẻ và thông minh`,`Vui vẻ và năng động`],correct:1,errorMsg:`<b>STOP.</b> Bác Hồ nhấn mạnh: trung thành (giữ giá trị) + dũng cảm (dám hành động).`,explanation:`✅ Đúng. La bàn + đôi chân.`}
   },
   {
     title:'9. Học sinh cần làm gì? — Bốn việc',
@@ -456,6 +519,9 @@ const steps = [
     analogy:'Bốn việc như bốn bánh xe — thiếu bánh nào, xe vẫn đi nhưng lệch. Đủ bốn thì đi xa.',
     before:'Trước: lí tưởng là chuyện sau này, không liên quan tới việc làm bài tập hôm nay.',
     after:'Sau: lí tưởng được xây từng ngày — qua bài tập, qua việc nhà, qua mỗi việc nhỏ.'
+  ,
+    blueprint:{problem:`4 việc cụ thể: học tập + lao động + rèn luyện sức khoẻ + tham gia hoạt động tập thể.`,solution:`4 bánh xe — thiếu 1 thì xe lệch.`},
+    attempt:{type:`choice`,prompt:`Học sinh thực hiện lí tưởng qua mấy việc cụ thể?`,choices:[`1`,`2`,`4`,`6`],correct:2,errorMsg:`<b>STOP.</b> SGK liệt kê 4 việc.`,explanation:`✅ Đúng. 4 việc: học, lao động, rèn sức khoẻ, hoạt động tập thể.`}
   },
   {
     title:'10. Phân biệt: Lí tưởng cao đẹp vs Ảo tưởng',
@@ -467,6 +533,9 @@ const steps = [
     analogy:'Lí tưởng đẹp là ngọn lửa ấm — sưởi ấm cả em và người khác. Ảo tưởng là ngọn lửa cá nhân — chỉ đốt cháy chính mình.',
     before:'Trước: mơ to là tốt, mơ càng to càng đẹp.',
     after:'Sau: mơ to phải đi đôi với có kế hoạch và có ích cho người khác — không thì chỉ là ảo tưởng.'
+  ,
+    blueprint:{problem:`Lí tưởng cao đẹp: có ích cho cộng đồng + có kế hoạch hiện thực. Ảo tưởng: viễn vông, không kế hoạch.`,solution:`Mục đích to mà không có chân thì chỉ là ảo tưởng.`},
+    attempt:{type:`choice`,prompt:`Bạn nói: "Tớ sẽ thành tỉ phú để cứu thế giới chỉ trong 5 năm." Đây là:`,choices:[`Lí tưởng cao đẹp`,`Ảo tưởng (mục đích to nhưng không kế hoạch khả thi)`,`Mục tiêu thực tế`,`Ước mơ bình thường`],correct:1,errorMsg:`<b>STOP.</b> 5 năm thành tỉ phú để cứu thế giới = phi thực tế. Đẹp lời nhưng không có chân.`,explanation:`✅ Đúng. Ảo tưởng — đẹp lời nhưng không khả thi.`}
   },
   {
     title:'11. Lí tưởng của Mika là gì?',
@@ -479,34 +548,177 @@ const steps = [
     analogy:'Lí tưởng cá nhân giống như tác phẩm nghệ thuật — em vẽ qua nhiều lần, sửa nhiều lần. Lần đầu không đẹp cũng không sao. Quan trọng là em đã cầm cọ.',
     before:'Trước: lí tưởng là chuyện của người lớn.',
     after:'Sau: 13 tuổi đã có thể bắt đầu nghĩ về lí tưởng — và sửa nó theo từng năm.'
+  ,
+    blueprint:{problem:`Lí tưởng cá nhân Mika hình thành dần qua: việc em giỏi + việc em yêu + cái em muốn cho người khác.`,solution:`13 tuổi chưa có lí tưởng rõ là bình thường — quan trọng là đang nghĩ.`},
+    attempt:{type:`choice`,prompt:`Ở tuổi 13–15, không có lí tưởng rõ ràng là:`,choices:[`Đáng lo ngại`,`Bình thường — lí tưởng được hình thành dần`,`Thất bại`,`Lười biếng`],correct:1,errorMsg:`<b>STOP.</b> Lí tưởng được hình thành theo thời gian. Đang tìm hiểu = dấu hiệu tốt.`,explanation:`✅ Đúng. Lí tưởng đầu tiên có thể đơn giản — quan trọng là em đã viết nó ra.`}
   }
 ];
 
+let currentStep = 0;
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+
 function renderTheory(){
   const p=loadProg();
+  if(currentStep===0 && p.theory>0) currentStep = Math.min(p.theory, steps.length-1);
   const cont=document.getElementById('theoryContent');
-  cont.innerHTML='';
-  steps.forEach((s,i)=>{
-    const el=document.createElement('div');
-    el.className='step';
-    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
-    <div class="body">${applyTooltips(s.body)}</div>
-    <div class="analogy">${applyTooltips(s.analogy)}</div>
-    <div class="before-after">
-      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
-      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+  const i = currentStep;
+  const s = steps[i];
+  const isPassed = i < p.theory;
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  
+  let attemptHtml = '';
+  if(s.attempt){
+    if(s.attempt.type === 'choice'){
+      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+        let cls='opt-btn';
+        if(stepAttempt.picked!==null){
+          if(j===s.attempt.correct) cls += ' right';
+          else if(j===stepAttempt.picked) cls += ' wrong';
+        }
+        const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+        return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
+      }).join('') + '</div>';
+    } else if(s.attempt.type === 'yesno'){
+      const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
+    }
+  }
+  
+  let feedbackHtml = '';
+  if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+  } else if(stepAttempt.passed){
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+  } else if(stepAttempt.tries >= CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+  }
+  
+  let pauseHtml = '';
+  if(stepAttempt.paused){
+    pauseHtml = `<div class="step-pause">⏸️ Dừng 5 giây trong đầu — suy nghĩ lại — rồi thử tiếp.<div class="step-pause-timer" id="stepTimer">5</div></div>`;
+  }
+  
+  const dots = steps.map((_,k)=>{
+    let cls='step-dot';
+    if(k===i) cls+=' curr';
+    else if(k<p.theory) cls+=' done';
+    return `<span class="${cls}" onclick="jumpStep(${k})" title="Bước ${k+1}"></span>`;
+  }).join('');
+  
+  cont.innerHTML = `
+    <div class="step-card">
+      <div class="step-header">Bước ${i+1}/${steps.length}: ${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</div>
+      <div class="step-why"><b>🤔 Trước khi học bước này:</b> ${applyTooltips(s.before)}</div>
+      <div class="step-mnem"><b>💡 Ghi nhớ dễ:</b> ${applyTooltips(s.analogy)}</div>
+      <div class="step-body">${applyTooltips(s.body)}</div>
+      ${s.attempt ? `
+        <div class="step-blueprint"><div class="step-bp-tag">BƯỚC 1 · QUAN SÁT</div>
+          <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
+          <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
+        </div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+          <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
+          ${attemptHtml}
+          ${feedbackHtml}
+          ${pauseHtml}
+        </div>
+      ` : ''}
     </div>
-    <div style="text-align:right;margin-top:8px">
-      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
-    </div>`;
-    cont.appendChild(el);
-  });
+    <div class="step-nav">
+      <button class="step-nav-btn" onclick="prevStep()" ${i===0?'disabled':''}>← Trước</button>
+      <div class="step-dots">${dots}</div>
+      <button class="step-nav-btn primary" onclick="nextStep()" ${(!stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit && s.attempt) ? 'disabled' : ''}>Sau →</button>
+    </div>
+  `;
 }
-function markStep(i){
-  const p=loadProg();
-  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
-  renderTheory();updateOverall();
+
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+
+function pickStep(j){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = j;
+  stepAttempt.tries++;
+  if(j === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
 }
+
+function pickStepYN(v){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = v;
+  stepAttempt.tries++;
+  if(v === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
+}
+
+function nextStep(){
+  if(currentStep < steps.length-1){
+    currentStep++;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    switchTab('practice');
+  }
+}
+function prevStep(){
+  if(currentStep > 0){
+    currentStep--;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+function jumpStep(k){
+  const p = loadProg();
+  if(k <= p.theory){
+    currentStep = k;
+    resetStepAttempt();
+    if(k < p.theory) stepAttempt.passed = true;
+    renderTheory();
+  }
+}
+
+function markStep(){ /* legacy no-op, replaced by step-by-step engine */ }
 
 const practice = [
   {

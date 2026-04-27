@@ -112,6 +112,45 @@ nav.tabs button:hover:not(.active){background:var(--green-soft);color:var(--gree
 .hidden{display:none}
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
+
+/* === Step-by-step deep-practice UI === */
+.step-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.step-header{font-size:16px;font-weight:700;color:#166534;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.step-why{background:#fef3c7;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;font-style:italic;border-left:3px solid #eab308}
+.step-mnem{background:#fff7ed;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;border-left:3px solid #eab308}
+.step-body{margin:14px 0;font-size:14px;line-height:1.6}
+.step-blueprint{background:#f0fdf4;border:1px solid #dcfce7;border-radius:10px;padding:12px;margin:12px 0;position:relative}
+.step-bp-tag{display:inline-block;background:#15803d;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-bp-q{font-size:13px;color:var(--ink);margin-bottom:6px}
+.step-bp-a{font-size:13px;color:#166534;background:#fff;padding:8px 12px;border-radius:6px;border-left:3px solid #15803d}
+.step-attempt{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;margin:12px 0}
+.step-at-tag{display:inline-block;background:#eab308;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-at-q{font-size:13px;color:var(--ink);margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.opt-btn{background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:8px;font-size:13px;cursor:pointer;text-align:left;color:var(--ink);transition:all .15s;font-family:inherit}
+.opt-btn:hover:not(:disabled){border-color:#15803d;background:#f0fdf4}
+.opt-btn:disabled{cursor:not-allowed}
+.opt-btn.right{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:600}
+.opt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d}
+.step-feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px}
+.step-feedback.err{background:#fee2e2;color:#7f1d1d;border-left:3px solid #dc2626}
+.step-feedback.ok{background:#dcfce7;color:#14532d;border-left:3px solid #16a34a}
+.tries-left{font-size:11px;opacity:.8;display:block;margin-top:4px}
+.step-after{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.6);border-radius:8px;font-size:13px;color:#14532d;font-style:italic}
+.step-pause{margin-top:10px;padding:14px;background:#fff7ed;border-radius:10px;text-align:center;font-size:13px;color:#78350f;border:1.5px dashed #eab308}
+.step-pause-timer{font-size:34px;font-weight:700;color:#eab308;margin-top:8px}
+.step-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;background:#fff;padding:12px;border-radius:14px;box-shadow:var(--shadow)}
+.step-nav-btn{background:#fff;border:1.5px solid var(--line);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-2);font-family:inherit}
+.step-nav-btn:hover:not(:disabled){border-color:#15803d;color:#166534}
+.step-nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.step-nav-btn.primary{background:#15803d;color:#fff;border-color:#15803d}
+.step-nav-btn.primary:hover:not(:disabled){background:#166534}
+.step-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.step-dot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .15s}
+.step-dot.curr{background:#15803d;transform:scale(1.4)}
+.step-dot.done{background:#dcfce7;border:1.5px solid #15803d}
+@media (max-width:600px){.opts{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -365,6 +404,9 @@ const steps = [
     analogy:'Như mở album ảnh gia đình lớn — đếm xem có bao nhiêu thành viên, ai sống ở miền nào, ai mới sinh, ai đã lớn.',
     before:'Trước: Việt Nam = một dân tộc duy nhất.',
     after:'Sau: Việt Nam = 54 dân tộc + 98.5 triệu người + cơ cấu đang thay đổi.'
+  ,
+    blueprint:{problem:`Việt Nam có 3 đặc điểm lớn: 54 dân tộc, ~98.5 triệu người, cơ cấu đang thay đổi.`,solution:`Đó là 3 điểm trung tâm của Địa lí dân cư Việt Nam.`},
+    attempt:{type:`choice`,prompt:`Việt Nam là một quốc gia có đặc điểm:`,choices:[`Đa dân tộc`,`Một dân tộc duy nhất`,`Hai dân tộc`,`Không có dân tộc thiểu số`],correct:0,errorMsg:`<b>STOP.</b> Việt Nam có 54 dân tộc — đa dân tộc.`,explanation:`✅ Đúng. Đa dân tộc — 54 nhóm khác nhau.`}
   },
   {
     title:'2. 54 dân tộc Việt Nam',
@@ -375,6 +417,9 @@ const steps = [
     analogy:'54 dân tộc như 54 màu sắc trong hộp bút chì — mỗi màu là một văn hoá riêng. Cùng một bức tranh Việt Nam, nhưng tô bằng 54 màu khác nhau.',
     before:'Trước: chỉ biết "người Việt".',
     after:'Sau: hiểu "người Việt" = 54 dân tộc, trong đó Kinh đông nhất nhưng không phải duy nhất.'
+  ,
+    blueprint:{problem:`Việt Nam có 54 dân tộc. Kinh chiếm hơn 85%, các dân tộc thiểu số chiếm gần 15%.`,solution:`54 dân tộc làm văn hoá Việt Nam phong phú.`},
+    attempt:{type:`choice`,prompt:`Việt Nam có bao nhiêu dân tộc?`,choices:[`42`,`54`,`63`,`72`],correct:1,errorMsg:`<b>STOP.</b> Số đặc trưng cho Việt Nam là 54.`,explanation:`✅ Đúng. 54 dân tộc.`}
   },
   {
     title:'3. Dân tộc Kinh — phân bố ở đâu?',
@@ -384,6 +429,9 @@ const steps = [
     analogy:'Người Kinh trồng lúa nước → cần đất bằng phẳng, có nước → ở đồng bằng. Như cá tìm nước, người tìm đất phù hợp với nghề mình.',
     before:'Trước: người Kinh sống ở mọi nơi như nhau.',
     after:'Sau: người Kinh tập trung ở đồng bằng và trung du — vì lịch sử nông nghiệp lúa nước.'
+  ,
+    blueprint:{problem:`Người Kinh tập trung ở đồng bằng và trung du — vì lịch sử nông nghiệp lúa nước.`,solution:`Người Kinh trồng lúa → cần đất bằng, có nước → đồng bằng/trung du.`},
+    attempt:{type:`choice`,prompt:`Người Kinh tập trung chủ yếu ở:`,choices:[`Miền núi cao`,`Đồng bằng và trung du`,`Đảo và biển`,`Vùng sa mạc`],correct:1,errorMsg:`<b>STOP.</b> Lúa nước cần đất bằng và nguồn nước → đồng bằng + trung du.`,explanation:`✅ Đúng. Đồng bằng và trung du.`}
   },
   {
     title:'4. Các dân tộc thiểu số — ở đâu?',
@@ -395,6 +443,9 @@ const steps = [
     analogy:'Như bức tranh ban đầu mỗi màu vẽ vào một góc, sau mấy chục năm, các màu chảy ra trộn lẫn — vẫn nhận ra từng màu, nhưng không còn tách biệt.',
     before:'Trước: dân tộc thiểu số = miền núi.',
     after:'Sau: dân tộc thiểu số phân bố cả miền núi, Tây Nguyên, đồng bằng sông Cửu Long — và đan xen với dân tộc Kinh.'
+  ,
+    blueprint:{problem:`Các dân tộc thiểu số tập trung đông nhất ở trung du và miền núi (Bắc Bộ, Trường Sơn-Tây Nguyên).`,solution:`Sau 1960, chính sách kinh tế làm các dân tộc phân bố đan xen.`},
+    attempt:{type:`choice`,prompt:`Dân tộc thiểu số tập trung đông nhất ở:`,choices:[`Đồng bằng sông Hồng`,`Trung tâm thành phố`,`Trung du và miền núi`,`Đảo Phú Quốc`],correct:2,errorMsg:`<b>STOP.</b> Trung du và miền núi (Bắc Bộ, Trường Sơn-Tây Nguyên).`,explanation:`✅ Đúng. Trung du và miền núi.`}
   },
   {
     title:'5. Người Việt ở nước ngoài',
@@ -403,6 +454,9 @@ const steps = [
     analogy:'Như cây hoa đào Việt Nam được trồng ở nước ngoài — vẫn là cây đào Việt, dù mọc ở đất khác. Người Việt cũng vậy.',
     before:'Trước: người Việt ở nước ngoài = đã quên Việt Nam.',
     after:'Sau: 5.3 triệu người Việt khắp 130 quốc gia vẫn là một phần của cộng đồng dân tộc.'
+  ,
+    blueprint:{problem:`Năm 2021: ~5.3 triệu người Việt sống ở 130 quốc gia trên thế giới.`,solution:`Người Việt ở nước ngoài là một bộ phận không tách rời của dân tộc.`},
+    attempt:{type:`choice`,prompt:`Năm 2021, người Việt ở nước ngoài khoảng:`,choices:[`500 ngàn`,`5.3 triệu`,`15 triệu`,`50 triệu`],correct:1,errorMsg:`<b>STOP.</b> Khoảng 5.3 triệu người ở 130 quốc gia.`,explanation:`✅ Đúng. 5.3 triệu, 130 quốc gia.`}
   },
   {
     title:'6. Dân số Việt Nam — 98,5 triệu (2021)',
@@ -416,6 +470,9 @@ const steps = [
     analogy:'Trong 32 năm (1989-2021), dân số tăng từ 64.4 → 98.5 triệu = thêm 34 triệu người. Đó tương đương ghép thêm cả Canada vào Việt Nam!',
     before:'Trước: không biết dân số Việt Nam là bao nhiêu.',
     after:'Sau: 98,5 triệu, top 15 thế giới — đông nhưng tỉ lệ tăng đang giảm.'
+  ,
+    blueprint:{problem:`Năm 2021: 98.5 triệu người. Đứng thứ 15 trên thế giới về dân số.`,solution:`Trong 32 năm (1989→2021), tăng từ 64.4 → 98.5 triệu.`},
+    attempt:{type:`choice`,prompt:`Dân số Việt Nam năm 2021 khoảng:`,choices:[`65 triệu`,`86 triệu`,`98.5 triệu`,`120 triệu`],correct:2,errorMsg:`<b>STOP.</b> Bảng SGK: 98.5 triệu năm 2021.`,explanation:`✅ Đúng. 98.5 triệu — top 15 thế giới.`}
   },
   {
     title:'7. Gia tăng dân số — đang giảm dần',
@@ -429,6 +486,9 @@ const steps = [
     analogy:'Dân số như tài khoản ngân hàng — lãi suất giảm (tỉ lệ tăng giảm) nhưng số tiền gốc lớn → tiền lãi vẫn nhiều.',
     before:'Trước: tỉ lệ tăng giảm = dân số đang giảm.',
     after:'Sau: tỉ lệ TĂNG giảm, nhưng dân số tổng vẫn TĂNG (chỉ tăng chậm hơn).'
+  ,
+    blueprint:{problem:`1989: 2.10% → 2021: 0.94%. Tỉ lệ tăng đang GIẢM (nhưng tổng dân số vẫn tăng).`,solution:`Mỗi % vẫn là gần 1 triệu người mỗi năm.`},
+    attempt:{type:`choice`,prompt:`Tỉ lệ gia tăng dân số Việt Nam có xu hướng:`,choices:[`Tăng nhanh`,`Giảm dần`,`Không đổi`,`Tăng rồi giảm`],correct:1,errorMsg:`<b>STOP.</b> 1989: 2.10% → 2021: 0.94% — đang giảm.`,explanation:`✅ Đúng. Giảm dần. Lưu ý: TỔNG dân số vẫn tăng.`}
   },
   {
     title:'8. Đọc bảng số liệu — kĩ năng quan trọng',
@@ -442,6 +502,9 @@ const steps = [
     analogy:'Đọc bảng số liệu giống như đọc nhật kí thời tiết — không xem riêng một ngày, mà xem cả tháng để thấy xu hướng.',
     before:'Trước: nhìn bảng thấy nhiều số → bỏ qua.',
     after:'Sau: nhìn bảng có 5 bước rõ ràng → biết bảng đang "kể chuyện" gì.'
+  ,
+    blueprint:{problem:`5 bước đọc bảng: tiêu đề → cột năm → so sánh đầu/cuối → tính độ thay đổi → nhận xét.`,solution:`Đọc bảng số liệu là kĩ năng cốt lõi của Địa lí.`},
+    attempt:{type:`choice`,prompt:`Khi đọc bảng số liệu, bước nào KHÔNG cần làm?`,choices:[`Đọc tiêu đề`,`So sánh đầu-cuối`,`Tô màu hình`,`Tính độ thay đổi`],correct:2,errorMsg:`<b>STOP.</b> Tô màu không phải bước đọc bảng — chỉ là cách trang trí.`,explanation:`✅ Đúng. Tô màu không cần.`}
   },
   {
     title:'9. Cơ cấu dân số theo tuổi',
@@ -463,6 +526,9 @@ const steps = [
     analogy:'Như xem ảnh gia đình qua các năm: ngày xưa nhiều em bé, ngày nay nhiều ông bà — tháp tuổi đang lật ngược.',
     before:'Trước: dân số chỉ là "tổng số".',
     after:'Sau: dân số có cấu trúc 3 nhóm — Việt Nam đang có ít trẻ em và nhiều người già hơn xưa.'
+  ,
+    blueprint:{problem:`Nhóm 0-14 tuổi GIẢM mạnh (39.2 → 24.1%); 15-64 ổn định ~67%; ≥65 TĂNG (4.7 → 8.3%).`,solution:`Việt Nam đang chuyển từ "trẻ" sang "già hoá".`},
+    attempt:{type:`choice`,prompt:`Nhóm tuổi 0-14 ở Việt Nam có xu hướng:`,choices:[`Tăng`,`Giảm mạnh`,`Không đổi`,`Tăng nhanh`],correct:1,errorMsg:`<b>STOP.</b> Bảng SGK: 39.2% (1989) → 24.1% (2021). Giảm rõ rệt.`,explanation:`✅ Đúng. Giảm mạnh do gia đình sinh ít con hơn.`}
   },
   {
     title:'10. "Dân số vàng" và "dân số già"',
@@ -477,6 +543,9 @@ const steps = [
     analogy:'Dân số vàng như mùa thu hoạch — chỉ kéo dài vài chục năm, phải tận dụng. Để qua mùa, lúa rụng hết.',
     before:'Trước: dân số đông là tốt.',
     after:'Sau: hiểu cơ cấu quan trọng hơn tổng số — dân số vàng quan trọng nhất.'
+  ,
+    blueprint:{problem:`Dân số vàng = nhóm 15-64 chiếm ~67%. Việt Nam đang trong giai đoạn này từ 2009.`,solution:`Sau 2024, có thể bắt đầu chuyển sang già hoá.`},
+    attempt:{type:`choice`,prompt:`"Dân số vàng" nghĩa là:`,choices:[`Có nhiều người giàu nhất`,`Nhóm 15-64 (lao động) chiếm tỉ trọng lớn`,`Có nhiều trẻ em nhất`,`Có nhiều người già nhất`],correct:1,errorMsg:`<b>STOP.</b> Vàng = thời kì lao động đông — nhóm 15-64 chiếm ~67%.`,explanation:`✅ Đúng. Cơ hội vàng để phát triển kinh tế.`}
   },
   {
     title:'11. Cơ cấu dân số theo giới tính',
@@ -496,34 +565,177 @@ const steps = [
     analogy:'Tỉ số giới tính cân bằng tự nhiên là khoảng 105 nam/100 nữ khi sinh. Nếu lệch quá → 30 năm sau sẽ thiếu vợ cho nam thanh niên — vấn đề xã hội.',
     before:'Trước: nam và nữ luôn bằng nhau.',
     after:'Sau: tỉ số giới tính có thể bị lệch do văn hoá → ảnh hưởng cả thế hệ sau.'
+  ,
+    blueprint:{problem:`Tỉ số nam/100 nữ: 1989 = 94.2 → 2021 = 99.4. Đang TĂNG dần, gần với 100/100.`,solution:`Lý do: tâm lí trọng nam, lựa chọn giới tính khi sinh.`},
+    attempt:{type:`choice`,prompt:`Tỉ số giới tính (nam/100 nữ) ở Việt Nam có xu hướng:`,choices:[`Giảm dần`,`Tăng dần`,`Cân bằng tuyệt đối`,`Không đổi`],correct:1,errorMsg:`<b>STOP.</b> 1989: 94.2 → 2021: 99.4 — đang tăng dần.`,explanation:`✅ Đúng. Tăng dần — gần với cân bằng 100/100.`}
   }
 ];
 
+let currentStep = 0;
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+
 function renderTheory(){
   const p=loadProg();
+  if(currentStep===0 && p.theory>0) currentStep = Math.min(p.theory, steps.length-1);
   const cont=document.getElementById('theoryContent');
-  cont.innerHTML='';
-  steps.forEach((s,i)=>{
-    const el=document.createElement('div');
-    el.className='step';
-    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
-    <div class="body">${applyTooltips(s.body)}</div>
-    <div class="analogy">${applyTooltips(s.analogy)}</div>
-    <div class="before-after">
-      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
-      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+  const i = currentStep;
+  const s = steps[i];
+  const isPassed = i < p.theory;
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  
+  let attemptHtml = '';
+  if(s.attempt){
+    if(s.attempt.type === 'choice'){
+      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+        let cls='opt-btn';
+        if(stepAttempt.picked!==null){
+          if(j===s.attempt.correct) cls += ' right';
+          else if(j===stepAttempt.picked) cls += ' wrong';
+        }
+        const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+        return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
+      }).join('') + '</div>';
+    } else if(s.attempt.type === 'yesno'){
+      const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
+    }
+  }
+  
+  let feedbackHtml = '';
+  if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+  } else if(stepAttempt.passed){
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+  } else if(stepAttempt.tries >= CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+  }
+  
+  let pauseHtml = '';
+  if(stepAttempt.paused){
+    pauseHtml = `<div class="step-pause">⏸️ Dừng 5 giây trong đầu — suy nghĩ lại — rồi thử tiếp.<div class="step-pause-timer" id="stepTimer">5</div></div>`;
+  }
+  
+  const dots = steps.map((_,k)=>{
+    let cls='step-dot';
+    if(k===i) cls+=' curr';
+    else if(k<p.theory) cls+=' done';
+    return `<span class="${cls}" onclick="jumpStep(${k})" title="Bước ${k+1}"></span>`;
+  }).join('');
+  
+  cont.innerHTML = `
+    <div class="step-card">
+      <div class="step-header">Bước ${i+1}/${steps.length}: ${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</div>
+      <div class="step-why"><b>🤔 Trước khi học bước này:</b> ${applyTooltips(s.before)}</div>
+      <div class="step-mnem"><b>💡 Ghi nhớ dễ:</b> ${applyTooltips(s.analogy)}</div>
+      <div class="step-body">${applyTooltips(s.body)}</div>
+      ${s.attempt ? `
+        <div class="step-blueprint"><div class="step-bp-tag">BƯỚC 1 · QUAN SÁT</div>
+          <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
+          <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
+        </div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+          <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
+          ${attemptHtml}
+          ${feedbackHtml}
+          ${pauseHtml}
+        </div>
+      ` : ''}
     </div>
-    <div style="text-align:right;margin-top:8px">
-      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
-    </div>`;
-    cont.appendChild(el);
-  });
+    <div class="step-nav">
+      <button class="step-nav-btn" onclick="prevStep()" ${i===0?'disabled':''}>← Trước</button>
+      <div class="step-dots">${dots}</div>
+      <button class="step-nav-btn primary" onclick="nextStep()" ${(!stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit && s.attempt) ? 'disabled' : ''}>Sau →</button>
+    </div>
+  `;
 }
-function markStep(i){
-  const p=loadProg();
-  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
-  renderTheory();updateOverall();
+
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+
+function pickStep(j){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = j;
+  stepAttempt.tries++;
+  if(j === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
 }
+
+function pickStepYN(v){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = v;
+  stepAttempt.tries++;
+  if(v === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
+}
+
+function nextStep(){
+  if(currentStep < steps.length-1){
+    currentStep++;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    switchTab('practice');
+  }
+}
+function prevStep(){
+  if(currentStep > 0){
+    currentStep--;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+function jumpStep(k){
+  const p = loadProg();
+  if(k <= p.theory){
+    currentStep = k;
+    resetStepAttempt();
+    if(k < p.theory) stepAttempt.passed = true;
+    renderTheory();
+  }
+}
+
+function markStep(){ /* legacy no-op, replaced by step-by-step engine */ }
 
 const practice = [
   {

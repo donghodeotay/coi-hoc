@@ -150,6 +150,8 @@ nav.tabs button:hover:not(.active){background:var(--leaf-soft);color:var(--leaf-
 .step-dot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .15s}
 .step-dot.curr{background:var(--leaf);transform:scale(1.4)}
 .step-dot.done{background:var(--leaf-soft);border:1.5px solid var(--leaf)}
+
+.step-after{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.6);border-radius:8px;font-size:13px;color:#14532d;font-style:italic}
 @media (max-width:600px){.opts{grid-template-columns:1fr}}
 
 </style>
@@ -591,7 +593,7 @@ function renderTheory(){
   if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
     feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
   } else if(stepAttempt.passed){
-    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}</div>`;
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
   } else if(stepAttempt.tries >= CFG.attemptLimit){
     feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
   }
@@ -612,7 +614,7 @@ function renderTheory(){
   cont.innerHTML = `
     <div class="step-card">
       <div class="step-header">Bước ${i+1}/${steps.length}: ${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</div>
-      <div class="step-why"><b>❓ Vì sao quan trọng?</b> ${applyTooltips(s.body.replace(/<[^>]*>/g,'').slice(0,120))}...</div>
+      <div class="step-why"><b>🤔 Trước khi học bước này:</b> ${applyTooltips(s.before)}</div>
       <div class="step-mnem"><b>💡 Ghi nhớ dễ:</b> ${applyTooltips(s.analogy)}</div>
       <div class="step-body">${applyTooltips(s.body)}</div>
       ${s.attempt ? `

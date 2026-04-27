@@ -107,6 +107,45 @@ nav.tabs button:hover:not(.active){background:var(--mint-soft);color:var(--mint-
 .hidden{display:none}
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
+
+/* === Step-by-step deep-practice UI === */
+.step-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.step-header{font-size:16px;font-weight:700;color:#059669;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.step-why{background:#ffedd5;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;font-style:italic;border-left:3px solid #f97316}
+.step-mnem{background:#fff7ed;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;border-left:3px solid #f97316}
+.step-body{margin:14px 0;font-size:14px;line-height:1.6}
+.step-blueprint{background:#ecfdf5;border:1px solid #d1fae5;border-radius:10px;padding:12px;margin:12px 0;position:relative}
+.step-bp-tag{display:inline-block;background:#10b981;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-bp-q{font-size:13px;color:var(--ink);margin-bottom:6px}
+.step-bp-a{font-size:13px;color:#059669;background:#fff;padding:8px 12px;border-radius:6px;border-left:3px solid #10b981}
+.step-attempt{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;margin:12px 0}
+.step-at-tag{display:inline-block;background:#f97316;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-at-q{font-size:13px;color:var(--ink);margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.opt-btn{background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:8px;font-size:13px;cursor:pointer;text-align:left;color:var(--ink);transition:all .15s;font-family:inherit}
+.opt-btn:hover:not(:disabled){border-color:#10b981;background:#ecfdf5}
+.opt-btn:disabled{cursor:not-allowed}
+.opt-btn.right{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:600}
+.opt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d}
+.step-feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px}
+.step-feedback.err{background:#fee2e2;color:#7f1d1d;border-left:3px solid #dc2626}
+.step-feedback.ok{background:#dcfce7;color:#14532d;border-left:3px solid #16a34a}
+.tries-left{font-size:11px;opacity:.8;display:block;margin-top:4px}
+.step-after{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.6);border-radius:8px;font-size:13px;color:#14532d;font-style:italic}
+.step-pause{margin-top:10px;padding:14px;background:#fff7ed;border-radius:10px;text-align:center;font-size:13px;color:#78350f;border:1.5px dashed #f97316}
+.step-pause-timer{font-size:34px;font-weight:700;color:#f97316;margin-top:8px}
+.step-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;background:#fff;padding:12px;border-radius:14px;box-shadow:var(--shadow)}
+.step-nav-btn{background:#fff;border:1.5px solid var(--line);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-2);font-family:inherit}
+.step-nav-btn:hover:not(:disabled){border-color:#10b981;color:#059669}
+.step-nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.step-nav-btn.primary{background:#10b981;color:#fff;border-color:#10b981}
+.step-nav-btn.primary:hover:not(:disabled){background:#059669}
+.step-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.step-dot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .15s}
+.step-dot.curr{background:#10b981;transform:scale(1.4)}
+.step-dot.done{background:#d1fae5;border:1.5px solid #10b981}
+@media (max-width:600px){.opts{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -387,6 +426,9 @@ const steps = [
     analogy: 'Giống như mỗi cây bút màu có một việc riêng — bút chì để viết, bút sáp để tô — mỗi kim loại có tính chất riêng để làm việc khác nhau.',
     before:'Trước: kim loại = sắt, đồng (chỉ là tên).',
     after:'Sau: kim loại = bộ chất có 4 tính chất chung và phản ứng theo quy luật.'
+  ,
+    blueprint:{problem:`Kim loại có 4 tính chất vật lí + phản ứng theo quy luật. Mỗi kim loại dùng cho mỗi việc.`,solution:`Bài hôm nay trả lời: vì sao mỗi kim loại được dùng cho việc khác nhau.`},
+    attempt:{type:`choice`,prompt:`Vì sao mỗi kim loại được dùng cho mỗi việc khác nhau?`,choices:[`Vì giá khác nhau`,`Vì có tính chất riêng`,`Vì màu đẹp`,`Ngẫu nhiên`],correct:1,errorMsg:`<b>STOP.</b> Mỗi kim loại có tính chất riêng — đó là lí do.`,explanation:`✅ Đúng. Tính chất quyết định việc dùng.`}
   },
   {
     title: '2. Tính dẻo — uốn không gãy',
@@ -396,6 +438,9 @@ const steps = [
     analogy: 'Như bột nặn — bóp, kéo, vo tròn, vẫn dính lại với nhau.',
     before:'Trước: bẻ thanh sắt thì sao? — không biết.',
     after:'Sau: kim loại không gãy như gỗ, mà cong lại — đó là tính dẻo.'
+  ,
+    blueprint:{problem:`Tính dẻo = bị biến dạng (kéo, dát) mà không gãy. Vàng dẻo nhất.`,solution:`Như bột nặn — vẫn dính lại với nhau.`},
+    attempt:{type:`choice`,prompt:`Vàng có tính dẻo nghĩa là:`,choices:[`Vàng dễ vỡ`,`Vàng có thể dát mỏng mà không gãy`,`Vàng tan trong nước`,`Vàng cứng nhất`],correct:1,errorMsg:`<b>STOP.</b> Dẻo = uốn được mà không gãy. Vàng dát thành lá rất mỏng.`,explanation:`✅ Đúng. Vàng dẻo → dát mỏng được.`}
   },
   {
     title: '3. Tính dẫn điện — vì sao dây điện làm bằng đồng?',
@@ -405,6 +450,9 @@ const steps = [
     analogy: 'Hình dung dòng electron như đoàn bạn nhỏ chạy qua dãy hành lang. Hành lang đồng rộng và trơn → chạy nhanh. Hành lang gỗ chắn lối → không qua được.',
     before:'Trước: dây điện chỉ là dây.',
     after:'Sau: dây điện làm bằng đồng vì đồng dẫn điện tốt và giá hợp lí.'
+  ,
+    blueprint:{problem:`Đồng dẫn điện tốt + giá hợp lí (rẻ hơn bạc) → dùng cho dây điện.`,solution:`Bạc dẫn điện tốt nhất nhưng quá đắt.`},
+    attempt:{type:`choice`,prompt:`Dây điện thường làm bằng đồng vì:`,choices:[`Đồng đẹp`,`Đồng dẫn điện tốt và giá hợp lí`,`Đồng nhẹ nhất`,`Đồng cứng nhất`],correct:1,errorMsg:`<b>STOP.</b> Bạc dẫn tốt nhất nhưng quá đắt → đồng là lựa chọn cân bằng.`,explanation:`✅ Đúng. Vừa dẫn tốt, vừa rẻ hơn bạc.`}
   },
   {
     title: '4. Tính dẫn nhiệt — đáy nồi nóng nhanh',
@@ -413,6 +461,9 @@ const steps = [
     analogy: 'Như chuyền tay nhau: kim loại = các bạn đứng sát nhau chuyền nhanh; gỗ = các bạn đứng xa, chuyền chậm.',
     before:'Trước: nồi nhôm nóng vì... lửa?',
     after:'Sau: nồi nhôm nóng vì nhôm dẫn nhiệt — truyền nhiệt từ đáy lên thành.'
+  ,
+    blueprint:{problem:`Nhôm dẫn nhiệt tốt → nhiệt từ đáy nồi truyền nhanh lên thành nồi.`,solution:`Gỗ ngược lại — không dẫn nhiệt.`},
+    attempt:{type:`choice`,prompt:`Vì sao nồi thường làm bằng nhôm?`,choices:[`Vì nhôm rẻ nhất`,`Vì nhôm dẫn nhiệt tốt`,`Vì nhôm bền`,`Vì nhôm nhẹ và đẹp`],correct:1,errorMsg:`<b>STOP.</b> Nồi cần dẫn nhiệt tốt — nhôm là lựa chọn.`,explanation:`✅ Đúng. Dẫn nhiệt tốt → nấu nhanh.`}
   },
   {
     title: '5. Ánh kim — vì sao đồ kim loại bóng?',
@@ -421,6 +472,9 @@ const steps = [
     analogy: 'Bề mặt kim loại như mặt hồ phẳng lặng — phản chiếu ánh sáng. Bề mặt gỗ như đất xốp — hút ánh sáng vào.',
     before:'Trước: nhẫn vàng đẹp vì... đẹp.',
     after:'Sau: nhẫn vàng đẹp vì có ánh kim — đặc tính chung của kim loại.'
+  ,
+    blueprint:{problem:`Ánh kim = bề mặt bóng phản chiếu ánh sáng → dùng làm trang sức, gương.`,solution:`Vàng, bạc, đồng đều có ánh kim đẹp.`},
+    attempt:{type:`choice`,prompt:`Vì sao nhẫn vàng đẹp lấp lánh?`,choices:[`Vì có ánh kim`,`Vì được sơn bóng`,`Vì rất đắt`,`Vì rất cứng`],correct:0,errorMsg:`<b>STOP.</b> Ánh kim là tính chất tự nhiên của vàng.`,explanation:`✅ Đúng. Ánh kim — đặc tính chung của kim loại.`}
   },
   {
     title: '6. Tổng kết tính chất vật lí',
@@ -430,6 +484,9 @@ const steps = [
     analogy: 'Như tất cả mèo đều có 4 chân, lông, kêu meo. Nhưng mèo Anh lông dài hơn, mèo Xiêm gầy hơn.',
     before:'Trước: kim loại đều giống nhau.',
     after:'Sau: kim loại đều có 4 tính chất chung, nhưng mức độ khác nhau.'
+  ,
+    blueprint:{problem:`4 tính chất vật lí chung của kim loại: tính dẻo + dẫn điện + dẫn nhiệt + ánh kim.`,solution:`Mỗi kim loại đều có cả 4, nhưng mức độ khác nhau.`},
+    attempt:{type:`choice`,prompt:`Tính chất nào KHÔNG phải là tính chất vật lí của kim loại?`,choices:[`Tính dẻo`,`Dẫn điện`,`Cháy mạnh trong không khí`,`Ánh kim`],correct:2,errorMsg:`<b>STOP.</b> Cháy là phản ứng HOÁ HỌC (với O₂), không phải tính chất vật lí.`,explanation:`✅ Đúng. 4 vật lí: dẻo + dẫn điện + dẫn nhiệt + ánh kim.`}
   },
   {
     title: '7. Tác dụng với oxygen — vì sao sắt bị gỉ?',
@@ -441,6 +498,9 @@ const steps = [
     analogy: 'Sắt + oxygen = "kết hôn" thành sắt-oxide. Vàng quá "kén chọn", không kết hôn với ai.',
     before:'Trước: dao bị gỉ vì... cũ.',
     after:'Sau: dao bị gỉ vì sắt + oxygen → iron oxide. Đó là phản ứng hoá học.'
+  ,
+    blueprint:{problem:`3Fe + 2O₂ → Fe₃O₄. Sắt + oxygen tạo iron oxide (gỉ). Vàng/bạc KHÔNG phản ứng.`,solution:`Vì vậy nhẫn vàng không gỉ.`},
+    attempt:{type:`choice`,prompt:`Vì sao dao sắt bị gỉ khi để ngoài trời lâu?`,choices:[`Vì sắt phản ứng với oxygen`,`Vì sắt cũ`,`Vì sắt mềm`,`Vì có vi khuẩn`],correct:0,errorMsg:`<b>STOP.</b> Sắt + O₂ → iron oxide (gỉ).`,explanation:`✅ Đúng. Sắt + oxygen → gỉ. Au, Ag không phản ứng.`}
   },
   {
     title: '8. Tác dụng với chlorine và sulfur',
@@ -452,6 +512,9 @@ const steps = [
     analogy: 'Phi kim (oxygen, chlorine, sulfur) như ba "bạn năng động" — kim loại nào cũng thân được, trừ mấy kim loại "lười" (Au, Ag, Pt).',
     before:'Trước: kim loại chỉ phản ứng với oxygen.',
     after:'Sau: kim loại phản ứng được với nhiều phi kim — tạo muối khác nhau.'
+  ,
+    blueprint:{problem:`2Fe + 3Cl₂ → 2FeCl₃. Đa số kim loại phản ứng Cl₂. Au/Ag/Pt KHÔNG phản ứng.`,solution:`Phi kim (oxygen, chlorine, sulfur) là "bạn năng động" — kim loại nào cũng thân.`},
+    attempt:{type:`choice`,prompt:`Khi cho sắt phản ứng với khí Cl₂ dư, sản phẩm là:`,choices:[`FeCl₂`,`FeCl₃`,`Fe₂Cl₃`,`Không phản ứng`],correct:1,errorMsg:`<b>STOP.</b> Với Cl₂ dư, Fe → FeCl₃ (sắt(III) chloride).`,explanation:`✅ Đúng. 2Fe + 3Cl₂ → 2FeCl₃.`}
   },
   {
     title: '9. Tác dụng với nước — chỉ kim loại kiềm và Ca, Ba',
@@ -463,6 +526,9 @@ const steps = [
     analogy: 'Kim loại kiềm (Na, K) như tính cách "bộc phát" — gặp nước là phản ứng ngay. Sắt thì "trầm" — phải đốt nóng mới phản ứng được.',
     before:'Trước: kim loại không liên quan gì tới nước.',
     after:'Sau: chỉ vài kim loại "mạnh" phản ứng nước; còn lại không hoặc chỉ phản ứng khi rất nóng.'
+  ,
+    blueprint:{problem:`Chỉ K, Na, Ca, Ba phản ứng với nước thường. Fe, Cu, Al KHÔNG.`,solution:`Kim loại kiềm (Na, K) phản ứng mạnh — sủi bọt + tỏa nhiệt + có thể cháy.`},
+    attempt:{type:`choice`,prompt:`Kim loại nào phản ứng với NƯỚC ở nhiệt độ thường?`,choices:[`Sắt`,`Đồng`,`Natri`,`Vàng`],correct:2,errorMsg:`<b>STOP.</b> Chỉ vài kim loại "mạnh" (Na, K, Ca, Ba) phản ứng nước thường.`,explanation:`✅ Đúng. 2Na + 2H₂O → 2NaOH + H₂↑.`}
   },
   {
     title: '10. Tác dụng với acid — sủi bọt H₂',
@@ -473,6 +539,9 @@ const steps = [
     analogy: 'Acid như "thanh tra" — chỉ "bắt" được kim loại nào "chịu nói chuyện" (Zn, Fe, Mg, Al). Đồng, vàng, bạc trốn được.',
     before:'Trước: acid mạnh thì hòa tan mọi thứ.',
     after:'Sau: acid loãng chỉ phản ứng với kim loại "đứng trước H" trong dãy hoạt động. Cu, Ag, Au — không.'
+  ,
+    blueprint:{problem:`Zn + 2HCl → ZnCl₂ + H₂↑. Cu/Ag/Au KHÔNG phản ứng với HCl loãng.`,solution:`Quy tắc: kim loại đứng trước H mới phản ứng với HCl/H₂SO₄ loãng.`},
+    attempt:{type:`choice`,prompt:`Đồng (Cu) có phản ứng với HCl loãng không?`,choices:[`Có, tạo CuCl₂ + H₂`,`Không, vì Cu đứng sau H trong dãy hoạt động`,`Có, nhưng chậm`,`Có, tạo CuO`],correct:1,errorMsg:`<b>STOP.</b> Cu đứng SAU H → KHÔNG phản ứng với HCl loãng.`,explanation:`✅ Đúng. Cu, Ag, Au đứng sau H → không phản ứng.`}
   },
   {
     title: '11. Tác dụng với muối — kim loại đẩy nhau',
@@ -483,34 +552,177 @@ const steps = [
     analogy: 'Như chen chỗ trên xe buýt: bạn cao to hơn đẩy bạn nhỏ ra ghế. Sắt to hơn đồng — sắt giành chỗ trong muối.',
     before:'Trước: dung dịch xanh chỉ là... xanh.',
     after:'Sau: bỏ đinh sắt vào dung dịch xanh sẽ thấy đồng đỏ xuất hiện — đó là phản ứng đẩy kim loại.'
+  ,
+    blueprint:{problem:`Fe + CuSO₄ → FeSO₄ + Cu. Kim loại mạnh đẩy kim loại yếu ra khỏi muối.`,solution:`Như chen chỗ trên xe — bạn to hơn đẩy bạn nhỏ.`},
+    attempt:{type:`choice`,prompt:`Bỏ đinh sắt vào dung dịch CuSO₄ (xanh lam). Hiện tượng:`,choices:[`Không có gì`,`Đinh sắt phủ lớp đỏ nâu, dung dịch nhạt màu`,`Sắt tan hoàn toàn`,`Sắt cháy`],correct:1,errorMsg:`<b>STOP.</b> Fe đẩy Cu ra. Cu (đỏ nâu) bám lên đinh, dung dịch FeSO₄ nhạt màu hơn.`,explanation:`✅ Đúng. Sắt mạnh hơn đồng → đẩy ra.`}
   }
 ];
 
+let currentStep = 0;
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+
 function renderTheory(){
   const p=loadProg();
+  if(currentStep===0 && p.theory>0) currentStep = Math.min(p.theory, steps.length-1);
   const cont=document.getElementById('theoryContent');
-  cont.innerHTML='';
-  steps.forEach((s,i)=>{
-    const el=document.createElement('div');
-    el.className='step';
-    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
-    <div class="body">${applyTooltips(s.body)}</div>
-    <div class="analogy">${applyTooltips(s.analogy)}</div>
-    <div class="before-after">
-      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
-      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+  const i = currentStep;
+  const s = steps[i];
+  const isPassed = i < p.theory;
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  
+  let attemptHtml = '';
+  if(s.attempt){
+    if(s.attempt.type === 'choice'){
+      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+        let cls='opt-btn';
+        if(stepAttempt.picked!==null){
+          if(j===s.attempt.correct) cls += ' right';
+          else if(j===stepAttempt.picked) cls += ' wrong';
+        }
+        const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+        return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
+      }).join('') + '</div>';
+    } else if(s.attempt.type === 'yesno'){
+      const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
+    }
+  }
+  
+  let feedbackHtml = '';
+  if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+  } else if(stepAttempt.passed){
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+  } else if(stepAttempt.tries >= CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+  }
+  
+  let pauseHtml = '';
+  if(stepAttempt.paused){
+    pauseHtml = `<div class="step-pause">⏸️ Dừng 5 giây trong đầu — suy nghĩ lại — rồi thử tiếp.<div class="step-pause-timer" id="stepTimer">5</div></div>`;
+  }
+  
+  const dots = steps.map((_,k)=>{
+    let cls='step-dot';
+    if(k===i) cls+=' curr';
+    else if(k<p.theory) cls+=' done';
+    return `<span class="${cls}" onclick="jumpStep(${k})" title="Bước ${k+1}"></span>`;
+  }).join('');
+  
+  cont.innerHTML = `
+    <div class="step-card">
+      <div class="step-header">Bước ${i+1}/${steps.length}: ${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</div>
+      <div class="step-why"><b>🤔 Trước khi học bước này:</b> ${applyTooltips(s.before)}</div>
+      <div class="step-mnem"><b>💡 Ghi nhớ dễ:</b> ${applyTooltips(s.analogy)}</div>
+      <div class="step-body">${applyTooltips(s.body)}</div>
+      ${s.attempt ? `
+        <div class="step-blueprint"><div class="step-bp-tag">BƯỚC 1 · QUAN SÁT</div>
+          <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
+          <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
+        </div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+          <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
+          ${attemptHtml}
+          ${feedbackHtml}
+          ${pauseHtml}
+        </div>
+      ` : ''}
     </div>
-    <div style="text-align:right;margin-top:8px">
-      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
-    </div>`;
-    cont.appendChild(el);
-  });
+    <div class="step-nav">
+      <button class="step-nav-btn" onclick="prevStep()" ${i===0?'disabled':''}>← Trước</button>
+      <div class="step-dots">${dots}</div>
+      <button class="step-nav-btn primary" onclick="nextStep()" ${(!stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit && s.attempt) ? 'disabled' : ''}>Sau →</button>
+    </div>
+  `;
 }
-function markStep(i){
-  const p=loadProg();
-  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
-  renderTheory();updateOverall();
+
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+
+function pickStep(j){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = j;
+  stepAttempt.tries++;
+  if(j === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
 }
+
+function pickStepYN(v){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = v;
+  stepAttempt.tries++;
+  if(v === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
+}
+
+function nextStep(){
+  if(currentStep < steps.length-1){
+    currentStep++;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    switchTab('practice');
+  }
+}
+function prevStep(){
+  if(currentStep > 0){
+    currentStep--;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+function jumpStep(k){
+  const p = loadProg();
+  if(k <= p.theory){
+    currentStep = k;
+    resetStepAttempt();
+    if(k < p.theory) stepAttempt.passed = true;
+    renderTheory();
+  }
+}
+
+function markStep(){ /* legacy no-op, replaced by step-by-step engine */ }
 
 // ===== Practice (deep-practice loop) =====
 const practice = [

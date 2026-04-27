@@ -109,6 +109,45 @@ nav.tabs button:hover:not(.active){background:var(--rose-soft);color:var(--rose-
 .hidden{display:none}
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
+
+/* === Step-by-step deep-practice UI === */
+.step-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.step-header{font-size:16px;font-weight:700;color:#be123c;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.step-why{background:#ede9fe;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;font-style:italic;border-left:3px solid #a78bfa}
+.step-mnem{background:#fff7ed;padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;border-left:3px solid #a78bfa}
+.step-body{margin:14px 0;font-size:14px;line-height:1.6}
+.step-blueprint{background:#fff1f2;border:1px solid #ffe4e6;border-radius:10px;padding:12px;margin:12px 0;position:relative}
+.step-bp-tag{display:inline-block;background:#e11d48;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-bp-q{font-size:13px;color:var(--ink);margin-bottom:6px}
+.step-bp-a{font-size:13px;color:#be123c;background:#fff;padding:8px 12px;border-radius:6px;border-left:3px solid #e11d48}
+.step-attempt{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;margin:12px 0}
+.step-at-tag{display:inline-block;background:#a78bfa;color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-at-q{font-size:13px;color:var(--ink);margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.opt-btn{background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:8px;font-size:13px;cursor:pointer;text-align:left;color:var(--ink);transition:all .15s;font-family:inherit}
+.opt-btn:hover:not(:disabled){border-color:#e11d48;background:#fff1f2}
+.opt-btn:disabled{cursor:not-allowed}
+.opt-btn.right{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:600}
+.opt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d}
+.step-feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px}
+.step-feedback.err{background:#fee2e2;color:#7f1d1d;border-left:3px solid #dc2626}
+.step-feedback.ok{background:#dcfce7;color:#14532d;border-left:3px solid #16a34a}
+.tries-left{font-size:11px;opacity:.8;display:block;margin-top:4px}
+.step-after{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.6);border-radius:8px;font-size:13px;color:#14532d;font-style:italic}
+.step-pause{margin-top:10px;padding:14px;background:#fff7ed;border-radius:10px;text-align:center;font-size:13px;color:#78350f;border:1.5px dashed #a78bfa}
+.step-pause-timer{font-size:34px;font-weight:700;color:#a78bfa;margin-top:8px}
+.step-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;background:#fff;padding:12px;border-radius:14px;box-shadow:var(--shadow)}
+.step-nav-btn{background:#fff;border:1.5px solid var(--line);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-2);font-family:inherit}
+.step-nav-btn:hover:not(:disabled){border-color:#e11d48;color:#be123c}
+.step-nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.step-nav-btn.primary{background:#e11d48;color:#fff;border-color:#e11d48}
+.step-nav-btn.primary:hover:not(:disabled){background:#be123c}
+.step-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.step-dot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .15s}
+.step-dot.curr{background:#e11d48;transform:scale(1.4)}
+.step-dot.done{background:#ffe4e6;border:1.5px solid #e11d48}
+@media (max-width:600px){.opts{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -384,6 +423,9 @@ const steps = [
     analogy:'Như nghe bà kể chuyện ngày xưa — câu chuyện cũ, nhưng bài học vẫn mới. Văn học là chiếc gương nối ngày nay với ngày xưa.',
     before:'Trước: văn cổ khô khan, không liên quan gì đến em.',
     after:'Sau: văn cổ là tấm gương — nhìn vào để hiểu lòng người, kể cả lòng mình.'
+  ,
+    blueprint:{problem:`Truyện cổ vẫn dạy ta hiểu lòng người — vì cảm xúc con người không thay đổi qua thời gian.`,solution:`Câu chuyện 400 năm trước vẫn nói về ghen tuông, hiểu lầm — chuyện hằng ngày.`},
+    attempt:{type:`choice`,prompt:`Vì sao học truyện 400 năm trước vẫn hữu ích?`,choices:[`Vì là bài tập bắt buộc`,`Vì cảm xúc con người mọi thời đều giống nhau`,`Vì đọc cho đẹp`,`Vì sẽ thi`],correct:1,errorMsg:`<b>STOP.</b> Cảm xúc, mâu thuẫn — luôn giống nhau qua các thời đại.`,explanation:`✅ Đúng. Văn cổ là gương soi lòng người.`}
   },
   {
     title:'2. Truyện truyền kì — thể loại đặc biệt',
@@ -394,6 +436,9 @@ const steps = [
     analogy:'Như cổ tích "Tấm Cám" — có cá bống biết nói, có ông Bụt, có quả thị biến thành người (kì ảo). Nhưng thật ra đang nói về sự đố kị giữa hai chị em (hiện thực).',
     before:'Trước: thấy thần tiên ma quái = chuyện hư cấu, không có ý nghĩa.',
     after:'Sau: kì ảo là "cái áo" — bên trong vẫn là nhận xét về đời thực.'
+  ,
+    blueprint:{problem:`Truyện truyền kì = văn xuôi trung đại có yếu tố kì ảo + phản ánh hiện thực xã hội.`,solution:`Kì ảo là cách nói, hiện thực là điều muốn nói.`},
+    attempt:{type:`choice`,prompt:`Truyện truyền kì có đặc điểm gì?`,choices:[`Chỉ là cổ tích đơn thuần`,`Có yếu tố kì ảo + phản ánh hiện thực xã hội`,`Là truyện viết bằng thơ`,`Chỉ về thần linh`],correct:1,errorMsg:`<b>STOP.</b> Truyền kì khác cổ tích — có cả kì ảo VÀ hiện thực.`,explanation:`✅ Đúng. Kì ảo + phản ánh hiện thực.`}
   },
   {
     title:'3. Tác giả Nguyễn Dữ',
@@ -402,6 +447,9 @@ const steps = [
     analogy:'Nguyễn Dữ như một nhà báo của thế kỉ XVI — không viết tin tức trực tiếp, mà viết truyện ngụ ý để bình luận xã hội. An toàn hơn — nhưng cũng sâu sắc hơn.',
     before:'Trước: tác giả là một cái tên lạ trong sách giáo khoa.',
     after:'Sau: Nguyễn Dữ là người trí thức bất mãn, dùng truyện kì ảo để phê phán xã hội.'
+  ,
+    blueprint:{problem:`Nguyễn Dữ (thế kỉ XVI), tác giả "Truyền kì mạn lục" (20 truyện). Đây là truyện thứ 16.`,solution:`Đừng nhầm với Nguyễn Du (Truyện Kiều, thế kỉ XVIII).`},
+    attempt:{type:`choice`,prompt:`Tác giả "Chuyện người con gái Nam Xương" là:`,choices:[`Nguyễn Du`,`Nguyễn Dữ`,`Nguyễn Trãi`,`Hồ Xuân Hương`],correct:1,errorMsg:`<b>STOP.</b> Nguyễn DỮ (có dấu nặng), không phải Nguyễn Du.`,explanation:`✅ Đúng. Nguyễn Dữ — thế kỉ XVI.`}
   },
   {
     title:'4. Bối cảnh — Việt Nam thời phong kiến',
@@ -413,6 +461,9 @@ const steps = [
     analogy:'Hình dung đường phố không có camera, không có toà án công bằng, không có điện thoại để gọi nhờ giúp đỡ. Một người bị nghi ngờ chỉ còn cách... biến mất.',
     before:'Trước: thời xưa "có vua tốt" thì mọi chuyện ổn.',
     after:'Sau: phụ nữ thời phong kiến không có tiếng nói. Đó là cái nền của bi kịch trong truyện.'
+  ,
+    blueprint:{problem:`Phụ nữ phong kiến: tam tòng tứ đức; không học hành như đàn ông; một lời nghi oan có thể phá huỷ cả cuộc đời.`,solution:`Đó là cái nền của bi kịch trong truyện.`},
+    attempt:{type:`choice`,prompt:`Trong xã hội phong kiến, người phụ nữ:`,choices:[`Có quyền tự do`,`Phải tuân theo cha-chồng-con trai (tam tòng)`,`Học hành như đàn ông`,`Có quyền chọn chồng tự do`],correct:1,errorMsg:`<b>STOP.</b> Tam tòng = phụ thuộc cha → chồng → con trai.`,explanation:`✅ Đúng. Phụ nữ không có tiếng nói tự bảo vệ.`}
   },
   {
     title:'5. Nhân vật chính — Vũ Nương',
@@ -424,6 +475,9 @@ const steps = [
     analogy:'Vũ Nương như một bông hoa sen — mọc giữa bùn (xã hội bất công) nhưng vẫn thơm. Mọi điều tốt đẹp ở nàng được Nguyễn Dữ tô đậm — để bi kịch sau này càng đau lòng.',
     before:'Trước: chỉ thấy tên một nhân vật.',
     after:'Sau: hiểu Vũ Nương là biểu tượng của người phụ nữ Việt Nam đức hạnh.'
+  ,
+    blueprint:{problem:`Vũ Thị Thiết (Vũ Nương): hiền dịu, nết na, đẹp người. Là vợ tốt + con dâu hiếu thảo + mẹ tốt.`,solution:`Mọi điều tốt đẹp được tô đậm để bi kịch sau càng đau lòng.`},
+    attempt:{type:`choice`,prompt:`Vũ Nương được mô tả là:`,choices:[`Hiền dịu, nết na, đẹp người`,`Lười biếng`,`Phản bội chồng`,`Ác độc`],correct:0,errorMsg:`<b>STOP.</b> SGK: "thuỳ mị, nết na, lại thêm tư dung tốt đẹp".`,explanation:`✅ Đúng. Biểu tượng người phụ nữ Việt đức hạnh.`}
   },
   {
     title:'6. Nhân vật chính — Trương Sinh',
@@ -435,6 +489,9 @@ const steps = [
     analogy:'Trương Sinh giống một người chỉ biết nghe tiếng động lớn nhất — không quan sát, không hỏi, không tìm hiểu. Sự dốt nát + ghen tuông là một sự kết hợp nguy hiểm.',
     before:'Trước: Trương Sinh chỉ là "người chồng" trong truyện.',
     after:'Sau: Trương Sinh là biểu tượng của xã hội phong kiến nam quyền — nơi đàn ông có quyền phán xét mà không cần bằng chứng.'
+  ,
+    blueprint:{problem:`Trương Sinh: con nhà giàu nhưng KHÔNG có học, ĐA NGHI, nóng nảy.`,solution:`Sự dốt nát + ghen tuông là kết hợp nguy hiểm.`},
+    attempt:{type:`choice`,prompt:`Trương Sinh có đặc điểm chính nào?`,choices:[`Có học cao và hiền lành`,`Đa nghi và không có học`,`Yêu vợ vô điều kiện`,`Là quan trong triều`],correct:1,errorMsg:`<b>STOP.</b> SGK: "không có học", "có tính đa nghi".`,explanation:`✅ Đúng. Đa nghi + không học → nguy hiểm.`}
   },
   {
     title:'7. Cốt truyện — phần 1: Hôn nhân và xa cách',
@@ -448,6 +505,9 @@ const steps = [
     analogy:'Như đoạn nhạc "êm ả" trước cao trào trong phim — càng yên bình bao nhiêu, càng đau bấy nhiêu khi sóng gió tới.',
     before:'Trước: chuyện gì cũng êm xuôi.',
     after:'Sau: hiểu rằng tác giả đang xây dựng nhân vật để chuẩn bị cho bi kịch.'
+  ,
+    blueprint:{problem:`Trương Sinh đi lính 3 năm. Vũ Nương ở nhà sinh con (bé Đản) + chăm mẹ chồng + lo tang lễ chu đáo.`,solution:`Phần "êm ả" để chuẩn bị cho bi kịch.`},
+    attempt:{type:`choice`,prompt:`Trong khi Trương Sinh đi lính, Vũ Nương đã làm gì?`,choices:[`Đi du lịch`,`Sinh con + chăm mẹ chồng + lo tang lễ`,`Tái hôn`,`Bỏ về nhà bố mẹ`],correct:1,errorMsg:`<b>STOP.</b> Nàng làm tròn cả 3 vai: vợ, con dâu, mẹ.`,explanation:`✅ Đúng. Đó là vẻ đẹp của Vũ Nương.`}
   },
   {
     title:'8. Cốt truyện — phần 2: Hiểu lầm và bi kịch',
@@ -460,6 +520,9 @@ const steps = [
     analogy:'Một câu chuyện nhỏ đầy yêu thương (mẹ trỏ bóng làm cha) bị hiểu sai bởi người lớn không chịu nghe — và thành thảm kịch.',
     before:'Trước: bé Đản nói gì cũng đúng.',
     after:'Sau: trẻ con không cố tình nói dối, nhưng người lớn phải biết hỏi rõ trước khi tin.'
+  ,
+    blueprint:{problem:`Bé Đản nói "đêm nào cũng có người đến" — đó là CÁI BÓNG của Vũ Nương trên tường (lúc thắp đèn). Trương Sinh không hỏi rõ → đuổi vợ.`,solution:`Một câu chuyện nhỏ đầy yêu thương bị hiểu sai bởi người lớn không chịu nghe.`},
+    attempt:{type:`choice`,prompt:`Thứ gì gây ra hiểu lầm dẫn tới bi kịch của Vũ Nương?`,choices:[`Lá thư của ai đó`,`Cái bóng trên tường`,`Người hàng xóm`,`Một bức ảnh`],correct:1,errorMsg:`<b>STOP.</b> Vũ Nương trỏ bóng nói "cha con" để dỗ bé Đản. Bé tưởng thật.`,explanation:`✅ Đúng. Cái bóng — chi tiết nhỏ nhất giết một con người.`}
   },
   {
     title:'9. Cốt truyện — phần 3: Yếu tố kì ảo',
@@ -473,6 +536,9 @@ const steps = [
     analogy:'Phần kì ảo như cái kết "ước mơ" — Nguyễn Dữ không thể cứu sống Vũ Nương trong đời thực (vì hiện thực phong kiến không cho phép), nhưng có thể cho nàng được giải oan trong cõi tâm linh.',
     before:'Trước: phần kì ảo không liên quan gì.',
     after:'Sau: phần kì ảo là cách Nguyễn Dữ "trả lại công bằng" cho Vũ Nương — và phê phán xã hội đã giết nàng.'
+  ,
+    blueprint:{problem:`Linh Phi (Dragon Queen) cứu Vũ Nương → sống ở thuỷ cung. Phan Lang gặp nàng. Nàng hiện về trong khói.`,solution:`Đây là phần kì ảo đặc trưng của truyền kì.`},
+    attempt:{type:`choice`,prompt:`Yếu tố KÌ ẢO trong truyện thể hiện ở:`,choices:[`Trương Sinh đi lính`,`Vũ Nương sống ở thuỷ cung và hiện về sau khi chết`,`Mẹ chồng bị bệnh`,`Bé Đản nói chuyện với cha`],correct:1,errorMsg:`<b>STOP.</b> Kì ảo = thuỷ cung, Linh Phi, hiện về trong khói — không có thật.`,explanation:`✅ Đúng. Đó là kì ảo của truyền kì.`}
   },
   {
     title:'10. Chủ đề — số phận người phụ nữ phong kiến',
@@ -484,6 +550,9 @@ const steps = [
     analogy:'Một bức tranh hai mặt — mặt sáng là Vũ Nương đẹp đẽ, mặt tối là xã hội đẩy nàng vào cái chết. Nguyễn Dữ vẽ cả hai cùng lúc.',
     before:'Trước: chỉ là chuyện ghen tuông trong nhà.',
     after:'Sau: là tiếng nói phê phán cả một thời đại — nơi phụ nữ là nạn nhân.'
+  ,
+    blueprint:{problem:`Truyện vừa ca ngợi đức hạnh người phụ nữ vừa phê phán xã hội phong kiến.`,solution:`Một bức tranh hai mặt — mặt sáng và mặt tối cùng lúc.`},
+    attempt:{type:`choice`,prompt:`Chủ đề chính của truyện là:`,choices:[`Ca ngợi chiến tranh`,`Phê phán xã hội phong kiến và số phận người phụ nữ`,`Khoe sự giàu có`,`Mô tả thiên nhiên Việt Nam`],correct:1,errorMsg:`<b>STOP.</b> Truyện là tiếng nói phê phán xã hội — nơi phụ nữ là nạn nhân.`,explanation:`✅ Đúng. Phê phán + ca ngợi cùng lúc.`}
   },
   {
     title:'11. Yếu tố kì ảo — vì sao có?',
@@ -498,34 +567,177 @@ const steps = [
     analogy:'Yếu tố kì ảo như "phép lạ trong cổ tích" — giúp người đọc cảm thấy nỗi đau được an ủi, dù chỉ là tưởng tượng. Đây là sức mạnh của văn học.',
     before:'Trước: yếu tố kì ảo chỉ là "thêm thắt".',
     after:'Sau: yếu tố kì ảo là cách văn học chữa lành — và cũng là cách phê phán hiện thực bằng đường vòng.'
+  ,
+    blueprint:{problem:`Kì ảo = ước mơ công bằng. Trong hiện thực Vũ Nương chết oan; trong cõi tâm linh nàng được giải oan.`,solution:`Văn học chữa lành nỗi đau bằng tưởng tượng.`},
+    attempt:{type:`choice`,prompt:`Vì sao tác giả dùng yếu tố kì ảo?`,choices:[`Vì truyện cần lạ`,`Để "trả lại công bằng" cho Vũ Nương trong cõi tâm linh`,`Vì độc giả sợ ma`,`Vì đẹp`],correct:1,errorMsg:`<b>STOP.</b> Kì ảo là cách Nguyễn Dữ trả lại công bằng cho Vũ Nương — và phê phán xã hội đã giết nàng.`,explanation:`✅ Đúng. Kì ảo = công bằng tâm linh, không có trong hiện thực.`}
   }
 ];
 
+let currentStep = 0;
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+
 function renderTheory(){
   const p=loadProg();
+  if(currentStep===0 && p.theory>0) currentStep = Math.min(p.theory, steps.length-1);
   const cont=document.getElementById('theoryContent');
-  cont.innerHTML='';
-  steps.forEach((s,i)=>{
-    const el=document.createElement('div');
-    el.className='step';
-    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
-    <div class="body">${applyTooltips(s.body)}</div>
-    <div class="analogy">${applyTooltips(s.analogy)}</div>
-    <div class="before-after">
-      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
-      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+  const i = currentStep;
+  const s = steps[i];
+  const isPassed = i < p.theory;
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  
+  let attemptHtml = '';
+  if(s.attempt){
+    if(s.attempt.type === 'choice'){
+      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+        let cls='opt-btn';
+        if(stepAttempt.picked!==null){
+          if(j===s.attempt.correct) cls += ' right';
+          else if(j===stepAttempt.picked) cls += ' wrong';
+        }
+        const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+        return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
+      }).join('') + '</div>';
+    } else if(s.attempt.type === 'yesno'){
+      const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
+    }
+  }
+  
+  let feedbackHtml = '';
+  if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+  } else if(stepAttempt.passed){
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+  } else if(stepAttempt.tries >= CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+  }
+  
+  let pauseHtml = '';
+  if(stepAttempt.paused){
+    pauseHtml = `<div class="step-pause">⏸️ Dừng 5 giây trong đầu — suy nghĩ lại — rồi thử tiếp.<div class="step-pause-timer" id="stepTimer">5</div></div>`;
+  }
+  
+  const dots = steps.map((_,k)=>{
+    let cls='step-dot';
+    if(k===i) cls+=' curr';
+    else if(k<p.theory) cls+=' done';
+    return `<span class="${cls}" onclick="jumpStep(${k})" title="Bước ${k+1}"></span>`;
+  }).join('');
+  
+  cont.innerHTML = `
+    <div class="step-card">
+      <div class="step-header">Bước ${i+1}/${steps.length}: ${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</div>
+      <div class="step-why"><b>🤔 Trước khi học bước này:</b> ${applyTooltips(s.before)}</div>
+      <div class="step-mnem"><b>💡 Ghi nhớ dễ:</b> ${applyTooltips(s.analogy)}</div>
+      <div class="step-body">${applyTooltips(s.body)}</div>
+      ${s.attempt ? `
+        <div class="step-blueprint"><div class="step-bp-tag">BƯỚC 1 · QUAN SÁT</div>
+          <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
+          <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
+        </div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+          <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
+          ${attemptHtml}
+          ${feedbackHtml}
+          ${pauseHtml}
+        </div>
+      ` : ''}
     </div>
-    <div style="text-align:right;margin-top:8px">
-      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
-    </div>`;
-    cont.appendChild(el);
-  });
+    <div class="step-nav">
+      <button class="step-nav-btn" onclick="prevStep()" ${i===0?'disabled':''}>← Trước</button>
+      <div class="step-dots">${dots}</div>
+      <button class="step-nav-btn primary" onclick="nextStep()" ${(!stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit && s.attempt) ? 'disabled' : ''}>Sau →</button>
+    </div>
+  `;
 }
-function markStep(i){
-  const p=loadProg();
-  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
-  renderTheory();updateOverall();
+
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+
+function pickStep(j){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = j;
+  stepAttempt.tries++;
+  if(j === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
 }
+
+function pickStepYN(v){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = v;
+  stepAttempt.tries++;
+  if(v === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
+}
+
+function nextStep(){
+  if(currentStep < steps.length-1){
+    currentStep++;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    switchTab('practice');
+  }
+}
+function prevStep(){
+  if(currentStep > 0){
+    currentStep--;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+function jumpStep(k){
+  const p = loadProg();
+  if(k <= p.theory){
+    currentStep = k;
+    resetStepAttempt();
+    if(k < p.theory) stepAttempt.passed = true;
+    renderTheory();
+  }
+}
+
+function markStep(){ /* legacy no-op, replaced by step-by-step engine */ }
 
 // ===== Practice (open-ended w/ keyword matching) =====
 const practice = [
