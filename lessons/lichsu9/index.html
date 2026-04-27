@@ -172,6 +172,17 @@ details.examples .ex-list{padding:0 12px 10px}
 .tg-stats{display:flex;justify-content:space-around;background:#fff;border-radius:8px;padding:8px;margin:8px 0;font-size:11px}
 .tg-stats > div{text-align:center}
 .tg-stats .v{font-size:18px;font-weight:700;color:var(--primary);display:block}
+
+.inline-analog{background:#fef3c7;border-left:3px solid #d97706;padding:8px 12px;border-radius:6px;margin:8px 0;font-size:13px;color:#78350f;font-style:italic}
+.inline-analog::before{content:"💡 ";font-style:normal}
+.compare-tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;background:#fff;border-radius:8px;overflow:hidden}
+.compare-tbl th,.compare-tbl td{border:1px solid #e7e5e4;padding:7px 10px;text-align:left;vertical-align:top}
+.compare-tbl th{background:#fef3c7;color:#78350f;font-weight:700;font-size:11px;letter-spacing:.3px}
+.compare-tbl tr:nth-child(2) td:first-child{background:#fee2e2;color:#7f1d1d;font-weight:600}
+.compare-tbl tr:nth-child(3) td:first-child{background:#dcfce7;color:#14532d;font-weight:600}
+
+.back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
+.back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
 </style>
 </head>
 <body>
@@ -281,7 +292,6 @@ const TERMS = {
   'xô viết':'Soviet',
   'liên xô':'Soviet Union (USSR)',
   'thành lập':'establish / found',
-  'gồm':'consist of / include',
   'u-crai-na':'Ukraine',
   'bê-lô-rút-xi-a':'Belarus',
   'ngoại cáp-ca-dơ':'Transcaucasia',
@@ -370,112 +380,14 @@ const TERMS = {
   'vĩ đại':'great',
   'cuộc chiến tranh giữ nước vĩ đại':'Great Patriotic War (1941-1945)',
   // Common Vietnamese
-  'em':'you (younger)',
-  'bài':'lesson',
-  'chương':'chapter',
-  'năm':'year',
-  'tháng':'month',
-  'ngày':'day',
-  'thế kỉ':'century',
-  'thế kỉ xx':'20th century',
-  'từ':'from',
-  'đến':'to / until',
-  'trong':'in / inside',
-  'với':'with',
-  'và':'and',
-  'của':'of / belongs to',
-  'là':'is',
-  'có':'have',
-  'không':'no / not',
-  'được':'be able to / can',
-  'sau':'after',
-  'trước':'before',
-  'khi':'when',
-  'sau khi':'after',
-  'trước khi':'before',
-  'này':'this',
-  'đó':'that',
-  'đó là':'that is',
-  'đây là':'this is',
-  'một':'one',
-  'hai':'two',
-  'ba':'three',
-  'bốn':'four',
-  'năm số':'five (number)',
-  'sáu':'six',
-  'bảy':'seven',
-  'tám':'eight',
-  'chín':'nine',
-  'mười':'ten',
-  'mười bốn':'fourteen',
-  'mười bảy':'seventeen',
-  'mười lăm':'fifteen',
-  'một trăm':'one hundred',
-  'nhiều':'many',
-  'tất cả':'all',
-  'mỗi':'each / every',
-  'đầu':'beginning / first',
-  'cuối':'end',
-  'cuối cùng':'final',
-  'rất':'very',
-  'nhưng':'but',
-  'hoặc':'or',
-  'vì':'because',
-  'do':'by / due to',
-  'nên':'so',
-  'cũng':'also',
-  'chỉ':'only',
-  'đã':'(past marker)',
-  'đang':'(present marker)',
-  'sẽ':'(future marker)',
-  'rồi':'already',
-  'trở thành':'become',
-  'hỏi':'ask',
-  'trả lời':'answer',
-  'đúng':'correct',
-  'sai':'wrong',
-  'nhìn':'look',
-  'nhìn kỹ':'look carefully',
-  'nghe':'listen',
-  'đọc':'read',
-  'viết':'write',
-  'nói':'speak',
-  'biết':'know',
-  'hiểu':'understand',
-  'nghĩ':'think',
-  'hãy':'please / let',
-  'em hãy':'please (you)',
-  'cho biết':'state / tell',
-  'trình bày':'present / explain',
-  'nêu':'list / state',
-  'nét chính':'main points',
-  'những':'(plural marker)',
-  'các':'(plural marker)',
-  'gồm':'include',
-  'như':'like / as',
-  'theo':'according to',
-  'sách giáo khoa':'textbook',
-  'sgk':'textbook',
-  'trang':'page',
-  'hình':'figure / image',
-  'bảng':'table',
-  'dữ liệu':'data',
-  'số liệu':'numerical data',
-  'gọi':'call / name',
-  'tên':'name',
-  'gọi là':'called',
-  'gọi tắt':'abbreviated as',
-  'lý thuyết':'theory',
-  'luyện tập':'practice',
-  'trò chơi':'game',
-  'kiểm tra':'test / quiz',
-  'tổng kết':'summary',
-  'tóm tắt':'summarize',
-  'vận dụng':'apply',
-  'bài toán':'problem (math)',
-  'bài tập':'exercises',
-  'câu':'question / sentence',
-  'câu hỏi':'question'
+  'sta-lin':'Stalin (Soviet leader 1924-1953, after Lenin)',
+  'stalin':'Stalin (Soviet leader 1924-1953)',
+  'trốt-xki':'Trotsky (Lenin\'s rival, exiled by Stalin)',
+  'khơ-rút-sốp':'Khrushchev (Soviet leader after Stalin, 1953-1964)',
+  'mác':'Karl Marx (founder of communism)',
+  'bạch vệ':'White Guard (anti-Bolshevik forces in civil war)',
+  'sô viết':'Soviet (workers\' council)',
+
 };
 
 function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
@@ -597,7 +509,7 @@ const LESSON_CONTENT = {
         title:'Bối cảnh sau Cách mạng tháng Mười 1917',
         why:'Để hiểu Nga đối mặt với gì sau khi cách mạng thành công.',
         analogy:'Như em bé vừa sinh ra, mong manh — rồi ngay lập tức bị kẻ thù tấn công.',
-        body:'<span class="sgk-ref">📘 SGK trang 7</span> Sau thắng lợi của <b>Cách mạng tháng Mười năm 1917</b>, quân đội <b>14 đế quốc</b> (Anh, Pháp, Mỹ, Nhật Bản…) đã câu kết với các thế lực phản cách mạng trong nước mở cuộc tấn công vũ trang vào nước Nga Xô viết.',
+        body:'<span class="sgk-ref">📘 SGK trang 7</span> Sau thắng lợi của <b>Cách mạng tháng Mười năm 1917</b>, quân đội <b>14 đế quốc</b> (Anh, Pháp, Mỹ, Nhật Bản…) đã câu kết với các thế lực phản cách mạng trong nước mở cuộc tấn công vũ trang vào nước Nga Xô viết.<br><br><div class="inline-analog">Hình dung: Nga vừa lật đổ vua, lập chính phủ mới được vài tháng. Đột nhiên <b>14 nước hàng xóm</b> (gồm cả Anh, Pháp, Mỹ, Nhật) cùng đến đánh. Cộng thêm <b>người Nga cũ</b> (ủng hộ vua) cũng nổi loạn từ bên trong. Một mình chống cả thế giới — đó là tình thế của Nga 1918.</div>',
         blueprint:{problem:'Có bao nhiêu đế quốc tấn công Nga sau Cách mạng tháng Mười?',solution:'Theo SGK trang 7: <b>14 đế quốc</b>, gồm Anh, Pháp, Mỹ, Nhật Bản và các nước khác.'},
         attempt:{type:'choice',prompt:'<b>Lượt em:</b> Có bao nhiêu đế quốc đã tấn công nước Nga Xô viết sau Cách mạng tháng Mười?',choices:['4 đế quốc','7 đế quốc','14 đế quốc','40 đế quốc'],correct:2,errorMsg:'<b>STOP.</b> Đáp án là <b>14 đế quốc</b>. SGK trang 7 ghi rõ: gồm Anh, Pháp, Mỹ, Nhật Bản và 10 nước khác.',explanation:'✅ Đúng rồi! 14 đế quốc câu kết với các thế lực phản cách mạng nội bộ tấn công nước Nga.'}
       },
@@ -629,7 +541,7 @@ const LESSON_CONTENT = {
         title:'NEP — Chính sách Kinh tế mới (3-1921)',
         why:'Cải cách quan trọng — Lê-nin chuyển hướng từ cộng sản thời chiến.',
         analogy:'Như cha mẹ nghiêm khắc đột nhiên nới lỏng quy tắc để gia đình hồi phục sau giai đoạn khó khăn. Sự linh hoạt chiến lược.',
-        body:'<span class="sgk-ref">📘 SGK trang 7-8</span> <b>Tháng 3-1921</b>, Đảng <b>Bôn-sê-vích</b> quyết định thực hiện <b>Chính sách Kinh tế mới (NEP)</b> do <b>Lê-nin</b> đề xướng.<br><br>Nội dung cơ bản:<br>• <b>Bãi bỏ</b> chế độ trưng thu lương thực thừa<br>• Thay bằng chính sách <b>thu thuế lương thực</b><br>• Sau khi nộp thuế, nông dân <b>toàn quyền</b> sử dụng số dư thừa<br>• Thực hiện <b>tự do buôn bán</b><br>• Cho phép <b>tư nhân</b> mở các xí nghiệp nhỏ<br>• Khuyến khích <b>tư bản nước ngoài đầu tư</b><br><br>→ Nga vượt qua khủng hoảng, kinh tế phục hồi, đời sống nhân dân cải thiện.',
+        body:'<span class="sgk-ref">📘 SGK trang 7-8</span> <b>Tháng 3-1921</b>, Đảng <b>Bôn-sê-vích</b> quyết định thực hiện <b>Chính sách Kinh tế mới (NEP)</b> do <b>Lê-nin</b> đề xướng.<br><br>Nội dung cơ bản:<br>• <b>Bãi bỏ</b> chế độ trưng thu lương thực thừa<br>• Thay bằng chính sách <b>thu thuế lương thực</b><br>• Sau khi nộp thuế, nông dân <b>toàn quyền</b> sử dụng số dư thừa<br>• Thực hiện <b>tự do buôn bán</b><br>• Cho phép <b>tư nhân</b> mở các xí nghiệp nhỏ<br>• Khuyến khích <b>tư bản nước ngoài đầu tư</b><br><br>→ Nga vượt qua khủng hoảng, kinh tế phục hồi, đời sống nhân dân cải thiện.<br><br><div class="inline-analog">Hình dung: <b>App game</b> đầu tiên cấm hết mọi giao dịch để giữ ổn định (War Communism). Người chơi bỏ đi. Sau 2 năm, app cho phép mua bán giới hạn (NEP) — đột nhiên ai cũng chơi lại.</div><table class="compare-tbl"><tr><th>So sánh</th><th>Cộng sản thời chiến (1919)</th><th>NEP (1921)</th></tr><tr><td>Nông dân</td><td>Bị trưng thu lương thực thừa</td><td>Nộp thuế, phần dư được tự do bán</td></tr><tr><td>Buôn bán</td><td>Cấm tự do</td><td>Cho phép tự do</td></tr><tr><td>Tư nhân</td><td>Quốc hữu hoá hết</td><td>Cho phép xí nghiệp nhỏ</td></tr><tr><td>Đầu tư nước ngoài</td><td>Không</td><td>Khuyến khích</td></tr></table>',
         blueprint:{problem:'Ai là người đề xướng Chính sách Kinh tế mới (NEP)?',solution:'Lê-nin (V.I. Lenin), năm 1921. Stalin là người kế tiếp Lê-nin sau này.'},
         attempt:{type:'choice',prompt:'<b>Lượt em:</b> Ai là người đề xướng NEP (Chính sách Kinh tế mới)?',choices:['Sta-lin','Lê-nin','Trốt-xki','Khơ-rút-sốp'],correct:1,errorMsg:'<b>STOP.</b> Theo SGK trang 7: NEP do <b>Lê-nin</b> đề xướng năm 1921. Stalin sau này (sau khi Lê-nin mất 1924) thay thế NEP bằng các kế hoạch 5 năm.',explanation:'✅ Đúng. <b>Lê-nin (V.I. Lenin)</b> đề xướng NEP tháng 3-1921. Đây là cải cách quan trọng để Nga phục hồi.'}
       },
@@ -637,7 +549,7 @@ const LESSON_CONTENT = {
         title:'Liên Xô được thành lập (12-1922)',
         why:'Sự ra đời của Liên Xô — một quốc gia mới.',
         analogy:'Như nhiều ngôi nhà nhỏ hợp nhất thành một khu phức hợp lớn.',
-        body:'<span class="sgk-ref">📘 SGK trang 8</span> <b>Tháng 12-1922</b>, <b>Liên bang Cộng hoà xã hội chủ nghĩa Xô viết</b> được thành lập (gọi tắt là <b>Liên Xô</b>, USSR).<br><br>Ban đầu gồm <b>4 nước cộng hoà</b>: Nga, U-crai-na, Bê-lô-rút-xi-a, Ngoại Cáp-ca-dơ.<br>Đến <b>năm 1940</b>: <b>15 nước cộng hoà</b>.',
+        body:'<span class="sgk-ref">📘 SGK trang 8</span> <b>Tháng 12-1922</b>, <b>Liên bang Cộng hoà xã hội chủ nghĩa Xô viết</b> được thành lập (gọi tắt là <b>Liên Xô</b>, USSR).<br><br>Ban đầu gồm <b>4 nước cộng hoà</b>: Nga, U-crai-na, Bê-lô-rút-xi-a, Ngoại Cáp-ca-dơ.<br>Đến <b>năm 1940</b>: <b>15 nước cộng hoà</b>.<br><br><div class="inline-analog">Hình dung Liên Xô như <b>Liên minh châu Âu (EU) ngày nay</b>: nhiều quốc gia, chung một chính sách lớn — nhưng EU thì các nước vẫn tự lo kinh tế, còn Liên Xô thì kinh tế cũng do trung ương quản lý.</div>',
         blueprint:{problem:'Liên Xô được thành lập tháng năm nào?',solution:'Tháng 12 năm 1922.'},
         attempt:{type:'choice',prompt:'<b>Lượt em:</b> Liên Xô được thành lập vào:',choices:['Tháng 10 năm 1917','Tháng 3 năm 1921','Tháng 12 năm 1922','Tháng 6 năm 1941'],correct:2,errorMsg:'<b>STOP.</b> Theo SGK trang 8: Liên Xô thành lập <b>tháng 12-1922</b>. (10-1917 là Cách mạng tháng Mười, 3-1921 là NEP, 6-1941 là Đức tấn công Liên Xô.)',explanation:'✅ Đúng. <b>Tháng 12-1922</b>, Liên Xô được thành lập với 4 nước cộng hoà ban đầu, đến 1940 có 15 nước.'}
       },
@@ -645,21 +557,21 @@ const LESSON_CONTENT = {
         title:'Công nghiệp hoá — 2 kế hoạch 5 năm (1928-1937)',
         why:'Liên Xô trở thành cường quốc công nghiệp như thế nào.',
         analogy:'Như chương trình tập marathon: 5 năm tập trung mỗi đợt, ưu tiên công nghiệp nặng (thép, dầu, điện).',
-        body:'<span class="sgk-ref">📘 SGK trang 8</span> <b>Tháng 12-1925</b>: Đại hội Đảng Bôn-sê-vích xác định đường lối <b>công nghiệp hoá xã hội chủ nghĩa</b>, trọng tâm là <b>công nghiệp nặng</b>.<br><br>Trải qua <b>2 kế hoạch 5 năm</b>:<br>• <b>1928-1932</b> (lần thứ nhất)<br>• <b>1933-1937</b> (lần thứ hai)<br><br>→ Liên Xô trở thành <b>cường quốc công nghiệp</b>: hơn 70% tổng sản phẩm là công nghiệp; đứng đầu châu Âu, <b>thứ 2 thế giới</b> (sau Mỹ).',
+        body:'<span class="sgk-ref">📘 SGK trang 8</span> <b>Tháng 12-1925</b>: Đại hội Đảng Bôn-sê-vích xác định đường lối <b>công nghiệp hoá xã hội chủ nghĩa</b>, trọng tâm là <b>công nghiệp nặng</b>.<br><br>Trải qua <b>2 kế hoạch 5 năm</b>:<br>• <b>1928-1932</b> (lần thứ nhất)<br>• <b>1933-1937</b> (lần thứ hai)<br><br>→ Liên Xô trở thành <b>cường quốc công nghiệp</b>: hơn 70% tổng sản phẩm là công nghiệp; đứng đầu châu Âu, <b>thứ 2 thế giới</b> (sau Mỹ).<br><br><div class="inline-analog">Mỗi <b>kế hoạch 5 năm</b> giống như một <b>mùa game</b> trên Netflix: lịch trình rõ ràng cho 5 năm, mục tiêu cuối mùa cụ thể (vd: tăng sản lượng thép gấp 4 lần). Cả nước cùng "chơi" theo lịch trình này.</div>',
         blueprint:{problem:'Đến cuối thập niên 1930, Liên Xô đứng thứ mấy thế giới về công nghiệp?',solution:'Thứ 2 thế giới, sau Mỹ. Đứng đầu châu Âu.'},
         attempt:{type:'choice',prompt:'<b>Lượt em:</b> Đến cuối những năm 1930, Liên Xô đứng thứ mấy thế giới về công nghiệp?',choices:['Thứ nhất','Thứ hai (sau Mỹ)','Thứ ba','Thứ năm'],correct:1,errorMsg:'<b>STOP.</b> Theo SGK trang 8: Liên Xô đứng <b>thứ 2 thế giới</b>, sau Mỹ. (Đứng đầu châu Âu nhưng không phải thế giới.)',explanation:'✅ Đúng. Liên Xô đứng <b>thứ 2 thế giới</b> sau Mỹ về công nghiệp. Đứng đầu châu Âu.'}
       },
       {
         title:'Sản lượng công nghiệp 1928 → 1940',
         why:'Số liệu cụ thể về sự tăng trưởng.',
-        body:'<span class="sgk-ref">📘 SGK trang 8 — Bảng số liệu</span><br><br><b>Sản lượng (1928 → 1940):</b><br>• <b>Thép</b> (triệu tấn): 4 → 6 → <b>18</b><br>• <b>Dầu</b> (triệu tấn): 12 → 21 → <b>26</b><br>• <b>Điện</b> (tỉ KWh): 5 → 13 → <b>90</b><br><br>👉 Điện tăng <b>18 lần</b> trong 12 năm! Tập thể hoá nông nghiệp cũng hoàn thành với quy mô sản xuất lớn.',
+        body:'<span class="sgk-ref">📘 SGK trang 8 — Bảng số liệu</span><br><br><b>Sản lượng (1928 → 1940):</b><br>• <b>Thép</b> (triệu tấn): 4 → 6 → <b>18</b><br>• <b>Dầu</b> (triệu tấn): 12 → 21 → <b>26</b><br>• <b>Điện</b> (tỉ KWh): 5 → 13 → <b>90</b><br><br>👉 Điện tăng <b>18 lần</b> trong 12 năm! Tập thể hoá nông nghiệp cũng hoàn thành với quy mô sản xuất lớn.<br><br><div class="inline-analog">Tăng <b>18 lần điện</b> trong 12 năm là gì? Nếu Mika có 1 chiếc xe đạp năm 2014, đến 2026 có 18 chiếc xe đạp — đó là tốc độ Liên Xô tăng điện. Cực nhanh, cực ấn tượng — nhưng cũng "tốn sức" rất nhiều.</div>',
         blueprint:{problem:'Sản lượng điện của Liên Xô năm 1940 là bao nhiêu tỉ KWh?',solution:'90 tỉ KWh. Tăng từ 5 (1928) → 90 (1940), tức 18 lần.'},
         attempt:{type:'choice',prompt:'<b>Lượt em:</b> Sản lượng điện của Liên Xô năm 1940 là bao nhiêu tỉ KWh?',choices:['18','26','90','100'],correct:2,errorMsg:'<b>STOP.</b> Theo bảng SGK trang 8: <b>90 tỉ KWh</b>. (18 là sản lượng thép, 26 là dầu.)',explanation:'✅ Đúng. <b>90 tỉ KWh</b> năm 1940. Tăng 18 lần so với 1928 (5 tỉ KWh)!'}
       },
       {
         title:'Xã hội, văn hoá, giáo dục',
         why:'Vượt ra ngoài kinh tế — biến đổi xã hội.',
-        body:'<span class="sgk-ref">📘 SGK trang 9</span> <b>Cơ cấu giai cấp thay đổi căn bản:</b><br>• Xoá bỏ giai cấp bóc lột<br>• Còn 2 giai cấp lao động: <b>công nhân</b> và <b>nông dân tập thể</b><br>• Cùng tầng lớp <b>trí thức xã hội chủ nghĩa</b><br><br><b>Giáo dục:</b><br>• <b>Xoá nạn mù chữ</b><br>• Hệ thống giáo dục thống nhất<br>• Phổ cập THCS ở các thành phố<br><br>Khoa học tự nhiên, khoa học xã hội, văn học, nghệ thuật cũng đạt nhiều thành tựu to lớn.',
+        body:'<span class="sgk-ref">📘 SGK trang 9</span> <b>Cơ cấu giai cấp thay đổi căn bản:</b><br>• Xoá bỏ giai cấp bóc lột<br>• Còn 2 giai cấp lao động: <b>công nhân</b> và <b>nông dân tập thể</b><br>• Cùng tầng lớp <b>trí thức xã hội chủ nghĩa</b><br><br><b>Giáo dục:</b><br>• <b>Xoá nạn mù chữ</b><br>• Hệ thống giáo dục thống nhất<br>• Phổ cập THCS ở các thành phố<br><br>Khoa học tự nhiên, khoa học xã hội, văn học, nghệ thuật cũng đạt nhiều thành tựu to lớn.<br><br><div class="inline-analog"><b>Xoá nạn mù chữ</b> nghĩa là gì với cuộc sống hằng ngày? Hình dung trước đó: bố em không đọc được tin nhắn, không đọc được nhãn thuốc, không đọc được biển đường. Sau đó: cả nước đều biết đọc viết. Đó là một trong những thay đổi LỚN nhất của một xã hội — và Liên Xô làm được trong một thế hệ.</div>',
         blueprint:{problem:'Một thành tựu nổi bật của Liên Xô về giáo dục là gì?',solution:'Xoá nạn mù chữ — đây là điều SGK đặc biệt nhấn mạnh.'},
         attempt:{type:'choice',prompt:'<b>Lượt em:</b> Một thành tựu nổi bật về giáo dục của Liên Xô là gì?',choices:['Đại học miễn phí cho cả thế giới','Đào tạo bằng tiếng Anh','Xoá nạn mù chữ','Cấm trường tư'],correct:2,errorMsg:'<b>STOP.</b> Theo SGK trang 9: Liên Xô đã <b>xoá nạn mù chữ</b> — đây là thành tựu giáo dục được nhấn mạnh.',explanation:'✅ Đúng. <b>Xoá nạn mù chữ</b> là thành tựu giáo dục nổi bật. Cộng với hệ thống giáo dục thống nhất và phổ cập THCS ở các thành phố.'}
       },
@@ -667,14 +579,14 @@ const LESSON_CONTENT = {
         title:'Hạn chế của xây dựng XHCN',
         why:'Tư duy phản biện — mọi câu chuyện đều có hạn chế. Giáo viên sẽ kiểm tra điều này.',
         analogy:'Như xe chạy quá nhanh có thể đâm. Đi quá nhanh trong bất kỳ dự án nào đều gây vấn đề.',
-        body:'<span class="sgk-ref">📘 SGK trang 9</span> Công cuộc xây dựng XHCN ở Liên Xô có một số <b>hạn chế</b>:<br>• <b>Nóng vội</b> trong tập thể hoá nông nghiệp<br>• <b>Thiếu dân chủ</b> trong quá trình thực hiện<br>• Chưa chú trọng đúng mức đến việc <b>nâng cao đời sống nhân dân</b>',
+        body:'<span class="sgk-ref">📘 SGK trang 9</span> Công cuộc xây dựng XHCN ở Liên Xô có một số <b>hạn chế</b>:<br>• <b>Nóng vội</b> trong tập thể hoá nông nghiệp<br>• <b>Thiếu dân chủ</b> trong quá trình thực hiện<br>• Chưa chú trọng đúng mức đến việc <b>nâng cao đời sống nhân dân</b><br><br><div class="inline-analog"><b>Nóng vội tập thể hoá</b> = ép cả lớp nộp bài kiểm tra cùng giờ, dù có bạn còn chưa đọc xong đề. <b>Thiếu dân chủ</b> = giáo viên không cho học sinh ý kiến. Hậu quả: bài làm xong nhưng học sinh không thực sự hiểu — sau này hệ thống khó duy trì.</div>',
         blueprint:{problem:'Một hạn chế của xây dựng XHCN ở Liên Xô là gì?',solution:'3 hạn chế chính: (1) nóng vội trong tập thể hoá; (2) thiếu dân chủ; (3) chưa nâng cao đời sống đúng mức.'},
         attempt:{type:'choice',prompt:'<b>Lượt em:</b> Theo SGK, một hạn chế của Liên Xô là gì?',choices:['Quá ít tự do dân chủ','Quá nhiều tiền','Không có tiến bộ khoa học','Không có chiến thắng quân sự'],correct:0,errorMsg:'<b>STOP.</b> SGK trang 9 nêu rõ: <b>thiếu dân chủ</b> là một hạn chế. Cùng với "nóng vội" trong tập thể hoá và "chưa nâng cao đời sống đúng mức".',explanation:'✅ Đúng. <b>Thiếu dân chủ</b> là hạn chế. SGK cũng nêu: nóng vội tập thể hoá, chưa nâng cao đời sống đúng mức.'}
       },
       {
         title:'🏁 TÍCH HỢP: Bảng tổng kết',
         why:'SGK kết thúc bài bằng yêu cầu hoàn thành bảng. Em làm được bảng này = em đã làm chủ bài.',
-        body:'<span class="sgk-ref">📘 SGK trang 9 — Luyện tập-Vận dụng</span><br><br><b>Bảng tổng kết (theo SGK):</b><div class="recap"><table><tr><th>Lĩnh vực</th><th>Thành tựu</th><th>Hạn chế</th></tr><tr><td><b>Chính trị</b></td><td>Liên Xô thành lập 12-1922; 15 nước cộng hoà 1940</td><td>Thiếu dân chủ</td></tr><tr><td><b>Kinh tế</b></td><td>Cường quốc CN #2 thế giới; tập thể hoá NN hoàn thành</td><td>Nóng vội</td></tr><tr><td><b>Xã hội/VH/GD</b></td><td>Xoá mù chữ; phổ cập THCS; KH-VH-NT phát triển</td><td>Chưa nâng cao đời sống đúng mức</td></tr></table></div><br><b>Kết bài:</b> Tháng 6-1941, phát xít Đức tấn công Liên Xô → Cuộc chiến tranh giữ nước vĩ đại (1941-1945). Đây là cầu nối sang Bài 4 (WWII).',
+        body:'<span class="sgk-ref">📘 SGK trang 9 — Luyện tập-Vận dụng</span><br><br><b>Bảng tổng kết (theo SGK):</b><div class="recap"><table><tr><th>Lĩnh vực</th><th>Thành tựu</th><th>Hạn chế</th></tr><tr><td><b>Chính trị</b></td><td>Liên Xô thành lập 12-1922; 15 nước cộng hoà 1940</td><td>Thiếu dân chủ</td></tr><tr><td><b>Kinh tế</b></td><td>Cường quốc CN #2 thế giới; tập thể hoá NN hoàn thành</td><td>Nóng vội</td></tr><tr><td><b>Xã hội/VH/GD</b></td><td>Xoá mù chữ; phổ cập THCS; KH-VH-NT phát triển</td><td>Chưa nâng cao đời sống đúng mức</td></tr></table></div><br><b>Kết bài:</b> Tháng 6-1941, phát xít Đức tấn công Liên Xô → Cuộc chiến tranh giữ nước vĩ đại (1941-1945). Đây là cầu nối sang Bài 4 (WWII).<br><br><div class="inline-analog">Bảng 3 cột này = <b>"báo cáo học kỳ" của Liên Xô</b>. Cột thành tựu: A+ về công nghiệp, A+ về xoá mù chữ. Cột hạn chế: D về dân chủ, C về đời sống nhân dân. Một quốc gia rất giỏi xây dựng cứng (cơ sở vật chất) nhưng yếu xây dựng mềm (con người tự do).</div>',
         attempt:{type:'choice',prompt:'<b>Câu cuối:</b> Cuộc chiến tranh giữ nước vĩ đại của Liên Xô diễn ra trong giai đoạn nào?',choices:['1918-1920','1928-1937','1939-1945','1941-1945'],correct:3,errorMsg:'<b>STOP.</b> Theo SGK: phát xít Đức tấn công Liên Xô tháng 6-<b>1941</b>, kết thúc <b>1945</b>. → 1941-1945. (1918-1920 là nội chiến, 1928-1937 là 2 kế hoạch 5 năm, 1939-1945 là toàn bộ WWII nhưng Liên Xô tham chiến từ 1941.)',explanation:'✅ Đúng! <b>1941-1945</b>. Liên Xô tham chiến từ 6-1941 khi Đức tấn công, kết thúc 1945. Mika đã hoàn thành Bài 1! 🎉'}
       }
     ],
@@ -1183,6 +1095,10 @@ function celebrate(){
 }
 
 render();
+</script>
+
+<script>
+(function(){var b=document.getElementById('backHome');if(b&&!location.pathname.includes('/lessons/'))b.style.display='none';})();
 </script>
 </body>
 </html>
