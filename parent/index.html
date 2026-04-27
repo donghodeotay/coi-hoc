@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coach Console — Coi Học</title>
+<style>
+:root{color-scheme:light;--ink:#0f172a;--ink-2:#475569;--line:#e2e8f0;--bg:#f8fafc;--shadow:0 2px 8px rgba(15,23,42,.06)}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:880px;margin:0 auto;padding:20px 18px 60px}
+.back{display:inline-block;color:var(--ink-2);text-decoration:none;font-size:13px;margin-bottom:10px}
+.back:hover{color:var(--ink)}
+h1{font-size:24px;margin:0 0 4px}
+.sub{color:var(--ink-2);font-size:14px;margin:0 0 18px}
+.card{background:#fff;border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+h2{font-size:16px;color:#475569;margin:0 0 10px}
+.subjects-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.subjects-tbl th,.subjects-tbl td{padding:10px;border-bottom:1px solid var(--line);text-align:left}
+.subjects-tbl th{background:#f8fafc;color:#475569;font-weight:600;font-size:12px}
+.subjects-tbl tr:last-child td{border-bottom:0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;width:80px;display:inline-block;vertical-align:middle;margin-right:6px}
+.bar-fill{height:100%;background:linear-gradient(90deg,#10b981,#a16207)}
+.flag{font-size:11px;padding:3px 8px;border-radius:999px;font-weight:600}
+.flag.green{background:#dcfce7;color:#15803d}
+.flag.yellow{background:#fef3c7;color:#92400e}
+.flag.red{background:#fee2e2;color:#991b1b}
+.flag.gray{background:#f1f5f9;color:#64748b}
+.streak-display{font-size:32px;font-weight:700;color:#dc2626;margin:6px 0}
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.metric{background:#fff;border-radius:12px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+.metric .num{font-size:24px;font-weight:700;color:#0f172a}
+.metric .lbl{font-size:11px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.5px}
+.notice{background:#fef3c7;border-left:4px solid #f59e0b;padding:12px 14px;border-radius:8px;font-size:13px;color:#78350f;margin:12px 0}
+@media (max-width:600px){
+  .metric-row{grid-template-columns:1fr}
+  .subjects-tbl{font-size:12px}
+  .subjects-tbl th,.subjects-tbl td{padding:6px 4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../">← Về trang chính</a>
+<h1>Coach Console</h1>
+<p class="sub">Theo dõi sự tham gia và sức khoẻ học tập của Mika</p>
+
+<div class="metric-row">
+  <div class="metric">
+    <div class="lbl">🔥 Streak hiện tại</div>
+    <div class="num" id="streakDays">0</div>
+    <div style="font-size:11px;color:var(--ink-2)">ngày liên tục</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">📚 Bài đã qua</div>
+    <div class="num" id="passedCount">0</div>
+    <div style="font-size:11px;color:var(--ink-2)">trên 8 môn</div>
+  </div>
+  <div class="metric">
+    <div class="lbl">⏱️ Hoạt động 7 ngày</div>
+    <div class="num" id="actCount">0</div>
+    <div style="font-size:11px;color:var(--ink-2)">phiên học</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Tiến độ từng môn</h2>
+  <table class="subjects-tbl">
+    <thead><tr><th>Môn</th><th>Tiến độ</th><th>Quiz</th><th>Trạng thái</th></tr></thead>
+    <tbody id="subjectsBody"></tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Cờ tự động</h2>
+  <div id="flagsArea">
+    <p class="sub">Chưa có dữ liệu — chờ Mika học vài bài rồi quay lại.</p>
+  </div>
+</div>
+
+<div class="notice">
+  <strong>Lưu ý:</strong> Đây là dashboard rút gọn cho phiên bản web tĩnh — đọc dữ liệu từ trình duyệt của Mika (cùng trình duyệt cô ấy dùng học). Coach Console đầy đủ hơn (chart, log, sentiment) chạy trong Cowork. Khi triển khai backend ở Phase 5/6, hai bên sẽ đồng bộ.
+</div>
+
+</div>
+
+<script>
+const SUBJECTS = [
+  {slug:'toan9',     name:'Toán 9'},
+  {slug:'lichsu9',   name:'Lịch sử 9'},
+  {slug:'diali9',    name:'Địa lí 9'},
+  {slug:'vatly9',    name:'Vật lý 9'},
+  {slug:'hoahoc9',   name:'Hoá học 9'},
+  {slug:'sinhhoc9',  name:'Sinh học 9'},
+  {slug:'nguvan9',   name:'Ngữ văn 9'},
+  {slug:'gdcd9',     name:'GDCD 9'}
+];
+const ACTIVITY_KEY = 'toan9-activity';
+
+function loadProg(slug){
+  try{return JSON.parse(localStorage.getItem(slug+'-progress'))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+  catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+}
+function calcPct(p){const total=11+5+10+1;return Math.round(100*((p.theory||0)+(p.practice||0)+(p.game||0)+(p.quizPassed?1:0))/total)}
+
+function calcStreak(){
+  let act={};try{act=JSON.parse(localStorage.getItem(ACTIVITY_KEY))||{}}catch(e){}
+  let n=0;const d=new Date();
+  while(true){
+    const k=d.toISOString().slice(0,10);
+    if(act[k])n++;else if(n>0||k!==new Date().toISOString().slice(0,10))break;
+    d.setDate(d.getDate()-1);if(n>365)break;
+  }
+  return n;
+}
+
+function calc7day(){
+  let act={};try{act=JSON.parse(localStorage.getItem(ACTIVITY_KEY))||{}}catch(e){}
+  let n=0;const d=new Date();
+  for(let i=0;i<7;i++){
+    const k=d.toISOString().slice(0,10);
+    n+=act[k]||0;
+    d.setDate(d.getDate()-1);
+  }
+  return n;
+}
+
+function generateFlags(){
+  const flags=[];
+  const streak=calcStreak();
+  const act7=calc7day();
+  let passed=0;
+  SUBJECTS.forEach(s=>{const p=loadProg(s.slug);if(p.quizPassed)passed++});
+  if(streak===0 && act7===0){
+    flags.push({color:'gray',text:'Mika chưa học buổi nào — bình thường nếu vừa cài đặt.'});
+  } else if(streak>=3){
+    flags.push({color:'green',text:`${streak} ngày liên tục — đà tốt, giữ vững.`});
+  } else if(streak===0 && act7>0){
+    flags.push({color:'yellow',text:'Hoạt động không đều — học ngày có ngày không. Thử khung giờ cố định.'});
+  }
+  if(passed>=3){flags.push({color:'green',text:`Đã qua ${passed} bài — bắt đầu thấy độ rộng.`})}
+  if(passed===0 && act7>3){flags.push({color:'yellow',text:'Đang học nhưng chưa qua quiz nào — có thể bị mắc ở phần khó.'})}
+  return flags;
+}
+
+function render(){
+  const tbody=document.getElementById('subjectsBody');
+  tbody.innerHTML='';
+  let passed=0;
+  SUBJECTS.forEach(s=>{
+    const p=loadProg(s.slug);const pct=calcPct(p);
+    if(p.quizPassed)passed++;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>${s.name}</strong></td>
+      <td><span class="bar"><span class="bar-fill" style="width:${pct}%"></span></span> ${pct}%</td>
+      <td>${p.quizPassed?'<span class="flag green">✓</span>':p.quizBest?Math.round(p.quizBest*100)+'%':'—'}</td>
+      <td>${p.quizPassed?'<span class="flag green">Đã qua</span>':pct>0?'<span class="flag yellow">Đang học</span>':'<span class="flag gray">Chưa bắt đầu</span>'}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('streakDays').textContent=calcStreak();
+  document.getElementById('passedCount').textContent=passed;
+  document.getElementById('actCount').textContent=calc7day();
+  const flags=generateFlags();
+  const flagsArea=document.getElementById('flagsArea');
+  if(flags.length){
+    flagsArea.innerHTML=flags.map(f=>`<div style="margin:6px 0"><span class="flag ${f.color}">●</span> ${f.text}</div>`).join('');
+  }
+}
+render();
+</script>
+</body>
+</html>

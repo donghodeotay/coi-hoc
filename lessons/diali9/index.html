@@ -1,0 +1,822 @@
+<!doctype html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Diali9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "Địa lí 9 (KNTT, từ SGK Lịch sử và Địa lí 9 hợp nhất) hub for Mika — Bài 1 \"Dân tộc, gia tăng dân số và cơ cấu dân số\" fully built with deep-practice loop, Vietnamese→English geography tooltips, \"Đọc bản đồ Việt Nam\" minigame, 80% mastery quiz gating. Forest-green + warm-gold theme. Cites SGK pp.106-108."
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Địa lí 9 — Hành trình chinh phục</title>
+<style>
+:root {
+  color-scheme: light;
+  --green:#15803d; --green-2:#166534; --green-soft:#dcfce7; --green-bg:#f0fdf4;
+  --gold:#eab308; --gold-soft:#fef3c7;
+  --cream:#fffbeb;
+  --ink:#0f172a; --ink-2:#475569; --line:#e2e8f0;
+  --bg:#f7fee7;
+  --good:#16a34a; --bad:#dc2626;
+  --shadow:0 2px 8px rgba(21,128,61,.1);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:780px;margin:0 auto;padding:16px 18px 80px}
+header{background:linear-gradient(135deg,#86efac,#fde68a);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:14px}
+.hi{font-size:22px;font-weight:700;color:#14532d;margin:0 0 4px}
+.hi-sub{font-size:13px;color:#15803d;margin:0}
+.streak{display:inline-flex;gap:6px;align-items:center;background:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:var(--green-2);margin-top:8px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 14px}
+nav.tabs button{flex:1;min-width:100px;border:1px solid var(--line);background:#fff;padding:9px 8px;border-radius:12px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:all .15s}
+nav.tabs button.active{background:var(--green);color:#fff;border-color:var(--green)}
+nav.tabs button:hover:not(.active){background:var(--green-soft);color:var(--green-2)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card h2{margin:0 0 6px;font-size:18px;color:var(--green-2)}
+.card h3{margin:14px 0 8px;font-size:15px;color:var(--ink)}
+.muted{color:var(--ink-2);font-size:13px}
+.cite{font-size:11px;color:var(--ink-2);background:var(--green-soft);padding:2px 8px;border-radius:6px;display:inline-block;margin-left:6px;vertical-align:middle}
+.tt{border-bottom:1.5px dotted var(--gold);cursor:help;position:relative;color:#854d0e;font-weight:500}
+.tt:hover::after,.tt:active::after{content:attr(data-tt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:400;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2);max-width:240px;white-space:normal;width:max-content}
+.step{border-left:4px solid var(--green);padding:14px 16px;background:var(--green-bg);border-radius:10px;margin:12px 0}
+.step .num{display:inline-block;background:var(--green);color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:13px;font-weight:700;margin-right:8px}
+.step .title{font-weight:700;font-size:15px}
+.step .body{margin-top:10px;font-size:14px}
+.analogy{background:var(--gold-soft);border-left:4px solid var(--gold);padding:10px 14px;border-radius:8px;margin:10px 0;font-size:13px;font-style:italic;color:#78350f}
+.analogy::before{content:"💡 ";font-style:normal}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.before-after>div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fee2e2;color:#7f1d1d}
+.after{background:var(--green-soft);color:#14532d}
+.chip{display:inline-block;padding:3px 10px;background:var(--green-soft);color:var(--green-2);border-radius:999px;font-size:12px;margin:2px;font-weight:500}
+.chip.gold{background:var(--gold-soft);color:#78350f}
+.btn{background:var(--green);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all .15s}
+.btn:hover{background:var(--green-2)}
+.btn.alt{background:var(--gold)}
+.btn.alt:hover{background:#ca8a04}
+.btn.ghost{background:#fff;color:var(--green-2);border:1.5px solid var(--green)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.problem{background:#fff;border:2px solid var(--green-soft);border-radius:12px;padding:14px;margin:12px 0}
+.problem .q{font-weight:600;margin-bottom:8px;font-size:14px}
+.problem input,.problem textarea{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit}
+.problem input:focus,.problem textarea:focus{outline:none;border-color:var(--green)}
+.feedback{margin-top:8px;padding:10px;border-radius:8px;font-size:13px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--green-soft);color:#14532d;border-left:3px solid var(--good)}
+.feedback.no{background:#fee2e2;color:#7f1d1d;border-left:3px solid var(--bad)}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:10px;margin:6px 0;cursor:pointer;font-size:14px;transition:all .15s;color:var(--ink)}
+.opt:hover{border-color:var(--green);background:var(--green-bg)}
+.opt.picked{border-color:var(--green);background:var(--green-soft);font-weight:600}
+.opt.right{border-color:var(--good);background:var(--green-soft)}
+.opt.wrong{border-color:var(--bad);background:#fee2e2}
+.game-stage{background:linear-gradient(180deg,#f0fdf4,#fef3c7);padding:18px;border-radius:14px;text-align:center;margin:14px 0;border:2px dashed var(--gold)}
+.game-emoji{font-size:50px;line-height:1;margin:6px 0}
+.game-q{font-size:15px;font-weight:600;margin:10px 0;text-align:left}
+.score-pill{display:inline-block;background:var(--green);color:#fff;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.chapter{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;margin:6px 0;background:#fff}
+.chapter.curr{border-color:var(--green);background:var(--green-bg)}
+.chapter .badge{width:28px;height:28px;border-radius:50%;background:var(--green-soft);color:var(--green-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.chapter.curr .badge{background:var(--green);color:#fff}
+.chapter .name{font-size:13px;flex:1}
+.chapter .lock{font-size:12px;color:var(--ink-2)}
+.progress-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0}
+.progress-bar>div{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .3s}
+.tip{background:var(--gold-soft);border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0;color:#78350f}
+.tip::before{content:"🌾 ";}
+.attempts{font-size:11px;color:var(--ink-2);text-align:right;margin-top:4px}
+.pause{display:none;margin-top:10px;padding:12px;background:var(--cream);border-radius:8px;text-align:center;font-size:14px;color:#78350f}
+.pause.show{display:block}
+.pause .timer{font-size:32px;font-weight:700;color:var(--gold);margin:6px 0}
+.data-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+.data-table th,.data-table td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+.data-table th{background:var(--green-soft);color:var(--green-2);font-weight:700}
+.data-table td:first-child{background:var(--gold-soft);color:#78350f;font-weight:600}
+.bar-chart{display:flex;align-items:flex-end;gap:4px;height:120px;margin:12px 0;padding:8px;background:var(--cream);border-radius:8px}
+.bar-chart .bar{flex:1;background:linear-gradient(180deg,var(--green),var(--green-2));border-radius:4px 4px 0 0;position:relative;min-width:30px}
+.bar-chart .bar .label{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:10px;color:var(--ink-2)}
+.bar-chart .bar .value{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:11px;color:var(--green-2);font-weight:600}
+@media (max-width:600px){
+  .wrap{padding:12px 14px 80px}
+  header{padding:14px 16px}
+  .hi{font-size:19px}
+  nav.tabs button{flex-basis:calc(50% - 6px);font-size:12px;padding:8px 6px}
+  .before-after{grid-template-columns:1fr}
+  .step{padding:12px 14px}
+  .card{padding:14px}
+  .game-emoji{font-size:42px}
+  .data-table{font-size:11px}
+  .data-table th,.data-table td{padding:4px 6px}
+}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 class="hi">Chào Mika! 🌾</h1>
+  <p class="hi-sub">Địa lí 9 — Hành trình chinh phục</p>
+  <span class="streak" id="streakPill">🔥 <span id="streakNum">0</span> ngày liên tục</span>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="hub" class="active">📚 Tổng quan</button>
+  <button data-tab="theory">📖 Lý thuyết</button>
+  <button data-tab="practice">✍️ Luyện tập</button>
+  <button data-tab="game">🎮 Đọc bản đồ</button>
+  <button data-tab="quiz">🏆 Kiểm tra</button>
+</nav>
+
+<!-- HUB -->
+<section id="tab-hub" class="tab">
+  <div class="card">
+    <h2>Hành trình của Mika</h2>
+    <p class="muted">Địa lí 9 nói về <strong>Việt Nam</strong> — đất nước, con người, kinh tế, vùng miền. Bắt đầu từ <strong>Bài 1: Dân tộc, dân số và cơ cấu dân số</strong>.</p>
+    <div class="progress-bar"><div id="overallProgress" style="width:0%"></div></div>
+    <p class="muted" style="margin-top:6px">Tiến độ: <span id="overallPct">0</span>%</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--green-2)">Chương 1 — Địa lí dân cư Việt Nam</h3>
+    <div class="chapter curr"><div class="badge">1</div><div class="name"><strong>Dân tộc, gia tăng dân số và cơ cấu dân số</strong> 🌱</div><div class="lock">Mở</div></div>
+    <div class="chapter"><div class="badge">2</div><div class="name">Phân bố dân cư và các loại hình quần cư</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">3</div><div class="name">Thực hành: Tìm hiểu vấn đề việc làm ở địa phương</div><div class="lock">🔒</div></div>
+
+    <h3 style="color:var(--green-2)">Chương 2 — Địa lí các ngành kinh tế</h3>
+    <div class="chapter"><div class="badge">4</div><div class="name">Nông nghiệp, lâm nghiệp, thuỷ sản</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">5</div><div class="name">Công nghiệp</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">6</div><div class="name">Dịch vụ</div><div class="lock">🔒</div></div>
+
+    <h3 style="color:var(--green-2)">Chương 3 — Sự phân hoá lãnh thổ</h3>
+    <div class="chapter"><div class="badge">7</div><div class="name">Vùng Trung du và miền núi Bắc Bộ</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">8</div><div class="name">Vùng Đồng bằng sông Hồng</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">9</div><div class="name">Vùng Bắc Trung Bộ</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">10</div><div class="name">Vùng Duyên hải Nam Trung Bộ</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">11</div><div class="name">Vùng Tây Nguyên</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">12</div><div class="name">Vùng Đông Nam Bộ</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">13</div><div class="name">Vùng Đồng bằng sông Cửu Long</div><div class="lock">🔒</div></div>
+
+    <h3 style="color:var(--green-2)">Chủ đề chung</h3>
+    <div class="chapter"><div class="badge">14</div><div class="name">Văn minh châu thổ sông Hồng và sông Cửu Long</div><div class="lock">🔒</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Cách học của Mika</h3>
+    <p class="muted">Địa lí học bằng số liệu, bản đồ, biểu đồ:</p>
+    <p style="font-size:13px;line-height:1.8">
+      <span class="chip">📖 Lý thuyết</span> 11 bước nhỏ với bảng số liệu thật và biểu đồ.<br>
+      <span class="chip gold">✍️ Luyện tập</span> Đọc bảng, tính tỉ lệ, nêu xu hướng.<br>
+      <span class="chip">🎮 Đọc bản đồ</span> 10 câu nhanh về Việt Nam.<br>
+      <span class="chip gold">🏆 Kiểm tra</span> Đạt 80% để mở Bài 2.
+    </p>
+    <div class="tip">Hover vào chữ <span class="tt" data-tt="ethnic group">dân tộc</span> để xem nghĩa tiếng Anh!</div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="tab-theory" class="tab hidden">
+  <div class="card">
+    <h2>Bài 1 — Dân tộc, gia tăng dân số và cơ cấu dân số <span class="cite">SGK trang 106–108</span></h2>
+    <p class="muted">11 bước nhỏ. Đọc xong từng bước, đánh dấu ✓.</p>
+  </div>
+  <div id="theoryContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn" onclick="switchTab('practice')">Sang Luyện tập →</button>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+<section id="tab-practice" class="tab hidden">
+  <div class="card">
+    <h2>Luyện tập — đọc bảng, đếm số</h2>
+    <p class="muted">3 lần thử mỗi câu. Sai? Mika dừng 5 giây trong đầu, rồi thử lại.</p>
+  </div>
+  <div id="practiceContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn alt" onclick="switchTab('game')">🗺️ Vào Đọc bản đồ →</button>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="tab-game" class="tab hidden">
+  <div class="card">
+    <h2>🗺️ Đọc bản đồ Việt Nam</h2>
+    <p class="muted">10 câu nhanh về dân tộc, dân số, biểu đồ. Đoán đúng càng nhiều, càng nhiều ngọn núi 🏔️</p>
+    <p>Điểm: <span class="score-pill" id="gameScore">0/0</span> · Lượt: <span id="gameRound">1/10</span></p>
+  </div>
+  <div class="card game-stage" id="gameStage">
+    <div class="game-emoji" id="gameEmoji">🗺️</div>
+    <div class="game-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+    <div id="gameOptions"></div>
+    <div id="gameFb" class="feedback"></div>
+    <div style="margin-top:12px">
+      <button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+      <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="tab-quiz" class="tab hidden">
+  <div class="card">
+    <h2>🏆 Kiểm tra cuối Bài 1</h2>
+    <p class="muted">6 câu hỏi. Đạt <strong>80%+</strong> để mở khoá Bài 2.</p>
+    <p>Trạng thái: <span id="quizStatus" class="chip">chưa làm</span></p>
+  </div>
+  <div id="quizContent"></div>
+  <div class="card hidden" id="quizResult">
+    <h3 id="quizScore"></h3>
+    <p id="quizMsg"></p>
+    <button class="btn" onclick="resetQuiz()">Làm lại</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+const CFG = {
+  subject: 'diali9',
+  progressKey: 'diali9-progress',
+  activityKey: 'toan9-activity',
+  passThreshold: 0.8,
+  attemptLimit: 3,
+  pauseSeconds: 5
+};
+
+const dict = {
+  'dân tộc':'ethnic group','dân số':'population','dân cư':'inhabitants/people',
+  'gia tăng':'increase/growth','gia tăng dân số':'population growth',
+  'cơ cấu':'structure/composition','cơ cấu dân số':'population structure',
+  'phân bố':'distribution','tỉ lệ':'ratio/percentage','tỉ số':'ratio',
+  'giới tính':'gender','tuổi':'age','nhóm tuổi':'age group',
+  'người':'person','triệu':'million','chiếm':'occupy/account for',
+  // Ethnic groups
+  'Kinh':'Kinh — the majority Vietnamese ethnic group (~85%)',
+  'thiểu số':'minority','dân tộc thiểu số':'ethnic minority',
+  'lãnh thổ':'territory','vùng':'region','miền':'region',
+  'đồng bằng':'lowland/plain','trung du':'midland (between plain and mountain)',
+  'miền núi':'mountainous region','núi':'mountain','sông':'river','biển':'sea',
+  // Population
+  'dân số vàng':'demographic dividend (golden population)','dân số già':'aging population',
+  'già hoá':'aging','xu hướng':'trend','tăng':'increase','giảm':'decrease',
+  'thay đổi':'change','ổn định':'stable',
+  // Geography
+  'Việt Nam':'Vietnam','quốc gia':'nation','đất nước':'country','Tổ quốc':'motherland',
+  'thế giới':'the world','châu Á':'Asia','khu vực':'area/zone',
+  // Documents
+  'biểu đồ':'chart/graph','bảng số liệu':'data table','bảng':'table','số liệu':'data',
+  'thống kê':'statistics','niên giám':'almanac','dữ liệu':'data',
+  'phân tích':'analyze','nhận xét':'comment/note',
+  // Other
+  'lịch sử':'history','phát triển':'develop','kinh tế':'economy',
+  'chính sách':'policy','nhà nước':'the state','xã hội':'society',
+  'cộng đồng':'community','lao động':'labour','việc làm':'employment',
+  'di cư':'migration','định cư':'settle','sinh sống':'live',
+  'tự do':'freedom','tâm lí':'mentality','trọng nam':'son preference',
+  'nguồn lực':'resource','sức mạnh':'power/strength',
+  // Lesson chrome
+  'bài':'lesson','chương':'chapter','tổng quan':'overview',
+  'lý thuyết':'theory','luyện tập':'practice','kiểm tra':'quiz',
+  'mở khoá':'unlock','khoá':'locked','tiến độ':'progress','điểm':'score',
+  'đúng':'correct','sai':'wrong','câu hỏi':'question','câu trả lời':'answer',
+  'chọn':'pick','bấm':'click','tiếp':'next','lượt':'round','lần':'time',
+  'thử':'try','thử lại':'try again','làm lại':'redo','bắt đầu':'start',
+  'ngày':'day','liên tục':'in a row',
+  // Common
+  'là':'is','có':'has','được':'is/can be','dùng':'used','như':'like/such as',
+  'ví dụ':'example','các':'the/various','một':'one','mỗi':'each',
+  'khác':'different','giống':'similar','tất cả':'all','hầu hết':'most',
+  'rất':'very','nếu':'if','khi':'when','trong':'in','với':'with','của':'of',
+  'và':'and','hoặc':'or','nhưng':'but','vì':'because','nên':'so','để':'in order to',
+  'không':'not','cũng':'also','luôn':'always','thường':'usually',
+  'em':'you (young person)','tôi':'I'
+};
+
+function escapeRegex(s){return s.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&')}
+function applyTooltips(html){
+  if(!html) return html;
+  const segs = html.split(/(<[^>]*>)/g);
+  const keys = Object.keys(dict).sort((a,b)=>b.length-a.length);
+  return segs.map(seg=>{
+    if(!seg || seg.startsWith('<')) return seg;
+    let out = seg;
+    for(const k of keys){
+      const re = new RegExp(`(^|[^a-zà-ỹÀ-Ỹ])(${escapeRegex(k)})(?![a-zà-ỹÀ-Ỹ])`,'gi');
+      out = out.replace(re,(m,pre,word)=>`${pre}<span class="tt" data-tt="${dict[k]}">${word}</span>`);
+    }
+    return out;
+  }).join('');
+}
+
+function loadProg(){
+  try{return JSON.parse(localStorage.getItem(CFG.progressKey))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+  catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+}
+function saveProg(p){localStorage.setItem(CFG.progressKey,JSON.stringify(p))}
+function bumpActivity(){
+  const today = new Date().toISOString().slice(0,10);
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  act[today]=(act[today]||0)+1;
+  localStorage.setItem(CFG.activityKey,JSON.stringify(act));
+  updateStreak();
+}
+function updateStreak(){
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  let n=0; const d=new Date();
+  while(true){
+    const k=d.toISOString().slice(0,10);
+    if(act[k])n++; else if(n>0||k!==new Date().toISOString().slice(0,10))break;
+    d.setDate(d.getDate()-1);
+    if(n>365)break;
+  }
+  document.getElementById('streakNum').textContent=n;
+}
+function updateOverall(){
+  const p=loadProg();
+  const total=11+5+10+1;
+  const done=p.theory+p.practice+p.game+(p.quizPassed?1:0);
+  const pct=Math.round(100*done/total);
+  document.getElementById('overallProgress').style.width=pct+'%';
+  document.getElementById('overallPct').textContent=pct;
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById('tab-'+name).classList.remove('hidden');
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+const steps = [
+  {
+    title:'1. Mở đầu — Việt Nam có gì đặc biệt?',
+    body:`<p>Việt Nam là <strong>một quốc gia đa dân tộc</strong>, có lịch sử lâu đời, dân số đông, thành phần dân tộc đa dạng. Bài 1 sẽ trả lời 3 câu hỏi:</p>
+    <p>① Có bao nhiêu dân tộc và họ sống ở đâu?<br>
+    ② Dân số Việt Nam đang tăng hay giảm?<br>
+    ③ Người Việt đang già hay trẻ?</p>`,
+    analogy:'Như mở album ảnh gia đình lớn — đếm xem có bao nhiêu thành viên, ai sống ở miền nào, ai mới sinh, ai đã lớn.',
+    before:'Trước: Việt Nam = một dân tộc duy nhất.',
+    after:'Sau: Việt Nam = 54 dân tộc + 98.5 triệu người + cơ cấu đang thay đổi.'
+  },
+  {
+    title:'2. 54 dân tộc Việt Nam',
+    body:`<p>Việt Nam có <strong>54 dân tộc</strong>:</p>
+    <p>• Dân tộc <strong>Kinh</strong>: chiếm hơn <strong>85%</strong> dân số cả nước.<br>
+    • Các dân tộc <strong>thiểu số</strong>: chiếm gần <strong>15%</strong>.</p>
+    <p>Mỗi dân tộc có ngôn ngữ, trang phục, phong tục riêng — góp phần làm văn hoá Việt Nam phong phú.</p>`,
+    analogy:'54 dân tộc như 54 màu sắc trong hộp bút chì — mỗi màu là một văn hoá riêng. Cùng một bức tranh Việt Nam, nhưng tô bằng 54 màu khác nhau.',
+    before:'Trước: chỉ biết "người Việt".',
+    after:'Sau: hiểu "người Việt" = 54 dân tộc, trong đó Kinh đông nhất nhưng không phải duy nhất.'
+  },
+  {
+    title:'3. Dân tộc Kinh — phân bố ở đâu?',
+    body:`<p>Người Kinh cư trú <strong>khắp các tỉnh, thành phố</strong> trên cả nước. Nhưng tập trung chủ yếu ở:</p>
+    <p>① <strong>Đồng bằng</strong> (sông Hồng, sông Cửu Long, ven biển Trung Bộ)<br>
+    ② <strong>Trung du</strong> (vùng đất giữa đồng bằng và miền núi)</p>`,
+    analogy:'Người Kinh trồng lúa nước → cần đất bằng phẳng, có nước → ở đồng bằng. Như cá tìm nước, người tìm đất phù hợp với nghề mình.',
+    before:'Trước: người Kinh sống ở mọi nơi như nhau.',
+    after:'Sau: người Kinh tập trung ở đồng bằng và trung du — vì lịch sử nông nghiệp lúa nước.'
+  },
+  {
+    title:'4. Các dân tộc thiểu số — ở đâu?',
+    body:`<p>Các dân tộc thiểu số <strong>phân bố rải rác</strong> trên khắp cả nước, nhưng tập trung đông hơn ở:</p>
+    <p>① <strong>Trung du và miền núi Bắc Bộ</strong> — Tày, Thái, Mường, Mông, Dao...<br>
+    ② <strong>Trường Sơn — Tây Nguyên</strong> — Ê-đê, Gia-rai, Ba-na, Cơ-ho...<br>
+    ③ <strong>Đồng bằng sông Cửu Long</strong> — Khmer, Hoa, Chăm...</p>
+    <p>Sau 1960, chính sách kinh tế làm các dân tộc <em>phân bố đan xen</em> — không còn tách biệt như trước.</p>`,
+    analogy:'Như bức tranh ban đầu mỗi màu vẽ vào một góc, sau mấy chục năm, các màu chảy ra trộn lẫn — vẫn nhận ra từng màu, nhưng không còn tách biệt.',
+    before:'Trước: dân tộc thiểu số = miền núi.',
+    after:'Sau: dân tộc thiểu số phân bố cả miền núi, Tây Nguyên, đồng bằng sông Cửu Long — và đan xen với dân tộc Kinh.'
+  },
+  {
+    title:'5. Người Việt ở nước ngoài',
+    body:`<p>Năm 2021, có khoảng <strong>5,3 triệu người Việt</strong> đang sinh sống ở hơn <strong>130 quốc gia</strong> trên thế giới.</p>
+    <p>Người Việt ở nước ngoài là một bộ phận không tách rời của cộng đồng dân tộc Việt Nam. Họ giữ truyền thống, tiếng Việt, đóng góp cho cả nơi mình ở và Tổ quốc.</p>`,
+    analogy:'Như cây hoa đào Việt Nam được trồng ở nước ngoài — vẫn là cây đào Việt, dù mọc ở đất khác. Người Việt cũng vậy.',
+    before:'Trước: người Việt ở nước ngoài = đã quên Việt Nam.',
+    after:'Sau: 5.3 triệu người Việt khắp 130 quốc gia vẫn là một phần của cộng đồng dân tộc.'
+  },
+  {
+    title:'6. Dân số Việt Nam — 98,5 triệu (2021)',
+    body:`<p>Năm 2021, dân số Việt Nam là <strong>98,5 triệu người</strong> — đứng <strong>thứ 15 trên thế giới</strong>.</p>
+    <p>Bảng quy mô dân số Việt Nam (1989–2021):</p>
+    <table class="data-table">
+      <tr><th>Năm</th><th>1989</th><th>1999</th><th>2009</th><th>2019</th><th>2021</th></tr>
+      <tr><td>Dân số (triệu người)</td><td>64,4</td><td>76,5</td><td>86,0</td><td>96,5</td><td>98,5</td></tr>
+      <tr><td>Tỉ lệ gia tăng (%)</td><td>2,10</td><td>1,51</td><td>1,06</td><td>1,15</td><td>0,94</td></tr>
+    </table>`,
+    analogy:'Trong 32 năm (1989-2021), dân số tăng từ 64.4 → 98.5 triệu = thêm 34 triệu người. Đó tương đương ghép thêm cả Canada vào Việt Nam!',
+    before:'Trước: không biết dân số Việt Nam là bao nhiêu.',
+    after:'Sau: 98,5 triệu, top 15 thế giới — đông nhưng tỉ lệ tăng đang giảm.'
+  },
+  {
+    title:'7. Gia tăng dân số — đang giảm dần',
+    body:`<p>Nhìn vào bảng trên: <strong>tỉ lệ gia tăng dân số đang giảm</strong> theo thời gian.</p>
+    <p>1989: <strong>2,10%</strong> → 2021: <strong>0,94%</strong> (giảm hơn một nửa).</p>
+    <p>Vì sao giảm?</p>
+    <p>① Chính sách dân số: mỗi gia đình ít con<br>
+    ② Phụ nữ học cao, kết hôn muộn hơn<br>
+    ③ Đời sống đô thị: nuôi con tốn kém</p>
+    <p>Nhưng vì dân số đông sẵn → mỗi % vẫn là <em>gần 1 triệu người</em> mỗi năm.</p>`,
+    analogy:'Dân số như tài khoản ngân hàng — lãi suất giảm (tỉ lệ tăng giảm) nhưng số tiền gốc lớn → tiền lãi vẫn nhiều.',
+    before:'Trước: tỉ lệ tăng giảm = dân số đang giảm.',
+    after:'Sau: tỉ lệ TĂNG giảm, nhưng dân số tổng vẫn TĂNG (chỉ tăng chậm hơn).'
+  },
+  {
+    title:'8. Đọc bảng số liệu — kĩ năng quan trọng',
+    body:`<p>Đọc bảng số liệu là <strong>kĩ năng cốt lõi</strong> của môn Địa lí. Cách làm:</p>
+    <p>① <strong>Đọc tiêu đề</strong> bảng — biết bảng nói về gì.<br>
+    ② <strong>Đọc cột năm</strong> — biết khoảng thời gian.<br>
+    ③ <strong>So sánh</strong> số đầu kì và cuối kì — tăng hay giảm?<br>
+    ④ <strong>Tính độ thay đổi</strong>: cuối − đầu hoặc (cuối/đầu × 100%).<br>
+    ⑤ <strong>Nhận xét</strong> bằng câu văn ngắn.</p>
+    <p>Ví dụ: Dân số 1989 = 64,4 triệu, 2021 = 98,5 triệu → tăng 34,1 triệu (tăng 53% so với 1989).</p>`,
+    analogy:'Đọc bảng số liệu giống như đọc nhật kí thời tiết — không xem riêng một ngày, mà xem cả tháng để thấy xu hướng.',
+    before:'Trước: nhìn bảng thấy nhiều số → bỏ qua.',
+    after:'Sau: nhìn bảng có 5 bước rõ ràng → biết bảng đang "kể chuyện" gì.'
+  },
+  {
+    title:'9. Cơ cấu dân số theo tuổi',
+    body:`<p>Dân số chia làm 3 nhóm:</p>
+    <p><span class="chip">0–14 tuổi</span> trẻ em<br>
+    <span class="chip">15–64 tuổi</span> người lớn (lao động)<br>
+    <span class="chip gold">≥65 tuổi</span> cao tuổi</p>
+    <p>Bảng 1.2: % dân số theo nhóm tuổi (1989–2021):</p>
+    <table class="data-table">
+      <tr><th>Nhóm</th><th>1989</th><th>1999</th><th>2009</th><th>2019</th><th>2021</th></tr>
+      <tr><td>0–14</td><td>39,2</td><td>33,1</td><td>24,5</td><td>24,3</td><td>24,1</td></tr>
+      <tr><td>15–64</td><td>56,1</td><td>61,1</td><td>69,1</td><td>68,0</td><td>67,6</td></tr>
+      <tr><td>≥65</td><td>4,7</td><td>5,8</td><td>6,4</td><td>7,7</td><td>8,3</td></tr>
+    </table>
+    <p>Xu hướng:</p>
+    <p>• Nhóm <strong>0–14 giảm mạnh</strong> (39,2% → 24,1%) — ít trẻ em hơn<br>
+    • Nhóm <strong>15–64 tăng</strong> rồi ổn định ~67–69%<br>
+    • Nhóm <strong>≥65 tăng nhanh</strong> (4,7% → 8,3%) — nhiều người già hơn</p>`,
+    analogy:'Như xem ảnh gia đình qua các năm: ngày xưa nhiều em bé, ngày nay nhiều ông bà — tháp tuổi đang lật ngược.',
+    before:'Trước: dân số chỉ là "tổng số".',
+    after:'Sau: dân số có cấu trúc 3 nhóm — Việt Nam đang có ít trẻ em và nhiều người già hơn xưa.'
+  },
+  {
+    title:'10. "Dân số vàng" và "dân số già"',
+    body:`<p>Khi nhóm <strong>15–64 tuổi chiếm ~67%</strong> dân số → đó là thời kì <strong>"dân số vàng"</strong>:</p>
+    <p>• Nhiều người trong độ tuổi lao động<br>
+    • Ít người phụ thuộc (trẻ em + người già)<br>
+    • Cơ hội vàng cho phát triển kinh tế</p>
+    <p>Việt Nam đang ở giai đoạn dân số vàng (từ ~2009). Nhưng:</p>
+    <p>• Nhóm ≥65 đang tăng nhanh (4,7% → 8,3%)<br>
+    • Dự báo sau 2024: Việt Nam <strong>bắt đầu già hoá</strong></p>
+    <p>Nếu không tận dụng dân số vàng → mất cơ hội. Hàn Quốc, Nhật đã từng có giai đoạn vàng và họ đã tận dụng tốt.</p>`,
+    analogy:'Dân số vàng như mùa thu hoạch — chỉ kéo dài vài chục năm, phải tận dụng. Để qua mùa, lúa rụng hết.',
+    before:'Trước: dân số đông là tốt.',
+    after:'Sau: hiểu cơ cấu quan trọng hơn tổng số — dân số vàng quan trọng nhất.'
+  },
+  {
+    title:'11. Cơ cấu dân số theo giới tính',
+    body:`<p><strong>Tỉ số giới tính</strong> = số nam/100 nữ.</p>
+    <p>Tỉ số giới tính khi sinh ở Việt Nam:</p>
+    <p>1989: 94,2 nam/100 nữ<br>
+    1999: 96,4<br>
+    2009: 97,6<br>
+    2019: 99,1<br>
+    2021: <strong>99,4</strong></p>
+    <p>Xu hướng <strong>tăng</strong> — gần với 100 nam/100 nữ.</p>
+    <p>Lý do tỉ số tăng:</p>
+    <p>① Tâm lí <strong>trọng nam</strong> ở một số gia đình<br>
+    ② Lựa chọn giới tính khi sinh (siêu âm sớm)<br>
+    ③ Đời sống cải thiện → nam giới sống lâu hơn</p>
+    <p>Hiện nay, nhà nước cấm chọn giới tính trước sinh.</p>`,
+    analogy:'Tỉ số giới tính cân bằng tự nhiên là khoảng 105 nam/100 nữ khi sinh. Nếu lệch quá → 30 năm sau sẽ thiếu vợ cho nam thanh niên — vấn đề xã hội.',
+    before:'Trước: nam và nữ luôn bằng nhau.',
+    after:'Sau: tỉ số giới tính có thể bị lệch do văn hoá → ảnh hưởng cả thế hệ sau.'
+  }
+];
+
+function renderTheory(){
+  const p=loadProg();
+  const cont=document.getElementById('theoryContent');
+  cont.innerHTML='';
+  steps.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='step';
+    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
+    <div class="body">${applyTooltips(s.body)}</div>
+    <div class="analogy">${applyTooltips(s.analogy)}</div>
+    <div class="before-after">
+      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
+      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+    </div>
+    <div style="text-align:right;margin-top:8px">
+      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
+    </div>`;
+    cont.appendChild(el);
+  });
+}
+function markStep(i){
+  const p=loadProg();
+  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
+  renderTheory();updateOverall();
+}
+
+const practice = [
+  {
+    q:'Việt Nam có bao nhiêu <strong>dân tộc</strong>? Trả lời bằng số.',
+    hint:'Số đặc trưng cho Việt Nam — cũng được nhắc trong nhiều bài hát.',
+    accept:[/^54$/,/54\s*dân\s*tộc/i,/^54\s*$/],
+    answer:'54',
+    explain:'Việt Nam có 54 dân tộc, trong đó Kinh chiếm hơn 85% dân số.'
+  },
+  {
+    q:'Dân số Việt Nam năm 2021 là <strong>khoảng bao nhiêu triệu</strong>? (làm tròn đến hàng đơn vị)',
+    hint:'Bảng 1.1 — số dân năm 2021. Khoảng 100 triệu, đứng thứ 15 thế giới.',
+    accept:[/98[,.]\s*5/i,/^98$/i,/^99$/i,/^100$/i,/khoảng\s*98/i,/khoảng\s*99/i],
+    answer:'≈ 98,5 triệu',
+    explain:'Năm 2021: 98,5 triệu người. Đứng thứ 15 trên thế giới về dân số.'
+  },
+  {
+    q:'Dân tộc <strong>Kinh</strong> chiếm bao nhiêu phần trăm dân số? <em>(viết số gần đúng)</em>',
+    hint:'Hơn một nửa rất nhiều — gần như chiếm tất cả.',
+    accept:[/^85/i,/^86/i,/85\s*%/i,/hơn\s*85/i,/^8[5-9]/],
+    answer:'Hơn 85% (khoảng 86%)',
+    explain:'Kinh là dân tộc đa số, chiếm hơn 85%. Các dân tộc thiểu số gần 15%.'
+  },
+  {
+    q:'Tỉ lệ gia tăng dân số Việt Nam đang <strong>tăng hay giảm</strong>?',
+    hint:'1989 = 2,10%, 2021 = 0,94%.',
+    accept:[/^giảm$/i,/đang\s*giảm/i,/giảm\s*xuống/i,/^decreasing$/i],
+    answer:'Giảm',
+    explain:'Tỉ lệ gia tăng giảm: từ 2,10% (1989) xuống 0,94% (2021). Lưu ý: TỔNG dân số vẫn tăng vì 0,94% × 98 triệu vẫn là gần 1 triệu người mỗi năm.'
+  },
+  {
+    q:'Cơ cấu dân số Việt Nam đang ở giai đoạn nào? <em>(2 từ — gợi ý màu vàng)</em>',
+    hint:'Nhóm 15-64 tuổi chiếm ~67% — nhóm lao động đang đông.',
+    accept:[/dân\s*số\s*vàng/i,/^vàng$/i,/^golden/i],
+    answer:'Dân số vàng',
+    explain:'"Dân số vàng" = thời kì nhóm lao động (15-64) chiếm ~2/3 dân số. Việt Nam đang trong giai đoạn này từ ~2009. Sau 2024, có thể bước vào già hoá.'
+  }
+];
+let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
+function renderPractice(){
+  const cont=document.getElementById('practiceContent');
+  cont.innerHTML='';
+  practice.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='problem';
+    div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
+    <input type="text" id="pin-${i}" placeholder="Nhập câu trả lời..." ${prState[i].solved?'disabled':''}>
+    <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>
+    <div style="margin-top:8px">
+      <button class="btn" id="pbtn-${i}" onclick="checkAnswer(${i})" ${prState[i].solved?'disabled':''}>Kiểm tra</button>
+      <button class="btn ghost" onclick="showHint(${i})">💡 Gợi ý</button>
+    </div>
+    <div id="pause-${i}" class="pause">⏸️ Dừng lại 5 giây — nhắm mắt, hình dung bảng số liệu, rồi thử lại.<div class="timer" id="ptimer-${i}">5</div></div>
+    <div id="pfb-${i}" class="feedback"></div>`;
+    cont.appendChild(div);
+  });
+}
+function showHint(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show';fb.style.background='#fef3c7';fb.style.color='#78350f';fb.style.borderLeftColor='#d97706';
+  fb.innerHTML='💡 '+applyTooltips(practice[i].hint);
+}
+function checkAnswer(i){
+  if(prState[i].paused||prState[i].solved)return;
+  const val=(document.getElementById('pin-'+i).value||'').trim();
+  if(!val)return;
+  const ok=practice[i].accept.some(re=>re.test(val.replace(/\s+/g,' ').trim()));
+  prState[i].attempts++;
+  document.getElementById('pat-'+i).textContent=prState[i].attempts;
+  const fb=document.getElementById('pfb-'+i);
+  if(ok){
+    prState[i].solved=true;
+    fb.className='feedback show ok';
+    fb.innerHTML=`✓ Đúng rồi! ${applyTooltips(practice[i].explain)}`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p);bumpActivity()}
+    updateOverall();
+    return;
+  }
+  if(prState[i].attempts>=CFG.attemptLimit){
+    fb.className='feedback show no';
+    fb.innerHTML=`Đã thử ${CFG.attemptLimit} lần. Đáp án: <strong>${practice[i].answer}</strong>.<br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    return;
+  }
+  fb.className='feedback show no';
+  fb.innerHTML=`Chưa đúng. Hãy đọc lại câu hỏi và <em>nghĩ kĩ</em>. Còn ${CFG.attemptLimit-prState[i].attempts} lần.`;
+  prState[i].paused=true;
+  document.getElementById('pbtn-'+i).disabled=true;
+  document.getElementById('pin-'+i).disabled=true;
+  const pauseEl=document.getElementById('pause-'+i);
+  pauseEl.classList.add('show');
+  let n=CFG.pauseSeconds;
+  document.getElementById('ptimer-'+i).textContent=n;
+  const tk=setInterval(()=>{
+    n--;document.getElementById('ptimer-'+i).textContent=n;
+    if(n<=0){
+      clearInterval(tk);
+      pauseEl.classList.remove('show');
+      prState[i].paused=false;
+      document.getElementById('pbtn-'+i).disabled=false;
+      document.getElementById('pin-'+i).disabled=false;
+      document.getElementById('pin-'+i).focus();
+    }
+  },1000);
+}
+
+const gameRounds = [
+  {emoji:'🇻🇳',q:'Việt Nam có bao nhiêu dân tộc?',
+   opts:[{t:'42',ok:false,why:'Sai — không phải 42.'},
+   {t:'54',ok:true,why:'54 dân tộc, trong đó Kinh chiếm hơn 85%.'},
+   {t:'63',ok:false,why:'63 là số tỉnh thành, không phải dân tộc.'}]},
+  {emoji:'👥',q:'Dân tộc <strong>Kinh</strong> tập trung chủ yếu ở:',
+   opts:[{t:'Miền núi cao',ok:false,why:'Sai — miền núi cao là nơi tập trung dân tộc thiểu số (Mông, Dao, Tày...)'},
+   {t:'Đồng bằng và trung du',ok:true,why:'Người Kinh trồng lúa nước → cần đất bằng phẳng có nước → đồng bằng và trung du.'},
+   {t:'Đảo và biển',ok:false,why:'Đảo và biển là nơi cư trú của một số nhóm chứ không phải tập trung của Kinh.'}]},
+  {emoji:'🏔️',q:'Dân tộc <strong>thiểu số</strong> tập trung đông nhất ở vùng nào?',
+   opts:[{t:'Đồng bằng sông Hồng',ok:false,why:'Sai — đồng bằng sông Hồng là vùng người Kinh đông.'},
+   {t:'Trung du và miền núi',ok:true,why:'Trung du-miền núi Bắc Bộ và Trường Sơn-Tây Nguyên là nơi tập trung dân tộc thiểu số.'},
+   {t:'Trung tâm thành phố',ok:false,why:'Trung tâm thành phố không phải khu vực tập trung của dân tộc thiểu số.'}]},
+  {emoji:'📊',q:'Năm 2021, dân số Việt Nam khoảng <strong>bao nhiêu triệu người</strong>?',
+   opts:[{t:'~50 triệu',ok:false,why:'50 triệu là dân số khoảng những năm 1980.'},
+   {t:'~98,5 triệu',ok:true,why:'98,5 triệu — đứng thứ 15 thế giới.'},
+   {t:'~150 triệu',ok:false,why:'Sai — quá lớn so với thực tế.'}]},
+  {emoji:'📈',q:'Tỉ lệ gia tăng dân số Việt Nam có xu hướng:',
+   opts:[{t:'Tăng nhanh',ok:false,why:'Sai — đang giảm theo thời gian.'},
+   {t:'Giảm dần',ok:true,why:'1989: 2,10% → 2021: 0,94%. Giảm hơn một nửa trong 32 năm.'},
+   {t:'Không đổi',ok:false,why:'Có thay đổi rõ — đang giảm.'}]},
+  {emoji:'👶',q:'Nhóm <strong>0–14 tuổi</strong> trong dân số Việt Nam có xu hướng:',
+   opts:[{t:'Giảm mạnh',ok:true,why:'1989: 39,2% → 2021: 24,1%. Giảm rõ rệt do gia đình sinh ít con hơn.'},
+   {t:'Tăng',ok:false,why:'Sai — đang giảm.'},
+   {t:'Không đổi',ok:false,why:'Sai — có thay đổi rõ.'}]},
+  {emoji:'👴',q:'Nhóm <strong>≥65 tuổi</strong> đang:',
+   opts:[{t:'Giảm',ok:false,why:'Sai — đang TĂNG.'},
+   {t:'Tăng nhanh',ok:true,why:'1989: 4,7% → 2021: 8,3%. Tăng gần gấp đôi — Việt Nam đang già hoá.'},
+   {t:'Cố định',ok:false,why:'Sai — có thay đổi rõ.'}]},
+  {emoji:'💰',q:'<strong>"Dân số vàng"</strong> là thời kì:',
+   opts:[{t:'Có nhiều người giàu nhất',ok:false,why:'Sai — không liên quan đến tiền.'},
+   {t:'Nhóm 15-64 tuổi (lao động) chiếm tỉ trọng lớn',ok:true,why:'Đúng — khi ~67% dân số là người lao động, ít người phụ thuộc → cơ hội vàng để phát triển kinh tế.'},
+   {t:'Có nhiều trẻ em nhất',ok:false,why:'Ngược lại — nhiều trẻ em là dân số trẻ, không phải vàng.'}]},
+  {emoji:'🌍',q:'Người Việt ở nước ngoài năm 2021 khoảng:',
+   opts:[{t:'500 ngàn',ok:false,why:'Quá ít.'},
+   {t:'5,3 triệu',ok:true,why:'~5,3 triệu người Việt ở 130 quốc gia.'},
+   {t:'15 triệu',ok:false,why:'Quá nhiều.'}]},
+  {emoji:'⚖️',q:'Tỉ số <strong>giới tính</strong> (nam/100 nữ) ở Việt Nam đang:',
+   opts:[{t:'Tăng dần',ok:true,why:'1989: 94,2 → 2021: 99,4. Tỉ số đang tăng — gần với 100 nam/100 nữ.'},
+   {t:'Giảm dần',ok:false,why:'Sai — đang tăng.'},
+   {t:'Cân bằng tuyệt đối',ok:false,why:'Cân bằng tự nhiên là ~105 nam/100 nữ khi sinh, không phải 100/100.'}]}
+];
+let gameIdx=0,gameOk=0,gameStarted=false;
+function startGame(){
+  gameStarted=true;gameIdx=0;gameOk=0;
+  document.getElementById('gameStartBtn').classList.add('hidden');
+  showGameRound();
+}
+function showGameRound(){
+  const r=gameRounds[gameIdx];
+  document.getElementById('gameRound').textContent=(gameIdx+1)+'/10';
+  document.getElementById('gameScore').textContent=gameOk+'/'+gameIdx;
+  document.getElementById('gameEmoji').textContent=r.emoji;
+  document.getElementById('gameQ').innerHTML=applyTooltips(r.q);
+  const ob=document.getElementById('gameOptions');
+  ob.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';b.textContent=o.t;
+    b.onclick=()=>pickGame(i);
+    ob.appendChild(b);
+  });
+  document.getElementById('gameFb').className='feedback';
+  document.getElementById('gameFb').innerHTML='';
+  document.getElementById('gameNextBtn').classList.add('hidden');
+}
+function pickGame(i){
+  const r=gameRounds[gameIdx];
+  const opts=document.querySelectorAll('#gameOptions .opt');
+  opts.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===i)b.classList.add(r.opts[j].ok?'right':'wrong');
+    else if(r.opts[j].ok)b.classList.add('right');
+  });
+  const fb=document.getElementById('gameFb');
+  if(r.opts[i].ok){
+    gameOk++;
+    fb.className='feedback show ok';
+    fb.innerHTML='✓ Tuyệt! '+applyTooltips(r.opts[i].why);
+  }else{
+    fb.className='feedback show no';
+    fb.innerHTML='✗ '+applyTooltips(r.opts[i].why);
+  }
+  document.getElementById('gameScore').textContent=gameOk+'/'+(gameIdx+1);
+  document.getElementById('gameNextBtn').classList.remove('hidden');
+}
+function nextGameRound(){
+  gameIdx++;
+  if(gameIdx>=gameRounds.length){
+    const stage=document.getElementById('gameStage');
+    const peaks=gameOk>=8?'🏔️🏔️🏔️':gameOk>=6?'🏔️🏔️':gameOk>=4?'🏔️':'🌾';
+    stage.innerHTML=`<div class="game-emoji">${peaks}</div><h3>Đọc bản đồ hoàn thành!</h3><p>Mika đoán đúng <strong>${gameOk}/10</strong> câu.</p><button class="btn ghost" onclick="resetGame()">Chơi lại</button> <button class="btn" onclick="switchTab('quiz')">Sang Kiểm tra →</button>`;
+    const p=loadProg();
+    if(gameOk>p.game){p.game=gameOk;saveProg(p);bumpActivity();updateOverall()}
+    return;
+  }
+  showGameRound();
+}
+function resetGame(){
+  gameIdx=0;gameOk=0;gameStarted=false;
+  document.getElementById('gameStage').innerHTML=`<div class="game-emoji" id="gameEmoji">🗺️</div>
+  <div class="game-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+  <div id="gameOptions"></div>
+  <div id="gameFb" class="feedback"></div>
+  <div style="margin-top:12px"><button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+  <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button></div>`;
+  document.getElementById('gameRound').textContent='1/10';
+  document.getElementById('gameScore').textContent='0/0';
+}
+
+const quiz = [
+  {q:'Việt Nam có bao nhiêu dân tộc?',opts:['42','54','63','72'],ans:1,why:'54 dân tộc — Kinh chiếm hơn 85%, các dân tộc thiểu số chiếm gần 15%.'},
+  {q:'Dân tộc <strong>thiểu số</strong> tập trung đông nhất ở:',opts:['Đồng bằng sông Hồng','Đồng bằng sông Cửu Long','Trung du và miền núi','Trung tâm thành phố lớn'],ans:2,why:'Trung du và miền núi (Bắc Bộ, Trường Sơn-Tây Nguyên) là nơi tập trung đông các dân tộc thiểu số.'},
+  {q:'Năm 2021, dân số Việt Nam khoảng:',opts:['65 triệu','86 triệu','98,5 triệu','120 triệu'],ans:2,why:'98,5 triệu (2021) — đứng thứ 15 trên thế giới.'},
+  {q:'Xu hướng <strong>tỉ lệ gia tăng dân số</strong> Việt Nam là:',opts:['Tăng nhanh','Giảm dần','Không đổi','Tăng rồi giảm'],ans:1,why:'Giảm dần: 1989 (2,10%) → 2021 (0,94%). Nhưng tổng dân số vẫn tăng vì gốc lớn.'},
+  {q:'"Dân số vàng" là thời kì:',opts:['Có nhiều trẻ em nhất','Nhóm lao động (15-64) chiếm tỉ trọng lớn','Có nhiều người giàu nhất','Có nhiều người già nhất'],ans:1,why:'Dân số vàng = thời kì 15-64 tuổi chiếm ~67%. Việt Nam đang trong giai đoạn này — cơ hội vàng phát triển.'},
+  {q:'Tỉ số giới tính (nam/100 nữ) ở Việt Nam có xu hướng:',opts:['Giảm','Cân bằng tuyệt đối','Tăng dần','Lệch nữ rõ rệt'],ans:2,why:'Tăng dần: 1989 (94,2) → 2021 (99,4). Một phần do tâm lí trọng nam và lựa chọn giới tính khi sinh.'}
+];
+function renderQuiz(){
+  const cont=document.getElementById('quizContent');
+  cont.innerHTML='';
+  quiz.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`<div class="q" style="font-weight:600;margin-bottom:8px">Câu ${i+1}. ${applyTooltips(q.q)}</div>
+    <div id="qopts-${i}">${q.opts.map((o,j)=>`<button class="opt" data-q="${i}" data-j="${j}">${applyTooltips(o)}</button>`).join('')}</div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pickQuiz(+b.dataset.q,+b.dataset.j));
+  const submit=document.createElement('div');
+  submit.className='card';
+  submit.style.textAlign='center';
+  submit.innerHTML='<button class="btn alt" onclick="submitQuiz()">Nộp bài</button>';
+  cont.appendChild(submit);
+}
+let quizPicks=Array(6).fill(-1);
+function pickQuiz(i,j){
+  quizPicks[i]=j;
+  document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>b.classList.toggle('picked',k===j));
+}
+function submitQuiz(){
+  if(quizPicks.includes(-1)){alert('Mika ơi, còn câu chưa chọn!');return}
+  let ok=0;
+  quizPicks.forEach((j,i)=>{
+    document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>{
+      b.disabled=true;
+      if(k===quiz[i].ans)b.classList.add('right');
+      else if(k===j)b.classList.add('wrong');
+    });
+    if(j===quiz[i].ans)ok++;
+    const card=document.querySelectorAll('#quizContent .card')[i];
+    const why=document.createElement('div');
+    why.className='feedback show '+(j===quiz[i].ans?'ok':'no');
+    why.innerHTML=applyTooltips(quiz[i].why);
+    card.appendChild(why);
+  });
+  const pct=ok/quiz.length;
+  const passed=pct>=CFG.passThreshold;
+  const res=document.getElementById('quizResult');
+  res.classList.remove('hidden');
+  document.getElementById('quizScore').textContent=`Điểm: ${ok}/${quiz.length} (${Math.round(pct*100)}%)`;
+  document.getElementById('quizMsg').innerHTML=passed
+    ?`🎉 Mika đã đạt mức Mở khoá! Bài 2 (Phân bố dân cư) sẽ sẵn sàng khi mình xây xong.`
+    :`Cần đạt 80% (5/6) để mở khoá. Mika xem lại các câu sai rồi làm lại nhé.`;
+  document.getElementById('quizStatus').textContent=passed?'✓ Đã đạt':'chưa đạt';
+  document.getElementById('quizStatus').style.background=passed?'#dcfce7':'#fee2e2';
+  document.getElementById('quizStatus').style.color=passed?'#14532d':'#991b1b';
+  const p=loadProg();
+  if(pct>p.quizBest)p.quizBest=pct;
+  if(passed)p.quizPassed=true;
+  saveProg(p);bumpActivity();updateOverall();
+}
+function resetQuiz(){
+  quizPicks=Array(6).fill(-1);
+  document.getElementById('quizResult').classList.add('hidden');
+  renderQuiz();
+}
+
+renderTheory();renderPractice();renderQuiz();
+updateStreak();updateOverall();
+const p=loadProg();
+if(p.quizPassed){
+  document.getElementById('quizStatus').textContent='✓ Đã đạt';
+  document.getElementById('quizStatus').style.background='#dcfce7';
+  document.getElementById('quizStatus').style.color='#14532d';
+}
+bumpActivity();
+</script>
+</body>
+</html>

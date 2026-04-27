@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Lichsu9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "Lịch sử 9 (History 9) hub artifact for Mika. Vietnamese Grade 9 modern history (1918-present) following the official Kết nối tri thức textbook. 7 chapters covering world wars, Vietnam's anti-colonial wars, Cold War, modern globalization. Bài 1 (Nước Nga và Liên Xô 1918-1945) fully built with 11 micro-steps, practice, Timeline Drop game, and quiz. History-specific vocabulary tooltips (~200 terms). Brown/amber theme distinguishes it from math hub. Reads/writes to localStorage 'lichsu9-progress' and shared 'toan9-activity' for streak tracking.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch sử 9 — Hành trình chinh phục</title>
+<style>
+:root{ color-scheme:light; --primary:#a16207; --primary-d:#854d0e; --primary-l:#fbbf24; --success:#10b981; --warn:#f59e0b; --danger:#dc2626; --card:#fff; --text:#1f2937; --muted:#6b7280; --border:#e7e5e4; --gold:#d97706; --rust:#9a3412; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#fefce8 0%,#fef3c7 50%,#fff7ed 100%);color:var(--text);line-height:1.55;padding:12px;min-height:100vh;font-size:14px}
+.header{background:linear-gradient(135deg,#78350f 0%,#a16207 50%,#dc2626 100%);color:#fff;padding:16px 18px;border-radius:14px;margin-bottom:14px;box-shadow:0 4px 14px rgba(161,98,7,.28);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-30px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
+.header h1{font-size:18px;font-weight:700;margin-bottom:4px;position:relative}
+.header .sub{font-size:12px;opacity:.92;position:relative}
+.header .greet{font-size:13px;margin-top:6px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:99px;display:inline-block;backdrop-filter:blur(10px);font-weight:500;position:relative}
+.header .lang-tip{font-size:11px;margin-top:8px;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:8px;border-left:3px solid #fde68a;line-height:1.5;position:relative}
+.header .lang-tip strong{color:#fef3c7;font-weight:700}
+.pbar{background:rgba(255,255,255,.25);border-radius:99px;height:7px;margin-top:10px;overflow:hidden;position:relative}
+.pbar-fill{background:#fff;height:100%;transition:width .4s;border-radius:99px}
+.ptext{font-size:11px;margin-top:4px;opacity:.95;position:relative}
+.crumb{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.crumb a{color:var(--primary);text-decoration:none;cursor:pointer;font-weight:500}
+.crumb a:hover{text-decoration:underline}
+.crumb .sep{opacity:.5}
+.card{background:var(--card);border-radius:11px;padding:13px;margin-bottom:9px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--border);transition:all .2s}
+.card.click{cursor:pointer}
+.card.click:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(161,98,7,.18);border-color:var(--gold)}
+.card.locked{opacity:.55;cursor:not-allowed}
+.card.done{border-color:var(--success);background:linear-gradient(135deg,#fff 0%,#f0fdf4 100%)}
+.tag{display:inline-block;background:var(--primary);color:#fff;padding:2px 9px;border-radius:99px;font-size:10px;font-weight:600;margin-bottom:5px;letter-spacing:.3px}
+.tag.gray{background:#9ca3af}
+.title{font-size:15px;font-weight:600;margin-bottom:3px;color:var(--text)}
+.desc{font-size:12px;color:var(--muted)}
+.row{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px}
+.mp{flex:1;background:#f3f4f6;height:6px;border-radius:99px;overflow:hidden}
+.mpf{background:var(--success);height:100%;transition:width .4s}
+.tip{border-bottom:1px dashed var(--primary);cursor:help;position:relative;color:var(--primary-d);font-weight:500}
+.tip::after{content:attr(data-en);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:5px 9px;border-radius:5px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.18);font-weight:400;font-style:normal}
+.tip::before{content:'';position:absolute;bottom:calc(100% - 1px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1f2937;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
+.tip:hover::after,.tip:hover::before,.tip.act::after,.tip.act::before{opacity:1}
+.btn{display:inline-block;background:var(--primary);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;font-family:inherit}
+.btn:hover:not(:disabled){background:var(--primary-d);transform:translateY(-1px)}
+.btn.sec{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
+.btn.sec:hover:not(:disabled){background:var(--primary);color:#fff}
+.btn.ok{background:var(--success)}.btn.ok:hover:not(:disabled){background:#059669}
+.btn.warn{background:var(--gold)}.btn:disabled{background:#d1d5db;cursor:not-allowed;transform:none;opacity:.7}
+.tabs{display:flex;gap:3px;margin-bottom:11px;background:#fef3c7;padding:3px;border-radius:9px}
+.tab{flex:1;padding:8px 4px;background:transparent;border:none;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;line-height:1.2;font-family:inherit}
+.tab.act{background:#fff;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08);font-weight:600}
+.tab.lock{opacity:.4;cursor:not-allowed}
+.tab .ic{font-size:14px;display:block;margin-bottom:2px}
+.theory{background:linear-gradient(135deg,#fff 0%,#fefce8 100%);border:1px solid #fde68a;border-radius:11px;padding:14px;margin-bottom:11px}
+.theory h3{color:var(--primary);font-size:14px;margin-bottom:7px;display:flex;align-items:center;gap:6px;justify-content:space-between}
+.story{background:linear-gradient(135deg,#fef2f2 0%,#fff7ed 50%,#fef3c7 100%);border-left:4px solid var(--rust);border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+.story-title{font-weight:700;color:#7c2d12;margin-bottom:6px;display:flex;align-items:center;gap:6px;font-size:13px}
+.story-en{background:#fff7ed;padding:8px 12px;margin:8px 0 0;border-radius:6px;font-size:12px;color:#9a3412;line-height:1.55;border-left:3px solid #fb923c}
+.story-en strong{color:#7c2d12}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+@media(max-width:480px){.compare{grid-template-columns:1fr}}
+.compare > div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
+.after{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.compare h4{font-size:12px;margin-bottom:6px;font-weight:700}
+.analogy{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px;margin:8px 0;font-size:13px}
+.analogy::before{content:'💡 ';margin-right:2px}
+.analogy strong{color:#1e40af}
+.why{background:#fdf4ff;border:1px solid #f0abfc;border-radius:8px;padding:10px;margin:8px 0;font-size:13px}
+.why::before{content:'❓ ';margin-right:2px}
+.why strong{color:#86198f}
+.body-text{margin:10px 0;font-size:13px}
+.sgk-ref{display:inline-block;background:#fef3c7;color:#78350f;font-size:10px;padding:2px 7px;border-radius:99px;font-weight:700;margin-left:5px;border:1px solid #fde68a}
+.spk-btn{background:#fff;border:1.5px solid var(--primary);color:var(--primary);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;padding:0}
+.spk-btn:hover{background:var(--primary);color:#fff}
+.spk-btn.playing{background:var(--success);border-color:var(--success);color:#fff;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
+.step-nav{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-top:12px;gap:8px}
+.step-dots{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;flex:1}
+.dot{width:8px;height:8px;border-radius:50%;background:#e7e5e4;transition:all .2s}
+.dot.act{background:var(--primary);transform:scale(1.3)}
+.dot.done{background:var(--success)}
+.problem{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:9px}
+.problem-q{font-size:13px;margin-bottom:9px;line-height:1.55}
+.opts{display:flex;flex-direction:column;gap:5px}
+.opt{padding:9px 11px;background:#fefce8;border:1.5px solid transparent;border-radius:7px;cursor:pointer;font-size:13px;transition:all .15s;text-align:left;font-family:inherit}
+.opt:hover:not(:disabled){background:#fef3c7;border-color:var(--gold)}
+.opt.ok{border-color:var(--success);background:#d1fae5}
+.opt.no{border-color:var(--danger);background:#fee2e2}
+.opt:disabled{cursor:default}
+.fb{margin-top:9px;padding:9px 11px;border-radius:7px;font-size:12px;display:none;line-height:1.5}
+.fb.show{display:block;animation:fadeIn .3s}
+.fb.ok{background:#d1fae5;color:#065f46;border-left:3px solid var(--success)}
+.fb.no{background:#fee2e2;color:#991b1b;border-left:3px solid var(--danger)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.score-banner{background:#fff;border-radius:11px;padding:14px;text-align:center;margin-top:11px;border:2px solid var(--primary)}
+.score-banner.win{border-color:var(--success);background:linear-gradient(135deg,#fff 0%,#ecfdf5 100%)}
+.score-banner.lose{border-color:var(--gold);background:linear-gradient(135deg,#fff 0%,#fffbeb 100%)}
+.big{font-size:28px;font-weight:700;color:var(--primary)}
+.score-banner.win .big{color:var(--success)}
+.score-banner.lose .big{color:var(--gold)}
+.lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.badge{background:var(--success);color:#fff;padding:2px 7px;border-radius:99px;font-size:10px;font-weight:600}
+.center{text-align:center}
+.tiny{font-size:11px;color:var(--muted)}
+ul.simple{list-style:none;padding:0;margin:8px 0}
+ul.simple li{padding:5px 0 5px 22px;position:relative;font-size:13px}
+ul.simple li::before{content:'✓';position:absolute;left:0;color:var(--success);font-weight:700}
+.recap{background:linear-gradient(135deg,#fef3c7 0%,#fff7ed 100%);border:1px solid #fde68a;border-radius:10px;padding:12px;margin:10px 0}
+.recap h4{color:#78350f;font-size:13px;margin-bottom:6px}
+.recap table{width:100%;font-size:12px;border-collapse:collapse;margin-top:6px}
+.recap th{padding:5px;background:#fde68a;color:#7c2d12;text-align:left;font-weight:700;border:1px solid #fbbf24}
+.recap td{padding:5px;border:1px solid #fde68a;color:#451a03;background:#fff}
+details.examples{margin-top:10px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:0;overflow:hidden}
+details.examples summary{padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;color:#78350f;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.examples summary::-webkit-details-marker{display:none}
+details.examples summary::after{content:'▼';font-size:10px;transition:transform .2s}
+details.examples[open] summary::after{transform:rotate(180deg)}
+details.examples summary:hover{background:#fef3c7}
+details.examples .ex-list{padding:0 12px 10px}
+.ex-item{padding:8px 0;border-top:1px dashed #fde68a;font-size:13px}
+.ex-item:first-child{border-top:none}
+.ex-item .ex-q{font-weight:600;color:#92400e;margin-bottom:4px}
+.ex-item .ex-a{color:#451a03;padding-left:8px;border-left:2px solid #fde68a}
+.blueprint{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdfa 100%);border:2px solid #6ee7b7;border-radius:10px;padding:12px;margin:10px 0;position:relative}
+.blueprint .bp-tag{position:absolute;top:-9px;left:12px;background:var(--success);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+.blueprint h4{color:#065f46;font-size:12px;margin:4px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.blueprint .bp-prob{font-size:13px;color:#064e3b;margin-bottom:6px;font-weight:500}
+.blueprint .bp-sol{font-size:13px;color:#065f46;background:#fff;padding:8px 10px;border-radius:6px;border-left:3px solid #10b981}
+.attempt{background:linear-gradient(135deg,#fff 0%,#fffbeb 100%);border:2px solid #fcd34d;border-radius:10px;padding:12px;margin:10px 0;position:relative}
+.attempt .at-tag{position:absolute;top:-9px;left:12px;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+.attempt h4{color:#78350f;font-size:12px;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.5px}
+.attempt .at-prompt{font-size:14px;color:#451a03;font-weight:500;margin-bottom:10px;line-height:1.55}
+.attempt input.at-input{padding:9px 12px;border:1.5px solid #fde68a;border-radius:7px;font-size:14px;width:100%;font-family:inherit;background:#fff}
+.attempt input.at-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,119,6,.15)}
+.yesno{display:flex;gap:8px;margin:8px 0}
+.yesno button{flex:1;padding:12px;background:#fff;border:1.5px solid #fde68a;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:#78350f;font-family:inherit;transition:all .2s}
+.yesno button:hover:not(:disabled){background:#fef3c7;border-color:var(--gold)}
+.yesno button:disabled{cursor:default}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.choice-grid button{padding:11px 8px;background:#fff;border:1.5px solid #fde68a;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:#78350f;font-family:inherit;transition:all .2s;text-align:left;line-height:1.4}
+.choice-grid button:hover:not(:disabled){background:#fef3c7;border-color:var(--gold)}
+.choice-grid button.ok{background:#d1fae5;border-color:var(--success);color:#065f46}
+.choice-grid button.no{background:#fee2e2;border-color:var(--danger);color:#991b1b}
+.choice-grid button:disabled{cursor:default}
+.attempt-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.stop-fix{background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%);border:2px solid #fca5a5;border-radius:10px;padding:12px;margin:10px 0;animation:fadeIn .3s}
+.stop-fix .sf-title{color:#991b1b;font-weight:700;font-size:13px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.stop-fix .sf-body{font-size:13px;color:#7f1d1d;line-height:1.55}
+.success-card{background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border:2px solid #6ee7b7;border-radius:10px;padding:12px;margin:10px 0;animation:fadeIn .3s}
+.success-card .sc-title{color:#065f46;font-weight:700;font-size:13px;margin-bottom:4px}
+.success-card .sc-body{font-size:13px;color:#064e3b}
+.replay{background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:2px solid #93c5fd;border-radius:10px;padding:14px;margin:10px 0;text-align:center;animation:fadeIn .3s}
+.replay .rp-title{color:#1e40af;font-weight:700;font-size:13px;margin-bottom:8px}
+.replay .rp-count{font-size:42px;font-weight:800;color:var(--primary);line-height:1;margin:6px 0}
+.replay .rp-text{font-size:12px;color:#1e3a8a;line-height:1.5}
+.attempts-trail{display:flex;gap:4px;margin-top:8px;font-size:11px;color:var(--muted);align-items:center}
+.attempts-trail .at-dot{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:#9ca3af}
+.attempts-trail .at-dot.ok{background:var(--success)}
+.attempts-trail .at-dot.no{background:var(--danger)}
+.timeline-game{background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border-radius:11px;padding:14px;margin-bottom:11px}
+.timeline-game h4{color:var(--primary-d);font-size:13px;margin-bottom:6px}
+.tg-event{background:#fff;border:2px solid var(--gold);border-radius:8px;padding:14px;margin:12px 0;font-size:14px;font-weight:600;color:#451a03;text-align:center;line-height:1.5}
+.tg-question{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:6px;text-align:center}
+.tg-stats{display:flex;justify-content:space-around;background:#fff;border-radius:8px;padding:8px;margin:8px 0;font-size:11px}
+.tg-stats > div{text-align:center}
+.tg-stats .v{font-size:18px;font-weight:700;color:var(--primary);display:block}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+"use strict";
+
+const TERMS = {
+  // History-specific terms (most important)
+  'cách mạng tháng mười':'October Revolution (1917 Russia)',
+  'cách mạng':'revolution',
+  'đế quốc':'imperial power / empire',
+  'phản cách mạng':'counter-revolution',
+  'thế lực':'power / force',
+  'thù trong giặc ngoài':'internal enemies and foreign invaders',
+  'thù trong':'internal enemy',
+  'giặc ngoài':'foreign invader',
+  'tấn công vũ trang':'armed attack',
+  'tấn công':'attack',
+  'vũ trang':'armed',
+  'cuộc chiến tranh':'war',
+  'chiến tranh':'war',
+  'giai đoạn':'period / phase',
+  'điều kiện':'condition',
+  'khó khăn':'difficulty',
+  'gian khổ':'hardship',
+  'chính sách cộng sản thời chiến':'War Communism Policy',
+  'chính sách':'policy',
+  'cộng sản':'communist',
+  'thời chiến':'wartime',
+  'quốc hữu hoá':'nationalization',
+  'xí nghiệp':'enterprise / factory',
+  'trưng thu':'requisition / commandeer',
+  'lương thực':'food / grain',
+  'lương thực thừa':'surplus food',
+  'thừa':'surplus / extra',
+  'thi hành':'enforce / implement',
+  'chế độ':'system / regime',
+  'lao động':'labor',
+  'bắt buộc':'compulsory / mandatory',
+  'nhà nước':'state / government',
+  'kiểm soát':'control',
+  'ngành kinh tế':'economic sector',
+  'then chốt':'key / crucial',
+  'ngân hàng':'bank',
+  'đường sắt':'railway',
+  'ngoại thương':'foreign trade',
+  'hầm mỏ':'mine',
+  'hồng quân':'Red Army',
+  'đánh tan':'defeat / crush',
+  'ngoại xâm':'foreign invasion',
+  'nội phản':'internal opposition',
+  'bảo vệ':'protect / defend',
+  'chính quyền':'government / authority',
+  'chính quyền cách mạng':'revolutionary government',
+  'xoá bỏ':'abolish / eliminate',
+  'bất công':'injustice',
+  'quyền':'right',
+  'tự do':'freedom',
+  'dân chủ':'democracy',
+  'tự do dân chủ':'democratic freedoms',
+  'tự quyết':'self-determination',
+  'dân tộc':'ethnic group / nation',
+  'đảng':'party',
+  'bôn-sê-vích':'Bolshevik',
+  'quyết định':'decide',
+  'thực hiện':'implement / carry out',
+  'chính sách kinh tế mới':'NEP (New Economic Policy, 1921)',
+  'kinh tế':'economy',
+  'mới':'new',
+  'lê-nin':'V.I. Lenin (founder of Soviet state)',
+  'đề xướng':'propose / initiate',
+  'từng bước':'step by step',
+  'vượt qua':'overcome',
+  'khủng hoảng':'crisis',
+  'phục hồi':'recover / restore',
+  'đời sống':'livelihood / life',
+  'nhân dân':'the people',
+  'cải thiện':'improve',
+  'nội dung':'content / substance',
+  'cơ bản':'basic / fundamental',
+  'bãi bỏ':'abolish / repeal',
+  'thay thế':'replace',
+  'thu thuế':'collect tax',
+  'thuế':'tax',
+  'nông dân':'peasant / farmer',
+  'nộp':'pay / submit',
+  'toàn quyền':'full right',
+  'sử dụng':'use',
+  'số lượng':'quantity / amount',
+  'dư thừa':'surplus',
+  'tự do buôn bán':'free trade',
+  'buôn bán':'trade',
+  'tư nhân':'private (sector)',
+  'nhỏ':'small',
+  'khuyến khích':'encourage',
+  'tư bản':'capital / capitalist',
+  'nước ngoài':'foreign country',
+  'đầu tư':'invest',
+  'kinh doanh':'do business',
+  'liên bang':'federation',
+  'cộng hoà':'republic',
+  'xã hội chủ nghĩa':'socialist',
+  'chủ nghĩa xã hội':'socialism',
+  'chủ nghĩa':'-ism / ideology',
+  'xô viết':'Soviet',
+  'liên xô':'Soviet Union (USSR)',
+  'thành lập':'establish / found',
+  'gồm':'consist of / include',
+  'u-crai-na':'Ukraine',
+  'bê-lô-rút-xi-a':'Belarus',
+  'ngoại cáp-ca-dơ':'Transcaucasia',
+  'nỗ lực':'effort',
+  'đạt được':'achieve',
+  'thành tựu':'achievement',
+  'xây dựng':'construct / build',
+  'lĩnh vực':'field / area',
+  'khôi phục':'restore',
+  'đại hội':'congress',
+  'xác định':'determine / define',
+  'đường lối':'path / line',
+  'nhiệm vụ':'task / mission',
+  'công nghiệp hoá':'industrialization',
+  'trọng tâm':'focus / center',
+  'phát triển':'develop',
+  'công nghiệp nặng':'heavy industry',
+  'công nghiệp':'industry',
+  'trải qua':'experience / undergo',
+  'kế hoạch 5 năm':'Five-Year Plan',
+  'kế hoạch':'plan',
+  'cường quốc':'great power',
+  'sản xuất':'production',
+  'tổng sản phẩm':'gross product',
+  'quốc dân':'national',
+  'sản lượng':'output / yield',
+  'đứng đầu':'lead / rank first',
+  'thế giới':'world',
+  'thứ hai':'second',
+  'thứ nhất':'first',
+  'sau mỹ':'after the US',
+  'mỹ':'the US (America)',
+  'nga':'Russia',
+  'thép':'steel',
+  'dầu':'oil',
+  'điện':'electricity',
+  'triệu tấn':'million tons',
+  'tỉ kwh':'billion kWh',
+  'tập thể hoá':'collectivization',
+  'nông nghiệp':'agriculture',
+  'hoàn thành':'complete',
+  'quy mô':'scale',
+  'sản xuất lớn':'large-scale production',
+  'xã hội':'society',
+  'văn hoá':'culture',
+  'giáo dục':'education',
+  'cơ cấu':'structure',
+  'giai cấp':'class (social)',
+  'thay đổi':'change',
+  'căn bản':'fundamental',
+  'bóc lột':'exploit',
+  'còn lại':'remaining',
+  'công nhân':'worker',
+  'nông dân tập thể':'collective peasant',
+  'tầng lớp':'stratum / class',
+  'trí thức':'intellectual',
+  'nạn mù chữ':'illiteracy',
+  'mù chữ':'illiterate',
+  'hệ thống':'system',
+  'thống nhất':'unified',
+  'phổ cập':'universal / widespread',
+  'trung học cơ sở':'junior high school',
+  'thành phố':'city',
+  'khoa học tự nhiên':'natural sciences',
+  'khoa học xã hội':'social sciences',
+  'văn học':'literature',
+  'nghệ thuật':'art',
+  'to lớn':'great / massive',
+  'bộc lộ':'reveal / expose',
+  'hạn chế':'limitation',
+  'thiếu sót':'shortcoming',
+  'nóng vội':'hasty / rash',
+  'thiếu dân chủ':'lacking democracy',
+  'thiếu':'lack',
+  'quá trình':'process',
+  'chú trọng':'focus on / pay attention to',
+  'đúng mức':'properly / sufficiently',
+  'nâng cao':'raise / improve',
+  'phát xít':'fascist',
+  'đức':'Germany / German',
+  'tạm dừng':'temporarily stop',
+  'lần thứ ba':'third time',
+  'triển khai':'deploy / implement',
+  'tiến hành':'conduct / carry out',
+  'giữ nước':'defend the country',
+  'vĩ đại':'great',
+  'cuộc chiến tranh giữ nước vĩ đại':'Great Patriotic War (1941-1945)',
+  // Common Vietnamese
+  'em':'you (younger)',
+  'bài':'lesson',
+  'chương':'chapter',
+  'năm':'year',
+  'tháng':'month',
+  'ngày':'day',
+  'thế kỉ':'century',
+  'thế kỉ xx':'20th century',
+  'từ':'from',
+  'đến':'to / until',
+  'trong':'in / inside',
+  'với':'with',
+  'và':'and',
+  'của':'of / belongs to',
+  'là':'is',
+  'có':'have',
+  'không':'no / not',
+  'được':'be able to / can',
+  'sau':'after',
+  'trước':'before',
+  'khi':'when',
+  'sau khi':'after',
+  'trước khi':'before',
+  'này':'this',
+  'đó':'that',
+  'đó là':'that is',
+  'đây là':'this is',
+  'một':'one',
+  'hai':'two',
+  'ba':'three',
+  'bốn':'four',
+  'năm số':'five (number)',
+  'sáu':'six',
+  'bảy':'seven',
+  'tám':'eight',
+  'chín':'nine',
+  'mười':'ten',
+  'mười bốn':'fourteen',
+  'mười bảy':'seventeen',
+  'mười lăm':'fifteen',
+  'một trăm':'one hundred',
+  'nhiều':'many',
+  'tất cả':'all',
+  'mỗi':'each / every',
+  'đầu':'beginning / first',
+  'cuối':'end',
+  'cuối cùng':'final',
+  'rất':'very',
+  'nhưng':'but',
+  'hoặc':'or',
+  'vì':'because',
+  'do':'by / due to',
+  'nên':'so',
+  'cũng':'also',
+  'chỉ':'only',
+  'đã':'(past marker)',
+  'đang':'(present marker)',
+  'sẽ':'(future marker)',
+  'rồi':'already',
+  'trở thành':'become',
+  'hỏi':'ask',
+  'trả lời':'answer',
+  'đúng':'correct',
+  'sai':'wrong',
+  'nhìn':'look',
+  'nhìn kỹ':'look carefully',
+  'nghe':'listen',
+  'đọc':'read',
+  'viết':'write',
+  'nói':'speak',
+  'biết':'know',
+  'hiểu':'understand',
+  'nghĩ':'think',
+  'hãy':'please / let',
+  'em hãy':'please (you)',
+  'cho biết':'state / tell',
+  'trình bày':'present / explain',
+  'nêu':'list / state',
+  'nét chính':'main points',
+  'những':'(plural marker)',
+  'các':'(plural marker)',
+  'gồm':'include',
+  'như':'like / as',
+  'theo':'according to',
+  'sách giáo khoa':'textbook',
+  'sgk':'textbook',
+  'trang':'page',
+  'hình':'figure / image',
+  'bảng':'table',
+  'dữ liệu':'data',
+  'số liệu':'numerical data',
+  'gọi':'call / name',
+  'tên':'name',
+  'gọi là':'called',
+  'gọi tắt':'abbreviated as',
+  'lý thuyết':'theory',
+  'luyện tập':'practice',
+  'trò chơi':'game',
+  'kiểm tra':'test / quiz',
+  'tổng kết':'summary',
+  'tóm tắt':'summarize',
+  'vận dụng':'apply',
+  'bài toán':'problem (math)',
+  'bài tập':'exercises',
+  'câu':'question / sentence',
+  'câu hỏi':'question'
+};
+
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+
+function highlight(text){
+  if(!text) return '';
+  const keys = Object.keys(TERMS).sort((a,b)=>b.length-a.length);
+  const placeholders = [];
+  const parts = String(text).split(/(<[^>]*>)/g);
+  const processed = parts.map((part, idx) => {
+    if(idx % 2 === 1) return part;
+    let out = part;
+    keys.forEach(k=>{
+      const re = new RegExp(escRe(k),'gi');
+      out = out.replace(re, m=>{
+        const id = 'XPH'+placeholders.length+'XPH';
+        placeholders.push({id:id, html:'<span class="tip" data-en="'+TERMS[k]+'">'+m+'</span>'});
+        return id;
+      });
+    });
+    return out;
+  });
+  let final = processed.join('');
+  placeholders.forEach(p=>{ final = final.split(p.id).join(p.html); });
+  return final;
+}
+
+let currentSpeakBtn = null;
+function stripHtml(html){
+  const div = document.createElement('div'); div.innerHTML = html;
+  return (div.textContent || div.innerText || '').replace(/\s+/g,' ').trim();
+}
+function speak(btn, text){
+  if(!('speechSynthesis' in window)){ alert('Trình duyệt không hỗ trợ đọc tiếng Việt.'); return; }
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    if(currentSpeakBtn){ currentSpeakBtn.classList.remove('playing'); currentSpeakBtn.textContent='🔊'; }
+    if(currentSpeakBtn === btn){ currentSpeakBtn = null; return; }
+  }
+  const plain = stripHtml(text);
+  if(!plain) return;
+  const u = new SpeechSynthesisUtterance(plain);
+  u.lang = 'vi-VN'; u.rate = 0.92;
+  u.onend = ()=>{ btn.classList.remove('playing'); btn.textContent='🔊'; if(currentSpeakBtn===btn) currentSpeakBtn=null; };
+  u.onerror = u.onend;
+  btn.classList.add('playing'); btn.textContent='⏸';
+  currentSpeakBtn = btn;
+  window.speechSynthesis.speak(u);
+}
+
+function norm(s){
+  if(s === undefined || s === null) return '';
+  return String(s).toLowerCase().replace(/\s+/g,'').replace(/[\-−–—]/g,'-').trim();
+}
+function validateAttempt(attempt, userInput){
+  if(attempt.type === 'yesno' || attempt.type === 'choice'){
+    if(userInput === attempt.correct) return { ok:true };
+    if(attempt.errorMsg) return { ok:false, msg:attempt.errorMsg };
+    return { ok:false };
+  }
+  const u = norm(userInput);
+  if(!u) return { ok:false, msg:'Em hãy nhập câu trả lời trước nhé.' };
+  for(const a of (attempt.answers||[])){ if(norm(a) === u) return { ok:true }; }
+  for(const e of (attempt.errors||[])){
+    if(e.match && norm(e.match) === u) return { ok:false, msg:e.msg };
+  }
+  return { ok:false };
+}
+
+const CURRICULUM = [
+  {id:'ch1',num:'Chương I',title:'Thế giới từ 1918 đến 1945',desc:'World 1918-1945',lessons:[
+    {id:'l1',num:'Bài 1',title:'Nước Nga và Liên Xô từ năm 1918 đến năm 1945',desc:'Russia & USSR 1918-1945',built:true},
+    {id:'l2',num:'Bài 2',title:'Châu Âu và nước Mỹ từ 1918-1945',desc:'',built:false},
+    {id:'l3',num:'Bài 3',title:'Châu Á từ 1918-1945',desc:'',built:false},
+    {id:'l4',num:'Bài 4',title:'Chiến tranh thế giới thứ hai (1939-1945)',desc:'',built:false}
+  ]},
+  {id:'ch2',num:'Chương II',title:'Việt Nam từ 1918 đến 1945',desc:'Vietnam 1918-1945',lessons:[
+    {id:'l1',num:'Bài 5',title:'Phong trào dân tộc dân chủ 1918-1930',desc:'',built:false},
+    {id:'l2',num:'Bài 6',title:'Nguyễn Ái Quốc và sự thành lập Đảng',desc:'',built:false},
+    {id:'l3',num:'Bài 7',title:'Phong trào cách mạng VN 1930-1939',desc:'',built:false},
+    {id:'l4',num:'Bài 8',title:'Cách mạng tháng Tám 1945',desc:'',built:false}
+  ]},
+  {id:'ch3',num:'Chương III',title:'Thế giới từ 1945 đến 1991',desc:'World 1945-1991',lessons:[
+    {id:'l1',num:'Bài 9',title:'Chiến tranh lạnh (1947-1989)',desc:'',built:false},
+    {id:'l2',num:'Bài 10',title:'Liên Xô và Đông Âu 1945-1991',desc:'',built:false},
+    {id:'l3',num:'Bài 11',title:'Mỹ và Tây Âu 1945-1991',desc:'',built:false},
+    {id:'l4',num:'Bài 12',title:'Mỹ La-tinh và châu Á 1945-1991',desc:'',built:false}
+  ]},
+  {id:'ch4',num:'Chương IV',title:'Việt Nam từ 1945 đến 1991',desc:'Vietnam 1945-1991',lessons:[
+    {id:'l1',num:'Bài 13',title:'VN sau Cách mạng tháng Tám 1945',desc:'',built:false},
+    {id:'l2',num:'Bài 14',title:'Kháng chiến chống Pháp 1946-1950',desc:'',built:false},
+    {id:'l3',num:'Bài 15',title:'Kháng chiến chống Pháp 1951-1954',desc:'',built:false},
+    {id:'l4',num:'Bài 16',title:'Kháng chiến chống Mỹ 1954-1965',desc:'',built:false},
+    {id:'l5',num:'Bài 17',title:'Kháng chiến chống Mỹ 1965-1975',desc:'',built:false},
+    {id:'l6',num:'Bài 18',title:'Việt Nam từ 1976 đến 1991',desc:'',built:false}
+  ]},
+  {id:'ch5',num:'Chương V',title:'Thế giới từ 1991 đến nay',desc:'World 1991-now',lessons:[
+    {id:'l1',num:'Bài 19',title:'Trật tự thế giới mới. Nga và Mỹ từ 1991',desc:'',built:false},
+    {id:'l2',num:'Bài 20',title:'Châu Á từ 1991 đến nay',desc:'',built:false}
+  ]},
+  {id:'ch6',num:'Chương VI',title:'Việt Nam từ 1991 đến nay',desc:'Vietnam 1991-now',lessons:[
+    {id:'l1',num:'Bài 21',title:'Việt Nam từ năm 1991 đến nay',desc:'',built:false}
+  ]},
+  {id:'ch7',num:'Chương VII',title:'Cách mạng KH-KT và toàn cầu hoá',desc:'Tech revolution & globalization',lessons:[
+    {id:'l1',num:'Bài 22',title:'Cách mạng khoa học – kĩ thuật và xu thế toàn cầu hoá',desc:'',built:false}
+  ]}
+];
+
+const LESSON_CONTENT = {
+  'ch1-l1': {
+    story: {
+      problem:'<strong>Hãy tưởng tượng:</strong> Năm 1918, nước Nga vừa trải qua Cách mạng tháng Mười. Đột nhiên <b>14 đế quốc</b> (Anh, Pháp, Mỹ, Nhật...) cùng các thế lực phản cách mạng tấn công. Quê hương bị tàn phá, đói nghèo, hỗn loạn.<br><br>Nhưng chỉ <b>12 năm sau</b>, Liên Xô đã xây dựng nhà máy thuỷ điện lớn nhất châu Âu (nhà máy Đni-ép – Hình 1.1 SGK). Đến 1937, Liên Xô đứng <b>thứ 2 thế giới về công nghiệp</b>. Đến 1945, Liên Xô <b>chiến thắng phát xít Đức</b>.<br><br>👉 Làm thế nào? Bài 1 sẽ kể câu chuyện biến đổi ngoạn mục đó.<div class="story-en"><strong>For Mika (English):</strong> Imagine Russia in 1918 — just had a revolution, then 14 imperial powers + internal counter-revolutionaries attacked. War-torn, starving, chaotic. Yet just 12 years later, USSR built Europe\'s largest hydroelectric plant. By 1937 it was world\'s #2 industrial power. By 1945 it defeated Nazi Germany. How? This lesson tells the dramatic transformation.</div>',
+      before:{title:'1918 — TRƯỚC',body:'Russia bị 14 đế quốc tấn công. Nội chiến tàn phá. Đói nghèo. Kinh tế nông nghiệp lạc hậu. Bị cô lập.'},
+      after:{title:'1945 — SAU',body:'Liên Xô là siêu cường. Công nghiệp #2 thế giới. 15 nước cộng hoà. Chiến thắng phát xít Đức. Một trong 2 cường quốc dẫn dắt thế giới sau WWII.'},
+      why:'<strong>Học xong bài này, em sẽ:</strong><br>• Nêu được những nét chính về nước Nga trước khi Liên Xô được thành lập<br>• Trình bày được những thành tựu và chỉ ra được những hạn chế của công cuộc xây dựng chủ nghĩa xã hội ở Liên Xô<br><br>Hiểu bài này = hiểu nguồn gốc của Chiến tranh Lạnh và mối quan hệ Việt Nam-Liên Xô (sau này).'
+    },
+    steps:[
+      {
+        title:'Bối cảnh sau Cách mạng tháng Mười 1917',
+        why:'Để hiểu Nga đối mặt với gì sau khi cách mạng thành công.',
+        analogy:'Như em bé vừa sinh ra, mong manh — rồi ngay lập tức bị kẻ thù tấn công.',
+        body:'<span class="sgk-ref">📘 SGK trang 7</span> Sau thắng lợi của <b>Cách mạng tháng Mười năm 1917</b>, quân đội <b>14 đế quốc</b> (Anh, Pháp, Mỹ, Nhật Bản…) đã câu kết với các thế lực phản cách mạng trong nước mở cuộc tấn công vũ trang vào nước Nga Xô viết.',
+        blueprint:{problem:'Có bao nhiêu đế quốc tấn công Nga sau Cách mạng tháng Mười?',solution:'Theo SGK trang 7: <b>14 đế quốc</b>, gồm Anh, Pháp, Mỹ, Nhật Bản và các nước khác.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Có bao nhiêu đế quốc đã tấn công nước Nga Xô viết sau Cách mạng tháng Mười?',choices:['4 đế quốc','7 đế quốc','14 đế quốc','40 đế quốc'],correct:2,errorMsg:'<b>STOP.</b> Đáp án là <b>14 đế quốc</b>. SGK trang 7 ghi rõ: gồm Anh, Pháp, Mỹ, Nhật Bản và 10 nước khác.',explanation:'✅ Đúng rồi! 14 đế quốc câu kết với các thế lực phản cách mạng nội bộ tấn công nước Nga.'}
+      },
+      {
+        title:'Cuộc chiến chống thù trong giặc ngoài (1918-1920)',
+        why:'Hiểu giai đoạn khó khăn nhất của Nga Xô viết.',
+        analogy:'Như cùng lúc dập lửa cả trong nhà lẫn ngoài nhà — "thù trong" là kẻ thù bên trong, "giặc ngoài" là quân ngoại xâm.',
+        body:'<span class="sgk-ref">📘 SGK trang 7</span> Suốt <b>3 năm (1918-1920)</b>, nước Nga phải tiến hành cuộc chiến tranh cách mạng <b>chống thù trong, giặc ngoài</b> trong những điều kiện vô cùng khó khăn, gian khổ.',
+        blueprint:{problem:'Cuộc chiến chống thù trong giặc ngoài kéo dài bao lâu?',solution:'3 năm, từ 1918 đến 1920.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> "Thù trong giặc ngoài" có nghĩa là gì?',choices:['Chỉ kẻ thù bên ngoài','Chỉ kẻ thù bên trong','Cả kẻ thù bên trong (phản cách mạng) VÀ ngoại xâm','Một loại vũ khí'],correct:2,errorMsg:'<b>STOP.</b> "Thù trong" = kẻ thù bên trong (phản cách mạng). "Giặc ngoài" = quân ngoại xâm. Cả hai cùng tấn công.',explanation:'✅ Đúng. Thù trong (internal enemies) + giặc ngoài (foreign invaders) = nước Nga bị tấn công từ cả hai phía.'}
+      },
+      {
+        title:'Chính sách cộng sản thời chiến (1919)',
+        why:'Hiểu cách nhà nước Xô viết đã sống sót.',
+        analogy:'Biện pháp khẩn cấp thời chiến — như "rationing" ở Anh trong WWII. Nhà nước lấy mọi thứ để thắng cuộc chiến.',
+        body:'<span class="sgk-ref">📘 SGK trang 7</span> Từ năm <b>1919</b>, Nhà nước Xô viết thực hiện <b>Chính sách cộng sản thời chiến</b>:<br>• <b>Quốc hữu hoá</b> toàn bộ các xí nghiệp<br>• <b>Trưng thu lương thực thừa</b> của nông dân<br>• Thi hành <b>chế độ lao động bắt buộc</b><br>→ Nhà nước Xô viết kiểm soát ngân hàng, đường sắt, ngoại thương, hầm mỏ.',
+        blueprint:{problem:'Chính sách cộng sản thời chiến có cho phép nông dân tự do bán lương thực thừa không?',solution:'KHÔNG. Chính sách này TRƯNG THU lương thực thừa (nhà nước lấy đi). Đây là điểm khác biệt với NEP (Bước 5).'},
+        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Chính sách cộng sản thời chiến cho phép nông dân tự do bán lương thực thừa?',correct:'no',errorMsg:'<b>STOP.</b> Theo SGK: chính sách này TRƯNG THU lương thực thừa, nông dân KHÔNG được tự do. Đó là điểm khác với NEP sau này.',explanation:'❌ KHÔNG. Chính sách cộng sản thời chiến trưng thu lương thực thừa (nhà nước lấy). NEP (1921) sau này mới cho nông dân tự do hơn.'}
+      },
+      {
+        title:'Hồng quân chiến thắng (cuối 1920)',
+        why:'Bước ngoặt quan trọng — Nga Xô viết sống sót.',
+        analogy:'Như đội tuyển bóng đá yếu thắng đội mạnh trong trận chung kết.',
+        body:'<span class="sgk-ref">📘 SGK trang 8</span> <b>Cuối năm 1920</b>, <b>Hồng quân</b> đã đánh tan giặc ngoại xâm và nội phản, bảo vệ chính quyền cách mạng. Nhà nước Xô viết xoá bỏ những bất công, thực hiện quyền tự do dân chủ, quyền tự quyết của các dân tộc.',
+        blueprint:{problem:'"Hồng quân" tiếng Anh là gì?',solution:'Red Army. Đây là quân đội của Nga Xô viết / Liên Xô.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> "Hồng quân" tiếng Anh là gì?',choices:['White Guard','Red Army','Soviet Police','People\'s Militia'],correct:1,errorMsg:'<b>STOP.</b> "Hồng" = "Red" trong tiếng Anh. "Quân" = "Army". → "Red Army". Hồng quân là quân đội Liên Xô.',explanation:'✅ Đúng. Red Army là quân đội của Nga Xô viết và sau này là Liên Xô.'}
+      },
+      {
+        title:'NEP — Chính sách Kinh tế mới (3-1921)',
+        why:'Cải cách quan trọng — Lê-nin chuyển hướng từ cộng sản thời chiến.',
+        analogy:'Như cha mẹ nghiêm khắc đột nhiên nới lỏng quy tắc để gia đình hồi phục sau giai đoạn khó khăn. Sự linh hoạt chiến lược.',
+        body:'<span class="sgk-ref">📘 SGK trang 7-8</span> <b>Tháng 3-1921</b>, Đảng <b>Bôn-sê-vích</b> quyết định thực hiện <b>Chính sách Kinh tế mới (NEP)</b> do <b>Lê-nin</b> đề xướng.<br><br>Nội dung cơ bản:<br>• <b>Bãi bỏ</b> chế độ trưng thu lương thực thừa<br>• Thay bằng chính sách <b>thu thuế lương thực</b><br>• Sau khi nộp thuế, nông dân <b>toàn quyền</b> sử dụng số dư thừa<br>• Thực hiện <b>tự do buôn bán</b><br>• Cho phép <b>tư nhân</b> mở các xí nghiệp nhỏ<br>• Khuyến khích <b>tư bản nước ngoài đầu tư</b><br><br>→ Nga vượt qua khủng hoảng, kinh tế phục hồi, đời sống nhân dân cải thiện.',
+        blueprint:{problem:'Ai là người đề xướng Chính sách Kinh tế mới (NEP)?',solution:'Lê-nin (V.I. Lenin), năm 1921. Stalin là người kế tiếp Lê-nin sau này.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Ai là người đề xướng NEP (Chính sách Kinh tế mới)?',choices:['Sta-lin','Lê-nin','Trốt-xki','Khơ-rút-sốp'],correct:1,errorMsg:'<b>STOP.</b> Theo SGK trang 7: NEP do <b>Lê-nin</b> đề xướng năm 1921. Stalin sau này (sau khi Lê-nin mất 1924) thay thế NEP bằng các kế hoạch 5 năm.',explanation:'✅ Đúng. <b>Lê-nin (V.I. Lenin)</b> đề xướng NEP tháng 3-1921. Đây là cải cách quan trọng để Nga phục hồi.'}
+      },
+      {
+        title:'Liên Xô được thành lập (12-1922)',
+        why:'Sự ra đời của Liên Xô — một quốc gia mới.',
+        analogy:'Như nhiều ngôi nhà nhỏ hợp nhất thành một khu phức hợp lớn.',
+        body:'<span class="sgk-ref">📘 SGK trang 8</span> <b>Tháng 12-1922</b>, <b>Liên bang Cộng hoà xã hội chủ nghĩa Xô viết</b> được thành lập (gọi tắt là <b>Liên Xô</b>, USSR).<br><br>Ban đầu gồm <b>4 nước cộng hoà</b>: Nga, U-crai-na, Bê-lô-rút-xi-a, Ngoại Cáp-ca-dơ.<br>Đến <b>năm 1940</b>: <b>15 nước cộng hoà</b>.',
+        blueprint:{problem:'Liên Xô được thành lập tháng năm nào?',solution:'Tháng 12 năm 1922.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Liên Xô được thành lập vào:',choices:['Tháng 10 năm 1917','Tháng 3 năm 1921','Tháng 12 năm 1922','Tháng 6 năm 1941'],correct:2,errorMsg:'<b>STOP.</b> Theo SGK trang 8: Liên Xô thành lập <b>tháng 12-1922</b>. (10-1917 là Cách mạng tháng Mười, 3-1921 là NEP, 6-1941 là Đức tấn công Liên Xô.)',explanation:'✅ Đúng. <b>Tháng 12-1922</b>, Liên Xô được thành lập với 4 nước cộng hoà ban đầu, đến 1940 có 15 nước.'}
+      },
+      {
+        title:'Công nghiệp hoá — 2 kế hoạch 5 năm (1928-1937)',
+        why:'Liên Xô trở thành cường quốc công nghiệp như thế nào.',
+        analogy:'Như chương trình tập marathon: 5 năm tập trung mỗi đợt, ưu tiên công nghiệp nặng (thép, dầu, điện).',
+        body:'<span class="sgk-ref">📘 SGK trang 8</span> <b>Tháng 12-1925</b>: Đại hội Đảng Bôn-sê-vích xác định đường lối <b>công nghiệp hoá xã hội chủ nghĩa</b>, trọng tâm là <b>công nghiệp nặng</b>.<br><br>Trải qua <b>2 kế hoạch 5 năm</b>:<br>• <b>1928-1932</b> (lần thứ nhất)<br>• <b>1933-1937</b> (lần thứ hai)<br><br>→ Liên Xô trở thành <b>cường quốc công nghiệp</b>: hơn 70% tổng sản phẩm là công nghiệp; đứng đầu châu Âu, <b>thứ 2 thế giới</b> (sau Mỹ).',
+        blueprint:{problem:'Đến cuối thập niên 1930, Liên Xô đứng thứ mấy thế giới về công nghiệp?',solution:'Thứ 2 thế giới, sau Mỹ. Đứng đầu châu Âu.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Đến cuối những năm 1930, Liên Xô đứng thứ mấy thế giới về công nghiệp?',choices:['Thứ nhất','Thứ hai (sau Mỹ)','Thứ ba','Thứ năm'],correct:1,errorMsg:'<b>STOP.</b> Theo SGK trang 8: Liên Xô đứng <b>thứ 2 thế giới</b>, sau Mỹ. (Đứng đầu châu Âu nhưng không phải thế giới.)',explanation:'✅ Đúng. Liên Xô đứng <b>thứ 2 thế giới</b> sau Mỹ về công nghiệp. Đứng đầu châu Âu.'}
+      },
+      {
+        title:'Sản lượng công nghiệp 1928 → 1940',
+        why:'Số liệu cụ thể về sự tăng trưởng.',
+        body:'<span class="sgk-ref">📘 SGK trang 8 — Bảng số liệu</span><br><br><b>Sản lượng (1928 → 1940):</b><br>• <b>Thép</b> (triệu tấn): 4 → 6 → <b>18</b><br>• <b>Dầu</b> (triệu tấn): 12 → 21 → <b>26</b><br>• <b>Điện</b> (tỉ KWh): 5 → 13 → <b>90</b><br><br>👉 Điện tăng <b>18 lần</b> trong 12 năm! Tập thể hoá nông nghiệp cũng hoàn thành với quy mô sản xuất lớn.',
+        blueprint:{problem:'Sản lượng điện của Liên Xô năm 1940 là bao nhiêu tỉ KWh?',solution:'90 tỉ KWh. Tăng từ 5 (1928) → 90 (1940), tức 18 lần.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Sản lượng điện của Liên Xô năm 1940 là bao nhiêu tỉ KWh?',choices:['18','26','90','100'],correct:2,errorMsg:'<b>STOP.</b> Theo bảng SGK trang 8: <b>90 tỉ KWh</b>. (18 là sản lượng thép, 26 là dầu.)',explanation:'✅ Đúng. <b>90 tỉ KWh</b> năm 1940. Tăng 18 lần so với 1928 (5 tỉ KWh)!'}
+      },
+      {
+        title:'Xã hội, văn hoá, giáo dục',
+        why:'Vượt ra ngoài kinh tế — biến đổi xã hội.',
+        body:'<span class="sgk-ref">📘 SGK trang 9</span> <b>Cơ cấu giai cấp thay đổi căn bản:</b><br>• Xoá bỏ giai cấp bóc lột<br>• Còn 2 giai cấp lao động: <b>công nhân</b> và <b>nông dân tập thể</b><br>• Cùng tầng lớp <b>trí thức xã hội chủ nghĩa</b><br><br><b>Giáo dục:</b><br>• <b>Xoá nạn mù chữ</b><br>• Hệ thống giáo dục thống nhất<br>• Phổ cập THCS ở các thành phố<br><br>Khoa học tự nhiên, khoa học xã hội, văn học, nghệ thuật cũng đạt nhiều thành tựu to lớn.',
+        blueprint:{problem:'Một thành tựu nổi bật của Liên Xô về giáo dục là gì?',solution:'Xoá nạn mù chữ — đây là điều SGK đặc biệt nhấn mạnh.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Một thành tựu nổi bật về giáo dục của Liên Xô là gì?',choices:['Đại học miễn phí cho cả thế giới','Đào tạo bằng tiếng Anh','Xoá nạn mù chữ','Cấm trường tư'],correct:2,errorMsg:'<b>STOP.</b> Theo SGK trang 9: Liên Xô đã <b>xoá nạn mù chữ</b> — đây là thành tựu giáo dục được nhấn mạnh.',explanation:'✅ Đúng. <b>Xoá nạn mù chữ</b> là thành tựu giáo dục nổi bật. Cộng với hệ thống giáo dục thống nhất và phổ cập THCS ở các thành phố.'}
+      },
+      {
+        title:'Hạn chế của xây dựng XHCN',
+        why:'Tư duy phản biện — mọi câu chuyện đều có hạn chế. Giáo viên sẽ kiểm tra điều này.',
+        analogy:'Như xe chạy quá nhanh có thể đâm. Đi quá nhanh trong bất kỳ dự án nào đều gây vấn đề.',
+        body:'<span class="sgk-ref">📘 SGK trang 9</span> Công cuộc xây dựng XHCN ở Liên Xô có một số <b>hạn chế</b>:<br>• <b>Nóng vội</b> trong tập thể hoá nông nghiệp<br>• <b>Thiếu dân chủ</b> trong quá trình thực hiện<br>• Chưa chú trọng đúng mức đến việc <b>nâng cao đời sống nhân dân</b>',
+        blueprint:{problem:'Một hạn chế của xây dựng XHCN ở Liên Xô là gì?',solution:'3 hạn chế chính: (1) nóng vội trong tập thể hoá; (2) thiếu dân chủ; (3) chưa nâng cao đời sống đúng mức.'},
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Theo SGK, một hạn chế của Liên Xô là gì?',choices:['Quá ít tự do dân chủ','Quá nhiều tiền','Không có tiến bộ khoa học','Không có chiến thắng quân sự'],correct:0,errorMsg:'<b>STOP.</b> SGK trang 9 nêu rõ: <b>thiếu dân chủ</b> là một hạn chế. Cùng với "nóng vội" trong tập thể hoá và "chưa nâng cao đời sống đúng mức".',explanation:'✅ Đúng. <b>Thiếu dân chủ</b> là hạn chế. SGK cũng nêu: nóng vội tập thể hoá, chưa nâng cao đời sống đúng mức.'}
+      },
+      {
+        title:'🏁 TÍCH HỢP: Bảng tổng kết',
+        why:'SGK kết thúc bài bằng yêu cầu hoàn thành bảng. Em làm được bảng này = em đã làm chủ bài.',
+        body:'<span class="sgk-ref">📘 SGK trang 9 — Luyện tập-Vận dụng</span><br><br><b>Bảng tổng kết (theo SGK):</b><div class="recap"><table><tr><th>Lĩnh vực</th><th>Thành tựu</th><th>Hạn chế</th></tr><tr><td><b>Chính trị</b></td><td>Liên Xô thành lập 12-1922; 15 nước cộng hoà 1940</td><td>Thiếu dân chủ</td></tr><tr><td><b>Kinh tế</b></td><td>Cường quốc CN #2 thế giới; tập thể hoá NN hoàn thành</td><td>Nóng vội</td></tr><tr><td><b>Xã hội/VH/GD</b></td><td>Xoá mù chữ; phổ cập THCS; KH-VH-NT phát triển</td><td>Chưa nâng cao đời sống đúng mức</td></tr></table></div><br><b>Kết bài:</b> Tháng 6-1941, phát xít Đức tấn công Liên Xô → Cuộc chiến tranh giữ nước vĩ đại (1941-1945). Đây là cầu nối sang Bài 4 (WWII).',
+        attempt:{type:'choice',prompt:'<b>Câu cuối:</b> Cuộc chiến tranh giữ nước vĩ đại của Liên Xô diễn ra trong giai đoạn nào?',choices:['1918-1920','1928-1937','1939-1945','1941-1945'],correct:3,errorMsg:'<b>STOP.</b> Theo SGK: phát xít Đức tấn công Liên Xô tháng 6-<b>1941</b>, kết thúc <b>1945</b>. → 1941-1945. (1918-1920 là nội chiến, 1928-1937 là 2 kế hoạch 5 năm, 1939-1945 là toàn bộ WWII nhưng Liên Xô tham chiến từ 1941.)',explanation:'✅ Đúng! <b>1941-1945</b>. Liên Xô tham chiến từ 6-1941 khi Đức tấn công, kết thúc 1945. Mika đã hoàn thành Bài 1! 🎉'}
+      }
+    ],
+    practice:[
+      {
+        blueprint:{problem:'Năm nào Cách mạng tháng Mười xảy ra?',solution:'Năm 1917, ở Nga.'},
+        attempt:{type:'choice',prompt:'<b>Câu 1:</b> Năm bao nhiêu Liên Xô được thành lập?',choices:['1917','1920','1922','1925'],correct:2,errorMsg:'<b>STOP.</b> Liên Xô thành lập <b>tháng 12-1922</b>. (1917 là Cách mạng tháng Mười.)',explanation:'✅ <b>1922</b> — cụ thể là tháng 12-1922.'}
+      },
+      {
+        blueprint:{problem:'NEP do ai đề xướng?',solution:'Lê-nin năm 1921.'},
+        attempt:{type:'choice',prompt:'<b>Câu 2:</b> Chính sách NEP có đặc điểm gì?',choices:['Quốc hữu hoá toàn bộ xí nghiệp','Trưng thu lương thực thừa','Cho phép tự do buôn bán và tư nhân','Cấm tư bản nước ngoài đầu tư'],correct:2,errorMsg:'<b>STOP.</b> NEP CHO PHÉP tự do buôn bán, cho phép tư nhân mở xí nghiệp nhỏ, khuyến khích tư bản nước ngoài đầu tư.',explanation:'✅ NEP là chính sách "mở cửa" hơn — cho phép tự do buôn bán, tư nhân, đầu tư nước ngoài.'}
+      },
+      {
+        blueprint:{problem:'Liên Xô bao gồm bao nhiêu nước cộng hoà ban đầu?',solution:'4 nước: Nga, U-crai-na, Bê-lô-rút-xi-a, Ngoại Cáp-ca-dơ. Đến 1940 có 15 nước.'},
+        attempt:{type:'choice',prompt:'<b>Câu 3:</b> Đến năm 1940, Liên Xô có bao nhiêu nước cộng hoà?',choices:['4','7','15','22'],correct:2,errorMsg:'<b>STOP.</b> Theo SGK: ban đầu (1922) là 4 nước, đến năm 1940 có <b>15</b> nước cộng hoà.',explanation:'✅ <b>15 nước cộng hoà</b> tính đến 1940. Phát triển từ 4 ban đầu.'}
+      },
+      {
+        blueprint:{problem:'Hai kế hoạch 5 năm đầu tiên của Liên Xô là khi nào?',solution:'1928-1932 và 1933-1937. Trọng tâm là công nghiệp nặng.'},
+        attempt:{type:'choice',prompt:'<b>Câu 4:</b> Trong 2 kế hoạch 5 năm, Liên Xô tập trung phát triển ngành nào?',choices:['Nông nghiệp','Công nghiệp nhẹ','Công nghiệp nặng','Du lịch'],correct:2,errorMsg:'<b>STOP.</b> Theo SGK trang 8: trọng tâm là <b>công nghiệp NẶNG</b> (thép, dầu, điện) — không phải nông nghiệp hay công nghiệp nhẹ.',explanation:'✅ <b>Công nghiệp nặng</b> — thép, dầu, điện. Đó là cách Liên Xô trở thành cường quốc công nghiệp.'}
+      },
+      {
+        blueprint:{problem:'Cuộc chiến tranh giữ nước vĩ đại bắt đầu khi nào?',solution:'Tháng 6-1941, khi phát xít Đức tấn công Liên Xô.'},
+        attempt:{type:'choice',prompt:'<b>Câu 5:</b> Cuộc chiến tranh giữ nước vĩ đại của Liên Xô là cuộc chiến chống lại nước nào?',choices:['Anh','Mỹ','Pháp','Phát xít Đức'],correct:3,errorMsg:'<b>STOP.</b> Theo SGK trang 9: Tháng 6-1941, <b>phát xít Đức</b> tấn công Liên Xô → Liên Xô tiến hành cuộc chiến tranh giữ nước vĩ đại.',explanation:'✅ <b>Phát xít Đức</b>. Liên Xô tham chiến trong WWII từ 1941 và đóng vai trò quyết định trong việc đánh bại Đức.'}
+      }
+    ],
+    game:{
+      title:'Dòng thời gian Liên Xô',
+      desc:'Em hãy chọn năm đúng cho mỗi sự kiện. Đúng = +1 điểm. Streak 3+ = bonus!',
+      events:[
+        {ev:'Cách mạng tháng Mười', years:['1917','1922','1925','1941'], correct:0},
+        {ev:'Cuộc chiến chống thù trong giặc ngoài kết thúc', years:['1917','1920','1922','1928'], correct:1},
+        {ev:'Lê-nin đề xướng NEP', years:['1917','1920','1921','1925'], correct:2},
+        {ev:'Liên Xô được thành lập', years:['1920','1922','1925','1928'], correct:1},
+        {ev:'Đường lối công nghiệp hoá XHCN được xác định', years:['1920','1922','1925','1928'], correct:2},
+        {ev:'Kế hoạch 5 năm lần thứ nhất bắt đầu', years:['1925','1928','1932','1937'], correct:1},
+        {ev:'Kế hoạch 5 năm lần thứ hai kết thúc', years:['1932','1937','1940','1941'], correct:1},
+        {ev:'Liên Xô có 15 nước cộng hoà', years:['1922','1928','1937','1940'], correct:3},
+        {ev:'Phát xít Đức tấn công Liên Xô', years:['1939','1941','1943','1945'], correct:1},
+        {ev:'Cuộc chiến tranh giữ nước vĩ đại kết thúc', years:['1941','1942','1943','1945'], correct:3}
+      ]
+    },
+    quiz:[
+      {q:'Có bao nhiêu đế quốc đã tấn công nước Nga sau Cách mạng tháng Mười?',opts:['4','7','14','40'],ans:2},
+      {q:'Ai là người đề xướng NEP (Chính sách Kinh tế mới)?',opts:['Sta-lin','Lê-nin','Trốt-xki','Khơ-rút-sốp'],ans:1},
+      {q:'Liên Xô được thành lập tháng năm nào?',opts:['10-1917','3-1921','12-1922','6-1941'],ans:2},
+      {q:'Đến năm 1940, Liên Xô có bao nhiêu nước cộng hoà?',opts:['4','7','15','22'],ans:2},
+      {q:'Đến cuối thập niên 1930, Liên Xô đứng thứ mấy thế giới về công nghiệp?',opts:['Thứ nhất','Thứ hai (sau Mỹ)','Thứ ba','Thứ năm'],ans:1},
+      {q:'Cuộc chiến tranh giữ nước vĩ đại của Liên Xô kéo dài từ năm nào đến năm nào?',opts:['1917-1922','1928-1937','1939-1945','1941-1945'],ans:3}
+    ]
+  }
+};
+
+let state = loadState();
+let view = { type:'hub' };
+let lessonView = { tab:'theory', step:-1, attempt:null, practiceIdx:0, practiceCorrect:0, quizIdx:0, quizAnswers:[], gameState:null };
+let replayTimer = null;
+
+function loadState(){
+  try { const s = localStorage.getItem('lichsu9-progress'); if(s) return JSON.parse(s); } catch(e){}
+  return { progress:{} };
+}
+function saveState(){ try { localStorage.setItem('lichsu9-progress', JSON.stringify(state)); } catch(e){} }
+function getProgress(chId,lId){ return state.progress[chId+'-'+lId] || { theorySteps:0, practice:0, game:0, quiz:0 }; }
+function setProgress(chId,lId,upd){
+  const k = chId+'-'+lId;
+  state.progress[k] = Object.assign({}, getProgress(chId,lId), upd);
+  saveState();
+  // Shared activity tracking with math hub for streak
+  try {
+    let act = JSON.parse(localStorage.getItem('toan9-activity') || '[]');
+    const today = new Date().toISOString().slice(0,10);
+    if(!act.includes(today)){ act.push(today); act = act.sort().slice(-365); localStorage.setItem('toan9-activity', JSON.stringify(act)); }
+  } catch(e){}
+}
+function isLessonDone(chId,lId){
+  const p = getProgress(chId,lId);
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  if(!lc) return false;
+  return p.theorySteps >= lc.steps.length && p.practice >= 80 && p.quiz >= 80;
+}
+function isLessonUnlocked(chId,lId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  const idx = ch.lessons.findIndex(l=>l.id===lId);
+  if(idx === 0){
+    const chIdx = CURRICULUM.findIndex(c=>c.id===chId);
+    if(chIdx === 0) return true;
+    const prevCh = CURRICULUM[chIdx-1];
+    return prevCh.lessons.every(l=>isLessonDone(prevCh.id, l.id));
+  }
+  const prev = ch.lessons[idx-1];
+  return isLessonDone(chId, prev.id);
+}
+function calcOverall(){
+  let t=0,c=0;
+  CURRICULUM.forEach(ch=>ch.lessons.forEach(l=>{ if(l.built){ c++; if(isLessonDone(ch.id,l.id)) t++; } }));
+  return c>0 ? Math.round(t/c*100) : 0;
+}
+function getCurrentDpItem(){
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  if(lessonView.tab === 'theory') return lc.steps[lessonView.step];
+  if(lessonView.tab === 'practice') return lc.practice[lessonView.practiceIdx];
+  return null;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = renderHeader() + renderMain();
+  attachEvents();
+  attachTooltipTaps();
+}
+function renderHeader(){
+  const o = calcOverall();
+  return '<div class="header"><h1>📜 Lịch sử 9 — Hành trình chinh phục</h1><div class="sub">Sách Kết nối tri thức với cuộc sống · Lịch sử và Địa lí 9</div><div class="greet">👋 Hi Mika!</div><div class="lang-tip">💡 <strong>Hint for Mika:</strong> Tap or hover any underlined Vietnamese word to see the English meaning.</div><div class="pbar"><div class="pbar-fill" style="width:'+o+'%"></div></div><div class="ptext">Tổng tiến độ: '+o+'% hoàn thành</div></div>';
+}
+function renderMain(){
+  if(view.type==='hub') return renderHub();
+  if(view.type==='chapter') return renderChapter(view.chId);
+  if(view.type==='lesson') return renderLesson(view.chId, view.lId);
+  return '';
+}
+function renderHub(){
+  let h = '<div class="crumb"><span>Trang chủ</span></div>';
+  CURRICULUM.forEach(ch=>{
+    const built = ch.lessons.filter(l=>l.built).length;
+    const done = ch.lessons.filter(l=>isLessonDone(ch.id,l.id)).length;
+    const tot = built > 0 ? built : ch.lessons.length;
+    const pct = tot>0 ? Math.round(done/tot*100) : 0;
+    const u = isLessonUnlocked(ch.id, ch.lessons[0].id);
+    h += '<div class="card '+(u?'click':'locked')+' '+(pct===100&&built>0?'done':'')+'" data-act="open-ch" data-ch="'+ch.id+'"><div class="tag">'+ch.num+(u?'':' 🔒')+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div><div class="row"><div class="mp"><div class="mpf" style="width:'+pct+'%"></div></div><span>'+done+'/'+tot+'</span></div></div>';
+  });
+  return h;
+}
+function renderChapter(chId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  let h = '<div class="crumb"><a data-act="hub">Trang chủ</a><span class="sep">›</span><span>'+ch.num+'</span></div><div class="card"><div class="tag">'+ch.num+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div></div>';
+  ch.lessons.forEach(l=>{
+    const u = isLessonUnlocked(chId, l.id);
+    const d = isLessonDone(chId, l.id);
+    const tagColor = !l.built ? 'gray' : '';
+    const tagSuffix = !u ? ' 🔒' : (!l.built ? ' • Sắp ra mắt' : '');
+    h += '<div class="card '+(((!u||!l.built))?'locked':'click')+' '+(d?'done':'')+'" data-act="open-l" data-ch="'+chId+'" data-l="'+l.id+'"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div style="flex:1;min-width:0"><div class="tag '+tagColor+'">'+l.num+tagSuffix+'</div><div class="title" style="font-size:14px">'+highlight(l.title)+'</div><div class="desc">'+l.desc+'</div></div>'+(d?'<span class="badge">✓ Đạt</span>':'')+'</div></div>';
+  });
+  return h;
+}
+function renderLesson(chId,lId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  const l = ch.lessons.find(x=>x.id===lId);
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const p = getProgress(chId,lId);
+  const tabs = [
+    { id:'theory', icon:'📖', label:'Lý thuyết', unlocked:true, done:p.theorySteps>=lc.steps.length },
+    { id:'practice', icon:'✏️', label:'Luyện tập', unlocked:p.theorySteps>=lc.steps.length, done:p.practice>=80 },
+    { id:'game', icon:'🎮', label:'Trò chơi', unlocked:p.practice>=80, done:p.game>=70 },
+    { id:'quiz', icon:'🏆', label:'Kiểm tra', unlocked:p.practice>=80, done:p.quiz>=80 }
+  ];
+  let h = '<div class="crumb"><a data-act="hub">Trang chủ</a><span class="sep">›</span><a data-act="open-ch" data-ch="'+chId+'">'+ch.num+'</a><span class="sep">›</span><span>'+l.num+'</span></div>';
+  h += '<div class="card"><div class="tag">'+l.num+'</div><div class="title" style="font-size:15px">'+highlight(l.title)+'</div></div>';
+  h += '<div class="tabs">';
+  tabs.forEach(t=>{
+    const cls = (lessonView.tab===t.id?'act':'') + (!t.unlocked?' lock':'');
+    h += '<button class="tab '+cls+'" data-act="tab" data-tab="'+t.id+'" '+(!t.unlocked?'disabled':'')+'><span class="ic">'+t.icon+'</span>'+t.label+(t.done?' ✓':'')+'</button>';
+  });
+  h += '</div>';
+  if(lessonView.tab==='theory') h += renderTheory(chId,lId);
+  else if(lessonView.tab==='practice') h += renderPractice(chId,lId);
+  else if(lessonView.tab==='game') h += renderGame(chId,lId);
+  else if(lessonView.tab==='quiz') h += renderQuiz(chId,lId);
+  return h;
+}
+function renderTheory(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  if(lessonView.step === -1){
+    const s = lc.story;
+    const storyText = stripHtml(s.problem)+'. Trước: '+stripHtml(s.before.body)+'. Sau: '+stripHtml(s.after.body)+'. '+stripHtml(s.why);
+    return '<div class="theory"><h3><span>📖 Câu chuyện mở đầu</span><button class="spk-btn" data-spk-text="'+encodeURIComponent(storyText)+'">🔊</button></h3><div class="story"><div class="story-title">📜 Bối cảnh lịch sử</div>'+highlight(s.problem)+'</div><div class="compare"><div class="before"><h4>'+s.before.title+'</h4>'+highlight(s.before.body)+'</div><div class="after"><h4>'+s.after.title+'</h4>'+highlight(s.after.body)+'</div></div><div class="why"><strong>Mục tiêu bài học:</strong> '+highlight(s.why)+'</div><div class="center" style="margin-top:14px"><button class="btn" data-act="theory-start">Bắt đầu học từng bước nhỏ →</button></div></div>';
+  }
+  if(lessonView.step >= lc.steps.length){
+    return '<div class="theory"><h3>🎉 Hoàn thành lý thuyết!</h3><p>Mika đã học xong tất cả '+lc.steps.length+' bước. Qua phần Luyện tập nhé!</p><div class="center" style="margin-top:12px"><button class="btn ok" data-act="goto-practice">Qua Luyện tập →</button></div></div>';
+  }
+  const step = lc.steps[lessonView.step];
+  const total = lc.steps.length;
+  const cur = lessonView.step;
+  const p = getProgress(chId,lId);
+  let dots = '';
+  for(let i=0;i<total;i++){
+    const cls = i===cur?'act':(i<p.theorySteps?'done':'');
+    dots += '<span class="dot '+cls+'"></span>';
+  }
+  const fullText = step.title+'. Vì sao: '+stripHtml(step.why||'')+'. '+stripHtml(step.body);
+  let h = '<div class="theory"><h3><span>Bước '+(cur+1)+'/'+total+': '+highlight(step.title)+'</span><button class="spk-btn" data-spk-text="'+encodeURIComponent(fullText)+'">🔊</button></h3>';
+  if(step.why) h += '<div class="why"><strong>Vì sao quan trọng?</strong> '+highlight(step.why)+'</div>';
+  if(step.analogy) h += '<div class="analogy"><strong>Ghi nhớ dễ:</strong> '+highlight(step.analogy)+'</div>';
+  h += '<div class="body-text">'+highlight(step.body)+'</div>';
+  h += renderDeepPractice(step, 'theory');
+  h += '<div class="step-nav"><button class="btn sec" data-act="step-prev">← Trước</button><div class="step-dots">'+dots+'</div><button class="btn" data-act="step-next" id="next-btn" '+(lessonView.attempt && lessonView.attempt.passed ? '' : 'disabled')+'>Sau →</button></div>';
+  h += '</div>';
+  return h;
+}
+function renderDeepPractice(item, ctx){
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const a = lessonView.attempt;
+  const bp = item.blueprint;
+  const at = item.attempt;
+  let h = '';
+  if(bp){
+    h += '<div class="blueprint"><div class="bp-tag">BƯỚC 1 · QUAN SÁT</div><h4>👀 Nhìn cách trả lời</h4><div class="bp-prob"><b>Câu hỏi:</b> '+highlight(bp.problem)+'</div><div class="bp-sol">'+highlight(bp.solution)+'</div></div>';
+  }
+  h += '<div class="attempt"><div class="at-tag">BƯỚC 2 · LƯỢT EM</div><h4>✏️ Em hãy thử</h4><div class="at-prompt">'+highlight(at.prompt)+'</div>';
+  if(at.type === 'yesno'){
+    h += '<div class="yesno"><button data-act="dp-yesno" data-v="yes" '+(a.passed||a.state==='pause'?'disabled':'')+'>✓ Có</button><button data-act="dp-yesno" data-v="no" '+(a.passed||a.state==='pause'?'disabled':'')+'>✗ Không</button></div>';
+  } else if(at.type === 'choice'){
+    h += '<div class="choice-grid">';
+    at.choices.forEach((c,i)=>{
+      let cls = '';
+      if(a.history.length > 0 && a.passed){
+        if(i === at.correct) cls = 'ok';
+      }
+      h += '<button data-act="dp-choice" data-i="'+i+'" '+(a.passed||a.state==='pause'?'disabled':'')+' class="'+cls+'">'+highlight(c)+'</button>';
+    });
+    h += '</div>';
+  } else {
+    h += '<input type="text" class="at-input" id="dp-input" placeholder="'+(at.placeholder||'')+'" value="'+(a.lastInput||'').replace(/"/g,'&quot;')+'" '+(a.passed||a.state==='pause'?'disabled':'')+' autocomplete="off">';
+    h += '<div class="attempt-actions"><button class="btn" data-act="dp-submit" '+(a.passed||a.state==='pause'?'disabled':'')+'>Kiểm tra</button>'+(a.tries>0 && !a.passed?'<button class="btn sec" data-act="dp-reset">↻ Bắt đầu lại</button>':'')+'</div>';
+  }
+  if(a.history.length > 0){
+    h += '<div class="attempts-trail"><span>Lượt:</span>';
+    a.history.forEach((r,i)=>{ h += '<span class="at-dot '+(r?'ok':'no')+'">'+(i+1)+'</span>'; });
+    h += '</div>';
+  }
+  if(a.state === 'wrong' && a.lastMsg){
+    h += '<div class="stop-fix"><div class="sf-title">🛑 Dừng lại — kiểm tra lỗi</div><div class="sf-body">'+highlight(a.lastMsg)+'</div></div>';
+  }
+  if(a.state === 'pause'){
+    h += '<div class="replay"><div class="rp-title">🧘 Đọc thầm trong đầu...</div><div class="rp-count" id="rp-count">'+a.pauseLeft+'</div><div class="rp-text">Đọc lại bài giải mẫu, nhẩm các bước, rồi thử lại.</div></div>';
+  }
+  if(a.state === 'correct' && a.passed){
+    h += '<div class="success-card"><div class="sc-title">🎯 Đúng rồi!</div><div class="sc-body">'+highlight(at.explanation||'')+'</div>';
+    if(ctx === 'practice'){
+      h += '<div style="margin-top:10px"><button class="btn ok" data-act="practice-next">Câu tiếp →</button></div>';
+    }
+    h += '</div>';
+  }
+  if(a.revealed && !a.passed){
+    h += '<div class="success-card" style="background:linear-gradient(135deg,#fff7ed,#fef3c7);border-color:#fcd34d;"><div class="sc-title" style="color:#92400e">📖 Đáp án</div><div class="sc-body" style="color:#78350f">'+highlight(at.explanation||'')+'<br><br>Hãy đọc kỹ rồi tiếp tục.</div>';
+    if(ctx === 'practice'){
+      h += '<div style="margin-top:10px"><button class="btn warn" data-act="practice-next">Câu tiếp →</button></div>';
+    }
+    h += '</div>';
+  }
+  h += '</div>';
+  return h;
+}
+function renderPractice(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const total = lc.practice.length;
+  if(lessonView.practiceIdx >= total){
+    const correct = (lessonView.practiceCorrect || 0);
+    const pct = Math.round(correct/total*100);
+    setProgress(chId,lId,{ practice: Math.max(getProgress(chId,lId).practice, pct) });
+    const win = pct >= 80;
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Số câu đúng ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🎉 Tuyệt vời, Mika!':'💪 Cần ≥80% (4/5 câu) để mở Trò chơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="practice-restart">Làm lại</button>'+(win?'<button class="btn ok" data-act="goto-game">Sang Trò chơi →</button>':'')+'</div></div>';
+  }
+  const item = lc.practice[lessonView.practiceIdx];
+  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
+  h += renderDeepPractice(item, 'practice');
+  return h;
+}
+function renderGame(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const game = lc.game;
+  if(!lessonView.gameState){ lessonView.gameState = { round:0, picked:-1, score:0, streak:0, bonus:0, correctCount:0 }; }
+  const gs = lessonView.gameState;
+  if(gs.round >= game.events.length){
+    const total = gs.score + gs.bonus;
+    const max = game.events.length;
+    const pct = Math.round(gs.correctCount/max*100);
+    setProgress(chId,lId,{ game: Math.max(getProgress(chId,lId).game, pct) });
+    const win = pct >= 70;
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+gs.correctCount+'/'+max+'</div><div class="lbl">Số câu đúng ('+pct+'%) • Bonus streak: +'+gs.bonus+'</div><div style="margin-top:10px;font-size:13px">'+(win?'🎮 Mika quá giỏi!':'🎯 Chơi lại nhé!')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="game-restart">Chơi lại</button>'+(win?'<button class="btn ok" data-act="goto-quiz">Sang Kiểm tra →</button>':'')+'</div></div>';
+  }
+  const r = game.events[gs.round];
+  let h = '<div class="timeline-game"><h4>🎮 '+game.title+'</h4><div class="tiny">Vòng '+(gs.round+1)+'/'+game.events.length+' — '+game.desc+'</div>'+
+    '<div class="tg-stats"><div><span class="lbl">Đúng</span><span class="v">'+gs.correctCount+'</span></div><div><span class="lbl">🔥 Streak</span><span class="v">'+gs.streak+'</span></div><div><span class="lbl">Bonus</span><span class="v">+'+gs.bonus+'</span></div></div>'+
+    '<div class="tg-question">Sự kiện:</div><div class="tg-event">'+highlight(r.ev)+'</div>'+
+    '<div class="tg-question">Năm nào?</div><div class="choice-grid">';
+  r.years.forEach((y,i)=>{
+    let cls = '';
+    if(gs.picked === i){
+      cls = (i === r.correct ? 'ok' : 'no');
+    } else if(gs.picked >= 0 && i === r.correct){
+      cls = 'ok';
+    }
+    h += '<button data-act="game-pick" data-i="'+i+'" '+(gs.picked>=0?'disabled':'')+' class="'+cls+'">'+y+'</button>';
+  });
+  h += '</div>';
+  if(gs.picked >= 0){
+    h += '<div class="center" style="margin-top:10px"><button class="btn" data-act="game-next">Câu tiếp →</button></div>';
+  }
+  h += '</div>';
+  return h;
+}
+function renderQuiz(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const total = lc.quiz.length;
+  if(lessonView.quizIdx >= total){
+    const correct = lessonView.quizAnswers.filter((a,i)=>a===lc.quiz[i].ans).length;
+    const pct = Math.round(correct/total*100);
+    setProgress(chId,lId,{ quiz: Math.max(getProgress(chId,lId).quiz, pct) });
+    const win = pct >= 80;
+    if(win) celebrate();
+    let nextBtn = '';
+    if(win){
+      const ch = CURRICULUM.find(c=>c.id===chId);
+      const idx = ch.lessons.findIndex(x=>x.id===lId);
+      if(idx+1 < ch.lessons.length){ nextBtn = '<button class="btn ok" data-act="open-l" data-ch="'+chId+'" data-l="'+ch.lessons[idx+1].id+'">Bài tiếp →</button>'; }
+    }
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Điểm KT ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🏆 Mika đã ĐẠT!':'📚 Cần ≥80%, Mika ơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="quiz-restart">Làm lại</button>'+(!win?'<button class="btn warn" data-act="goto-theory">Ôn lại</button>':'')+nextBtn+'</div></div>';
+  }
+  const q = lc.quiz[lessonView.quizIdx];
+  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.quizIdx+1)+'/'+total+' • Cần 80%</div><div class="problem-q" style="margin-top:5px">'+highlight(q.q)+'</div><div class="opts">';
+  q.opts.forEach((o,i)=>{ h += '<button class="opt" data-act="quiz-ans" data-i="'+i+'">'+highlight(o)+'</button>'; });
+  h += '</div></div>';
+  return h;
+}
+
+function attachEvents(){
+  document.querySelectorAll('[data-act]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      handleAction(el.dataset.act, el);
+    });
+  });
+  document.querySelectorAll('[data-spk-text]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      speak(el, decodeURIComponent(el.dataset.spkText));
+    });
+  });
+  const inp = document.getElementById('dp-input');
+  if(inp && !inp.disabled) inp.focus();
+  if(inp){ inp.addEventListener('keydown', e=>{ if(e.key === 'Enter'){ e.preventDefault(); handleDeepSubmit(inp.value); } }); }
+}
+function handleAction(act, el){
+  switch(act){
+    case 'hub': view = {type:'hub'}; resetLessonView(); render(); break;
+    case 'open-ch': view = {type:'chapter', chId:el.dataset.ch}; resetLessonView(); render(); break;
+    case 'open-l': {
+      const chId = el.dataset.ch, lId = el.dataset.l;
+      const ch = CURRICULUM.find(c=>c.id===chId);
+      const l = ch.lessons.find(x=>x.id===lId);
+      if(!isLessonUnlocked(chId,lId)){ showToast('🔒 Bài này chưa mở.'); return; }
+      if(!l.built){ showToast('🚧 Bài này đang phát triển.'); return; }
+      view = {type:'lesson', chId:chId, lId:lId};
+      resetLessonView();
+      const p = getProgress(chId,lId);
+      lessonView.step = p.theorySteps > 0 ? p.theorySteps : -1;
+      const lc = LESSON_CONTENT[chId+'-'+lId];
+      if(lessonView.step >= lc.steps.length) lessonView.step = lc.steps.length - 1;
+      render(); break;
+    }
+    case 'tab': lessonView.tab = el.dataset.tab; lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.quizIdx=0; lessonView.quizAnswers=[]; lessonView.gameState=null; lessonView.attempt=null; render(); break;
+    case 'theory-start': lessonView.step = 0; lessonView.attempt = null; render(); break;
+    case 'step-prev':
+      stopReplay();
+      if(lessonView.step > 0){ lessonView.step--; lessonView.attempt = null; render(); }
+      else if(lessonView.step === 0){ lessonView.step = -1; lessonView.attempt = null; render(); }
+      break;
+    case 'step-next': {
+      stopReplay();
+      lessonView.step++;
+      lessonView.attempt = null;
+      const p = getProgress(view.chId,view.lId);
+      setProgress(view.chId,view.lId,{ theorySteps: Math.max(p.theorySteps, lessonView.step) });
+      render(); break;
+    }
+    case 'dp-submit': { const inp = document.getElementById('dp-input'); handleDeepSubmit(inp ? inp.value : ''); break; }
+    case 'dp-yesno': handleDeepSubmit(el.dataset.v); break;
+    case 'dp-choice': handleDeepSubmit(parseInt(el.dataset.i)); break;
+    case 'dp-reset': lessonView.attempt = null; render(); break;
+    case 'practice-next': {
+      if(lessonView.attempt && lessonView.attempt.passed && !lessonView.attempt.revealed){
+        lessonView.practiceCorrect = (lessonView.practiceCorrect||0) + 1;
+      }
+      lessonView.practiceIdx++;
+      lessonView.attempt = null;
+      stopReplay();
+      render(); break;
+    }
+    case 'practice-restart': lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.attempt=null; render(); break;
+    case 'quiz-ans': handleQuizAnswer(parseInt(el.dataset.i)); break;
+    case 'quiz-restart': lessonView.quizIdx=0; lessonView.quizAnswers=[]; render(); break;
+    case 'game-pick': handleGamePick(parseInt(el.dataset.i)); break;
+    case 'game-next': handleGameNext(); break;
+    case 'game-restart': lessonView.gameState = null; render(); break;
+    case 'goto-practice': lessonView.tab='practice'; lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.attempt=null; render(); break;
+    case 'goto-game': lessonView.tab='game'; lessonView.gameState=null; render(); break;
+    case 'goto-quiz': lessonView.tab='quiz'; lessonView.quizIdx=0; lessonView.quizAnswers=[]; render(); break;
+    case 'goto-theory': lessonView.tab='theory'; lessonView.step=-1; lessonView.attempt=null; render(); break;
+  }
+}
+function handleDeepSubmit(input){
+  const item = getCurrentDpItem();
+  if(!item) return;
+  const at = item.attempt;
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const a = lessonView.attempt;
+  if(a.passed || a.state === 'pause') return;
+  a.lastInput = input;
+  const result = validateAttempt(at, input);
+  a.tries++;
+  a.history.push(result.ok);
+  if(result.ok){ a.passed = true; a.state = 'correct'; }
+  else {
+    a.state = 'wrong';
+    a.lastMsg = result.msg || '<b>Chưa đúng.</b> Đọc lại bài, nhẩm trong đầu, rồi thử lại.';
+    if(a.tries >= 3){ a.revealed = true; a.passed = true; a.state = 'correct'; }
+  }
+  render();
+  if(!a.passed && !a.revealed){ setTimeout(()=>startReplay(), 500); }
+}
+function startReplay(){
+  const a = lessonView.attempt;
+  if(!a) return;
+  a.state = 'pause';
+  a.pauseLeft = 5;
+  render();
+  replayTimer = setInterval(()=>{
+    a.pauseLeft--;
+    const el = document.getElementById('rp-count');
+    if(el) el.textContent = a.pauseLeft;
+    if(a.pauseLeft <= 0){
+      clearInterval(replayTimer); replayTimer = null;
+      a.state = 'idle';
+      render();
+    }
+  }, 1000);
+}
+function stopReplay(){ if(replayTimer){ clearInterval(replayTimer); replayTimer = null; } }
+function resetLessonView(){
+  stopReplay();
+  lessonView = { tab:'theory', step:-1, attempt:null, practiceIdx:0, practiceCorrect:0, quizIdx:0, quizAnswers:[], gameState:null };
+}
+function handleQuizAnswer(i){
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  const q = lc.quiz[lessonView.quizIdx];
+  lessonView.quizAnswers.push(i);
+  const opts = document.querySelectorAll('.problem .opt');
+  opts.forEach((o,idx)=>{
+    o.disabled = true;
+    if(idx === q.ans) o.classList.add('ok');
+    else if(idx === i) o.classList.add('no');
+  });
+  setTimeout(()=>{ lessonView.quizIdx++; render(); }, 1100);
+}
+function handleGamePick(i){
+  const gs = lessonView.gameState;
+  if(gs.picked >= 0) return;
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  const r = lc.game.events[gs.round];
+  gs.picked = i;
+  if(i === r.correct){
+    gs.score++;
+    gs.correctCount++;
+    gs.streak++;
+    if(gs.streak >= 3) gs.bonus++;
+  } else {
+    gs.streak = 0;
+  }
+  render();
+}
+function handleGameNext(){
+  const gs = lessonView.gameState;
+  gs.round++;
+  gs.picked = -1;
+  render();
+}
+function attachTooltipTaps(){
+  document.querySelectorAll('.tip').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      document.querySelectorAll('.tip.act').forEach(t=>{ if(t!==el) t.classList.remove('act'); });
+      el.classList.toggle('act');
+    });
+  });
+  document.addEventListener('click', ()=>{
+    document.querySelectorAll('.tip.act').forEach(t=>t.classList.remove('act'));
+  });
+}
+function showToast(msg){
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:1000;max-width:90%;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.25)';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2400);
+}
+function celebrate(){
+  const colors = ['#a16207','#dc2626','#f59e0b','#d97706','#92400e','#fbbf24'];
+  for(let i=0;i<40;i++){
+    const c = document.createElement('div');
+    c.style.cssText = 'position:fixed;width:8px;height:8px;background:'+colors[i%colors.length]+';top:-10px;left:'+(Math.random()*100)+'%;z-index:1000;border-radius:2px;pointer-events:none';
+    document.body.appendChild(c);
+    const dur = 1500 + Math.random()*1500;
+    c.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:'translateY('+(window.innerHeight+20)+'px) rotate(1080deg)',opacity:.6}], {duration:dur,easing:'ease-in'});
+    setTimeout(()=>c.remove(), dur);
+  }
+}
+
+render();
+</script>
+</body>
+</html>

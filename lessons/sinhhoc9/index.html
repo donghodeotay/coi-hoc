@@ -1,0 +1,830 @@
+<!doctype html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Sinhhoc9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "Sinh học 9 (KNTT) hub for Mika — Bài 36 (Khái quát về di truyền học) fully built with deep-practice loop, comprehensive Vietnamese→English tooltips, Vườn đậu Mendel minigame, and 80% mastery quiz gating. Leaf-green + soft-pink theme. Cites SGK pp.158-161."
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sinh học 9 — Hành trình chinh phục</title>
+<style>
+:root {
+  color-scheme: light;
+  --leaf:#65a30d; --leaf-2:#4d7c0f; --leaf-soft:#ecfccb; --leaf-bg:#f7fee7;
+  --pink:#ec4899; --pink-soft:#fce7f3; --pink-bg:#fdf2f8;
+  --cream:#fffbeb;
+  --ink:#0f172a; --ink-2:#475569; --line:#e2e8f0;
+  --bg:#fefce8;
+  --good:#16a34a; --bad:#dc2626; --warn:#d97706;
+  --shadow:0 2px 8px rgba(101,163,13,.1);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:780px;margin:0 auto;padding:16px 18px 80px}
+header{background:linear-gradient(135deg,#bef264,#fbcfe8);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:14px}
+.hi{font-size:22px;font-weight:700;color:#365314;margin:0 0 4px}
+.hi-sub{font-size:13px;color:#3f6212;margin:0}
+.streak{display:inline-flex;gap:6px;align-items:center;background:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:var(--leaf-2);margin-top:8px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 14px}
+nav.tabs button{flex:1;min-width:100px;border:1px solid var(--line);background:#fff;padding:9px 8px;border-radius:12px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:all .15s}
+nav.tabs button.active{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+nav.tabs button:hover:not(.active){background:var(--leaf-soft);color:var(--leaf-2)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card h2{margin:0 0 6px;font-size:18px;color:var(--leaf-2)}
+.card h3{margin:14px 0 8px;font-size:15px;color:var(--ink)}
+.muted{color:var(--ink-2);font-size:13px}
+.cite{font-size:11px;color:var(--ink-2);background:var(--leaf-soft);padding:2px 8px;border-radius:6px;display:inline-block;margin-left:6px;vertical-align:middle}
+.tt{border-bottom:1.5px dotted var(--pink);cursor:help;position:relative;color:#831843;font-weight:500}
+.tt:hover::after,.tt:active::after{content:attr(data-tt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:400;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2);max-width:240px;white-space:normal;width:max-content}
+.step{border-left:4px solid var(--leaf);padding:14px 16px;background:var(--leaf-bg);border-radius:10px;margin:12px 0}
+.step .num{display:inline-block;background:var(--leaf);color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:13px;font-weight:700;margin-right:8px}
+.step .title{font-weight:700;font-size:15px}
+.step .body{margin-top:10px;font-size:14px}
+.analogy{background:var(--pink-bg);border-left:4px solid var(--pink);padding:10px 14px;border-radius:8px;margin:10px 0;font-size:13px;font-style:italic;color:#831843}
+.analogy::before{content:"💡 ";font-style:normal}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.before-after>div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fee2e2;color:#7f1d1d}
+.after{background:var(--leaf-soft);color:#365314}
+.cross{display:flex;align-items:center;justify-content:center;gap:14px;margin:12px 0;padding:14px;background:var(--cream);border-radius:12px;flex-wrap:wrap}
+.cross .plant{text-align:center;font-size:13px}
+.cross .plant .icon{font-size:34px;line-height:1}
+.cross .x{font-size:24px;color:var(--pink);font-weight:700}
+.gen-row{display:flex;gap:12px;justify-content:center;margin:8px 0;flex-wrap:wrap;font-size:13px}
+.gen-row .label{font-weight:700;color:var(--leaf-2)}
+.chip{display:inline-block;padding:3px 10px;background:var(--leaf-soft);color:var(--leaf-2);border-radius:999px;font-size:12px;margin:2px;font-weight:500}
+.chip.bad{background:#fee2e2;color:#991b1b}
+.chip.pink{background:var(--pink-soft);color:#831843}
+.btn{background:var(--leaf);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all .15s}
+.btn:hover{background:var(--leaf-2)}
+.btn.alt{background:var(--pink)}
+.btn.alt:hover{background:#db2777}
+.btn.ghost{background:#fff;color:var(--leaf-2);border:1.5px solid var(--leaf)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.problem{background:#fff;border:2px solid var(--leaf-soft);border-radius:12px;padding:14px;margin:12px 0}
+.problem .q{font-weight:600;margin-bottom:8px;font-size:14px}
+.problem input,.problem textarea{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit}
+.problem input:focus,.problem textarea:focus{outline:none;border-color:var(--leaf)}
+.feedback{margin-top:8px;padding:10px;border-radius:8px;font-size:13px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--leaf-soft);color:#365314;border-left:3px solid var(--good)}
+.feedback.no{background:#fee2e2;color:#7f1d1d;border-left:3px solid var(--bad)}
+.pause{display:none;margin-top:10px;padding:12px;background:var(--cream);border-radius:8px;text-align:center;font-size:14px;color:#78350f}
+.pause.show{display:block}
+.pause .timer{font-size:32px;font-weight:700;color:var(--pink);margin:6px 0}
+.attempts{font-size:11px;color:var(--ink-2);text-align:right;margin-top:4px}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:10px;margin:6px 0;cursor:pointer;font-size:14px;transition:all .15s;color:var(--ink)}
+.opt:hover{border-color:var(--leaf);background:var(--leaf-bg)}
+.opt.picked{border-color:var(--leaf);background:var(--leaf-soft);font-weight:600}
+.opt.right{border-color:var(--good);background:var(--leaf-soft)}
+.opt.wrong{border-color:var(--bad);background:#fee2e2}
+.garden-stage{background:linear-gradient(180deg,#f7fee7,#fce7f3);padding:18px;border-radius:14px;text-align:center;margin:14px 0;border:2px dashed var(--pink)}
+.garden-emoji{font-size:50px;line-height:1;margin:6px 0}
+.garden-q{font-size:15px;font-weight:600;margin:10px 0}
+.score-pill{display:inline-block;background:var(--leaf);color:#fff;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.chapter{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;margin:6px 0;background:#fff}
+.chapter.curr{border-color:var(--leaf);background:var(--leaf-bg)}
+.chapter .badge{width:28px;height:28px;border-radius:50%;background:var(--leaf-soft);color:var(--leaf-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.chapter.curr .badge{background:var(--leaf);color:#fff}
+.chapter .name{font-size:13px;flex:1}
+.chapter .lock{font-size:12px;color:var(--ink-2)}
+.progress-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0}
+.progress-bar>div{height:100%;background:linear-gradient(90deg,var(--leaf),var(--pink));transition:width .3s}
+.tip{background:var(--pink-bg);border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0;color:#831843}
+.tip::before{content:"🌸 ";}
+.punnett{display:grid;grid-template-columns:auto auto auto;gap:4px;max-width:240px;margin:10px auto;font-size:14px;text-align:center}
+.punnett .h{background:var(--pink-soft);font-weight:700;padding:8px;border-radius:6px;color:#831843}
+.punnett .c{background:var(--leaf-soft);padding:8px;border-radius:6px;font-weight:600;color:#365314}
+@media (max-width:600px){
+  .wrap{padding:12px 14px 80px}
+  header{padding:14px 16px}
+  .hi{font-size:19px}
+  nav.tabs button{flex-basis:calc(50% - 6px);font-size:12px;padding:8px 6px}
+  .before-after{grid-template-columns:1fr}
+  .step{padding:12px 14px}
+  .card{padding:14px}
+  .garden-emoji{font-size:42px}
+  .cross{gap:8px}
+  .cross .plant .icon{font-size:28px}
+}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 class="hi">Chào Mika! 🌱</h1>
+  <p class="hi-sub">Sinh học 9 — Hành trình chinh phục</p>
+  <span class="streak" id="streakPill">🔥 <span id="streakNum">0</span> ngày liên tục</span>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="hub" class="active">📚 Tổng quan</button>
+  <button data-tab="theory">📖 Lý thuyết</button>
+  <button data-tab="practice">✍️ Luyện tập</button>
+  <button data-tab="game">🎮 Vườn đậu</button>
+  <button data-tab="quiz">🏆 Kiểm tra</button>
+</nav>
+
+<!-- HUB -->
+<section id="tab-hub" class="tab">
+  <div class="card">
+    <h2>Hành trình của Mika</h2>
+    <p class="muted">Sinh học 9 mở ra cánh cửa <strong>di truyền học</strong> — môn học giải thích vì sao em giống bố mẹ, vì sao mèo con giống mèo mẹ. Bắt đầu từ <strong>Bài 36</strong>.</p>
+    <div class="progress-bar"><div id="overallProgress" style="width:0%"></div></div>
+    <p class="muted" style="margin-top:6px">Tiến độ: <span id="overallPct">0</span>%</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--leaf-2)">Chương XI — Di truyền học Mendel. Cơ sở phân tử của hiện tượng di truyền</h3>
+    <div class="chapter curr"><div class="badge">36</div><div class="name"><strong>Khái quát về di truyền học</strong> — bài đầu tiên 🌱</div><div class="lock">Mở</div></div>
+    <div class="chapter"><div class="badge">37</div><div class="name">Các quy luật di truyền của Mendel</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">38</div><div class="name">Nucleic acid và gene</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">39</div><div class="name">Tái bản DNA và phiên mã, dịch mã</div><div class="lock">🔒</div></div>
+
+    <h3 style="color:var(--leaf-2)">Chương XII — Di truyền nhiễm sắc thể</h3>
+    <div class="chapter"><div class="badge">40</div><div class="name">Nhiễm sắc thể và bộ nhiễm sắc thể</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">41</div><div class="name">Đột biến gene và đột biến nhiễm sắc thể</div><div class="lock">🔒</div></div>
+
+    <h3 style="color:var(--leaf-2)">Chương XIII — Di truyền học người. Tiến hoá và đa dạng sinh học</h3>
+    <div class="chapter"><div class="badge">42</div><div class="name">Di truyền học người và bệnh di truyền</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">43</div><div class="name">Học thuyết tiến hoá</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">44</div><div class="name">Sự phát sinh và phát triển sự sống trên Trái Đất</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">45</div><div class="name">Đa dạng sinh học và bảo tồn</div><div class="lock">🔒</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Cách học của Mika</h3>
+    <p class="muted">Bốn phần nhỏ, giống bốn cánh hoa:</p>
+    <p style="font-size:13px;line-height:1.8">
+      <span class="chip">📖 Lý thuyết</span> Hiểu khái niệm, kèm chú thích tiếng Anh.<br>
+      <span class="chip pink">✍️ Luyện tập</span> Sai → dừng, sửa, nghỉ 5 giây, thử lại.<br>
+      <span class="chip">🎮 Vườn đậu</span> Trồng đậu Hà Lan như Mendel — đoán màu hoa F₁, F₂.<br>
+      <span class="chip pink">🏆 Kiểm tra</span> Đạt 80% để mở khoá Bài 37.
+    </p>
+    <div class="tip">Hover vào chữ <span class="tt" data-tt="trait">tính trạng</span> để xem nghĩa tiếng Anh!</div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="tab-theory" class="tab hidden">
+  <div class="card">
+    <h2>Bài 36 — Khái quát về di truyền học <span class="cite">SGK trang 158–161</span></h2>
+    <p class="muted">11 bước nhỏ. Đọc xong từng bước, đánh dấu ✓ rồi sang bước tiếp theo.</p>
+  </div>
+  <div id="theoryContent"></div>
+  <div class="card" style="text-align:center">
+    <p class="muted">Đã đọc xong? Sang Luyện tập để kiểm tra hiểu bài.</p>
+    <button class="btn" onclick="switchTab('practice')">Sang Luyện tập →</button>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+<section id="tab-practice" class="tab hidden">
+  <div class="card">
+    <h2>Luyện tập — sai cũng không sao</h2>
+    <p class="muted">3 lần thử mỗi câu. Sai? Mika thấy chỗ sai, nghỉ 5 giây trong đầu, rồi thử lại.</p>
+  </div>
+  <div id="practiceContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn alt" onclick="switchTab('game')">🌱 Vào Vườn đậu →</button>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="tab-game" class="tab hidden">
+  <div class="card">
+    <h2>🌱 Vườn đậu Mendel</h2>
+    <p class="muted">Mika làm Mendel — lai cây đậu hoa tím (TT) với hoa trắng (tt). Đoán xem F₁, F₂ ra hoa màu gì. 10 câu, đoán đúng càng nhiều, càng nhiều bông hoa 🌺</p>
+    <p>Điểm: <span class="score-pill" id="gameScore">0/0</span> · Lượt: <span id="gameRound">1/10</span></p>
+  </div>
+  <div class="card garden-stage" id="gameStage">
+    <div class="garden-emoji" id="gameEmoji">🌱</div>
+    <div class="garden-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+    <div id="gameOptions"></div>
+    <div id="gameFb" class="feedback"></div>
+    <div style="margin-top:12px">
+      <button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+      <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="tab-quiz" class="tab hidden">
+  <div class="card">
+    <h2>🏆 Kiểm tra cuối Bài 36</h2>
+    <p class="muted">6 câu hỏi. Đạt <strong>80%+</strong> để mở khoá Bài 37.</p>
+    <p>Trạng thái: <span id="quizStatus" class="chip">chưa làm</span></p>
+  </div>
+  <div id="quizContent"></div>
+  <div class="card hidden" id="quizResult">
+    <h3 id="quizScore"></h3>
+    <p id="quizMsg"></p>
+    <button class="btn" onclick="resetQuiz()">Làm lại</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+// ===== Config =====
+const CFG = {
+  subject: 'sinhhoc9',
+  progressKey: 'sinhhoc9-progress',
+  activityKey: 'toan9-activity',
+  passThreshold: 0.8,
+  attemptLimit: 3,
+  pauseSeconds: 5
+};
+
+// ===== Tooltip dictionary =====
+const dict = {
+  // Genetics core
+  'di truyền học':'genetics','di truyền':'heredity','biến dị':'variation',
+  'gene':'gene','allele':'allele','locus':'locus',
+  'kiểu gene':'genotype','kiểu hình':'phenotype',
+  'tính trạng':'trait/character','tính trạng trội':'dominant trait','tính trạng lặn':'recessive trait',
+  'tính trạng tương phản':'contrasting trait','trội':'dominant','lặn':'recessive',
+  'thuần chủng':'purebred','lai':'cross-breed','phép lai':'cross','cặp lai':'cross pair',
+  'thế hệ':'generation','bố mẹ':'parents','con':'offspring','đời con':'offspring generation',
+  'cha':'father','mẹ':'mother','con cái':'children',
+  'P':'parents (P)','F1':'first generation','F2':'second generation','F₁':'first filial',
+  'đồng hợp':'homozygous','dị hợp':'heterozygous','đồng hợp tử':'homozygote',
+  'nhiễm sắc thể':'chromosome','ADN':'DNA','DNA':'DNA','nucleic acid':'nucleic acid',
+  'đột biến':'mutation','tiến hoá':'evolution','di truyền học người':'human genetics',
+  // Mendel & pea
+  'Mendel':'Gregor Mendel — father of genetics','Gregor':'Gregor (Mendel\'s first name)',
+  'đậu Hà Lan':'pea plant (Pisum sativum)','đậu':'pea','cây':'plant','cây trồng':'crop plant',
+  'hoa':'flower','hạt':'seed','vỏ hạt':'seed coat','quả':'fruit/pod',
+  'lá':'leaf','rễ':'root','thân':'stem','vườn':'garden',
+  'thí nghiệm':'experiment','phương pháp':'method','khoa học':'science',
+  'cha đẻ':'father (founder)','nền móng':'foundation',
+  // Trait values from textbook
+  'cao':'tall','thấp':'short/dwarf','dài':'long','ngắn':'short',
+  'tím':'purple','trắng':'white','xanh':'green','vàng':'yellow',
+  'nhăn':'wrinkled','trơn':'smooth','tròn':'round','bầu':'oval',
+  'đỏ':'red','hồng':'pink','xanh dương':'blue','màu':'color',
+  // Bio terms
+  'sinh vật':'organism','sinh học':'biology','tế bào':'cell','cá thể':'individual',
+  'loài':'species','quần thể':'population','môi trường':'environment',
+  'cấu trúc':'structure','chức năng':'function','hình thái':'morphology',
+  'sinh lí':'physiology','phát triển':'development','sinh sản':'reproduction',
+  'di truyền cho':'pass on to','giữ lại':'retain','xuất hiện':'appear',
+  // Generic verbs
+  'là':'is','có':'has','được':'is/can be','dùng':'used',
+  'làm':'make','tạo':'create','sử dụng':'use','quan sát':'observe',
+  'ví dụ':'example','như':'like/such as','các':'the/various','một':'one',
+  'mỗi':'each','khác':'different','khác nhau':'different from each other',
+  'giống':'similar to','giống nhau':'identical','tương tự':'similar',
+  'hai':'two','ba':'three','bốn':'four','tất cả':'all','hầu hết':'most',
+  // Lesson chrome
+  'bài':'lesson','chương':'chapter','mục tiêu':'objective','tổng kết':'summary',
+  'em đã học':'what you learned','em có thể':'you can',
+  'lý thuyết':'theory','luyện tập':'practice','kiểm tra':'quiz',
+  'mở khoá':'unlock','khoá':'locked','tiến độ':'progress',
+  'điểm':'score','đúng':'correct','sai':'wrong','câu hỏi':'question',
+  'câu trả lời':'answer','chọn':'pick','bấm':'click','tiếp':'next',
+  'lượt':'round','lần':'time','thử':'try','thử lại':'try again',
+  'làm lại':'redo','bắt đầu':'start',
+  // Time / counting
+  'ngày':'day','liên tục':'in a row','phút':'minute','giây':'second',
+  // Common
+  'chỉ':'only','rất':'very','nếu':'if','khi':'when','trong':'in',
+  'với':'with','của':'of','và':'and','hoặc':'or','nhưng':'but',
+  'vì':'because','nên':'so','do':'because of','để':'in order to',
+  'không':'not','cũng':'also','luôn':'always','thường':'usually'
+};
+
+function escapeRegex(s){return s.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&')}
+function applyTooltips(html){
+  if(!html) return html;
+  const segs = html.split(/(<[^>]*>)/g);
+  const keys = Object.keys(dict).sort((a,b)=>b.length-a.length);
+  return segs.map(seg=>{
+    if(!seg || seg.startsWith('<')) return seg;
+    let out = seg;
+    for(const k of keys){
+      const re = new RegExp(`(^|[^a-zà-ỹÀ-Ỹ])(${escapeRegex(k)})(?![a-zà-ỹÀ-Ỹ])`,'gi');
+      out = out.replace(re,(m,pre,word)=>`${pre}<span class="tt" data-tt="${dict[k]}">${word}</span>`);
+    }
+    return out;
+  }).join('');
+}
+
+// ===== Progress =====
+function loadProg(){
+  try{return JSON.parse(localStorage.getItem(CFG.progressKey))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+  catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+}
+function saveProg(p){localStorage.setItem(CFG.progressKey,JSON.stringify(p))}
+function bumpActivity(){
+  const today = new Date().toISOString().slice(0,10);
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  act[today]=(act[today]||0)+1;
+  localStorage.setItem(CFG.activityKey,JSON.stringify(act));
+  updateStreak();
+}
+function updateStreak(){
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  let n=0; const d=new Date();
+  while(true){
+    const k=d.toISOString().slice(0,10);
+    if(act[k])n++; else if(n>0||k!==new Date().toISOString().slice(0,10))break;
+    d.setDate(d.getDate()-1);
+    if(n>365)break;
+  }
+  document.getElementById('streakNum').textContent=n;
+}
+function updateOverall(){
+  const p=loadProg();
+  const total=11+5+10+1;
+  const done=p.theory+p.practice+p.game+(p.quizPassed?1:0);
+  const pct=Math.round(100*done/total);
+  document.getElementById('overallProgress').style.width=pct+'%';
+  document.getElementById('overallPct').textContent=pct;
+}
+
+// ===== Tabs =====
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById('tab-'+name).classList.remove('hidden');
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+// ===== Theory =====
+const steps = [
+  {
+    title:'1. Mở đầu — vì sao em giống bố mẹ?',
+    body:`<p>Mika có đôi mắt giống mẹ. Tóc giống bố. Nhưng tính cách lại khác cả hai. Vì sao?</p>
+    <p>Đó là <strong>di truyền</strong> — bố mẹ truyền đặc điểm cho con; và <strong>biến dị</strong> — con vẫn có những điểm khác bố mẹ. Hai hiện tượng này đi đôi với nhau.</p>`,
+    analogy:'Như vẽ chân dung — nhìn vào tranh, bạn nhận ra bố mẹ trong gương mặt em (di truyền), nhưng vẫn có nét riêng chỉ em mới có (biến dị).',
+    before:'Trước: em giống bố mẹ vì... ngẫu nhiên?',
+    after:'Sau: di truyền là quy luật, không phải ngẫu nhiên. Có khoa học giải thích.'
+  },
+  {
+    title:'2. Di truyền là gì?',
+    body:`<p><strong>Di truyền (heredity)</strong>: hiện tượng bố mẹ truyền những đặc điểm của mình cho con cái.</p>
+    <p>Ví dụ: bố mẹ nhóm máu A → con thường có nhóm máu A. Mèo mẹ tam thể → mèo con thường tam thể.</p>`,
+    analogy:'Giống như Mika nhận quà từ bố mẹ — nhưng quà ở đây là gene, không phải đồ chơi.',
+    before:'Trước: di truyền chỉ nghe trong phim.',
+    after:'Sau: di truyền có định nghĩa rõ — bố mẹ chuyển đặc điểm cho con qua gene.'
+  },
+  {
+    title:'3. Biến dị là gì?',
+    body:`<p><strong>Biến dị (variation)</strong>: hiện tượng con cái có những đặc điểm khác bố mẹ và khác cả các anh chị em ruột.</p>
+    <p>Hai chị em ruột vẫn khác chiều cao, màu mắt, tính cách — đó là biến dị.</p>`,
+    analogy:'Một mẻ bánh quy cùng công thức nhưng mỗi cái vẫn có hình dạng hơi khác — biến dị giống vậy.',
+    before:'Trước: anh chị em phải giống y nhau.',
+    after:'Sau: anh chị em đều có biến dị — đó là chuyện bình thường, có thật và đo được.'
+  },
+  {
+    title:'4. Tính trạng — đặc điểm đo được',
+    body:`<p><strong>Tính trạng (trait)</strong>: đặc điểm hình thái, cấu tạo, sinh lí của một cá thể.</p>
+    <p>Ví dụ tính trạng: chiều cao, màu mắt, hình dạng hạt (tròn/nhăn), màu hoa (tím/trắng).</p>`,
+    analogy:'Tính trạng = các "ô" trong thẻ căn cước sinh học: cao 1m50, mắt nâu, tóc đen — mỗi ô là một tính trạng.',
+    before:'Trước: "đặc điểm" nghe mơ hồ.',
+    after:'Sau: tính trạng có thể đo, đếm, so sánh giữa các cá thể.'
+  },
+  {
+    title:'5. Tính trạng tương phản',
+    body:`<p><strong>Tính trạng tương phản</strong>: hai trạng thái biểu hiện trái ngược nhau của cùng một tính trạng.</p>
+    <p>Ví dụ:</p>
+    <p><span class="chip">Hoa tím vs hoa trắng</span> <span class="chip">Hạt trơn vs hạt nhăn</span> <span class="chip">Cây cao vs cây thấp</span> <span class="chip">Vỏ hạt vàng vs xanh</span></p>`,
+    analogy:'Như công tắc đèn: BẬT hoặc TẮT, không có giữa. Tính trạng tương phản là "cặp đôi đối lập".',
+    before:'Trước: tính trạng có thể có nhiều mức độ.',
+    after:'Sau: với mỗi tính trạng có thể tách thành các cặp tương phản — dễ nghiên cứu hơn.'
+  },
+  {
+    title:'6. Mendel — cha đẻ di truyền học',
+    body:`<p>Gregor Johann <strong>Mendel</strong> (1822–1884) là tu sĩ và nhà sinh học người Áo-Hung. Ông là người đầu tiên nghiên cứu di truyền bằng phương pháp khoa học.</p>
+    <p>Ông trồng đậu Hà Lan trong vườn tu viện suốt 8 năm, lai hàng nghìn cây, đếm hàng nghìn hạt — và phát hiện ra các quy luật di truyền.</p>`,
+    analogy:'Hình dung Mendel như một thám tử — ông quan sát rất nhiều "vụ án" (cặp lai) để tìm quy luật chung. Kiên nhẫn là siêu năng lực.',
+    before:'Trước: di truyền là chuyện huyền bí, không ai hiểu.',
+    after:'Sau: từ năm 1865, di truyền đã có khoa học — nhờ Mendel.'
+  },
+  {
+    title:'7. Vì sao Mendel chọn đậu Hà Lan?',
+    body:`<p>Mendel chọn đậu Hà Lan vì:</p>
+    <p>• <strong>Vòng đời ngắn</strong> — một năm có thể trồng 2 vụ.<br>
+    • <strong>Có nhiều tính trạng tương phản rõ ràng</strong> — hoa tím/trắng, hạt trơn/nhăn...<br>
+    • <strong>Tự thụ phấn được</strong> → tạo dòng thuần chủng dễ.<br>
+    • <strong>Có thể giao phấn nhân tạo</strong> → kiểm soát phép lai.</p>`,
+    analogy:'Mendel chọn đậu Hà Lan giống như em chọn đề tài dự án — phải đơn giản, đo được, làm xong trong thời gian cho phép.',
+    before:'Trước: Mendel chọn đậu Hà Lan vì... thích đậu?',
+    after:'Sau: Mendel chọn vì đậu là "đối tượng nghiên cứu lý tưởng" — quan trọng cho thiết kế thí nghiệm.'
+  },
+  {
+    title:'8. Thí nghiệm: P → F₁ → F₂',
+    body:`<p>Mendel lai cây đậu hoa tím <strong>thuần chủng</strong> với cây hoa trắng thuần chủng:</p>
+    <div class="cross">
+      <div class="plant"><div class="icon">🟣</div>P: hoa tím</div>
+      <div class="x">×</div>
+      <div class="plant"><div class="icon">⚪</div>P: hoa trắng</div>
+    </div>
+    <div class="gen-row"><span class="label">F₁:</span> <span>100% hoa tím 🟣</span></div>
+    <div class="gen-row"><span class="label">F₂ (cho F₁ × F₁):</span> <span>~3 hoa tím : 1 hoa trắng</span></div>
+    <p>Bất ngờ: F₁ chỉ có hoa tím, hoa trắng "biến mất". Nhưng đến F₂, hoa trắng <em>xuất hiện trở lại</em> theo tỉ lệ 3:1.</p>`,
+    analogy:'Như món soup: trộn nước tím + nước trắng → tưởng được hồng nhạt. Nhưng F₁ ra tím nguyên chất, không pha. Đến F₂, trắng hiện trở lại — như có "công tắc giấu" bên trong.',
+    before:'Trước: lai hai màu sẽ ra màu pha trộn.',
+    after:'Sau: tính trạng không "pha trộn" — chúng theo quy luật trội/lặn.'
+  },
+  {
+    title:'9. Tính trạng trội và lặn',
+    body:`<p>Tính trạng tím xuất hiện ở F₁ → gọi là <strong>tính trạng trội</strong> (dominant).<br>
+    Tính trạng trắng "ẩn đi" ở F₁ rồi hiện lại ở F₂ → gọi là <strong>tính trạng lặn</strong> (recessive).</p>
+    <p>Quy ước viết:</p>
+    <p><span class="chip">A = allele trội (tím)</span> <span class="chip pink">a = allele lặn (trắng)</span></p>
+    <p>Ba kiểu gene có thể có:</p>
+    <p>• <strong>AA</strong> — đồng hợp trội → kiểu hình tím<br>
+    • <strong>Aa</strong> — dị hợp → kiểu hình tím (vì A trội)<br>
+    • <strong>aa</strong> — đồng hợp lặn → kiểu hình trắng</p>`,
+    analogy:'A và a là hai "tấm thẻ" — mỗi cây cầm 2 thẻ, một từ mẹ, một từ bố. Thẻ A "to tiếng" hơn thẻ a, nên có A là biểu hiện theo A.',
+    before:'Trước: hai tính trạng phải pha trộn.',
+    after:'Sau: tính trạng có cấp bậc — trội thì hiện ra, lặn thì ẩn cho đến khi gặp aa.'
+  },
+  {
+    title:'10. Thuật ngữ và kí hiệu',
+    body:`<p>Học từ vựng để đọc bài tập:</p>
+    <p><span class="chip">P</span> = cặp bố mẹ (parents)<br>
+    <span class="chip">×</span> = phép lai<br>
+    <span class="chip">F₁</span> = thế hệ con đời 1<br>
+    <span class="chip">F₂</span> = thế hệ con đời 2 (con của F₁)<br>
+    <span class="chip pink">Gene</span> = đơn vị di truyền — mang thông tin về một tính trạng<br>
+    <span class="chip pink">Allele</span> = các dạng khác nhau của cùng một gene (vd: A và a)<br>
+    <span class="chip">Kiểu gene</span> = tổ hợp các allele (AA, Aa, aa)<br>
+    <span class="chip">Kiểu hình</span> = biểu hiện ra ngoài (tím, trắng)</p>`,
+    analogy:'Kiểu gene = công thức nấu ăn (giấy ghi). Kiểu hình = món ăn ra đĩa (mình ăn được). Có công thức rồi mới ra món, nhưng cùng công thức có thể trông hơi khác do nồi nấu.',
+    before:'Trước: P, F₁, F₂ là gì? Không biết.',
+    after:'Sau: đọc đề "P: AA × aa, tìm F₁" thì hiểu ngay là đang nói về phép lai bố mẹ.'
+  },
+  {
+    title:'11. Ý nghĩa của di truyền học',
+    body:`<p>Di truyền học giúp:</p>
+    <p>• <strong>Y học</strong>: phát hiện và phòng các bệnh di truyền (Down, thalassemia...)<br>
+    • <strong>Nông nghiệp</strong>: tạo giống lúa năng suất cao, giống hoa đẹp, giống bò sữa nhiều sữa<br>
+    • <strong>Pháp y</strong>: xét nghiệm ADN để xác định danh tính, mối quan hệ gia đình<br>
+    • <strong>Bảo tồn</strong>: lưu giữ đa dạng sinh học, cứu các loài quý hiếm</p>`,
+    analogy:'Di truyền học như chìa khoá — mở nhiều cánh cửa: bệnh viện, ruộng đồng, phòng xử án, công viên thú.',
+    before:'Trước: di truyền học chỉ là môn khô khan trong sách.',
+    after:'Sau: di truyền học có mặt trong cuộc sống hằng ngày — từ bữa cơm đến bệnh viện.'
+  }
+];
+
+function renderTheory(){
+  const p=loadProg();
+  const cont=document.getElementById('theoryContent');
+  cont.innerHTML='';
+  steps.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='step';
+    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
+    <div class="body">${applyTooltips(s.body)}</div>
+    <div class="analogy">${applyTooltips(s.analogy)}</div>
+    <div class="before-after">
+      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
+      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+    </div>
+    <div style="text-align:right;margin-top:8px">
+      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
+    </div>`;
+    cont.appendChild(el);
+  });
+}
+function markStep(i){
+  const p=loadProg();
+  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
+  renderTheory();updateOverall();
+}
+
+// ===== Practice =====
+const practice = [
+  {
+    q:'Đặc điểm <strong>chiều cao của cây đậu</strong> (cao hay thấp) là gì? <em>Một từ.</em>',
+    hint:'Đặc điểm hình thái có thể đo được — gọi là gì?',
+    accept:[/^t(í|i)nh\s*tr(ạ|a)ng$/i,/^trait$/i],
+    answer:'Tính trạng',
+    explain:'Tính trạng là đặc điểm hình thái/cấu tạo/sinh lí có thể đo, đếm, so sánh.'
+  },
+  {
+    q:'Lai cây hoa tím thuần chủng (AA) với cây hoa trắng thuần chủng (aa). <strong>F₁</strong> có kiểu gene gì?',
+    hint:'Mỗi cây con nhận 1 allele từ mỗi bố mẹ.',
+    accept:[/^aa$/i,/^aa\s*\(d(ị|i)\s*h(ợ|o)p\)/i],
+    answer:'Aa',
+    explain:'Bố cho A, mẹ cho a → F₁ là Aa (dị hợp). Vì A trội nên kiểu hình của F₁ là hoa tím.'
+  },
+  {
+    q:'F₁ ở câu trên có <strong>kiểu hình</strong> là gì? (tím hay trắng)',
+    hint:'A là trội — có A là biểu hiện theo A.',
+    accept:[/^t(í|i)m$/i,/^purple$/i,/hoa\s*t(í|i)m/i],
+    answer:'Tím (vì có allele A trội)',
+    explain:'Aa → có A → biểu hiện kiểu hình tím. Đây là tính trạng trội.'
+  },
+  {
+    q:'Tính trạng <strong>biểu hiện ngay ở F₁</strong> được gọi là gì?',
+    hint:'Đối lập với "lặn".',
+    accept:[/^tr(ộ|o)i$/i,/^t(í|i)nh\s*tr(ạ|a)ng\s*tr(ộ|o)i$/i,/^dominant$/i],
+    answer:'Tính trạng trội',
+    explain:'Trội = hiện ra khi có ít nhất 1 allele đó. Lặn = chỉ hiện khi cả 2 allele đều là dạng lặn.'
+  },
+  {
+    q:'Cây có kiểu gene <strong>aa</strong> sẽ có kiểu hình gì? (tím hay trắng)',
+    hint:'Allele a là lặn — kiểu hình lặn chỉ hiện khi cả 2 allele đều là a.',
+    accept:[/^tr(ắ|a)ng$/i,/^white$/i,/hoa\s*tr(ắ|a)ng/i],
+    answer:'Trắng',
+    explain:'aa = đồng hợp lặn → cả 2 allele đều là dạng lặn → kiểu hình lặn (trắng) hiện ra.'
+  }
+];
+let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
+function renderPractice(){
+  const cont=document.getElementById('practiceContent');
+  cont.innerHTML='';
+  practice.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='problem';
+    div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
+    <input type="text" id="pin-${i}" placeholder="Nhập câu trả lời..." ${prState[i].solved?'disabled':''}>
+    <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>
+    <div style="margin-top:8px">
+      <button class="btn" id="pbtn-${i}" onclick="checkAnswer(${i})" ${prState[i].solved?'disabled':''}>Kiểm tra</button>
+      <button class="btn ghost" onclick="showHint(${i})">💡 Gợi ý</button>
+    </div>
+    <div id="pause-${i}" class="pause">⏸️ Dừng lại 5 giây — nhắm mắt, hình dung lại lý thuyết, rồi thử lại.<div class="timer" id="ptimer-${i}">5</div></div>
+    <div id="pfb-${i}" class="feedback"></div>`;
+    cont.appendChild(div);
+  });
+}
+function showHint(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show';fb.style.background='#fef3c7';fb.style.color='#78350f';fb.style.borderLeftColor='#d97706';
+  fb.innerHTML='💡 '+applyTooltips(practice[i].hint);
+}
+function checkAnswer(i){
+  if(prState[i].paused||prState[i].solved)return;
+  const val=(document.getElementById('pin-'+i).value||'').trim();
+  if(!val)return;
+  const ok=practice[i].accept.some(re=>re.test(val.replace(/\s+/g,' ').trim()));
+  prState[i].attempts++;
+  document.getElementById('pat-'+i).textContent=prState[i].attempts;
+  const fb=document.getElementById('pfb-'+i);
+  if(ok){
+    prState[i].solved=true;
+    fb.className='feedback show ok';
+    fb.innerHTML=`✓ Đúng rồi! ${applyTooltips(practice[i].explain)}`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p);bumpActivity()}
+    updateOverall();
+    return;
+  }
+  if(prState[i].attempts>=CFG.attemptLimit){
+    fb.className='feedback show no';
+    fb.innerHTML=`Đã thử ${CFG.attemptLimit} lần. Đáp án: <strong>${practice[i].answer}</strong>.<br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    return;
+  }
+  fb.className='feedback show no';
+  fb.innerHTML=`Chưa đúng. Hãy đọc lại câu hỏi và <em>nghĩ kĩ</em>. Còn ${CFG.attemptLimit-prState[i].attempts} lần.`;
+  prState[i].paused=true;
+  document.getElementById('pbtn-'+i).disabled=true;
+  document.getElementById('pin-'+i).disabled=true;
+  const pauseEl=document.getElementById('pause-'+i);
+  pauseEl.classList.add('show');
+  let n=CFG.pauseSeconds;
+  document.getElementById('ptimer-'+i).textContent=n;
+  const tk=setInterval(()=>{
+    n--;document.getElementById('ptimer-'+i).textContent=n;
+    if(n<=0){
+      clearInterval(tk);
+      pauseEl.classList.remove('show');
+      prState[i].paused=false;
+      document.getElementById('pbtn-'+i).disabled=false;
+      document.getElementById('pin-'+i).disabled=false;
+      document.getElementById('pin-'+i).focus();
+    }
+  },1000);
+}
+
+// ===== Game: Vườn đậu Mendel =====
+const gameRounds = [
+  {emoji:'🟣⚪',q:'Lai hoa <strong>tím thuần chủng (AA)</strong> với hoa <strong>trắng thuần chủng (aa)</strong>. F₁ kiểu gene và kiểu hình?',
+   opts:[
+     {t:'AA — tím',ok:false,why:'F₁ chỉ nhận 1 A từ AA và 1 a từ aa → kiểu gene là Aa.'},
+     {t:'Aa — tím',ok:true,why:'Mỗi cây con nhận A từ bố và a từ mẹ → Aa. Kiểu hình tím vì A trội.'},
+     {t:'aa — trắng',ok:false,why:'Cả 2 allele a chỉ xảy ra khi bố mẹ đều cho a — không phải trường hợp này.'}
+   ]},
+  {emoji:'🌸',q:'F₁ (Aa) tự thụ phấn → F₂ có tỉ lệ kiểu hình ra sao?',
+   opts:[
+     {t:'1 tím : 1 trắng',ok:false,why:'Đó là tỉ lệ phép lai phân tích Aa × aa. Đây là Aa × Aa — khác.'},
+     {t:'3 tím : 1 trắng',ok:true,why:'Aa × Aa → 1 AA : 2 Aa : 1 aa. Vì A trội: 3 tím (AA + Aa + Aa) : 1 trắng (aa).'},
+     {t:'Toàn tím',ok:false,why:'Sai — F₂ luôn xuất hiện trắng trở lại theo tỉ lệ 1/4.'}
+   ]},
+  {emoji:'📏',q:'Cây cao và cây thấp là <strong>cặp tính trạng</strong> gì?',
+   opts:[
+     {t:'Tương phản',ok:true,why:'Cao và thấp là 2 trạng thái đối lập của cùng tính trạng "chiều cao".'},
+     {t:'Đồng hợp',ok:false,why:'Đồng hợp/dị hợp là về kiểu gene, không phải tính trạng.'},
+     {t:'Phụ thuộc',ok:false,why:'Không có thuật ngữ này trong di truyền học.'}
+   ]},
+  {emoji:'🟢🟡',q:'Mendel nghiên cứu màu vỏ hạt: <strong>vàng × xanh thuần chủng</strong>. F₁ toàn vỏ hạt vàng. Tính trạng nào trội?',
+   opts:[
+     {t:'Xanh',ok:false,why:'Xanh "biến mất" ở F₁ → là LẶN, không phải trội.'},
+     {t:'Vàng',ok:true,why:'Tính trạng nào hiện ra ở F₁ là trội. Vàng hiện ở F₁ → vàng trội, xanh lặn.'},
+     {t:'Cả hai',ok:false,why:'Không có "cả hai trội" — quy luật trội-lặn là một bên thắng.'}
+   ]},
+  {emoji:'🧬',q:'<strong>Kiểu gene Aa</strong> được gọi là gì?',
+   opts:[
+     {t:'Đồng hợp trội',ok:false,why:'Đồng hợp = 2 allele giống nhau. Aa có hai allele khác nhau.'},
+     {t:'Đồng hợp lặn',ok:false,why:'Đồng hợp lặn là aa, không phải Aa.'},
+     {t:'Dị hợp',ok:true,why:'Dị hợp = 2 allele khác nhau (A và a). Aa luôn biểu hiện kiểu hình trội.'}
+   ]},
+  {emoji:'🟣🟣',q:'Cây hoa tím có kiểu gene <strong>nào</strong> trong các kiểu sau? (chọn câu đúng nhất)',
+   opts:[
+     {t:'Chỉ AA',ok:false,why:'Aa cũng cho hoa tím vì A trội.'},
+     {t:'AA hoặc Aa',ok:true,why:'Cả AA và Aa đều có A → đều biểu hiện tím. Chỉ aa mới cho trắng.'},
+     {t:'Chỉ Aa',ok:false,why:'AA cũng cho tím — không thể loại trừ.'}
+   ]},
+  {emoji:'⚪',q:'Cây hoa trắng có kiểu gene gì?',
+   opts:[
+     {t:'AA',ok:false,why:'AA luôn cho tím vì có A trội.'},
+     {t:'Aa',ok:false,why:'Aa cho tím (có A trội).'},
+     {t:'aa',ok:true,why:'Chỉ kiểu gene đồng hợp lặn aa mới biểu hiện kiểu hình lặn (trắng).'}
+   ]},
+  {emoji:'🌱🌱',q:'Lai <strong>Aa × aa</strong>. Tỉ lệ F₁?',
+   opts:[
+     {t:'100% Aa',ok:false,why:'Bố Aa cho cả A và a (mỗi loại 1/2). Mẹ aa chỉ cho a.'},
+     {t:'1 Aa : 1 aa (tức 1 tím : 1 trắng)',ok:true,why:'Bố cho A hoặc a (50/50). Mẹ luôn cho a. → 1/2 Aa (tím) : 1/2 aa (trắng). Đây gọi là phép lai phân tích.'},
+     {t:'3 tím : 1 trắng',ok:false,why:'Đó là tỉ lệ Aa × Aa, không phải Aa × aa.'}
+   ]},
+  {emoji:'🔬',q:'Vì sao Mendel chọn đậu Hà Lan để nghiên cứu?',
+   opts:[
+     {t:'Vì đậu là loại cây dễ ăn',ok:false,why:'Mendel không nghiên cứu để ăn đậu! Lí do là khoa học.'},
+     {t:'Có nhiều cặp tính trạng tương phản rõ và vòng đời ngắn',ok:true,why:'Đậu Hà Lan có nhiều tính trạng tương phản (tím/trắng, cao/thấp, trơn/nhăn...), vòng đời ngắn → trồng được nhiều thế hệ trong 1 năm. Lý tưởng để thí nghiệm.'},
+     {t:'Vì đậu Hà Lan đắt tiền',ok:false,why:'Đậu Hà Lan rất phổ biến và rẻ — đó cũng là một lí do nữa Mendel chọn nó.'}
+   ]},
+  {emoji:'🧬✨',q:'<strong>Di truyền học</strong> là môn khoa học nghiên cứu gì?',
+   opts:[
+     {t:'Tế bào và mô',ok:false,why:'Đó là Tế bào học (Cytology) — môn khác.'},
+     {t:'Di truyền và biến dị ở các sinh vật',ok:true,why:'Di truyền học = bộ môn nghiên cứu hai hiện tượng song song: di truyền (con giống bố mẹ) và biến dị (con khác bố mẹ).'},
+     {t:'Sự tiến hoá của các loài',ok:false,why:'Đó là Tiến hoá học — liên quan nhưng không cùng môn.'}
+   ]}
+];
+let gameIdx=0,gameOk=0,gameStarted=false;
+function startGame(){
+  gameStarted=true;gameIdx=0;gameOk=0;
+  document.getElementById('gameStartBtn').classList.add('hidden');
+  showGameRound();
+}
+function showGameRound(){
+  const r=gameRounds[gameIdx];
+  document.getElementById('gameRound').textContent=(gameIdx+1)+'/10';
+  document.getElementById('gameScore').textContent=gameOk+'/'+gameIdx;
+  document.getElementById('gameEmoji').textContent=r.emoji;
+  document.getElementById('gameQ').innerHTML=applyTooltips(r.q);
+  const ob=document.getElementById('gameOptions');
+  ob.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';b.textContent=o.t;
+    b.onclick=()=>pickGame(i);
+    ob.appendChild(b);
+  });
+  document.getElementById('gameFb').className='feedback';
+  document.getElementById('gameFb').innerHTML='';
+  document.getElementById('gameNextBtn').classList.add('hidden');
+}
+function pickGame(i){
+  const r=gameRounds[gameIdx];
+  const opts=document.querySelectorAll('#gameOptions .opt');
+  opts.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===i)b.classList.add(r.opts[j].ok?'right':'wrong');
+    else if(r.opts[j].ok)b.classList.add('right');
+  });
+  const fb=document.getElementById('gameFb');
+  if(r.opts[i].ok){
+    gameOk++;
+    fb.className='feedback show ok';
+    fb.innerHTML='✓ Tuyệt! '+applyTooltips(r.opts[i].why);
+  }else{
+    fb.className='feedback show no';
+    fb.innerHTML='✗ '+applyTooltips(r.opts[i].why);
+  }
+  document.getElementById('gameScore').textContent=gameOk+'/'+(gameIdx+1);
+  document.getElementById('gameNextBtn').classList.remove('hidden');
+}
+function nextGameRound(){
+  gameIdx++;
+  if(gameIdx>=gameRounds.length){
+    const stage=document.getElementById('gameStage');
+    const flowers=gameOk>=8?'🌺🌺🌺':gameOk>=6?'🌺🌺':gameOk>=4?'🌺':'🌱';
+    stage.innerHTML=`<div class="garden-emoji">${flowers}</div><h3>Vườn đậu Mendel hoàn thành!</h3><p>Mika đoán đúng <strong>${gameOk}/10</strong> phép lai.</p><button class="btn ghost" onclick="resetGame()">Chơi lại</button> <button class="btn" onclick="switchTab('quiz')">Sang Kiểm tra →</button>`;
+    const p=loadProg();
+    if(gameOk>p.game){p.game=gameOk;saveProg(p);bumpActivity();updateOverall()}
+    return;
+  }
+  showGameRound();
+}
+function resetGame(){
+  gameIdx=0;gameOk=0;gameStarted=false;
+  document.getElementById('gameStage').innerHTML=`<div class="garden-emoji" id="gameEmoji">🌱</div>
+  <div class="garden-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+  <div id="gameOptions"></div>
+  <div id="gameFb" class="feedback"></div>
+  <div style="margin-top:12px"><button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+  <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button></div>`;
+  document.getElementById('gameRound').textContent='1/10';
+  document.getElementById('gameScore').textContent='0/0';
+}
+
+// ===== Quiz =====
+const quiz = [
+  {q:'Hiện tượng <strong>con giống bố mẹ</strong> được gọi là gì?',opts:['Biến dị','Di truyền','Tiến hoá','Đột biến'],ans:1,why:'Di truyền = bố mẹ truyền đặc điểm cho con. Biến dị thì ngược lại — con khác bố mẹ.'},
+  {q:'Đặc điểm <strong>chiều cao của cây</strong> là một:',opts:['Allele','Tính trạng','Gene','Kiểu hình toàn diện'],ans:1,why:'Tính trạng = đặc điểm hình thái có thể đo. Allele và gene là đơn vị di truyền cơ bản, không phải đặc điểm bề ngoài.'},
+  {q:'Mendel thực hiện thí nghiệm trên cây gì?',opts:['Cây lúa','Cây đậu Hà Lan','Cây cà chua','Cây hướng dương'],ans:1,why:'Đậu Hà Lan (Pisum sativum) — vì có nhiều cặp tính trạng tương phản rõ và vòng đời ngắn.'},
+  {q:'Lai cây <strong>AA × aa</strong>, F₁ có kiểu gene và kiểu hình:',opts:['AA — trội','Aa — trội','aa — lặn','Aa — lặn'],ans:1,why:'F₁ nhận A từ AA và a từ aa → Aa. Vì A trội nên kiểu hình trội (vd: tím nếu A là tím).'},
+  {q:'Tỉ lệ kiểu hình F₂ khi cho F₁ (Aa) tự thụ phấn:',opts:['1 trội : 1 lặn','3 trội : 1 lặn','1 trội : 3 lặn','Toàn trội'],ans:1,why:'Aa × Aa → 1 AA : 2 Aa : 1 aa = 3 trội : 1 lặn. Đây là tỉ lệ kinh điển của Mendel.'},
+  {q:'Cây có kiểu hình lặn chắc chắn có kiểu gene:',opts:['AA','Aa','aa','AA hoặc Aa'],ans:2,why:'Kiểu hình lặn = đồng hợp lặn = aa. Nếu có ít nhất 1 allele A thì biểu hiện kiểu hình trội.'}
+];
+function renderQuiz(){
+  const cont=document.getElementById('quizContent');
+  cont.innerHTML='';
+  quiz.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`<div class="q" style="font-weight:600;margin-bottom:8px">Câu ${i+1}. ${applyTooltips(q.q)}</div>
+    <div id="qopts-${i}">${q.opts.map((o,j)=>`<button class="opt" data-q="${i}" data-j="${j}">${applyTooltips(o)}</button>`).join('')}</div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pickQuiz(+b.dataset.q,+b.dataset.j));
+  const submit=document.createElement('div');
+  submit.className='card';
+  submit.style.textAlign='center';
+  submit.innerHTML='<button class="btn alt" onclick="submitQuiz()">Nộp bài</button>';
+  cont.appendChild(submit);
+}
+let quizPicks=Array(6).fill(-1);
+function pickQuiz(i,j){
+  quizPicks[i]=j;
+  document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>b.classList.toggle('picked',k===j));
+}
+function submitQuiz(){
+  if(quizPicks.includes(-1)){alert('Mika ơi, còn câu chưa chọn!');return}
+  let ok=0;
+  quizPicks.forEach((j,i)=>{
+    document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>{
+      b.disabled=true;
+      if(k===quiz[i].ans)b.classList.add('right');
+      else if(k===j)b.classList.add('wrong');
+    });
+    if(j===quiz[i].ans)ok++;
+    const card=document.querySelectorAll('#quizContent .card')[i];
+    const why=document.createElement('div');
+    why.className='feedback show '+(j===quiz[i].ans?'ok':'no');
+    why.innerHTML=applyTooltips(quiz[i].why);
+    card.appendChild(why);
+  });
+  const pct=ok/quiz.length;
+  const passed=pct>=CFG.passThreshold;
+  const res=document.getElementById('quizResult');
+  res.classList.remove('hidden');
+  document.getElementById('quizScore').textContent=`Điểm: ${ok}/${quiz.length} (${Math.round(pct*100)}%)`;
+  document.getElementById('quizMsg').innerHTML=passed
+    ?`🎉 Mika đã đạt mức Mở khoá! Bài 37 (Các quy luật di truyền của Mendel) sẽ sẵn sàng khi mình xây xong.`
+    :`Cần đạt 80% (5/6) để mở khoá. Mika xem lại các câu sai rồi làm lại nhé.`;
+  document.getElementById('quizStatus').textContent=passed?'✓ Đã đạt':'chưa đạt';
+  document.getElementById('quizStatus').style.background=passed?'#ecfccb':'#fee2e2';
+  document.getElementById('quizStatus').style.color=passed?'#365314':'#991b1b';
+  const p=loadProg();
+  if(pct>p.quizBest)p.quizBest=pct;
+  if(passed)p.quizPassed=true;
+  saveProg(p);bumpActivity();updateOverall();
+}
+function resetQuiz(){
+  quizPicks=Array(6).fill(-1);
+  document.getElementById('quizResult').classList.add('hidden');
+  renderQuiz();
+}
+
+// ===== Init =====
+renderTheory();renderPractice();renderQuiz();
+updateStreak();updateOverall();
+const p=loadProg();
+if(p.quizPassed){
+  document.getElementById('quizStatus').textContent='✓ Đã đạt';
+  document.getElementById('quizStatus').style.background='#ecfccb';
+  document.getElementById('quizStatus').style.color='#365314';
+}
+bumpActivity();
+</script>
+</body>
+</html>

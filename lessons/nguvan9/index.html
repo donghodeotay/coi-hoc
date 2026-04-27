@@ -1,0 +1,855 @@
+<!doctype html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Nguvan9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "Ngữ văn 9 (KNTT Tập 1) hub for Mika — Bài 1 \"Thế giới kì ảo\", Văn bản 1 \"Chuyện người con gái Nam Xương\" của Nguyễn Dữ. 11 micro-steps with deep-practice loop, Vietnamese→English literary tooltips, \"Truyện truyền kì\" comprehension game, 80% mastery quiz gating. Rose-pink + cream theme. Cites SGK pp.10-13."
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ngữ văn 9 — Hành trình chinh phục</title>
+<style>
+:root {
+  color-scheme: light;
+  --rose:#e11d48; --rose-2:#be123c; --rose-soft:#ffe4e6; --rose-bg:#fff1f2;
+  --lav:#a78bfa; --lav-soft:#ede9fe;
+  --cream:#fff7ed; --peach:#fed7aa;
+  --ink:#0f172a; --ink-2:#475569; --line:#e2e8f0;
+  --bg:#fffaf5;
+  --good:#16a34a; --bad:#dc2626;
+  --shadow:0 2px 8px rgba(225,29,72,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.wrap{max-width:780px;margin:0 auto;padding:16px 18px 80px}
+header{background:linear-gradient(135deg,#fecdd3,#ddd6fe);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:14px}
+.hi{font-size:22px;font-weight:700;color:#881337;margin:0 0 4px;font-family:Georgia,serif}
+.hi-sub{font-size:13px;color:#9f1239;margin:0;font-style:italic}
+.streak{display:inline-flex;gap:6px;align-items:center;background:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:var(--rose-2);margin-top:8px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 14px}
+nav.tabs button{flex:1;min-width:100px;border:1px solid var(--line);background:#fff;padding:9px 8px;border-radius:12px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:all .15s}
+nav.tabs button.active{background:var(--rose);color:#fff;border-color:var(--rose)}
+nav.tabs button:hover:not(.active){background:var(--rose-soft);color:var(--rose-2)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card h2{margin:0 0 6px;font-size:18px;color:var(--rose-2);font-family:Georgia,serif}
+.card h3{margin:14px 0 8px;font-size:15px;color:var(--ink)}
+.muted{color:var(--ink-2);font-size:13px}
+.cite{font-size:11px;color:var(--ink-2);background:var(--rose-soft);padding:2px 8px;border-radius:6px;display:inline-block;margin-left:6px;vertical-align:middle}
+.tt{border-bottom:1.5px dotted var(--lav);cursor:help;position:relative;color:#5b21b6;font-weight:500}
+.tt:hover::after,.tt:active::after{content:attr(data-tt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:400;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2);max-width:240px;white-space:normal;width:max-content;font-family:-apple-system,sans-serif}
+.step{border-left:4px solid var(--rose);padding:14px 16px;background:var(--rose-bg);border-radius:10px;margin:12px 0}
+.step .num{display:inline-block;background:var(--rose);color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:13px;font-weight:700;margin-right:8px}
+.step .title{font-weight:700;font-size:15px}
+.step .body{margin-top:10px;font-size:14px}
+.analogy{background:var(--lav-soft);border-left:4px solid var(--lav);padding:10px 14px;border-radius:8px;margin:10px 0;font-size:13px;font-style:italic;color:#4c1d95}
+.analogy::before{content:"💜 ";font-style:normal}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.before-after>div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fee2e2;color:#7f1d1d}
+.after{background:#fce7f3;color:#831843}
+.quote{background:var(--cream);border-left:4px solid var(--peach);padding:12px 16px;margin:12px 0;font-style:italic;font-size:14px;color:#7c2d12;border-radius:6px;font-family:Georgia,serif}
+.quote::before{content:"❝ ";color:var(--rose);font-size:20px;font-style:normal}
+.quote::after{content:" ❞";color:var(--rose);font-size:20px;font-style:normal}
+.chip{display:inline-block;padding:3px 10px;background:var(--rose-soft);color:var(--rose-2);border-radius:999px;font-size:12px;margin:2px;font-weight:500}
+.chip.lav{background:var(--lav-soft);color:#5b21b6}
+.chip.peach{background:var(--peach);color:#7c2d12}
+.btn{background:var(--rose);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all .15s}
+.btn:hover{background:var(--rose-2)}
+.btn.alt{background:var(--lav)}
+.btn.alt:hover{background:#7c3aed}
+.btn.ghost{background:#fff;color:var(--rose-2);border:1.5px solid var(--rose)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.problem{background:#fff;border:2px solid var(--rose-soft);border-radius:12px;padding:14px;margin:12px 0}
+.problem .q{font-weight:600;margin-bottom:8px;font-size:14px}
+.problem textarea{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit;min-height:70px;resize:vertical}
+.problem textarea:focus{outline:none;border-color:var(--rose)}
+.feedback{margin-top:8px;padding:10px;border-radius:8px;font-size:13px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:#fce7f3;color:#831843;border-left:3px solid var(--good)}
+.feedback.no{background:#fee2e2;color:#7f1d1d;border-left:3px solid var(--bad)}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:10px;margin:6px 0;cursor:pointer;font-size:14px;transition:all .15s;color:var(--ink)}
+.opt:hover{border-color:var(--rose);background:var(--rose-bg)}
+.opt.picked{border-color:var(--rose);background:var(--rose-soft);font-weight:600}
+.opt.right{border-color:var(--good);background:#dcfce7}
+.opt.wrong{border-color:var(--bad);background:#fee2e2}
+.story-stage{background:linear-gradient(180deg,#fff1f2,#ede9fe);padding:18px;border-radius:14px;text-align:center;margin:14px 0;border:2px dashed var(--lav)}
+.story-emoji{font-size:50px;line-height:1;margin:6px 0}
+.story-q{font-size:15px;font-weight:600;margin:10px 0;text-align:left}
+.score-pill{display:inline-block;background:var(--rose);color:#fff;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.chapter{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;margin:6px 0;background:#fff}
+.chapter.curr{border-color:var(--rose);background:var(--rose-bg)}
+.chapter .badge{width:28px;height:28px;border-radius:50%;background:var(--rose-soft);color:var(--rose-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.chapter.curr .badge{background:var(--rose);color:#fff}
+.chapter .name{font-size:13px;flex:1}
+.chapter .lock{font-size:12px;color:var(--ink-2)}
+.progress-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0}
+.progress-bar>div{height:100%;background:linear-gradient(90deg,var(--rose),var(--lav));transition:width .3s}
+.tip{background:var(--lav-soft);border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0;color:#4c1d95}
+.tip::before{content:"🌸 ";}
+.timeline{margin:12px 0}
+.timeline-item{display:flex;gap:12px;padding:8px 12px;border-left:2px solid var(--rose);background:var(--rose-bg);border-radius:0 8px 8px 0;margin:6px 0;font-size:13px}
+.timeline-item .when{font-weight:700;color:var(--rose-2);min-width:50px}
+.attempts{font-size:11px;color:var(--ink-2);text-align:right;margin-top:4px}
+.pause{display:none;margin-top:10px;padding:12px;background:var(--cream);border-radius:8px;text-align:center;font-size:14px;color:#78350f}
+.pause.show{display:block}
+.pause .timer{font-size:32px;font-weight:700;color:var(--rose);margin:6px 0}
+@media (max-width:600px){
+  .wrap{padding:12px 14px 80px}
+  header{padding:14px 16px}
+  .hi{font-size:19px}
+  nav.tabs button{flex-basis:calc(50% - 6px);font-size:12px;padding:8px 6px}
+  .before-after{grid-template-columns:1fr}
+  .step{padding:12px 14px}
+  .card{padding:14px}
+  .story-emoji{font-size:42px}
+}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 class="hi">Chào Mika! 🌸</h1>
+  <p class="hi-sub">Ngữ văn 9 — Hành trình chinh phục</p>
+  <span class="streak" id="streakPill">🔥 <span id="streakNum">0</span> ngày liên tục</span>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="hub" class="active">📚 Tổng quan</button>
+  <button data-tab="theory">📖 Lý thuyết</button>
+  <button data-tab="practice">✍️ Luyện tập</button>
+  <button data-tab="game">🎮 Đọc hiểu</button>
+  <button data-tab="quiz">🏆 Kiểm tra</button>
+</nav>
+
+<!-- HUB -->
+<section id="tab-hub" class="tab">
+  <div class="card">
+    <h2>Hành trình của Mika</h2>
+    <p class="muted">Ngữ văn 9 mở đầu bằng <strong>Bài 1: Thế giới kì ảo</strong>. Văn bản đầu tiên là <em>"Chuyện người con gái Nam Xương"</em> — câu chuyện cổ về một người phụ nữ Việt Nam thời phong kiến, viết bởi <strong>Nguyễn Dữ</strong> hơn 400 năm trước.</p>
+    <div class="progress-bar"><div id="overallProgress" style="width:0%"></div></div>
+    <p class="muted" style="margin-top:6px">Tiến độ: <span id="overallPct">0</span>%</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--rose-2)">Tập 1 — 5 bài</h3>
+    <div class="chapter curr"><div class="badge">1</div><div class="name"><strong>Thế giới kì ảo</strong> — Chuyện người con gái Nam Xương 🌸</div><div class="lock">Mở</div></div>
+    <div class="chapter"><div class="badge">2</div><div class="name">Những cung bậc tâm trạng (thơ song thất lục bát)</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">3</div><div class="name">Hồn nước nằm trong tiếng mẹ cha</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">4</div><div class="name">Khám phá vẻ đẹp văn chương</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">5</div><div class="name">Đối diện với nỗi đau</div><div class="lock">🔒</div></div>
+
+    <h3 style="color:var(--rose-2)">Tập 2 — 5 bài (sẽ có sau)</h3>
+    <div class="chapter"><div class="badge">6</div><div class="name">Giải mã những bí mật</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">7</div><div class="name">Hồn thơ muôn điệu</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">8</div><div class="name">Tiếng nói của lương tri</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">9</div><div class="name">Đi và suy ngẫm</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">10</div><div class="name">Văn học — lịch sử tâm hồn</div><div class="lock">🔒</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Cách học của Mika</h3>
+    <p class="muted">Ngữ văn khác Toán/Hoá — không có công thức. Học bằng cách <strong>hiểu</strong> và <strong>đặt câu hỏi</strong>:</p>
+    <p style="font-size:13px;line-height:1.8">
+      <span class="chip">📖 Lý thuyết</span> 11 bước nhỏ: tác giả, nhân vật, cốt truyện, chủ đề.<br>
+      <span class="chip lav">✍️ Luyện tập</span> Câu trả lời ngắn — không sai/đúng tuyệt đối, có gợi ý mở.<br>
+      <span class="chip peach">🎮 Đọc hiểu</span> 10 câu nhanh: ai nói gì, ý nghĩa ra sao.<br>
+      <span class="chip">🏆 Kiểm tra</span> Đạt 80% để mở Bài 2.
+    </p>
+    <div class="tip">Văn 9 dùng nhiều từ Hán-Việt và từ cổ. Hover vào chữ <span class="tt" data-tt="legendary tales (genre)">truyền kì</span> để xem nghĩa!</div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="tab-theory" class="tab hidden">
+  <div class="card">
+    <h2>Bài 1 — Chuyện người con gái Nam Xương <span class="cite">SGK trang 10–13</span></h2>
+    <p class="muted">Nguyễn Dữ — thế kỉ XVI. Trích từ tập <em>Truyền kì mạn lục</em>. 11 bước nhỏ — đọc xong từng bước, đánh dấu ✓.</p>
+  </div>
+  <div id="theoryContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn" onclick="switchTab('practice')">Sang Luyện tập →</button>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+<section id="tab-practice" class="tab hidden">
+  <div class="card">
+    <h2>Luyện tập — viết câu trả lời của em</h2>
+    <p class="muted">Văn không có một đáp án. Em viết ý của em, sau đó so với gợi ý mẫu để học cách phân tích. 3 lần thử cho mỗi câu — sai cũng không sao.</p>
+  </div>
+  <div id="practiceContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn alt" onclick="switchTab('game')">🎮 Vào Đọc hiểu →</button>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="tab-game" class="tab hidden">
+  <div class="card">
+    <h2>📜 Đọc hiểu Truyện truyền kì</h2>
+    <p class="muted">10 câu nhanh: ai nói gì, sự kiện gì, ý nghĩa ra sao. Đoán đúng càng nhiều, càng nhiều bông hoa 🌸</p>
+    <p>Điểm: <span class="score-pill" id="gameScore">0/0</span> · Lượt: <span id="gameRound">1/10</span></p>
+  </div>
+  <div class="card story-stage" id="gameStage">
+    <div class="story-emoji" id="gameEmoji">📜</div>
+    <div class="story-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+    <div id="gameOptions"></div>
+    <div id="gameFb" class="feedback"></div>
+    <div style="margin-top:12px">
+      <button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+      <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="tab-quiz" class="tab hidden">
+  <div class="card">
+    <h2>🏆 Kiểm tra cuối Bài 1</h2>
+    <p class="muted">6 câu hỏi. Đạt <strong>80%+</strong> để mở khoá Bài 2.</p>
+    <p>Trạng thái: <span id="quizStatus" class="chip">chưa làm</span></p>
+  </div>
+  <div id="quizContent"></div>
+  <div class="card hidden" id="quizResult">
+    <h3 id="quizScore"></h3>
+    <p id="quizMsg"></p>
+    <button class="btn" onclick="resetQuiz()">Làm lại</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+// ===== Config =====
+const CFG = {
+  subject: 'nguvan9',
+  progressKey: 'nguvan9-progress',
+  activityKey: 'toan9-activity',
+  passThreshold: 0.8,
+  attemptLimit: 3,
+  pauseSeconds: 5
+};
+
+// ===== Tooltip dictionary =====
+const dict = {
+  // Genre/literary
+  'truyện truyền kì':'legendary/marvelous tales (a literary genre using fantastical elements)',
+  'truyền kì':'legendary tales','truyền kì mạn lục':'Truyền kì mạn lục — Nguyễn Dữ\'s collection',
+  'tác giả':'author','tác phẩm':'literary work','nhà văn':'writer',
+  'thể loại':'genre','văn bản':'text','văn học':'literature',
+  'nhân vật':'character','nhân vật chính':'main character','nhân vật phụ':'minor character',
+  'cốt truyện':'plot','tình tiết':'story detail','sự kiện':'event',
+  'bối cảnh':'setting','thời gian':'time','không gian':'space/place',
+  'chủ đề':'theme','tư tưởng':'main idea','thông điệp':'message',
+  'mâu thuẫn':'conflict','xung đột':'clash','tình huống':'situation',
+  'cao trào':'climax','kết thúc':'ending','mở đầu':'opening',
+  'ngôi kể':'narrative perspective','ngôi thứ ba':'third person',
+  'lời kể':'narration','lời thoại':'dialogue','lời độc thoại':'monologue',
+  'ngôn ngữ':'language','hình ảnh':'imagery','biểu tượng':'symbol',
+  'so sánh':'comparison/simile','ẩn dụ':'metaphor',
+  // Kì ảo
+  'kì ảo':'fantastical/magical','yếu tố kì ảo':'fantastical element',
+  'hiện thực':'reality','hư cấu':'fictional',
+  'thần':'deity/god','tiên':'fairy/immortal','ma':'ghost','linh hồn':'soul',
+  'thuỷ cung':'underwater dragon palace','long cung':'dragon palace',
+  // Author/period
+  'Nguyễn Dữ':'Nguyễn Dữ — 16th century Vietnamese writer',
+  'thế kỉ':'century','phong kiến':'feudal',
+  'xã hội phong kiến':'feudal society','triều đình':'imperial court',
+  'vua':'king','quan':'mandarin/official','lính':'soldier',
+  'chiến tranh':'war','giặc':'enemy','Chiêm':'Champa (kingdom)',
+  // Characters
+  'Vũ Nương':'Vũ Nương (also Vũ Thị Thiết) — main character, virtuous woman',
+  'Vũ Thị Thiết':'Vũ Thị Thiết — heroine\'s formal name',
+  'Trương Sinh':'Trương Sinh — husband, jealous and uneducated',
+  'Phan Lang':'Phan Lang — character who meets Vũ Nương in dragon palace',
+  'Linh Phi':'Linh Phi — Dragon Queen who rescues Vũ Nương',
+  'Đản':'Đản — Vũ Nương\'s young son',
+  // Themes/feelings
+  'số phận':'fate/destiny','thân phận':'social standing',
+  'người phụ nữ':'woman/women','đức hạnh':'virtue','phẩm hạnh':'moral character',
+  'thuỷ chung':'faithful (in love)','chung thuỷ':'faithful','trung thành':'loyal',
+  'ghen tuông':'jealousy','ghen':'jealous','nghi ngờ':'suspicion','đa nghi':'distrustful',
+  'oan':'unjust accusation','oan ức':'wronged','oan khuất':'unjust grievance',
+  'bi kịch':'tragedy','bi thương':'tragic','đau khổ':'suffering','bất công':'injustice',
+  'tự vẫn':'take one\'s own life','trầm mình':'drown oneself',
+  'sông':'river','dòng sông':'river','Hoàng Giang':'Hoàng Giang river',
+  // Family terms
+  'chồng':'husband','vợ':'wife','con':'child','con trai':'son','con gái':'daughter',
+  'mẹ':'mother','cha':'father','mẹ chồng':'mother-in-law','bà':'grandmother',
+  'gia đình':'family','hôn nhân':'marriage','cưới':'marry','xa cách':'separation',
+  'tình yêu':'love','tình cảm':'feelings/affection',
+  // Plot-specific
+  'cái bóng':'shadow (the key plot element)','bóng':'shadow','tường':'wall',
+  'chiếc đèn':'lamp','đèn':'lamp','vợ chồng':'husband and wife',
+  'trở về':'return','xa nhà':'away from home','tòng quân':'go to war',
+  'hiểu lầm':'misunderstanding','phân giải':'explain (to clear up)',
+  'lập đàn':'set up an altar','đàn':'altar','mộng':'dream/vision',
+  'hiện về':'appear (as spirit)','biến mất':'disappear',
+  // Common Vietnamese
+  'em':'you (young person)','tôi':'I','chàng':'young man','nàng':'young woman',
+  'người':'person','cuộc đời':'life','cuộc sống':'daily life','xưa':'ancient',
+  'cổ':'old/ancient','xã hội':'society',
+  // Lesson chrome
+  'bài':'lesson','chương':'chapter','tổng quan':'overview',
+  'lý thuyết':'theory','luyện tập':'practice','kiểm tra':'quiz','đọc hiểu':'reading comprehension',
+  'mở khoá':'unlock','khoá':'locked','tiến độ':'progress','điểm':'score',
+  'đúng':'correct','sai':'wrong','câu hỏi':'question','câu trả lời':'answer',
+  'chọn':'pick','bấm':'click','tiếp':'next','lượt':'round','lần':'time',
+  'thử':'try','thử lại':'try again','làm lại':'redo','bắt đầu':'start',
+  'ngày':'day','liên tục':'in a row',
+  // Common verbs/adv
+  'là':'is','có':'has','được':'is/can be','dùng':'used','như':'like/such as',
+  'ví dụ':'example','các':'the/various','một':'one','mỗi':'each',
+  'khác':'different','giống':'similar','tất cả':'all','hầu hết':'most',
+  'rất':'very','nếu':'if','khi':'when','trong':'in','với':'with',
+  'của':'of','và':'and','hoặc':'or','nhưng':'but','vì':'because',
+  'nên':'so','để':'in order to','không':'not','cũng':'also'
+};
+
+function escapeRegex(s){return s.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&')}
+function applyTooltips(html){
+  if(!html) return html;
+  const segs = html.split(/(<[^>]*>)/g);
+  const keys = Object.keys(dict).sort((a,b)=>b.length-a.length);
+  return segs.map(seg=>{
+    if(!seg || seg.startsWith('<')) return seg;
+    let out = seg;
+    for(const k of keys){
+      const re = new RegExp(`(^|[^a-zà-ỹÀ-Ỹ])(${escapeRegex(k)})(?![a-zà-ỹÀ-Ỹ])`,'gi');
+      out = out.replace(re,(m,pre,word)=>`${pre}<span class="tt" data-tt="${dict[k]}">${word}</span>`);
+    }
+    return out;
+  }).join('');
+}
+
+// ===== Progress =====
+function loadProg(){
+  try{return JSON.parse(localStorage.getItem(CFG.progressKey))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+  catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+}
+function saveProg(p){localStorage.setItem(CFG.progressKey,JSON.stringify(p))}
+function bumpActivity(){
+  const today = new Date().toISOString().slice(0,10);
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  act[today]=(act[today]||0)+1;
+  localStorage.setItem(CFG.activityKey,JSON.stringify(act));
+  updateStreak();
+}
+function updateStreak(){
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  let n=0; const d=new Date();
+  while(true){
+    const k=d.toISOString().slice(0,10);
+    if(act[k])n++; else if(n>0||k!==new Date().toISOString().slice(0,10))break;
+    d.setDate(d.getDate()-1);
+    if(n>365)break;
+  }
+  document.getElementById('streakNum').textContent=n;
+}
+function updateOverall(){
+  const p=loadProg();
+  const total=11+5+10+1;
+  const done=p.theory+p.practice+p.game+(p.quizPassed?1:0);
+  const pct=Math.round(100*done/total);
+  document.getElementById('overallProgress').style.width=pct+'%';
+  document.getElementById('overallPct').textContent=pct;
+}
+
+// ===== Tabs =====
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById('tab-'+name).classList.remove('hidden');
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+// ===== Theory =====
+const steps = [
+  {
+    title:'1. Mở đầu — vì sao đọc truyện cổ?',
+    body:`<p>Truyện này được viết hơn <strong>400 năm trước</strong>, vào thế kỉ XVI. Tại sao học sinh Việt Nam ngày nay vẫn học?</p>
+    <p>Vì câu chuyện kể về <em>sự ghen tuông, hiểu lầm, và bi kịch trong gia đình</em> — những chuyện vẫn xảy ra hôm nay. Đọc văn cổ giúp ta hiểu: con người mọi thời đều có cùng những cảm xúc.</p>`,
+    analogy:'Như nghe bà kể chuyện ngày xưa — câu chuyện cũ, nhưng bài học vẫn mới. Văn học là chiếc gương nối ngày nay với ngày xưa.',
+    before:'Trước: văn cổ khô khan, không liên quan gì đến em.',
+    after:'Sau: văn cổ là tấm gương — nhìn vào để hiểu lòng người, kể cả lòng mình.'
+  },
+  {
+    title:'2. Truyện truyền kì — thể loại đặc biệt',
+    body:`<p><strong>Truyện truyền kì</strong> (legendary tales) là loại truyện văn xuôi của văn học trung đại, có <em>hai đặc điểm chính</em>:</p>
+    <p>① <strong>Yếu tố kì ảo</strong> — có thần, tiên, ma, mộng, hồn người chết hiện về.<br>
+    ② <strong>Phản ánh hiện thực</strong> — qua chuyện kì lạ, tác giả nói về xã hội, con người thời đó.</p>
+    <p>Nói cách khác: kì ảo là <em>cách nói</em>, hiện thực là <em>điều muốn nói</em>.</p>`,
+    analogy:'Như cổ tích "Tấm Cám" — có cá bống biết nói, có ông Bụt, có quả thị biến thành người (kì ảo). Nhưng thật ra đang nói về sự đố kị giữa hai chị em (hiện thực).',
+    before:'Trước: thấy thần tiên ma quái = chuyện hư cấu, không có ý nghĩa.',
+    after:'Sau: kì ảo là "cái áo" — bên trong vẫn là nhận xét về đời thực.'
+  },
+  {
+    title:'3. Tác giả Nguyễn Dữ',
+    body:`<p><strong>Nguyễn Dữ</strong> sống vào thế kỉ XVI, người Hải Dương. Ông học rộng tài cao nhưng chỉ làm quan ngắn rồi về ở ẩn — chán cảnh triều đình thối nát.</p>
+    <p>Tác phẩm nổi tiếng: <em>Truyền kì mạn lục</em> (Tập ghi chép tản mạn các truyện kì lạ) — gồm 20 truyện. <strong>"Chuyện người con gái Nam Xương"</strong> là truyện thứ 16.</p>`,
+    analogy:'Nguyễn Dữ như một nhà báo của thế kỉ XVI — không viết tin tức trực tiếp, mà viết truyện ngụ ý để bình luận xã hội. An toàn hơn — nhưng cũng sâu sắc hơn.',
+    before:'Trước: tác giả là một cái tên lạ trong sách giáo khoa.',
+    after:'Sau: Nguyễn Dữ là người trí thức bất mãn, dùng truyện kì ảo để phê phán xã hội.'
+  },
+  {
+    title:'4. Bối cảnh — Việt Nam thời phong kiến',
+    body:`<p>Truyện diễn ra ở làng <strong>Nam Xương</strong>, miền Bắc Việt Nam, thời chiến tranh giữa nhà Lê và Chiêm Thành.</p>
+    <p>Trong xã hội phong kiến, người phụ nữ:</p>
+    <p>• Phải <em>tam tòng tứ đức</em> — vâng lời cha, chồng, con trai.<br>
+    • Không được học hành như đàn ông.<br>
+    • Một lời nghi oan có thể phá huỷ cả cuộc đời.</p>`,
+    analogy:'Hình dung đường phố không có camera, không có toà án công bằng, không có điện thoại để gọi nhờ giúp đỡ. Một người bị nghi ngờ chỉ còn cách... biến mất.',
+    before:'Trước: thời xưa "có vua tốt" thì mọi chuyện ổn.',
+    after:'Sau: phụ nữ thời phong kiến không có tiếng nói. Đó là cái nền của bi kịch trong truyện.'
+  },
+  {
+    title:'5. Nhân vật chính — Vũ Nương',
+    body:`<p>Tên đầy đủ: <strong>Vũ Thị Thiết</strong>, người làng Nam Xương. SGK mô tả: "tính đã thuỳ mị, nết na, lại thêm tư dung tốt đẹp" — hiền dịu, nết na, lại đẹp người.</p>
+    <p>Ba việc lớn của nàng:</p>
+    <p>① <strong>Vợ hiền</strong> — nhường nhịn chồng đa nghi, "không từng để lúc nào vợ chồng phải đến thất hoà".<br>
+    ② <strong>Con dâu hiếu thảo</strong> — chăm mẹ chồng ốm, lo tang lễ chu đáo khi mẹ mất.<br>
+    ③ <strong>Mẹ tốt</strong> — một mình nuôi con trai (bé Đản) suốt ba năm chồng đi lính.</p>`,
+    analogy:'Vũ Nương như một bông hoa sen — mọc giữa bùn (xã hội bất công) nhưng vẫn thơm. Mọi điều tốt đẹp ở nàng được Nguyễn Dữ tô đậm — để bi kịch sau này càng đau lòng.',
+    before:'Trước: chỉ thấy tên một nhân vật.',
+    after:'Sau: hiểu Vũ Nương là biểu tượng của người phụ nữ Việt Nam đức hạnh.'
+  },
+  {
+    title:'6. Nhân vật chính — Trương Sinh',
+    body:`<p><strong>Trương Sinh</strong> — chồng của Vũ Nương. SGK mô tả: "con nhà hào phú nhưng không có học", "có tính đa nghi, đối với vợ phòng ngừa quá sức".</p>
+    <p>Ba điểm về Trương Sinh:</p>
+    <p>① Giàu có nhưng <em>không học</em> — không có khả năng phán đoán, suy nghĩ.<br>
+    ② <em>Đa nghi</em> — luôn nghi vợ làm việc xấu.<br>
+    ③ Đi lính 3 năm về, nghe lời con nhỏ liền tin vợ ngoại tình.</p>`,
+    analogy:'Trương Sinh giống một người chỉ biết nghe tiếng động lớn nhất — không quan sát, không hỏi, không tìm hiểu. Sự dốt nát + ghen tuông là một sự kết hợp nguy hiểm.',
+    before:'Trước: Trương Sinh chỉ là "người chồng" trong truyện.',
+    after:'Sau: Trương Sinh là biểu tượng của xã hội phong kiến nam quyền — nơi đàn ông có quyền phán xét mà không cần bằng chứng.'
+  },
+  {
+    title:'7. Cốt truyện — phần 1: Hôn nhân và xa cách',
+    body:`<div class="timeline">
+      <div class="timeline-item"><span class="when">①</span><span>Trương Sinh cưới Vũ Nương về làm vợ.</span></div>
+      <div class="timeline-item"><span class="when">②</span><span>Triều đình bắt lính đánh giặc Chiêm. Trương Sinh phải tòng quân.</span></div>
+      <div class="timeline-item"><span class="when">③</span><span>Vũ Nương ở nhà sinh con trai (bé Đản), chăm mẹ chồng già yếu.</span></div>
+      <div class="timeline-item"><span class="when">④</span><span>Mẹ chồng bị bệnh và mất. Vũ Nương lo tang lễ chu đáo.</span></div>
+    </div>
+    <p class="muted">Phần này cho thấy Vũ Nương <strong>là người vợ và con dâu lý tưởng</strong> — tô đậm sự bất công của bi kịch ở phần sau.</p>`,
+    analogy:'Như đoạn nhạc "êm ả" trước cao trào trong phim — càng yên bình bao nhiêu, càng đau bấy nhiêu khi sóng gió tới.',
+    before:'Trước: chuyện gì cũng êm xuôi.',
+    after:'Sau: hiểu rằng tác giả đang xây dựng nhân vật để chuẩn bị cho bi kịch.'
+  },
+  {
+    title:'8. Cốt truyện — phần 2: Hiểu lầm và bi kịch',
+    body:`<div class="timeline">
+      <div class="timeline-item"><span class="when">⑤</span><span>Trương Sinh đi lính về. Bé Đản nói: "Trước đây thường có một người đàn ông đến vào ban đêm..."</span></div>
+      <div class="timeline-item"><span class="when">⑥</span><span>Trương Sinh tin con, mắng chửi và đuổi vợ. Vũ Nương khóc, không thể giải thích.</span></div>
+      <div class="timeline-item"><span class="when">⑦</span><span>Vũ Nương <strong>trầm mình xuống sông Hoàng Giang</strong>.</span></div>
+    </div>
+    <p>Bí mật của bé Đản: khi mẹ thắp đèn buổi tối, mẹ chỉ cái <strong>bóng trên tường</strong> nói "đó là cha con" — để con không buồn vì thiếu cha. Đứa trẻ tưởng đó là người thật.</p>`,
+    analogy:'Một câu chuyện nhỏ đầy yêu thương (mẹ trỏ bóng làm cha) bị hiểu sai bởi người lớn không chịu nghe — và thành thảm kịch.',
+    before:'Trước: bé Đản nói gì cũng đúng.',
+    after:'Sau: trẻ con không cố tình nói dối, nhưng người lớn phải biết hỏi rõ trước khi tin.'
+  },
+  {
+    title:'9. Cốt truyện — phần 3: Yếu tố kì ảo',
+    body:`<div class="timeline">
+      <div class="timeline-item"><span class="when">⑧</span><span>Một thời gian sau, Trương Sinh thấy con trỏ vào bóng mình trên tường — kêu "cha". Anh hiểu ra <strong>vợ bị oan</strong>.</span></div>
+      <div class="timeline-item"><span class="when">⑨</span><span>Vũ Nương được Linh Phi (Dragon Queen) cứu, sống ở thuỷ cung dưới sông.</span></div>
+      <div class="timeline-item"><span class="when">⑩</span><span>Phan Lang gặp Vũ Nương dưới thuỷ cung, mang lời nhắn về.</span></div>
+      <div class="timeline-item"><span class="when">⑪</span><span>Trương Sinh lập đàn giải oan ở bờ sông. Vũ Nương <strong>hiện về trong làn khói</strong>, nói lời từ biệt rồi biến mất.</span></div>
+    </div>
+    <p>Đây là <strong>phần kì ảo</strong> đặc trưng của truyện truyền kì.</p>`,
+    analogy:'Phần kì ảo như cái kết "ước mơ" — Nguyễn Dữ không thể cứu sống Vũ Nương trong đời thực (vì hiện thực phong kiến không cho phép), nhưng có thể cho nàng được giải oan trong cõi tâm linh.',
+    before:'Trước: phần kì ảo không liên quan gì.',
+    after:'Sau: phần kì ảo là cách Nguyễn Dữ "trả lại công bằng" cho Vũ Nương — và phê phán xã hội đã giết nàng.'
+  },
+  {
+    title:'10. Chủ đề — số phận người phụ nữ phong kiến',
+    body:`<p>Truyện lên án:</p>
+    <p>• <strong>Sự bất công với phụ nữ</strong> — không có quyền tự bảo vệ trước lời nghi oan.<br>
+    • <strong>Chiến tranh phong kiến</strong> — gây chia cắt gia đình, để lại đàn bà và trẻ con côi cút.<br>
+    • <strong>Tính đa nghi và sự dốt nát</strong> — nguyên nhân gốc của bi kịch.</p>
+    <p>Truyện cũng <strong>ca ngợi</strong>: vẻ đẹp đức hạnh, lòng thuỷ chung, sự hy sinh của người phụ nữ Việt Nam.</p>`,
+    analogy:'Một bức tranh hai mặt — mặt sáng là Vũ Nương đẹp đẽ, mặt tối là xã hội đẩy nàng vào cái chết. Nguyễn Dữ vẽ cả hai cùng lúc.',
+    before:'Trước: chỉ là chuyện ghen tuông trong nhà.',
+    after:'Sau: là tiếng nói phê phán cả một thời đại — nơi phụ nữ là nạn nhân.'
+  },
+  {
+    title:'11. Yếu tố kì ảo — vì sao có?',
+    body:`<p>Yếu tố kì ảo trong truyện gồm:</p>
+    <p>• Vũ Nương được Linh Phi (Dragon Queen) cứu khỏi chết đuối<br>
+    • Cuộc gặp gỡ giữa Phan Lang và Vũ Nương dưới thuỷ cung<br>
+    • Vũ Nương hiện về trong làn khói khi Trương Sinh lập đàn</p>
+    <p><strong>Tác dụng</strong>:</p>
+    <p>① Làm câu chuyện hấp dẫn, có màu sắc dân gian.<br>
+    ② Cho phép Vũ Nương "trở về" — nói lời từ biệt mà nàng không kịp nói khi còn sống.<br>
+    ③ Thể hiện ước mơ về <em>công bằng</em> — dù trong hiện thực không có, vẫn có trong cõi tâm linh.</p>`,
+    analogy:'Yếu tố kì ảo như "phép lạ trong cổ tích" — giúp người đọc cảm thấy nỗi đau được an ủi, dù chỉ là tưởng tượng. Đây là sức mạnh của văn học.',
+    before:'Trước: yếu tố kì ảo chỉ là "thêm thắt".',
+    after:'Sau: yếu tố kì ảo là cách văn học chữa lành — và cũng là cách phê phán hiện thực bằng đường vòng.'
+  }
+];
+
+function renderTheory(){
+  const p=loadProg();
+  const cont=document.getElementById('theoryContent');
+  cont.innerHTML='';
+  steps.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='step';
+    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
+    <div class="body">${applyTooltips(s.body)}</div>
+    <div class="analogy">${applyTooltips(s.analogy)}</div>
+    <div class="before-after">
+      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
+      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+    </div>
+    <div style="text-align:right;margin-top:8px">
+      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
+    </div>`;
+    cont.appendChild(el);
+  });
+}
+function markStep(i){
+  const p=loadProg();
+  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
+  renderTheory();updateOverall();
+}
+
+// ===== Practice (open-ended w/ keyword matching) =====
+const practice = [
+  {
+    q:'Vì sao Vũ Nương bị Trương Sinh nghi oan? <em>Trả lời ngắn (1-2 câu).</em>',
+    hint:'Bé Đản nói gì với cha khi cha trở về? Mẹ đã chỉ vào cái gì?',
+    keywords:['bóng','đản','con','cha','tường','đèn','hiểu lầm'],
+    minKw:2,
+    answer:'Bé Đản nói với cha rằng "đêm nào cũng có một người đến" — thực ra đó là cái BÓNG của Vũ Nương trên tường khi thắp đèn. Mẹ trỏ bóng nói "cha con" để bé đỡ buồn. Trương Sinh nghe con nói, không hỏi rõ, liền nghi vợ ngoại tình.',
+    explain:'Bài học: hiểu lầm xảy ra khi người ta nghe một phần và không hỏi tiếp. Cái bóng — chi tiết bé nhất — đã giết một con người.'
+  },
+  {
+    q:'Vì sao Vũ Nương trầm mình xuống sông Hoàng Giang?',
+    hint:'Trong xã hội phong kiến, một phụ nữ bị nghi oan có những cách nào để chứng minh trong sạch?',
+    keywords:['oan','danh dự','phong kiến','không thể','minh oan','chứng minh','trong sạch','phụ nữ'],
+    minKw:2,
+    answer:'Vũ Nương không có cách nào chứng minh mình trong sạch trong xã hội phong kiến. Trương Sinh đã quyết tin con và đuổi nàng. Để giữ danh dự, nàng chọn trầm mình — vừa là phản kháng, vừa là tuyệt vọng.',
+    explain:'Bài học: cái chết của Vũ Nương không phải sự yếu đuối, mà là tiếng kêu cuối cùng — vì xã hội không cho nàng tiếng nói khi còn sống.'
+  },
+  {
+    q:'Yếu tố kì ảo nào trong truyện em thấy ấn tượng nhất? Vì sao?',
+    hint:'Linh Phi cứu Vũ Nương / Phan Lang gặp Vũ Nương / Vũ Nương hiện về trong làn khói — chọn một và giải thích.',
+    keywords:['linh phi','phan lang','khói','hiện về','thuỷ cung','kì ảo','đàn','giải oan'],
+    minKw:2,
+    answer:'Có thể chọn bất kì. Ví dụ: Vũ Nương hiện về trong làn khói khi Trương Sinh lập đàn — em thấy ấn tượng vì khoảnh khắc đó vừa đẹp vừa buồn: nàng được giải oan nhưng đã muộn, không thể trở lại làm vợ làm mẹ.',
+    explain:'Mọi câu trả lời nêu được tên yếu tố + lí do em cảm động đều được. Văn học không có một đáp án.'
+  },
+  {
+    q:'Truyện có mấy nhân vật chính? Em đánh giá Trương Sinh như thế nào?',
+    hint:'Nghĩ về tính cách, học vấn, hành động của Trương Sinh.',
+    keywords:['hai','2','vũ nương','trương sinh','đa nghi','không học','nóng nảy','dốt'],
+    minKw:2,
+    answer:'Hai nhân vật chính: Vũ Nương và Trương Sinh. Trương Sinh là người đa nghi, không có học, nóng nảy — anh là nạn nhân của giáo dục thiếu thốn và xã hội nam quyền, nhưng cũng là người phải chịu trách nhiệm vì đã không biết hỏi rõ trước khi kết tội vợ.',
+    explain:'Bài tốt nên thấy Trương Sinh không chỉ "xấu" — anh cũng đáng thương ở chỗ thiếu hiểu biết. Nhưng đáng thương không có nghĩa là không có lỗi.'
+  },
+  {
+    q:'Theo em, tại sao tác giả không cho Vũ Nương sống lại với Trương Sinh ở phần kết?',
+    hint:'Nếu cho nàng trở lại, thông điệp của truyện sẽ thay đổi như thế nào?',
+    keywords:['không thể','phong kiến','xã hội','phê phán','mất mát','muộn','cảnh báo','bi kịch'],
+    minKw:2,
+    answer:'Vì nếu Vũ Nương sống lại bình thường, thông điệp của truyện sẽ nhẹ đi — như "hiểu lầm rồi giải quyết là xong". Nguyễn Dữ giữ kết thúc đau đớn để PHÊ PHÁN xã hội: một khi đã mất, không thể cứu lại. Đó là bi kịch của thời đại.',
+    explain:'Nguyễn Dữ dùng kết bi kịch như tiếng chuông cảnh báo — gieo cho người đọc nỗi đau, để người đọc tự rút ra bài học.'
+  }
+];
+
+let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
+
+function checkLitAnswer(i,val){
+  const v=val.toLowerCase().normalize('NFC');
+  const matches = practice[i].keywords.filter(k=>v.includes(k.toLowerCase())).length;
+  return matches >= practice[i].minKw;
+}
+
+function renderPractice(){
+  const cont=document.getElementById('practiceContent');
+  cont.innerHTML='';
+  practice.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='problem';
+    div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
+    <textarea id="pin-${i}" placeholder="Mika viết câu trả lời ở đây..." ${prState[i].solved?'disabled':''}></textarea>
+    <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>
+    <div style="margin-top:8px">
+      <button class="btn" id="pbtn-${i}" onclick="checkAnswer(${i})" ${prState[i].solved?'disabled':''}>Kiểm tra</button>
+      <button class="btn ghost" onclick="showHint(${i})">💡 Gợi ý</button>
+      <button class="btn ghost" onclick="showAnswer(${i})">📖 Xem gợi ý mẫu</button>
+    </div>
+    <div id="pause-${i}" class="pause">⏸️ Dừng lại 5 giây — đọc lại câu hỏi, suy nghĩ, rồi viết lại.<div class="timer" id="ptimer-${i}">5</div></div>
+    <div id="pfb-${i}" class="feedback"></div>`;
+    cont.appendChild(div);
+  });
+}
+function showHint(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show';fb.style.background='#fef3c7';fb.style.color='#78350f';fb.style.borderLeftColor='#d97706';
+  fb.innerHTML='💡 '+applyTooltips(practice[i].hint);
+}
+function showAnswer(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show ok';
+  fb.innerHTML=`<strong>Gợi ý mẫu:</strong> ${applyTooltips(practice[i].answer)}<br><br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+}
+function checkAnswer(i){
+  if(prState[i].paused||prState[i].solved)return;
+  const val=(document.getElementById('pin-'+i).value||'').trim();
+  if(val.length<10){
+    const fb=document.getElementById('pfb-'+i);
+    fb.className='feedback show no';
+    fb.innerHTML='Câu trả lời còn quá ngắn. Hãy viết ít nhất một câu hoàn chỉnh.';
+    return;
+  }
+  const ok=checkLitAnswer(i,val);
+  prState[i].attempts++;
+  document.getElementById('pat-'+i).textContent=prState[i].attempts;
+  const fb=document.getElementById('pfb-'+i);
+  if(ok){
+    prState[i].solved=true;
+    fb.className='feedback show ok';
+    fb.innerHTML=`✓ Câu trả lời của em đã chạm đúng những ý chính.<br><br><strong>Gợi ý mẫu để so sánh:</strong> ${applyTooltips(practice[i].answer)}<br><br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p);bumpActivity()}
+    updateOverall();
+    return;
+  }
+  if(prState[i].attempts>=CFG.attemptLimit){
+    fb.className='feedback show no';
+    fb.innerHTML=`Đã thử ${CFG.attemptLimit} lần. <strong>Gợi ý mẫu:</strong> ${applyTooltips(practice[i].answer)}<br><br><span class="muted">${applyTooltips(practice[i].explain)}</span><br><br>Văn không có một đáp án — nếu câu của em khác mà có lý, vẫn hay.`;
+    prState[i].solved=true;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p)}
+    updateOverall();
+    return;
+  }
+  fb.className='feedback show no';
+  fb.innerHTML=`Câu trả lời chưa chạm đủ ý chính. Mika thử nghĩ thêm về <em>${practice[i].keywords.slice(0,3).join(', ')}</em>. Còn ${CFG.attemptLimit-prState[i].attempts} lần.`;
+  prState[i].paused=true;
+  document.getElementById('pbtn-'+i).disabled=true;
+  document.getElementById('pin-'+i).disabled=true;
+  const pauseEl=document.getElementById('pause-'+i);
+  pauseEl.classList.add('show');
+  let n=CFG.pauseSeconds;
+  document.getElementById('ptimer-'+i).textContent=n;
+  const tk=setInterval(()=>{
+    n--;document.getElementById('ptimer-'+i).textContent=n;
+    if(n<=0){
+      clearInterval(tk);
+      pauseEl.classList.remove('show');
+      prState[i].paused=false;
+      document.getElementById('pbtn-'+i).disabled=false;
+      document.getElementById('pin-'+i).disabled=false;
+      document.getElementById('pin-'+i).focus();
+    }
+  },1000);
+}
+
+// ===== Game: Đọc hiểu =====
+const gameRounds = [
+  {emoji:'👤',q:'<strong>Vũ Nương</strong> còn được gọi tên đầy đủ là gì?',
+   opts:[{t:'Vũ Thị Thiết',ok:true,why:'Vũ Thị Thiết — tên đầy đủ. "Vũ Nương" là cách gọi thân mật theo họ + chữ "nương" (cô).'},
+   {t:'Vũ Phương Lan',ok:false,why:'Không phải tên trong truyện.'},{t:'Vũ Hồng Hạnh',ok:false,why:'Không phải tên trong truyện.'}]},
+  {emoji:'📚',q:'<strong>"Chuyện người con gái Nam Xương"</strong> được trích từ tập truyện nào?',
+   opts:[{t:'Việt điện u linh',ok:false,why:'Đó là tập truyện khác, của Lý Tế Xuyên.'},
+   {t:'Truyền kì mạn lục',ok:true,why:'Trích từ "Truyền kì mạn lục" của Nguyễn Dữ — gồm 20 truyện, đây là truyện thứ 16.'},
+   {t:'Hoàng Lê nhất thống chí',ok:false,why:'Đó là tác phẩm khác về thời Tây Sơn.'}]},
+  {emoji:'🌫️',q:'Yếu tố nào sau đây <strong>KHÔNG</strong> phải yếu tố kì ảo trong truyện?',
+   opts:[{t:'Linh Phi cứu Vũ Nương ở thuỷ cung',ok:false,why:'Đây LÀ yếu tố kì ảo.'},
+   {t:'Vũ Nương hiện về trong làn khói',ok:false,why:'Đây LÀ yếu tố kì ảo.'},
+   {t:'Trương Sinh nghe lời con và nghi vợ',ok:true,why:'Đây là sự kiện hiện thực — không có gì kì ảo. Là cốt lõi bi kịch.'}]},
+  {emoji:'🌑',q:'Thứ gì đã gây ra hiểu lầm dẫn tới cái chết của Vũ Nương?',
+   opts:[{t:'Lá thư',ok:false,why:'Không có lá thư trong truyện.'},
+   {t:'Cái bóng trên tường',ok:true,why:'Vũ Nương trỏ bóng mình trên tường nói "cha con" để dỗ bé Đản. Cha về, bé tưởng đó là người thật.'},
+   {t:'Người hàng xóm',ok:false,why:'Không có người hàng xóm gây hiểu lầm.'}]},
+  {emoji:'⏳',q:'Trương Sinh phải <strong>xa nhà</strong> bao lâu?',
+   opts:[{t:'Một năm',ok:false,why:'Lâu hơn — đủ để Vũ Nương sinh con và nuôi con đến mức biết nói.'},
+   {t:'Khoảng ba năm',ok:true,why:'Đi lính khoảng 3 năm — bé Đản sinh ra trong thời gian đó và đã biết nói khi cha về.'},
+   {t:'Mười năm',ok:false,why:'Quá lâu — bé Đản chỉ vài tuổi khi cha về, không phải mười tuổi.'}]},
+  {emoji:'🐉',q:'<strong>Linh Phi</strong> trong truyện là ai?',
+   opts:[{t:'Một bà tiên trên trời',ok:false,why:'Không phải. Linh Phi sống dưới thuỷ cung.'},
+   {t:'Vợ vua Thuỷ Tề (Dragon Queen)',ok:true,why:'Linh Phi là Dragon Queen — đã cứu Vũ Nương khỏi chết đuối và cho nàng sống ở thuỷ cung.'},
+   {t:'Mẹ chồng của Vũ Nương',ok:false,why:'Mẹ chồng đã mất trước đó. Linh Phi là nhân vật kì ảo.'}]},
+  {emoji:'⚖️',q:'Theo em, ai phải chịu <strong>trách nhiệm chính</strong> cho cái chết của Vũ Nương?',
+   opts:[{t:'Bé Đản — vì nói dối',ok:false,why:'Bé Đản là trẻ con, không hiểu hậu quả. Bé chỉ kể lại điều mình thấy.'},
+   {t:'Trương Sinh và xã hội phong kiến',ok:true,why:'Trương Sinh đa nghi, không hỏi rõ. Cộng với xã hội phong kiến không cho phụ nữ tiếng nói tự bảo vệ. Hai cái cùng giết Vũ Nương.'},
+   {t:'Vũ Nương — vì nói dối với con',ok:false,why:'Vũ Nương trỏ bóng nói "cha" để dỗ con — không phải nói dối ác ý.'}]},
+  {emoji:'💧',q:'Tên dòng <strong>sông</strong> Vũ Nương trầm mình?',
+   opts:[{t:'Sông Hồng',ok:false,why:'Không phải sông Hồng.'},
+   {t:'Sông Hoàng Giang',ok:true,why:'Vũ Nương trầm mình ở sông Hoàng Giang — nay thuộc Hà Nam.'},
+   {t:'Sông Cửu Long',ok:false,why:'Sai vị trí — chuyện diễn ra ở miền Bắc.'}]},
+  {emoji:'🎭',q:'Truyện truyền kì có <strong>đặc điểm gì</strong>?',
+   opts:[{t:'Chỉ là truyện cổ tích đơn thuần',ok:false,why:'Truyền kì khác cổ tích — có yếu tố kì ảo NHƯNG cũng phản ánh hiện thực xã hội.'},
+   {t:'Có yếu tố kì ảo + phản ánh hiện thực xã hội',ok:true,why:'Đó là định nghĩa: kì ảo là cách nói, hiện thực là điều muốn nói.'},
+   {t:'Là truyện viết bằng thơ',ok:false,why:'Truyền kì là văn xuôi (prose), không phải thơ.'}]},
+  {emoji:'💔',q:'Thông điệp chính của truyện là gì?',
+   opts:[{t:'Phụ nữ phải biết im lặng',ok:false,why:'Hoàn toàn ngược lại — truyện phê phán việc phụ nữ không có tiếng nói.'},
+   {t:'Đàn ông phải đi lính',ok:false,why:'Đó không phải thông điệp.'},
+   {t:'Cảnh báo về bất công với phụ nữ và hậu quả của ghen tuông mù quáng',ok:true,why:'Truyện là tiếng nói phê phán xã hội phong kiến — nơi phụ nữ là nạn nhân của ghen tuông và định kiến.'}]}
+];
+let gameIdx=0,gameOk=0,gameStarted=false;
+function startGame(){
+  gameStarted=true;gameIdx=0;gameOk=0;
+  document.getElementById('gameStartBtn').classList.add('hidden');
+  showGameRound();
+}
+function showGameRound(){
+  const r=gameRounds[gameIdx];
+  document.getElementById('gameRound').textContent=(gameIdx+1)+'/10';
+  document.getElementById('gameScore').textContent=gameOk+'/'+gameIdx;
+  document.getElementById('gameEmoji').textContent=r.emoji;
+  document.getElementById('gameQ').innerHTML=applyTooltips(r.q);
+  const ob=document.getElementById('gameOptions');
+  ob.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';b.textContent=o.t;
+    b.onclick=()=>pickGame(i);
+    ob.appendChild(b);
+  });
+  document.getElementById('gameFb').className='feedback';
+  document.getElementById('gameFb').innerHTML='';
+  document.getElementById('gameNextBtn').classList.add('hidden');
+}
+function pickGame(i){
+  const r=gameRounds[gameIdx];
+  const opts=document.querySelectorAll('#gameOptions .opt');
+  opts.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===i)b.classList.add(r.opts[j].ok?'right':'wrong');
+    else if(r.opts[j].ok)b.classList.add('right');
+  });
+  const fb=document.getElementById('gameFb');
+  if(r.opts[i].ok){
+    gameOk++;
+    fb.className='feedback show ok';
+    fb.innerHTML='✓ Tuyệt! '+applyTooltips(r.opts[i].why);
+  }else{
+    fb.className='feedback show no';
+    fb.innerHTML='✗ '+applyTooltips(r.opts[i].why);
+  }
+  document.getElementById('gameScore').textContent=gameOk+'/'+(gameIdx+1);
+  document.getElementById('gameNextBtn').classList.remove('hidden');
+}
+function nextGameRound(){
+  gameIdx++;
+  if(gameIdx>=gameRounds.length){
+    const stage=document.getElementById('gameStage');
+    const flowers=gameOk>=8?'🌸🌸🌸':gameOk>=6?'🌸🌸':gameOk>=4?'🌸':'📜';
+    stage.innerHTML=`<div class="story-emoji">${flowers}</div><h3>Đọc hiểu hoàn thành!</h3><p>Mika đoán đúng <strong>${gameOk}/10</strong> câu.</p><button class="btn ghost" onclick="resetGame()">Chơi lại</button> <button class="btn" onclick="switchTab('quiz')">Sang Kiểm tra →</button>`;
+    const p=loadProg();
+    if(gameOk>p.game){p.game=gameOk;saveProg(p);bumpActivity();updateOverall()}
+    return;
+  }
+  showGameRound();
+}
+function resetGame(){
+  gameIdx=0;gameOk=0;gameStarted=false;
+  document.getElementById('gameStage').innerHTML=`<div class="story-emoji" id="gameEmoji">📜</div>
+  <div class="story-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+  <div id="gameOptions"></div>
+  <div id="gameFb" class="feedback"></div>
+  <div style="margin-top:12px"><button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+  <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button></div>`;
+  document.getElementById('gameRound').textContent='1/10';
+  document.getElementById('gameScore').textContent='0/0';
+}
+
+// ===== Quiz =====
+const quiz = [
+  {q:'<strong>"Chuyện người con gái Nam Xương"</strong> thuộc thể loại nào?',opts:['Truyện cổ tích','Truyện truyền kì','Truyện ngắn hiện đại','Tiểu thuyết'],ans:1,why:'Truyện truyền kì — văn xuôi trung đại có yếu tố kì ảo + phản ánh hiện thực.'},
+  {q:'Tác giả của truyện là ai?',opts:['Nguyễn Du','Nguyễn Dữ','Nguyễn Trãi','Hồ Xuân Hương'],ans:1,why:'Nguyễn Dữ — thế kỉ XVI. Đừng nhầm với Nguyễn Du (Truyện Kiều, thế kỉ XVIII).'},
+  {q:'Bi kịch xảy ra với Vũ Nương vì:',opts:['Nàng có lỗi với chồng','Bé Đản nói dối','Hiểu lầm về cái bóng trên tường','Mẹ chồng ác'],ans:2,why:'Cái bóng — Vũ Nương trỏ bóng mình nói "cha con" để dỗ con. Bé tưởng thật, kể lại với cha. Trương Sinh không hỏi rõ → bi kịch.'},
+  {q:'Yếu tố kì ảo trong truyện thể hiện ở đâu?',opts:['Trương Sinh đi lính','Vũ Nương sống ở thuỷ cung và hiện về sau khi chết','Mẹ chồng bị bệnh','Bé Đản nói chuyện với cha'],ans:1,why:'Vũ Nương được Linh Phi cứu, sống ở thuỷ cung, sau hiện về trong làn khói khi Trương Sinh lập đàn — đây là kì ảo.'},
+  {q:'Chủ đề chính của truyện là:',opts:['Ca ngợi chiến tranh','Phê phán xã hội phong kiến và số phận người phụ nữ','Khoe sự giàu có của Trương Sinh','Mô tả thiên nhiên Việt Nam'],ans:1,why:'Truyện vừa ca ngợi đức hạnh người phụ nữ, vừa phê phán xã hội phong kiến và sự đa nghi của đàn ông.'},
+  {q:'Vì sao Nguyễn Dữ không cho Vũ Nương sống lại bình thường ở phần kết?',opts:['Vì truyện cần kết buồn','Để giữ thông điệp phê phán — một khi mất, không thể cứu lại','Vì Vũ Nương không muốn về','Vì Trương Sinh không xứng'],ans:1,why:'Kết bi kịch giữ lại sức nặng thông điệp — bất công đã xảy ra rồi, không thể đảo ngược. Đó là tiếng chuông cảnh tỉnh.'}
+];
+function renderQuiz(){
+  const cont=document.getElementById('quizContent');
+  cont.innerHTML='';
+  quiz.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`<div class="q" style="font-weight:600;margin-bottom:8px">Câu ${i+1}. ${applyTooltips(q.q)}</div>
+    <div id="qopts-${i}">${q.opts.map((o,j)=>`<button class="opt" data-q="${i}" data-j="${j}">${applyTooltips(o)}</button>`).join('')}</div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pickQuiz(+b.dataset.q,+b.dataset.j));
+  const submit=document.createElement('div');
+  submit.className='card';
+  submit.style.textAlign='center';
+  submit.innerHTML='<button class="btn alt" onclick="submitQuiz()">Nộp bài</button>';
+  cont.appendChild(submit);
+}
+let quizPicks=Array(6).fill(-1);
+function pickQuiz(i,j){
+  quizPicks[i]=j;
+  document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>b.classList.toggle('picked',k===j));
+}
+function submitQuiz(){
+  if(quizPicks.includes(-1)){alert('Mika ơi, còn câu chưa chọn!');return}
+  let ok=0;
+  quizPicks.forEach((j,i)=>{
+    document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>{
+      b.disabled=true;
+      if(k===quiz[i].ans)b.classList.add('right');
+      else if(k===j)b.classList.add('wrong');
+    });
+    if(j===quiz[i].ans)ok++;
+    const card=document.querySelectorAll('#quizContent .card')[i];
+    const why=document.createElement('div');
+    why.className='feedback show '+(j===quiz[i].ans?'ok':'no');
+    why.innerHTML=applyTooltips(quiz[i].why);
+    card.appendChild(why);
+  });
+  const pct=ok/quiz.length;
+  const passed=pct>=CFG.passThreshold;
+  const res=document.getElementById('quizResult');
+  res.classList.remove('hidden');
+  document.getElementById('quizScore').textContent=`Điểm: ${ok}/${quiz.length} (${Math.round(pct*100)}%)`;
+  document.getElementById('quizMsg').innerHTML=passed
+    ?`🎉 Mika đã đạt mức Mở khoá! Bài 2 (Những cung bậc tâm trạng) sẽ sẵn sàng khi mình xây xong.`
+    :`Cần đạt 80% (5/6) để mở khoá. Mika xem lại các câu sai rồi làm lại nhé.`;
+  document.getElementById('quizStatus').textContent=passed?'✓ Đã đạt':'chưa đạt';
+  document.getElementById('quizStatus').style.background=passed?'#fce7f3':'#fee2e2';
+  document.getElementById('quizStatus').style.color=passed?'#831843':'#991b1b';
+  const p=loadProg();
+  if(pct>p.quizBest)p.quizBest=pct;
+  if(passed)p.quizPassed=true;
+  saveProg(p);bumpActivity();updateOverall();
+}
+function resetQuiz(){
+  quizPicks=Array(6).fill(-1);
+  document.getElementById('quizResult').classList.add('hidden');
+  renderQuiz();
+}
+
+// ===== Init =====
+renderTheory();renderPractice();renderQuiz();
+updateStreak();updateOverall();
+const p=loadProg();
+if(p.quizPassed){
+  document.getElementById('quizStatus').textContent='✓ Đã đạt';
+  document.getElementById('quizStatus').style.background='#fce7f3';
+  document.getElementById('quizStatus').style.color='#831843';
+}
+bumpActivity();
+</script>
+</body>
+</html>

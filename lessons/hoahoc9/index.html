@@ -1,0 +1,825 @@
+<!doctype html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Hoahoc9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "Hoá học 9 (KNTT) hub for Mika — Bài 18 (Tính chất chung của kim loại) fully built with deep-practice loop, comprehensive Vietnamese→English tooltips, Phòng thí nghiệm bí mật minigame, and 80% mastery quiz gating. Mint green + orange theme. Cites SGK pp.86-91."
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hoá học 9 — Hành trình chinh phục</title>
+<style>
+:root {
+  color-scheme: light;
+  --mint:#10b981; --mint-2:#059669; --mint-soft:#d1fae5; --mint-bg:#ecfdf5;
+  --orange:#f97316; --orange-soft:#ffedd5;
+  --pink:#fce7f3; --cream:#fffbeb;
+  --ink:#0f172a; --ink-2:#475569; --line:#e2e8f0;
+  --bg:#fffaf5;
+  --good:#16a34a; --bad:#dc2626; --warn:#d97706;
+  --shadow:0 2px 8px rgba(16,185,129,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:780px;margin:0 auto;padding:16px 18px 80px}
+header{background:linear-gradient(135deg,#a7f3d0,#fed7aa);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:14px}
+.hi{font-size:22px;font-weight:700;color:#064e3b;margin:0 0 4px}
+.hi-sub{font-size:13px;color:#065f46;margin:0}
+.streak{display:inline-flex;gap:6px;align-items:center;background:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:var(--mint-2);margin-top:8px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 14px}
+nav.tabs button{flex:1;min-width:100px;border:1px solid var(--line);background:#fff;padding:9px 8px;border-radius:12px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:all .15s}
+nav.tabs button.active{background:var(--mint);color:#fff;border-color:var(--mint)}
+nav.tabs button:hover:not(.active){background:var(--mint-soft);color:var(--mint-2)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card h2{margin:0 0 6px;font-size:18px;color:var(--mint-2)}
+.card h3{margin:14px 0 8px;font-size:15px;color:var(--ink)}
+.muted{color:var(--ink-2);font-size:13px}
+.cite{font-size:11px;color:var(--ink-2);background:var(--mint-soft);padding:2px 8px;border-radius:6px;display:inline-block;margin-left:6px;vertical-align:middle}
+.tt{border-bottom:1.5px dotted var(--orange);cursor:help;position:relative;color:#7c2d12;font-weight:500}
+.tt:hover::after,.tt:active::after{content:attr(data-tt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:400;white-space:nowrap;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2);max-width:240px;white-space:normal;width:max-content}
+.step{border-left:4px solid var(--mint);padding:14px 16px;background:var(--mint-bg);border-radius:10px;margin:12px 0}
+.step .num{display:inline-block;background:var(--mint);color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:13px;font-weight:700;margin-right:8px}
+.step .title{font-weight:700;font-size:15px}
+.step .body{margin-top:10px;font-size:14px}
+.analogy{background:#fef3c7;border-left:4px solid var(--orange);padding:10px 14px;border-radius:8px;margin:10px 0;font-size:13px;font-style:italic;color:#78350f}
+.analogy::before{content:"💡 ";font-style:normal}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.before-after>div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fee2e2;color:#7f1d1d}
+.after{background:#d1fae5;color:#064e3b}
+.eq{font-family:Georgia,serif;font-size:16px;background:var(--cream);padding:10px 14px;border-radius:10px;text-align:center;margin:10px 0;border:1px dashed var(--orange);color:#9a3412;font-weight:600}
+.eq sub{font-size:11px;vertical-align:sub}
+.eq .arrow{color:var(--orange);margin:0 6px}
+.chip{display:inline-block;padding:3px 10px;background:var(--mint-soft);color:var(--mint-2);border-radius:999px;font-size:12px;margin:2px;font-weight:500}
+.chip.bad{background:#fee2e2;color:#991b1b}
+.btn{background:var(--mint);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all .15s}
+.btn:hover{background:var(--mint-2)}
+.btn.alt{background:var(--orange)}
+.btn.alt:hover{background:#ea580c}
+.btn.ghost{background:#fff;color:var(--mint-2);border:1.5px solid var(--mint)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.problem{background:#fff;border:2px solid var(--mint-soft);border-radius:12px;padding:14px;margin:12px 0}
+.problem.locked{opacity:.55}
+.problem .q{font-weight:600;margin-bottom:8px;font-size:14px}
+.problem input,.problem textarea{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit}
+.problem input:focus,.problem textarea:focus{outline:none;border-color:var(--mint)}
+.feedback{margin-top:8px;padding:10px;border-radius:8px;font-size:13px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:#d1fae5;color:#065f46;border-left:3px solid var(--good)}
+.feedback.no{background:#fee2e2;color:#7f1d1d;border-left:3px solid var(--bad)}
+.pause{display:none;margin-top:10px;padding:12px;background:var(--cream);border-radius:8px;text-align:center;font-size:14px;color:#78350f}
+.pause.show{display:block}
+.pause .timer{font-size:32px;font-weight:700;color:var(--orange);margin:6px 0}
+.attempts{font-size:11px;color:var(--ink-2);text-align:right;margin-top:4px}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:10px;margin:6px 0;cursor:pointer;font-size:14px;transition:all .15s;color:var(--ink)}
+.opt:hover{border-color:var(--mint);background:var(--mint-bg)}
+.opt.picked{border-color:var(--mint);background:var(--mint-soft);font-weight:600}
+.opt.right{border-color:var(--good);background:#d1fae5}
+.opt.wrong{border-color:var(--bad);background:#fee2e2}
+.lab-stage{background:linear-gradient(180deg,#ecfdf5,#fef3c7);padding:18px;border-radius:14px;text-align:center;margin:14px 0;border:2px dashed var(--orange)}
+.flask{font-size:54px;line-height:1;margin:6px 0}
+.lab-q{font-size:15px;font-weight:600;margin:10px 0}
+.score-pill{display:inline-block;background:var(--mint);color:#fff;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.lock-msg{background:#fff7ed;border:1.5px dashed var(--orange);border-radius:10px;padding:12px;text-align:center;color:#9a3412;font-size:13px;margin:10px 0}
+.chapter{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;margin:6px 0;background:#fff}
+.chapter.curr{border-color:var(--mint);background:var(--mint-bg)}
+.chapter .badge{width:28px;height:28px;border-radius:50%;background:var(--mint-soft);color:var(--mint-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.chapter.curr .badge{background:var(--mint);color:#fff}
+.chapter .name{font-size:13px;flex:1}
+.chapter .lock{font-size:12px;color:var(--ink-2)}
+.progress-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0}
+.progress-bar>div{height:100%;background:linear-gradient(90deg,var(--mint),var(--orange));transition:width .3s}
+.tip{background:var(--pink);border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0;color:#831843}
+.tip::before{content:"🌸 ";}
+@media (max-width:600px){
+  .wrap{padding:12px 14px 80px}
+  header{padding:14px 16px}
+  .hi{font-size:19px}
+  nav.tabs button{flex-basis:calc(50% - 6px);font-size:12px;padding:8px 6px}
+  .before-after{grid-template-columns:1fr}
+  .step{padding:12px 14px}
+  .card{padding:14px}
+  .flask{font-size:42px}
+}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 class="hi">Chào Mika! 🧪</h1>
+  <p class="hi-sub">Hoá học 9 — Hành trình chinh phục</p>
+  <span class="streak" id="streakPill">🔥 <span id="streakNum">0</span> ngày liên tục</span>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="hub" class="active">📚 Tổng quan</button>
+  <button data-tab="theory">📖 Lý thuyết</button>
+  <button data-tab="practice">✍️ Luyện tập</button>
+  <button data-tab="game">🎮 Phòng thí nghiệm</button>
+  <button data-tab="quiz">🏆 Kiểm tra</button>
+</nav>
+
+<!-- HUB -->
+<section id="tab-hub" class="tab">
+  <div class="card">
+    <h2>Hành trình của Mika</h2>
+    <p class="muted">Cùng nhau chinh phục 12 bài học Hoá học, mỗi bài là một bước nhỏ. Hôm nay bắt đầu với <strong>Bài 18: Tính chất chung của kim loại</strong>.</p>
+    <div class="progress-bar"><div id="overallProgress" style="width:0%"></div></div>
+    <p class="muted" style="margin-top:6px">Tiến độ: <span id="overallPct">0</span>%</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--mint-2)">Chương VI — Kim loại. Sự khác nhau cơ bản giữa phi kim và kim loại</h3>
+    <div class="chapter curr"><div class="badge">18</div><div class="name"><strong>Tính chất chung của kim loại</strong> — bài đầu tiên 🌱</div><div class="lock">Mở</div></div>
+    <div class="chapter"><div class="badge">19</div><div class="name">Dãy hoạt động hoá học của kim loại</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">20</div><div class="name">Tách kim loại và việc sử dụng hợp kim</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">21</div><div class="name">Sự khác nhau cơ bản giữa phi kim và kim loại</div><div class="lock">🔒</div></div>
+
+    <h3 style="color:var(--mint-2)">Chương VII — Giới thiệu về chất hữu cơ. Hydrocarbon. Nguồn nhiên liệu</h3>
+    <div class="chapter"><div class="badge">22</div><div class="name">Giới thiệu về hợp chất hữu cơ</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">23</div><div class="name">Alkane</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">24</div><div class="name">Alkene</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">25</div><div class="name">Nguồn nhiên liệu</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">26</div><div class="name">Ethylic alcohol</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">27</div><div class="name">Acetic acid</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">28</div><div class="name">Lipid — chất béo</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">29</div><div class="name">Carbohydrate. Glucose và saccharose</div><div class="lock">🔒</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Cách học của Mika</h3>
+    <p class="muted">Mỗi bài chia làm 4 phần nhỏ, giống như bốn ngăn trong hộp bút màu:</p>
+    <p style="font-size:13px;line-height:1.8">
+      <span class="chip">📖 Lý thuyết</span> Hiểu từng bước nhỏ. Có chú thích tiếng Anh khi cần.<br>
+      <span class="chip">✍️ Luyện tập</span> Làm bài, sai thì dừng — sửa — nghỉ 5 giây — thử lại.<br>
+      <span class="chip">🎮 Trò chơi</span> Vào phòng thí nghiệm bí mật. Chọn chất, đoán phản ứng.<br>
+      <span class="chip">🏆 Kiểm tra</span> Đạt 80% để mở khoá Bài 19.
+    </p>
+    <div class="tip">Lưu ý cute: hover vào chữ có gạch dưới <span class="tt" data-tt="metal">cam</span> để xem nghĩa tiếng Anh!</div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="tab-theory" class="tab hidden">
+  <div class="card">
+    <h2>Bài 18 — Tính chất chung của kim loại <span class="cite">SGK trang 86–91</span></h2>
+    <p class="muted">Mỗi bước nhỏ đều có ví dụ trong nhà bếp, ngoài đường, hoặc trong phòng thí nghiệm. Đọc xong từng bước, đánh dấu ✓ rồi sang bước tiếp theo.</p>
+  </div>
+
+  <div id="theoryContent"></div>
+
+  <div class="card" style="text-align:center">
+    <p class="muted">Đã đọc xong lý thuyết? Sang Luyện tập để kiểm tra hiểu bài.</p>
+    <button class="btn" onclick="switchTab('practice')">Sang Luyện tập →</button>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+<section id="tab-practice" class="tab hidden">
+  <div class="card">
+    <h2>Luyện tập — sai cũng không sao</h2>
+    <p class="muted">Mỗi câu có 3 lần thử. Sai lần đầu? Mika sẽ thấy chỗ sai, nghỉ 5 giây trong đầu, rồi thử lại.</p>
+  </div>
+  <div id="practiceContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn alt" onclick="switchTab('game')">🎮 Vào phòng thí nghiệm →</button>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="tab-game" class="tab hidden">
+  <div class="card">
+    <h2>🧪 Phòng thí nghiệm bí mật</h2>
+    <p class="muted">Mika chọn chất, đoán xem có phản ứng không và sản phẩm là gì. 10 lượt — đúng càng nhiều, càng nhiều ngôi sao 🌟</p>
+    <p>Điểm: <span class="score-pill" id="labScore">0/0</span> · Lượt: <span id="labRound">1/10</span></p>
+  </div>
+
+  <div class="card lab-stage" id="labStage">
+    <div class="flask" id="labEmoji">🧪</div>
+    <div class="lab-q" id="labQ">Bấm Bắt đầu để chơi</div>
+    <div id="labOptions"></div>
+    <div id="labFb" class="feedback"></div>
+    <div style="margin-top:12px">
+      <button class="btn" id="labStartBtn" onclick="startLab()">Bắt đầu</button>
+      <button class="btn ghost hidden" id="labNextBtn" onclick="nextLabRound()">Lượt tiếp →</button>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="tab-quiz" class="tab hidden">
+  <div class="card">
+    <h2>🏆 Kiểm tra cuối Bài 18</h2>
+    <p class="muted">6 câu hỏi. Đạt <strong>80%+</strong> để mở khoá Bài 19. Làm hết một lần, không xem lại từng câu.</p>
+    <p>Trạng thái: <span id="quizStatus" class="chip">chưa làm</span></p>
+  </div>
+  <div id="quizContent"></div>
+  <div class="card hidden" id="quizResult">
+    <h3 id="quizScore"></h3>
+    <p id="quizMsg"></p>
+    <button class="btn" onclick="resetQuiz()">Làm lại</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+// ===== Config (deployment-friendly: all keys here so future sync layer can swap) =====
+const CFG = {
+  subject: 'hoahoc9',
+  progressKey: 'hoahoc9-progress',
+  activityKey: 'toan9-activity',  // SHARED across all subjects — see project skill
+  passThreshold: 0.8,
+  attemptLimit: 3,
+  pauseSeconds: 5
+};
+
+// ===== Tooltip dictionary (Vietnamese → English) =====
+const dict = {
+  // Core chemistry
+  'kim loại':'metal','phi kim':'non-metal','hợp kim':'alloy',
+  'nguyên tố':'element','nguyên tử':'atom','phân tử':'molecule',
+  'hợp chất':'compound','chất':'substance','hỗn hợp':'mixture',
+  'hoá học':'chemistry','vật lí':'physical','tính chất':'property',
+  'phản ứng':'reaction','tác dụng':'reacts with','sản phẩm':'product',
+  'phương trình':'equation','dung dịch':'solution','nồng độ':'concentration',
+  // Physical properties
+  'tính dẻo':'malleability','dẻo':'malleable','dát mỏng':'flatten thin',
+  'kéo sợi':'drawn into wire','uốn cong':'bend','gãy':'break',
+  'tính dẫn điện':'electrical conductivity','dẫn điện':'conduct electricity',
+  'tính dẫn nhiệt':'thermal conductivity','dẫn nhiệt':'conduct heat',
+  'ánh kim':'metallic luster','bóng':'shiny','sáng lấp lánh':'sparkly bright',
+  'nhiệt độ':'temperature','nhiệt độ thường':'room temperature','nhiệt':'heat',
+  'nóng chảy':'melt','nóng':'hot','rắn':'solid','lỏng':'liquid',
+  // Specific metals
+  'sắt':'iron (Fe)','đồng':'copper (Cu)','nhôm':'aluminium (Al)',
+  'vàng':'gold (Au)','bạc':'silver (Ag)','kẽm':'zinc (Zn)',
+  'chì':'lead (Pb)','thiếc':'tin (Sn)','thuỷ ngân':'mercury (Hg)',
+  'magie':'magnesium (Mg)','canxi':'calcium (Ca)','natri':'sodium (Na)',
+  'kali':'potassium (K)','bari':'barium (Ba)','platin':'platinum (Pt)',
+  // Reactants/products
+  'oxygen':'oxygen (O₂)','khí oxygen':'oxygen gas','chlorine':'chlorine gas',
+  'sulfur':'sulfur','lưu huỳnh':'sulfur','nước':'water','hơi nước':'water vapor',
+  'hydrogen':'hydrogen gas','khí hydrogen':'hydrogen gas','khí':'gas',
+  'oxide':'oxide','muối':'salt','muối clorua':'chloride salt',
+  'hydroxide':'hydroxide','acid':'acid','base':'base','kiềm':'alkali',
+  'hydrochloric acid':'HCl','sulfuric acid':'H₂SO₄','copper sulfate':'CuSO₄',
+  'iron oxide':'iron oxide','aluminium oxide':'aluminium oxide',
+  // Reaction types
+  'tác dụng với':'reacts with','phản ứng với':'reacts with',
+  'tạo thành':'forms','tạo ra':'produces','sinh ra':'produces',
+  'giải phóng':'releases','thoát ra':'escapes','sủi bọt':'bubbles',
+  'cháy':'burns','đốt':'ignite','đốt cháy':'burn','toả nhiệt':'releases heat',
+  'đẩy':'displaces','đẩy ra khỏi':'displaces from',
+  'mạnh hơn':'stronger than','yếu hơn':'weaker than',
+  'hoạt động hoá học':'chemical activity',
+  // Common verbs / structure
+  'là':'is','có':'has','được':'is/can be','dùng':'used','dùng để':'used to',
+  'làm':'make','tạo':'create','sử dụng':'use','quan sát':'observe',
+  'thí nghiệm':'experiment','kết quả':'result','hiện tượng':'observation',
+  'nghiên cứu':'study','kết luận':'conclusion','ví dụ':'example',
+  'một số':'some','hầu hết':'most','tất cả':'all','các':'the/various',
+  'mỗi':'each','khác':'different','khác nhau':'different from each other',
+  'chung':'common','riêng':'separate','đa số':'majority',
+  // Lesson chrome
+  'bài':'lesson','chương':'chapter','mục tiêu':'objective','tổng kết':'summary',
+  'em đã học':'what you learned','em có thể':'you can',
+  'lý thuyết':'theory','luyện tập':'practice','kiểm tra':'quiz',
+  'mở khoá':'unlock','khoá':'locked','tiến độ':'progress',
+  'điểm':'score','đúng':'correct','sai':'wrong','câu hỏi':'question',
+  'câu trả lời':'answer','chọn':'pick','bấm':'click','tiếp':'next',
+  'lượt':'round','lần':'time','thử':'try','thử lại':'try again',
+  'làm lại':'redo','xong':'done','bắt đầu':'start','kết thúc':'end',
+  // Time / counting
+  'ngày':'day','liên tục':'in a row','phút':'minute','giây':'second',
+  'một':'one','hai':'two','ba':'three','bốn':'four','năm':'five',
+  'sáu':'six','bảy':'seven','tám':'eight','chín':'nine','mười':'ten',
+  // Common adjectives/adverbs from textbook
+  'thường':'common/usual','phổ biến':'common','thông dụng':'commonly used',
+  'quan trọng':'important','dễ dàng':'easily','rõ ràng':'clearly',
+  'giống nhau':'similar','tương tự':'similar to','cũng':'also',
+  'không':'not','chỉ':'only','rất':'very','thì':'then','nếu':'if',
+  'khi':'when','trong':'in','với':'with','của':'of','và':'and','hoặc':'or',
+  'nhưng':'but','vì':'because','nên':'so','do':'because of','để':'in order to',
+  // Mika-friendly extras
+  'chỉ':'only','trở thành':'becomes','xuất hiện':'appears',
+  'nhanh chóng':'quickly','từ từ':'slowly','khắp nơi':'everywhere',
+  'quanh ta':'around us','cuộc sống':'daily life','hằng ngày':'daily'
+};
+
+// ===== Tooltip injector — splits on HTML tags first to avoid matching inside <strong> etc. =====
+function escapeRegex(s){return s.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&')}
+function applyTooltips(html){
+  if(!html) return html;
+  const segs = html.split(/(<[^>]*>)/g);
+  // Sort dictionary keys by length DESC so multi-word phrases match first
+  const keys = Object.keys(dict).sort((a,b)=>b.length-a.length);
+  return segs.map(seg=>{
+    if(!seg || seg.startsWith('<')) return seg;  // tag — leave alone
+    let out = seg;
+    for(const k of keys){
+      // Use lookbehind/lookahead with non-letter chars; Vietnamese diacritics are not \w
+      const re = new RegExp(`(^|[^a-zà-ỹÀ-Ỹ])(${escapeRegex(k)})(?![a-zà-ỹÀ-Ỹ])`,'gi');
+      out = out.replace(re,(m,pre,word)=>`${pre}<span class="tt" data-tt="${dict[k]}">${word}</span>`);
+    }
+    return out;
+  }).join('');
+}
+
+// ===== Progress state =====
+function loadProg(){
+  try{return JSON.parse(localStorage.getItem(CFG.progressKey))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+  catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+}
+function saveProg(p){localStorage.setItem(CFG.progressKey,JSON.stringify(p))}
+function bumpActivity(){
+  const today = new Date().toISOString().slice(0,10);
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  act[today]=(act[today]||0)+1;
+  localStorage.setItem(CFG.activityKey,JSON.stringify(act));
+  updateStreak();
+}
+function updateStreak(){
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  let n=0; const d=new Date();
+  while(true){
+    const k=d.toISOString().slice(0,10);
+    if(act[k])n++; else if(n>0||k!==new Date().toISOString().slice(0,10))break;
+    d.setDate(d.getDate()-1);
+    if(n>365)break;
+  }
+  document.getElementById('streakNum').textContent=n;
+}
+function updateOverall(){
+  const p=loadProg();
+  const total=11+5+10+1; // theory+practice+game+quiz
+  const done=p.theory+p.practice+p.game+(p.quizPassed?1:0);
+  const pct=Math.round(100*done/total);
+  document.getElementById('overallProgress').style.width=pct+'%';
+  document.getElementById('overallPct').textContent=pct;
+}
+
+// ===== Tabs =====
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById('tab-'+name).classList.remove('hidden');
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+// ===== Theory steps =====
+const steps = [
+  {
+    title: '1. Mở đầu — kim loại quanh ta',
+    body: `<p>Hãy nhìn quanh nhà: cái muỗng inox, cái nồi nhôm, dây điện đồng, vòng tay vàng, gương sáng. Tất cả đều là <strong>kim loại</strong>.</p>
+    <p>Câu hỏi của bài hôm nay: <em>vì sao mỗi kim loại được dùng cho mỗi thứ khác nhau?</em></p>`,
+    analogy: 'Giống như mỗi cây bút màu có một việc riêng — bút chì để viết, bút sáp để tô — mỗi kim loại có tính chất riêng để làm việc khác nhau.',
+    before:'Trước: kim loại = sắt, đồng (chỉ là tên).',
+    after:'Sau: kim loại = bộ chất có 4 tính chất chung và phản ứng theo quy luật.'
+  },
+  {
+    title: '2. Tính dẻo — uốn không gãy',
+    body: `<p>Cầm một miếng gỗ và một sợi dây nhôm. Bẻ miếng gỗ → gãy. Uốn dây nhôm → cong nhưng không đứt.</p>
+    <p>Đó là <strong>tính dẻo</strong>: kim loại bị biến dạng (kéo sợi, dát mỏng) mà không gãy.</p>
+    <p>Vàng dẻo nhất: 1 gam vàng có thể dát thành lá mỏng rộng 1 m².</p>`,
+    analogy: 'Như bột nặn — bóp, kéo, vo tròn, vẫn dính lại với nhau.',
+    before:'Trước: bẻ thanh sắt thì sao? — không biết.',
+    after:'Sau: kim loại không gãy như gỗ, mà cong lại — đó là tính dẻo.'
+  },
+  {
+    title: '3. Tính dẫn điện — vì sao dây điện làm bằng đồng?',
+    body: `<p>Cắm dây điện đồng vào ổ → đèn sáng. Cắm dây gỗ vào → không gì xảy ra.</p>
+    <p><strong>Kim loại dẫn điện</strong>. Kim loại dẫn điện tốt nhất theo thứ tự: bạc > đồng > vàng > nhôm > sắt.</p>
+    <p>Đồng được dùng cho dây điện vì <em>vừa dẫn tốt vừa rẻ hơn bạc</em>.</p>`,
+    analogy: 'Hình dung dòng electron như đoàn bạn nhỏ chạy qua dãy hành lang. Hành lang đồng rộng và trơn → chạy nhanh. Hành lang gỗ chắn lối → không qua được.',
+    before:'Trước: dây điện chỉ là dây.',
+    after:'Sau: dây điện làm bằng đồng vì đồng dẫn điện tốt và giá hợp lí.'
+  },
+  {
+    title: '4. Tính dẫn nhiệt — đáy nồi nóng nhanh',
+    body: `<p>Để cái nồi nhôm trên bếp 30 giây → cầm tay nồi cũng nóng. Để cái muỗng gỗ vào nồi canh → cán muỗng vẫn mát.</p>
+    <p><strong>Kim loại dẫn nhiệt</strong>: nhiệt truyền đi nhanh trong kim loại. Nhôm dẫn nhiệt tốt → làm nồi.</p>`,
+    analogy: 'Như chuyền tay nhau: kim loại = các bạn đứng sát nhau chuyền nhanh; gỗ = các bạn đứng xa, chuyền chậm.',
+    before:'Trước: nồi nhôm nóng vì... lửa?',
+    after:'Sau: nồi nhôm nóng vì nhôm dẫn nhiệt — truyền nhiệt từ đáy lên thành.'
+  },
+  {
+    title: '5. Ánh kim — vì sao đồ kim loại bóng?',
+    body: `<p>Nhìn cái nhẫn vàng — bóng và lấp lánh. Nhìn cái khúc gỗ — không bóng. Đó là <strong>ánh kim</strong>.</p>
+    <p>Ánh kim làm cho kim loại đẹp → dùng làm trang sức (vàng, bạc), gương (bạc tráng phía sau).</p>`,
+    analogy: 'Bề mặt kim loại như mặt hồ phẳng lặng — phản chiếu ánh sáng. Bề mặt gỗ như đất xốp — hút ánh sáng vào.',
+    before:'Trước: nhẫn vàng đẹp vì... đẹp.',
+    after:'Sau: nhẫn vàng đẹp vì có ánh kim — đặc tính chung của kim loại.'
+  },
+  {
+    title: '6. Tổng kết tính chất vật lí',
+    body: `<p><strong>Bốn tính chất vật lí chung của kim loại:</strong></p>
+    <p><span class="chip">1. Tính dẻo</span> <span class="chip">2. Dẫn điện</span> <span class="chip">3. Dẫn nhiệt</span> <span class="chip">4. Ánh kim</span></p>
+    <p>Mỗi kim loại đều có cả 4. Nhưng mức độ khác nhau: bạc dẫn điện tốt hơn nhôm, vàng dẻo hơn sắt, v.v.</p>`,
+    analogy: 'Như tất cả mèo đều có 4 chân, lông, kêu meo. Nhưng mèo Anh lông dài hơn, mèo Xiêm gầy hơn.',
+    before:'Trước: kim loại đều giống nhau.',
+    after:'Sau: kim loại đều có 4 tính chất chung, nhưng mức độ khác nhau.'
+  },
+  {
+    title: '7. Tác dụng với oxygen — vì sao sắt bị gỉ?',
+    body: `<p>Để con dao sắt ngoài trời mưa vài tuần → mặt dao có lớp đỏ nâu. Đó là sắt phản ứng với oxygen trong không khí.</p>
+    <div class="eq">3Fe + 2O<sub>2</sub> <span class="arrow">→</span> Fe<sub>3</sub>O<sub>4</sub></div>
+    <p>Đốt bột nhôm → cháy sáng, tạo aluminium oxide trắng:</p>
+    <div class="eq">4Al + 3O<sub>2</sub> <span class="arrow">→</span> 2Al<sub>2</sub>O<sub>3</sub></div>
+    <p><strong>Vàng và bạc</strong> không phản ứng với oxygen → vì vậy nhẫn vàng không gỉ.</p>`,
+    analogy: 'Sắt + oxygen = "kết hôn" thành sắt-oxide. Vàng quá "kén chọn", không kết hôn với ai.',
+    before:'Trước: dao bị gỉ vì... cũ.',
+    after:'Sau: dao bị gỉ vì sắt + oxygen → iron oxide. Đó là phản ứng hoá học.'
+  },
+  {
+    title: '8. Tác dụng với chlorine và sulfur',
+    body: `<p>Đa số kim loại cũng phản ứng với <strong>chlorine</strong> tạo muối chloride:</p>
+    <div class="eq">2Fe + 3Cl<sub>2</sub> <span class="arrow">→</span> 2FeCl<sub>3</sub></div>
+    <p>Phản ứng với <strong>sulfur</strong> (đun nóng) tạo muối sulfide:</p>
+    <div class="eq">Fe + S <span class="arrow">→</span> FeS</div>
+    <p>Vàng, bạc, platin vẫn không phản ứng với chlorine.</p>`,
+    analogy: 'Phi kim (oxygen, chlorine, sulfur) như ba "bạn năng động" — kim loại nào cũng thân được, trừ mấy kim loại "lười" (Au, Ag, Pt).',
+    before:'Trước: kim loại chỉ phản ứng với oxygen.',
+    after:'Sau: kim loại phản ứng được với nhiều phi kim — tạo muối khác nhau.'
+  },
+  {
+    title: '9. Tác dụng với nước — chỉ kim loại kiềm và Ca, Ba',
+    body: `<p>Bỏ một mẩu natri nhỏ vào cốc nước → sủi bọt mạnh, phát nhiệt, có thể bốc cháy.</p>
+    <div class="eq">2Na + 2H<sub>2</sub>O <span class="arrow">→</span> 2NaOH + H<sub>2</sub>↑</div>
+    <p><strong>Chỉ vài kim loại</strong> (K, Na, Ca, Ba) phản ứng với nước ở nhiệt độ thường. Sắt, đồng, nhôm <em>không phản ứng</em> với nước thường.</p>
+    <p>Sắt phản ứng với <em>hơi nước</em> ở nhiệt độ cao:</p>
+    <div class="eq">3Fe + 4H<sub>2</sub>O <span class="arrow">→</span> Fe<sub>3</sub>O<sub>4</sub> + 4H<sub>2</sub>↑</div>`,
+    analogy: 'Kim loại kiềm (Na, K) như tính cách "bộc phát" — gặp nước là phản ứng ngay. Sắt thì "trầm" — phải đốt nóng mới phản ứng được.',
+    before:'Trước: kim loại không liên quan gì tới nước.',
+    after:'Sau: chỉ vài kim loại "mạnh" phản ứng nước; còn lại không hoặc chỉ phản ứng khi rất nóng.'
+  },
+  {
+    title: '10. Tác dụng với acid — sủi bọt H₂',
+    body: `<p>Bỏ vụn kẽm vào dung dịch HCl → <strong>sủi bọt</strong>. Bọt đó là khí hydrogen.</p>
+    <div class="eq">Zn + 2HCl <span class="arrow">→</span> ZnCl<sub>2</sub> + H<sub>2</sub>↑</div>
+    <div class="eq">Fe + 2HCl <span class="arrow">→</span> FeCl<sub>2</sub> + H<sub>2</sub>↑</div>
+    <p><strong>Đồng, bạc, vàng</strong> KHÔNG phản ứng với HCl loãng — đó là điểm mấu chốt.</p>`,
+    analogy: 'Acid như "thanh tra" — chỉ "bắt" được kim loại nào "chịu nói chuyện" (Zn, Fe, Mg, Al). Đồng, vàng, bạc trốn được.',
+    before:'Trước: acid mạnh thì hòa tan mọi thứ.',
+    after:'Sau: acid loãng chỉ phản ứng với kim loại "đứng trước H" trong dãy hoạt động. Cu, Ag, Au — không.'
+  },
+  {
+    title: '11. Tác dụng với muối — kim loại đẩy nhau',
+    body: `<p>Đặt đinh sắt vào dung dịch <strong>copper sulfate</strong> (xanh lam) → vài phút sau, đinh sắt phủ một lớp đỏ nâu là đồng.</p>
+    <div class="eq">Fe + CuSO<sub>4</sub> <span class="arrow">→</span> FeSO<sub>4</sub> + Cu</div>
+    <p>Sắt "mạnh hơn" đồng → đẩy đồng ra khỏi muối. Quy luật: <strong>kim loại mạnh đẩy kim loại yếu hơn ra khỏi muối của nó</strong>.</p>
+    <p>Lưu ý: Na, K, Ca... không phản ứng kiểu này vì chúng phản ứng với nước trong dung dịch trước.</p>`,
+    analogy: 'Như chen chỗ trên xe buýt: bạn cao to hơn đẩy bạn nhỏ ra ghế. Sắt to hơn đồng — sắt giành chỗ trong muối.',
+    before:'Trước: dung dịch xanh chỉ là... xanh.',
+    after:'Sau: bỏ đinh sắt vào dung dịch xanh sẽ thấy đồng đỏ xuất hiện — đó là phản ứng đẩy kim loại.'
+  }
+];
+
+function renderTheory(){
+  const p=loadProg();
+  const cont=document.getElementById('theoryContent');
+  cont.innerHTML='';
+  steps.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='step';
+    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
+    <div class="body">${applyTooltips(s.body)}</div>
+    <div class="analogy">${applyTooltips(s.analogy)}</div>
+    <div class="before-after">
+      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
+      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+    </div>
+    <div style="text-align:right;margin-top:8px">
+      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
+    </div>`;
+    cont.appendChild(el);
+  });
+}
+function markStep(i){
+  const p=loadProg();
+  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
+  renderTheory();updateOverall();
+}
+
+// ===== Practice (deep-practice loop) =====
+const practice = [
+  {
+    q:'Viết phương trình khi <strong>magnesium</strong> (Mg) tác dụng với khí oxygen tạo magnesium oxide.',
+    hint:'Cân bằng: 2 Mg cần bao nhiêu O₂?',
+    accept:[/2\s*mg\s*\+\s*o2\s*[→\-=>]+\s*2\s*mgo/i],
+    answer:'2Mg + O₂ → 2MgO',
+    explain:'Mg + O₂ → MgO chưa cân bằng (1 O bên trái, 1 O bên phải nhưng O₂ có 2 O). Cần 2 Mg và 2 MgO.'
+  },
+  {
+    q:'<strong>Sắt</strong> có phản ứng với HCl không? Nếu có, viết phương trình.',
+    hint:'Sản phẩm là muối + khí hydrogen.',
+    accept:[/fe\s*\+\s*2\s*hcl\s*[→\-=>]+\s*fecl2\s*\+\s*h2/i],
+    answer:'Fe + 2HCl → FeCl₂ + H₂↑',
+    explain:'Fe đứng trước H trong dãy hoạt động → có phản ứng. Sản phẩm: FeCl₂ và khí hydrogen.'
+  },
+  {
+    q:'<strong>Đồng</strong> có phản ứng với HCl không? Trả lời "có" hoặc "không" và giải thích ngắn.',
+    hint:'Đồng đứng trước hay sau H trong dãy hoạt động hoá học?',
+    accept:[/^không/i,/đồng\s+(không|đứng\s+sau)/i],
+    answer:'Không — đồng (Cu) đứng sau H, không phản ứng với HCl loãng.',
+    explain:'Quy luật: chỉ kim loại đứng TRƯỚC H mới phản ứng với HCl/H₂SO₄ loãng.'
+  },
+  {
+    q:'Bỏ <strong>kẽm</strong> (Zn) vào dung dịch CuSO₄. Phản ứng có xảy ra không? Sản phẩm là gì?',
+    hint:'Zn mạnh hơn Cu → ai đẩy ai?',
+    accept:[/zn\s*\+\s*cuso4\s*[→\-=>]+\s*znso4\s*\+\s*cu/i,/có[\s\S]*znso4[\s\S]*cu/i],
+    answer:'Zn + CuSO₄ → ZnSO₄ + Cu',
+    explain:'Kẽm mạnh hơn đồng → kẽm đẩy đồng ra khỏi muối. Sản phẩm: ZnSO₄ (muối mới) và Cu (đồng kim loại).'
+  },
+  {
+    q:'Cho 4 kim loại: Au, Fe, Na, Ag. <strong>Kim loại nào</strong> phản ứng với nước ở nhiệt độ thường?',
+    hint:'Chỉ kim loại "kiềm" như K, Na, Ca, Ba.',
+    accept:[/^na$/i,/natri/i,/^na\b/i],
+    answer:'Na (natri)',
+    explain:'Trong 4 kim loại, chỉ Na là kim loại kiềm → phản ứng với nước thường tạo NaOH + H₂. Au, Ag không phản ứng. Fe chỉ phản ứng với hơi nước nóng.'
+  }
+];
+let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
+function renderPractice(){
+  const cont=document.getElementById('practiceContent');
+  cont.innerHTML='';
+  practice.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='problem'+(prState[i].solved?'':'');
+    div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
+    <input type="text" id="pin-${i}" placeholder="Nhập câu trả lời..." ${prState[i].solved?'disabled':''}>
+    <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>
+    <div style="margin-top:8px">
+      <button class="btn" id="pbtn-${i}" onclick="checkAnswer(${i})" ${prState[i].solved?'disabled':''}>Kiểm tra</button>
+      <button class="btn ghost" onclick="showHint(${i})">💡 Gợi ý</button>
+    </div>
+    <div id="pause-${i}" class="pause">⏸️ Dừng lại 5 giây — nhắm mắt, hình dung phản ứng trong đầu, rồi thử lại.<div class="timer" id="ptimer-${i}">5</div></div>
+    <div id="pfb-${i}" class="feedback"></div>`;
+    cont.appendChild(div);
+  });
+}
+function showHint(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show';fb.style.background='#fef3c7';fb.style.color='#78350f';fb.style.borderLeftColor='#d97706';
+  fb.innerHTML='💡 '+applyTooltips(practice[i].hint);
+}
+function checkAnswer(i){
+  if(prState[i].paused||prState[i].solved)return;
+  const val=(document.getElementById('pin-'+i).value||'').trim();
+  if(!val)return;
+  const ok=practice[i].accept.some(re=>re.test(val.replace(/\s+/g,' ').trim()));
+  prState[i].attempts++;
+  document.getElementById('pat-'+i).textContent=prState[i].attempts;
+  const fb=document.getElementById('pfb-'+i);
+  if(ok){
+    prState[i].solved=true;
+    fb.className='feedback show ok';
+    fb.innerHTML=`✓ Đúng rồi! ${applyTooltips(practice[i].explain)}`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p);bumpActivity()}
+    updateOverall();
+    return;
+  }
+  if(prState[i].attempts>=CFG.attemptLimit){
+    fb.className='feedback show no';
+    fb.innerHTML=`Đã thử ${CFG.attemptLimit} lần. Đáp án: <strong>${practice[i].answer}</strong>.<br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    return;
+  }
+  // Stop-fix: show what's wrong, then forced 5-sec pause
+  fb.className='feedback show no';
+  fb.innerHTML=`Chưa đúng. Hãy đọc lại câu hỏi và <em>nghĩ kĩ</em> trước khi thử lại. Còn ${CFG.attemptLimit-prState[i].attempts} lần.`;
+  prState[i].paused=true;
+  document.getElementById('pbtn-'+i).disabled=true;
+  document.getElementById('pin-'+i).disabled=true;
+  const pauseEl=document.getElementById('pause-'+i);
+  pauseEl.classList.add('show');
+  let n=CFG.pauseSeconds;
+  document.getElementById('ptimer-'+i).textContent=n;
+  const tk=setInterval(()=>{
+    n--;document.getElementById('ptimer-'+i).textContent=n;
+    if(n<=0){
+      clearInterval(tk);
+      pauseEl.classList.remove('show');
+      prState[i].paused=false;
+      document.getElementById('pbtn-'+i).disabled=false;
+      document.getElementById('pin-'+i).disabled=false;
+      document.getElementById('pin-'+i).focus();
+    }
+  },1000);
+}
+
+// ===== Lab game =====
+const labRounds = [
+  {emoji:'⚗️',q:'Bỏ <strong>kẽm</strong> (Zn) vào dung dịch HCl. Có phản ứng không, sản phẩm gì?',opts:[
+    {t:'Có — ZnCl₂ + H₂↑',ok:true,why:'Zn đứng trước H trong dãy hoạt động.'},
+    {t:'Không phản ứng',ok:false,why:'Zn đứng trước H → có phản ứng.'},
+    {t:'Có — ZnO + H₂',ok:false,why:'Sản phẩm với HCl là MUỐI clorua, không phải oxide.'}
+  ]},
+  {emoji:'🟡',q:'Bỏ <strong>vàng</strong> (Au) vào dung dịch HCl. Có phản ứng không?',opts:[
+    {t:'Có — AuCl₃ + H₂↑',ok:false,why:'Au đứng SAU H → không phản ứng với HCl loãng.'},
+    {t:'Không phản ứng',ok:true,why:'Au đứng sau H → trơ với HCl. Vì vậy nhẫn vàng không tan trong tay người (mồ hôi có acid nhẹ).'},
+    {t:'Có — AuO + H₂↑',ok:false,why:'Au không phản ứng với HCl.'}
+  ]},
+  {emoji:'🔥',q:'Đốt bột <strong>nhôm</strong> (Al) trong oxygen.',opts:[
+    {t:'2Al + 3O₂ → 2AlO₃',ok:false,why:'Công thức Al₂O₃, không phải AlO₃. Cần cân bằng lại.'},
+    {t:'4Al + 3O₂ → 2Al₂O₃',ok:true,why:'Cân bằng: 4 Al và 6 O ở mỗi bên ✓'},
+    {t:'Al + O₂ → AlO₂',ok:false,why:'Aluminium oxide là Al₂O₃ (Al hoá trị III).'}
+  ]},
+  {emoji:'💧',q:'Bỏ một mẩu <strong>natri</strong> (Na) vào cốc nước. Hiện tượng?',opts:[
+    {t:'Không có gì',ok:false,why:'Na phản ứng mạnh với nước!'},
+    {t:'Sủi bọt mạnh, có thể cháy, tạo dung dịch kiềm',ok:true,why:'2Na + 2H₂O → 2NaOH + H₂↑. Phản ứng toả nhiệt mạnh.'},
+    {t:'Na chìm xuống đáy yên lặng',ok:false,why:'Na nhẹ hơn nước (D≈0.97) — nổi lên rồi phản ứng.'}
+  ]},
+  {emoji:'🟦',q:'Cho đinh <strong>sắt</strong> vào dung dịch CuSO₄ (xanh lam).',opts:[
+    {t:'Đinh sắt phủ lớp đỏ nâu, dung dịch nhạt màu',ok:true,why:'Fe + CuSO₄ → FeSO₄ + Cu. Cu (đỏ nâu) bám lên đinh, dung dịch FeSO₄ nhạt màu hơn.'},
+    {t:'Đinh sắt tan hoàn toàn',ok:false,why:'Phản ứng đẩy kim loại — không tan hết. Chỉ một phần Fe phản ứng.'},
+    {t:'Không có hiện tượng',ok:false,why:'Có phản ứng — Fe mạnh hơn Cu.'}
+  ]},
+  {emoji:'🪨',q:'Bỏ <strong>đồng</strong> (Cu) vào dung dịch FeSO₄.',opts:[
+    {t:'Có phản ứng, tạo CuSO₄ + Fe',ok:false,why:'Cu YẾU hơn Fe → không đẩy được Fe ra khỏi muối.'},
+    {t:'Không phản ứng',ok:true,why:'Quy tắc: kim loại mạnh đẩy yếu. Cu yếu hơn Fe → không có phản ứng.'},
+    {t:'Cu tan ra',ok:false,why:'Cu không phản ứng với FeSO₄.'}
+  ]},
+  {emoji:'⚙️',q:'<strong>Sắt</strong> có phản ứng với nước ở nhiệt độ thường không?',opts:[
+    {t:'Có, sắt + nước → Fe(OH)₂ + H₂',ok:false,why:'Fe KHÔNG phản ứng với nước thường. Chỉ phản ứng với HƠI nước ở nhiệt độ cao.'},
+    {t:'Không, ở nhiệt độ thường',ok:true,why:'Fe trơ với nước thường. 3Fe + 4H₂O → Fe₃O₄ + 4H₂ chỉ xảy ra với hơi nước nóng.'},
+    {t:'Sắt cháy trong nước',ok:false,why:'Không có hiện tượng đó.'}
+  ]},
+  {emoji:'🧂',q:'Đốt sắt trong khí <strong>chlorine</strong> (Cl₂).',opts:[
+    {t:'2Fe + 3Cl₂ → 2FeCl₃',ok:true,why:'Fe + Cl₂ tạo FeCl₃ (sắt(III) chloride). Cân bằng: 2Fe và 6Cl mỗi bên ✓'},
+    {t:'Fe + Cl₂ → FeCl₂',ok:false,why:'Với Cl₂ dư, sắt tạo FeCl₃ (hoá trị III), không phải FeCl₂.'},
+    {t:'Không phản ứng',ok:false,why:'Đa số kim loại phản ứng với chlorine.'}
+  ]},
+  {emoji:'🥄',q:'Bỏ thanh <strong>magie</strong> (Mg) vào dung dịch CuSO₄.',opts:[
+    {t:'Mg + CuSO₄ → MgSO₄ + Cu',ok:true,why:'Mg mạnh hơn Cu rất nhiều → đẩy Cu ra. Cu (đỏ nâu) bám lên Mg.'},
+    {t:'Không phản ứng',ok:false,why:'Mg đứng trước Cu trong dãy hoạt động → có phản ứng.'},
+    {t:'Mg + CuSO₄ → MgO + CuS',ok:false,why:'Đây là phản ứng đẩy kim loại, không phải phản ứng nhiệt phân.'}
+  ]},
+  {emoji:'💎',q:'<strong>Bạc</strong> (Ag) phản ứng với <em>oxygen không khí</em> ở nhiệt độ thường?',opts:[
+    {t:'Có — tạo Ag₂O',ok:false,why:'Ag rất kém hoạt động → không phản ứng với O₂ thường.'},
+    {t:'Không',ok:true,why:'Ag, Au, Pt là các kim loại "lười" — không phản ứng với O₂ ở nhiệt độ thường. Đó là lí do trang sức bạc, vàng giữ được lâu.'},
+    {t:'Có — tạo AgO',ok:false,why:'Ag không phản ứng với O₂ thường.'}
+  ]}
+];
+let labIdx=0,labOk=0,labStarted=false;
+function startLab(){
+  labStarted=true;labIdx=0;labOk=0;
+  document.getElementById('labStartBtn').classList.add('hidden');
+  showLabRound();
+}
+function showLabRound(){
+  const r=labRounds[labIdx];
+  document.getElementById('labRound').textContent=(labIdx+1)+'/10';
+  document.getElementById('labScore').textContent=labOk+'/'+labIdx;
+  document.getElementById('labEmoji').textContent=r.emoji;
+  document.getElementById('labQ').innerHTML=applyTooltips(r.q);
+  const ob=document.getElementById('labOptions');
+  ob.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';b.textContent=o.t;
+    b.onclick=()=>pickLab(i);
+    ob.appendChild(b);
+  });
+  document.getElementById('labFb').className='feedback';
+  document.getElementById('labFb').innerHTML='';
+  document.getElementById('labNextBtn').classList.add('hidden');
+}
+function pickLab(i){
+  const r=labRounds[labIdx];
+  const opts=document.querySelectorAll('#labOptions .opt');
+  opts.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===i)b.classList.add(r.opts[j].ok?'right':'wrong');
+    else if(r.opts[j].ok)b.classList.add('right');
+  });
+  const fb=document.getElementById('labFb');
+  if(r.opts[i].ok){
+    labOk++;
+    fb.className='feedback show ok';
+    fb.innerHTML='✓ Tuyệt! '+applyTooltips(r.opts[i].why);
+  }else{
+    fb.className='feedback show no';
+    fb.innerHTML='✗ '+applyTooltips(r.opts[i].why);
+  }
+  document.getElementById('labScore').textContent=labOk+'/'+(labIdx+1);
+  document.getElementById('labNextBtn').classList.remove('hidden');
+}
+function nextLabRound(){
+  labIdx++;
+  if(labIdx>=labRounds.length){
+    const stage=document.getElementById('labStage');
+    const stars=labOk>=8?'🌟🌟🌟':labOk>=6?'🌟🌟':labOk>=4?'🌟':'🧪';
+    stage.innerHTML=`<div class="flask">${stars}</div><h3>Phòng thí nghiệm hoàn thành!</h3><p>Mika đoán đúng <strong>${labOk}/10</strong> phản ứng.</p><button class="btn ghost" onclick="resetLab()">Chơi lại</button> <button class="btn" onclick="switchTab('quiz')">Sang Kiểm tra →</button>`;
+    const p=loadProg();
+    if(labOk>p.game){p.game=labOk;saveProg(p);bumpActivity();updateOverall()}
+    return;
+  }
+  showLabRound();
+}
+function resetLab(){
+  labIdx=0;labOk=0;labStarted=false;
+  document.getElementById('labStage').innerHTML=`<div class="flask" id="labEmoji">🧪</div>
+  <div class="lab-q" id="labQ">Bấm Bắt đầu để chơi</div>
+  <div id="labOptions"></div>
+  <div id="labFb" class="feedback"></div>
+  <div style="margin-top:12px"><button class="btn" id="labStartBtn" onclick="startLab()">Bắt đầu</button>
+  <button class="btn ghost hidden" id="labNextBtn" onclick="nextLabRound()">Lượt tiếp →</button></div>`;
+  document.getElementById('labRound').textContent='1/10';
+  document.getElementById('labScore').textContent='0/0';
+}
+
+// ===== Quiz =====
+const quiz = [
+  {q:'Tính chất nào KHÔNG phải tính chất vật lí chung của kim loại?',opts:['Tính dẻo','Dẫn điện','Cháy mạnh trong không khí','Ánh kim'],ans:2,why:'Cháy mạnh là phản ứng hoá học (với O₂) — không phải tính chất vật lí. 4 tính chất vật lí chung: dẻo, dẫn điện, dẫn nhiệt, ánh kim.'},
+  {q:'Trong các kim loại sau, kim loại nào KHÔNG phản ứng với HCl loãng?',opts:['Zn','Mg','Cu','Fe'],ans:2,why:'Cu đứng sau H trong dãy hoạt động → không phản ứng với HCl loãng. Zn, Mg, Fe đều đứng trước H → có phản ứng.'},
+  {q:'Phản ứng nào sau đây <strong>đúng</strong>?',opts:['Cu + 2HCl → CuCl₂ + H₂','Fe + CuSO₄ → FeSO₄ + Cu','Ag + HCl → AgCl + H₂','Au + O₂ → AuO'],ans:1,why:'Fe mạnh hơn Cu → đẩy Cu ra khỏi muối. Các đáp án còn lại đều sai vì Cu, Ag, Au đều không phản ứng như vậy.'},
+  {q:'Kim loại nào phản ứng với nước ở nhiệt độ thường?',opts:['Sắt','Đồng','Natri','Vàng'],ans:2,why:'Na (kim loại kiềm) phản ứng mạnh với nước thường: 2Na + 2H₂O → 2NaOH + H₂. Fe, Cu, Au không phản ứng.'},
+  {q:'Cân bằng phương trình: ___ Al + ___ O₂ → ___ Al₂O₃',opts:['2 Al + 3 O₂ → 2 Al₂O₃','4 Al + 3 O₂ → 2 Al₂O₃','Al + O₂ → Al₂O₃','4 Al + 6 O₂ → 4 Al₂O₃'],ans:1,why:'Cần 4 Al (4 Al ở mỗi bên) và 3 O₂ (6 O ở mỗi bên) để tạo 2 Al₂O₃. Đáp án: 4 Al + 3 O₂ → 2 Al₂O₃.'},
+  {q:'Vì sao đồ trang sức bằng vàng không bị xỉn màu sau nhiều năm?',opts:['Vàng được sơn bóng','Vàng không phản ứng với O₂, độ ẩm, hay acid yếu trong môi trường','Vàng quá cứng','Vàng có ánh kim đặc biệt'],ans:1,why:'Au là kim loại kém hoạt động — không phản ứng với O₂, nước, HCl loãng → giữ ánh kim mãi mãi.'}
+];
+function renderQuiz(){
+  const cont=document.getElementById('quizContent');
+  cont.innerHTML='';
+  quiz.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`<div class="q" style="font-weight:600;margin-bottom:8px">Câu ${i+1}. ${applyTooltips(q.q)}</div>
+    <div id="qopts-${i}">${q.opts.map((o,j)=>`<button class="opt" data-q="${i}" data-j="${j}">${applyTooltips(o)}</button>`).join('')}</div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pickQuiz(+b.dataset.q,+b.dataset.j));
+  const submit=document.createElement('div');
+  submit.className='card';
+  submit.style.textAlign='center';
+  submit.innerHTML='<button class="btn alt" onclick="submitQuiz()">Nộp bài</button>';
+  cont.appendChild(submit);
+}
+let quizPicks=Array(6).fill(-1);
+function pickQuiz(i,j){
+  quizPicks[i]=j;
+  document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>b.classList.toggle('picked',k===j));
+}
+function submitQuiz(){
+  if(quizPicks.includes(-1)){alert('Mika ơi, còn câu chưa chọn!');return}
+  let ok=0;
+  quizPicks.forEach((j,i)=>{
+    document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>{
+      b.disabled=true;
+      if(k===quiz[i].ans)b.classList.add('right');
+      else if(k===j)b.classList.add('wrong');
+    });
+    if(j===quiz[i].ans)ok++;
+    // Add explanation
+    const card=document.querySelectorAll('#quizContent .card')[i];
+    const why=document.createElement('div');
+    why.className='feedback show '+(j===quiz[i].ans?'ok':'no');
+    why.innerHTML=applyTooltips(quiz[i].why);
+    card.appendChild(why);
+  });
+  const pct=ok/quiz.length;
+  const passed=pct>=CFG.passThreshold;
+  const res=document.getElementById('quizResult');
+  res.classList.remove('hidden');
+  document.getElementById('quizScore').textContent=`Điểm: ${ok}/${quiz.length} (${Math.round(pct*100)}%)`;
+  document.getElementById('quizMsg').innerHTML=passed
+    ?`🎉 Mika đã đạt mức Mở khoá! Bài 19 (Dãy hoạt động hoá học) sẽ sẵn sàng khi mình xây xong.`
+    :`Cần đạt 80% (5/6) để mở khoá. Mika xem lại các câu sai rồi làm lại nhé.`;
+  document.getElementById('quizStatus').textContent=passed?'✓ Đã đạt':'chưa đạt';
+  document.getElementById('quizStatus').style.background=passed?'#d1fae5':'#fee2e2';
+  document.getElementById('quizStatus').style.color=passed?'#065f46':'#991b1b';
+  const p=loadProg();
+  if(pct>p.quizBest)p.quizBest=pct;
+  if(passed)p.quizPassed=true;
+  saveProg(p);bumpActivity();updateOverall();
+}
+function resetQuiz(){
+  quizPicks=Array(6).fill(-1);
+  document.getElementById('quizResult').classList.add('hidden');
+  renderQuiz();
+}
+
+// ===== Init =====
+renderTheory();renderPractice();renderQuiz();
+updateStreak();updateOverall();
+const p=loadProg();
+if(p.quizPassed){
+  document.getElementById('quizStatus').textContent='✓ Đã đạt';
+  document.getElementById('quizStatus').style.background='#d1fae5';
+  document.getElementById('quizStatus').style.color='#065f46';
+}
+bumpActivity(); // mark today as active when she opens the lesson
+</script>
+</body>
+</html>

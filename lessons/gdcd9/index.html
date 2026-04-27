@@ -1,0 +1,833 @@
+<!doctype html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Gdcd9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "GDCD 9 (KNTT) hub for Mika — Bài 1 \"Sống có lí tưởng\" fully built with deep-practice loop, Vietnamese→English civic-education tooltips, \"Lí tưởng hay ảo tưởng?\" judgment game, and 80% mastery quiz gating. Sky-blue + sunny-yellow theme. Cites SGK pp.5-8."
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GDCD 9 — Hành trình chinh phục</title>
+<style>
+:root {
+  color-scheme: light;
+  --sky:#0284c7; --sky-2:#0369a1; --sky-soft:#e0f2fe; --sky-bg:#f0f9ff;
+  --sun:#f59e0b; --sun-soft:#fef3c7;
+  --cream:#fffbeb;
+  --ink:#0f172a; --ink-2:#475569; --line:#e2e8f0;
+  --bg:#f0f9ff;
+  --good:#16a34a; --bad:#dc2626;
+  --shadow:0 2px 8px rgba(2,132,199,.1);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:780px;margin:0 auto;padding:16px 18px 80px}
+header{background:linear-gradient(135deg,#7dd3fc,#fde68a);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:14px}
+.hi{font-size:22px;font-weight:700;color:#0c4a6e;margin:0 0 4px}
+.hi-sub{font-size:13px;color:#075985;margin:0}
+.streak{display:inline-flex;gap:6px;align-items:center;background:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:var(--sky-2);margin-top:8px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 14px}
+nav.tabs button{flex:1;min-width:100px;border:1px solid var(--line);background:#fff;padding:9px 8px;border-radius:12px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:all .15s}
+nav.tabs button.active{background:var(--sky);color:#fff;border-color:var(--sky)}
+nav.tabs button:hover:not(.active){background:var(--sky-soft);color:var(--sky-2)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card h2{margin:0 0 6px;font-size:18px;color:var(--sky-2)}
+.card h3{margin:14px 0 8px;font-size:15px;color:var(--ink)}
+.muted{color:var(--ink-2);font-size:13px}
+.cite{font-size:11px;color:var(--ink-2);background:var(--sky-soft);padding:2px 8px;border-radius:6px;display:inline-block;margin-left:6px;vertical-align:middle}
+.tt{border-bottom:1.5px dotted var(--sun);cursor:help;position:relative;color:#92400e;font-weight:500}
+.tt:hover::after,.tt:active::after{content:attr(data-tt);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:400;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2);max-width:240px;white-space:normal;width:max-content}
+.step{border-left:4px solid var(--sky);padding:14px 16px;background:var(--sky-bg);border-radius:10px;margin:12px 0}
+.step .num{display:inline-block;background:var(--sky);color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:13px;font-weight:700;margin-right:8px}
+.step .title{font-weight:700;font-size:15px}
+.step .body{margin-top:10px;font-size:14px}
+.analogy{background:var(--sun-soft);border-left:4px solid var(--sun);padding:10px 14px;border-radius:8px;margin:10px 0;font-size:13px;font-style:italic;color:#78350f}
+.analogy::before{content:"💡 ";font-style:normal}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.before-after>div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fee2e2;color:#7f1d1d}
+.after{background:var(--sky-soft);color:#0c4a6e}
+.quote{background:var(--cream);border-left:4px solid var(--sun);padding:12px 16px;margin:12px 0;font-style:italic;font-size:14px;color:#78350f;border-radius:6px}
+.quote .src{display:block;font-size:11px;color:var(--ink-2);font-style:normal;margin-top:6px;text-align:right}
+.chip{display:inline-block;padding:3px 10px;background:var(--sky-soft);color:var(--sky-2);border-radius:999px;font-size:12px;margin:2px;font-weight:500}
+.chip.sun{background:var(--sun-soft);color:#78350f}
+.btn{background:var(--sky);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;transition:all .15s}
+.btn:hover{background:var(--sky-2)}
+.btn.alt{background:var(--sun)}
+.btn.alt:hover{background:#d97706}
+.btn.ghost{background:#fff;color:var(--sky-2);border:1.5px solid var(--sky)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.problem{background:#fff;border:2px solid var(--sky-soft);border-radius:12px;padding:14px;margin:12px 0}
+.problem .q{font-weight:600;margin-bottom:8px;font-size:14px}
+.problem textarea{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit;min-height:70px;resize:vertical}
+.problem textarea:focus{outline:none;border-color:var(--sky)}
+.feedback{margin-top:8px;padding:10px;border-radius:8px;font-size:13px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--sky-soft);color:#0c4a6e;border-left:3px solid var(--good)}
+.feedback.no{background:#fee2e2;color:#7f1d1d;border-left:3px solid var(--bad)}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:10px;margin:6px 0;cursor:pointer;font-size:14px;transition:all .15s;color:var(--ink)}
+.opt:hover{border-color:var(--sky);background:var(--sky-bg)}
+.opt.picked{border-color:var(--sky);background:var(--sky-soft);font-weight:600}
+.opt.right{border-color:var(--good);background:#dcfce7}
+.opt.wrong{border-color:var(--bad);background:#fee2e2}
+.game-stage{background:linear-gradient(180deg,#f0f9ff,#fef3c7);padding:18px;border-radius:14px;text-align:center;margin:14px 0;border:2px dashed var(--sun)}
+.game-emoji{font-size:50px;line-height:1;margin:6px 0}
+.game-q{font-size:15px;font-weight:600;margin:10px 0;text-align:left}
+.score-pill{display:inline-block;background:var(--sky);color:#fff;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.chapter{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;margin:6px 0;background:#fff}
+.chapter.curr{border-color:var(--sky);background:var(--sky-bg)}
+.chapter .badge{width:28px;height:28px;border-radius:50%;background:var(--sky-soft);color:var(--sky-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.chapter.curr .badge{background:var(--sky);color:#fff}
+.chapter .name{font-size:13px;flex:1}
+.chapter .lock{font-size:12px;color:var(--ink-2)}
+.progress-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0}
+.progress-bar>div{height:100%;background:linear-gradient(90deg,var(--sky),var(--sun));transition:width .3s}
+.tip{background:var(--sun-soft);border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0;color:#78350f}
+.tip::before{content:"☀️ ";}
+.attempts{font-size:11px;color:var(--ink-2);text-align:right;margin-top:4px}
+.pause{display:none;margin-top:10px;padding:12px;background:var(--cream);border-radius:8px;text-align:center;font-size:14px;color:#78350f}
+.pause.show{display:block}
+.pause .timer{font-size:32px;font-weight:700;color:var(--sun);margin:6px 0}
+.profile-card{background:linear-gradient(135deg,var(--sky-soft),var(--sun-soft));padding:14px;border-radius:12px;margin:10px 0;display:flex;gap:14px;align-items:center}
+.profile-card .icon{font-size:38px;line-height:1}
+.profile-card .info{flex:1}
+.profile-card .name{font-weight:700;color:var(--sky-2);font-size:14px}
+.profile-card .role{font-size:12px;color:var(--ink-2)}
+.profile-card .quote-mini{font-size:12px;font-style:italic;color:#78350f;margin-top:4px}
+@media (max-width:600px){
+  .wrap{padding:12px 14px 80px}
+  header{padding:14px 16px}
+  .hi{font-size:19px}
+  nav.tabs button{flex-basis:calc(50% - 6px);font-size:12px;padding:8px 6px}
+  .before-after{grid-template-columns:1fr}
+  .step{padding:12px 14px}
+  .card{padding:14px}
+  .game-emoji{font-size:42px}
+  .profile-card{flex-direction:column;text-align:center}
+}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 class="hi">Chào Mika! ☀️</h1>
+  <p class="hi-sub">GDCD 9 — Hành trình chinh phục</p>
+  <span class="streak" id="streakPill">🔥 <span id="streakNum">0</span> ngày liên tục</span>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="hub" class="active">📚 Tổng quan</button>
+  <button data-tab="theory">📖 Lý thuyết</button>
+  <button data-tab="practice">✍️ Luyện tập</button>
+  <button data-tab="game">🎮 Lí tưởng?</button>
+  <button data-tab="quiz">🏆 Kiểm tra</button>
+</nav>
+
+<!-- HUB -->
+<section id="tab-hub" class="tab">
+  <div class="card">
+    <h2>Hành trình của Mika</h2>
+    <p class="muted">GDCD 9 dạy về <strong>cách sống tử tế và có ý nghĩa</strong>. Bài đầu tiên hỏi: <em>"Em sống vì điều gì?"</em></p>
+    <div class="progress-bar"><div id="overallProgress" style="width:0%"></div></div>
+    <p class="muted" style="margin-top:6px">Tiến độ: <span id="overallPct">0</span>%</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--sky-2)">10 bài học của GDCD 9</h3>
+    <div class="chapter curr"><div class="badge">1</div><div class="name"><strong>Sống có lí tưởng</strong> — bài đầu tiên ☀️</div><div class="lock">Mở</div></div>
+    <div class="chapter"><div class="badge">2</div><div class="name">Khoan dung</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">3</div><div class="name">Tích cực tham gia các hoạt động cộng đồng</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">4</div><div class="name">Khách quan và công bằng</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">5</div><div class="name">Bảo vệ hoà bình</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">6</div><div class="name">Quản lí thời gian hiệu quả</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">7</div><div class="name">Thích ứng với thay đổi</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">8</div><div class="name">Tiêu dùng thông minh</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">9</div><div class="name">Vi phạm pháp luật và trách nhiệm pháp lí</div><div class="lock">🔒</div></div>
+    <div class="chapter"><div class="badge">10</div><div class="name">Quyền tự do kinh doanh và nghĩa vụ nộp thuế</div><div class="lock">🔒</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Cách học của Mika</h3>
+    <p class="muted">GDCD học bằng cách <strong>liên hệ với chính mình</strong> — không thuộc lòng:</p>
+    <p style="font-size:13px;line-height:1.8">
+      <span class="chip">📖 Lý thuyết</span> 11 bước nhỏ qua chuyện thật của Hồ Chí Minh, Đặng Thuỳ Trâm.<br>
+      <span class="chip sun">✍️ Luyện tập</span> Em viết lí tưởng của em — không có sai/đúng.<br>
+      <span class="chip">🎮 Lí tưởng?</span> 10 tình huống — phân biệt lí tưởng đẹp vs ảo tưởng.<br>
+      <span class="chip sun">🏆 Kiểm tra</span> Đạt 80% để mở Bài 2 (Khoan dung).
+    </p>
+    <div class="tip">Bài này không có công thức — chỉ có em và những câu hỏi về cuộc đời. Lấy giấy bút sẵn nhé!</div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="tab-theory" class="tab hidden">
+  <div class="card">
+    <h2>Bài 1 — Sống có lí tưởng <span class="cite">SGK trang 5–8</span></h2>
+    <p class="muted">11 bước nhỏ. Đọc xong từng bước, đánh dấu ✓.</p>
+  </div>
+  <div id="theoryContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn" onclick="switchTab('practice')">Sang Luyện tập →</button>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+<section id="tab-practice" class="tab hidden">
+  <div class="card">
+    <h2>Luyện tập — viết câu trả lời của em</h2>
+    <p class="muted">GDCD không chấm sai/đúng — Mika viết theo cảm nhận thật. 3 lần thử mỗi câu, có gợi ý mẫu.</p>
+  </div>
+  <div id="practiceContent"></div>
+  <div class="card" style="text-align:center">
+    <button class="btn alt" onclick="switchTab('game')">🎮 Vào "Lí tưởng?" →</button>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="tab-game" class="tab hidden">
+  <div class="card">
+    <h2>☀️ Lí tưởng hay ảo tưởng?</h2>
+    <p class="muted">10 tình huống. Mika quyết định: đây là <strong>lí tưởng cao đẹp</strong> hay chỉ là <em>ảo tưởng / mục tiêu cá nhân</em>? Đoán đúng càng nhiều, càng nhiều ngôi sao ⭐</p>
+    <p>Điểm: <span class="score-pill" id="gameScore">0/0</span> · Lượt: <span id="gameRound">1/10</span></p>
+  </div>
+  <div class="card game-stage" id="gameStage">
+    <div class="game-emoji" id="gameEmoji">☀️</div>
+    <div class="game-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+    <div id="gameOptions"></div>
+    <div id="gameFb" class="feedback"></div>
+    <div style="margin-top:12px">
+      <button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+      <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="tab-quiz" class="tab hidden">
+  <div class="card">
+    <h2>🏆 Kiểm tra cuối Bài 1</h2>
+    <p class="muted">6 câu hỏi. Đạt <strong>80%+</strong> để mở khoá Bài 2.</p>
+    <p>Trạng thái: <span id="quizStatus" class="chip">chưa làm</span></p>
+  </div>
+  <div id="quizContent"></div>
+  <div class="card hidden" id="quizResult">
+    <h3 id="quizScore"></h3>
+    <p id="quizMsg"></p>
+    <button class="btn" onclick="resetQuiz()">Làm lại</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+const CFG = {
+  subject: 'gdcd9',
+  progressKey: 'gdcd9-progress',
+  activityKey: 'toan9-activity',
+  passThreshold: 0.8,
+  attemptLimit: 3,
+  pauseSeconds: 5
+};
+
+const dict = {
+  // Core concepts
+  'lí tưởng':'ideal/aspiration (a high-purpose goal)','lý tưởng':'ideal/aspiration',
+  'sống có lí tưởng':'living with ideals','ước mơ':'dream/wish','mục tiêu':'goal/target',
+  'mục đích':'purpose','khát vọng':'aspiration','hoài bão':'big aspiration',
+  'kế hoạch':'plan','phấn đấu':'strive/work hard','quyết tâm':'determination',
+  'nỗ lực':'effort','rèn luyện':'train/cultivate','ý chí':'willpower',
+  'thử thách':'challenge','khó khăn':'difficulty','vượt qua':'overcome',
+  'động lực':'motivation/drive','hi sinh':'sacrifice','hy sinh':'sacrifice',
+  // Civic terms
+  'công dân':'citizen','xã hội':'society','cộng đồng':'community',
+  'quốc gia':'nation','đất nước':'country','Tổ quốc':'motherland',
+  'nhân loại':'humanity','dân tộc':'nation/people','đồng bào':'fellow citizens',
+  'thanh niên':'youth (young adults)','học sinh':'student','sinh viên':'university student',
+  'độc lập':'independence','tự do':'freedom','dân chủ':'democracy','hoà bình':'peace',
+  'chủ nghĩa xã hội':'socialism','chủ nghĩa cộng sản':'communism',
+  'cách mạng':'revolution','lao động':'work/labour','đoàn kết':'unity',
+  // Moral terms
+  'đạo đức':'morality','phẩm chất':'character/quality','tư tưởng':'thinking/ideology',
+  'phong cách':'style','nhân cách':'personality','tâm hồn':'soul/spirit',
+  'trung thành':'loyal/faithful','dũng cảm':'brave','kiên định':'steadfast',
+  'kiên trì':'persistent','khiêm tốn':'humble','chính trực':'upright',
+  // People
+  'Hồ Chí Minh':'Hồ Chí Minh (1890–1969) — founder of modern Vietnam',
+  'Bác Hồ':'Uncle Hồ (affectionate name for Hồ Chí Minh)',
+  'Chủ tịch':'President/Chairman','vị Chủ tịch':'the President',
+  'Đặng Thuỳ Trâm':'Đặng Thuỳ Trâm (1942–1970) — battlefield doctor, war hero',
+  'bác sĩ':'doctor','y sĩ':'medical practitioner',
+  'Tolstoy':'Lev Tolstoy — Russian writer','Lev Nikolayevich Tolstoy':'Lev Tolstoy (1828–1910)',
+  // Period/places
+  'thế kỉ':'century','phong kiến':'feudal','hiện đại':'modern',
+  'chiến trường':'battlefield','chiến tranh':'war','giặc':'enemy',
+  'Quảng Ngãi':'Quảng Ngãi province','Đức Phổ':'Đức Phổ district',
+  // Verbs/values
+  'xây dựng':'build','bảo vệ':'protect/defend','phát triển':'develop',
+  'giúp đỡ':'help','đóng góp':'contribute','phục vụ':'serve',
+  'cống hiến':'devote','tham gia':'participate','tích cực':'actively',
+  'học tập':'study/learn','rèn luyện':'cultivate/train','noi gương':'follow example of',
+  // Things
+  'ngọn đèn':'lamp/light','chỉ đường':'guides the way','phương hướng':'direction',
+  'cuộc sống':'life','cuộc đời':'one\'s life','tương lai':'future',
+  'thành công':'success','hạnh phúc':'happiness','ý nghĩa':'meaning',
+  'giàu mạnh':'strong and prosperous','văn minh':'civilized','thịnh vượng':'prosperous',
+  // Lesson chrome
+  'bài':'lesson','chương':'chapter','tổng quan':'overview',
+  'lý thuyết':'theory','luyện tập':'practice','kiểm tra':'quiz',
+  'mở khoá':'unlock','khoá':'locked','tiến độ':'progress','điểm':'score',
+  'đúng':'correct','sai':'wrong','câu hỏi':'question','câu trả lời':'answer',
+  'chọn':'pick','bấm':'click','tiếp':'next','lượt':'round','lần':'time',
+  'thử':'try','thử lại':'try again','làm lại':'redo','bắt đầu':'start',
+  'ngày':'day','liên tục':'in a row',
+  // Common
+  'là':'is','có':'has','được':'is/can be','dùng':'used','như':'like/such as',
+  'ví dụ':'example','các':'the/various','một':'one','mỗi':'each',
+  'khác':'different','giống':'similar','tất cả':'all','hầu hết':'most',
+  'rất':'very','nếu':'if','khi':'when','trong':'in','với':'with','của':'of',
+  'và':'and','hoặc':'or','nhưng':'but','vì':'because','nên':'so','để':'in order to',
+  'không':'not','cũng':'also','luôn':'always','thường':'usually',
+  'em':'you (young person)','anh':'older brother (also: you, male)','chị':'older sister',
+  'tôi':'I','chúng ta':'we','họ':'they'
+};
+
+function escapeRegex(s){return s.replace(/[-\/\\^$*+?.()|[\]{}]/g,'\\$&')}
+function applyTooltips(html){
+  if(!html) return html;
+  const segs = html.split(/(<[^>]*>)/g);
+  const keys = Object.keys(dict).sort((a,b)=>b.length-a.length);
+  return segs.map(seg=>{
+    if(!seg || seg.startsWith('<')) return seg;
+    let out = seg;
+    for(const k of keys){
+      const re = new RegExp(`(^|[^a-zà-ỹÀ-Ỹ])(${escapeRegex(k)})(?![a-zà-ỹÀ-Ỹ])`,'gi');
+      out = out.replace(re,(m,pre,word)=>`${pre}<span class="tt" data-tt="${dict[k]}">${word}</span>`);
+    }
+    return out;
+  }).join('');
+}
+
+function loadProg(){
+  try{return JSON.parse(localStorage.getItem(CFG.progressKey))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+  catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+}
+function saveProg(p){localStorage.setItem(CFG.progressKey,JSON.stringify(p))}
+function bumpActivity(){
+  const today = new Date().toISOString().slice(0,10);
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  act[today]=(act[today]||0)+1;
+  localStorage.setItem(CFG.activityKey,JSON.stringify(act));
+  updateStreak();
+}
+function updateStreak(){
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(CFG.activityKey))||{}}catch(e){}
+  let n=0; const d=new Date();
+  while(true){
+    const k=d.toISOString().slice(0,10);
+    if(act[k])n++; else if(n>0||k!==new Date().toISOString().slice(0,10))break;
+    d.setDate(d.getDate()-1);
+    if(n>365)break;
+  }
+  document.getElementById('streakNum').textContent=n;
+}
+function updateOverall(){
+  const p=loadProg();
+  const total=11+5+10+1;
+  const done=p.theory+p.practice+p.game+(p.quizPassed?1:0);
+  const pct=Math.round(100*done/total);
+  document.getElementById('overallProgress').style.width=pct+'%';
+  document.getElementById('overallPct').textContent=pct;
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+  document.getElementById('tab-'+name).classList.remove('hidden');
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+const steps = [
+  {
+    title:'1. Mở đầu — Lí tưởng là gì?',
+    body:`<p>SGK mở đầu bằng bài hát <em>"Tự nguyện"</em> của Trương Quốc Khánh:</p>
+    <div class="quote">"Nếu là chim, tôi sẽ là loài bồ câu trắng<br>
+    Nếu là hoa, tôi sẽ là một đoá hướng dương<br>
+    Nếu là mây, tôi sẽ là một vầng mây ấm<br>
+    Là người, tôi sẽ chết cho quê hương..."<span class="src">— Tự nguyện, Trương Quốc Khánh</span></div>
+    <p>Người trong bài hát có một <strong>điều ước cao đẹp</strong>: làm điều có ích, sống vì người khác, sẵn sàng cả chết cho quê hương. Đó chính là <strong>lí tưởng</strong>.</p>`,
+    analogy:'Lí tưởng giống như "phim em muốn đóng vai chính" — nhưng phim em chọn không phải về em một mình, mà về cộng đồng, đất nước.',
+    before:'Trước: lí tưởng nghe to tát, không liên quan tới em.',
+    after:'Sau: lí tưởng đơn giản là câu trả lời cho "em muốn cuộc đời em có ý nghĩa gì?"'
+  },
+  {
+    title:'2. Định nghĩa — sống có lí tưởng',
+    body:`<p>SGK định nghĩa:</p>
+    <div class="quote">"Sống có lí tưởng là xác định được mục đích cao đẹp và có kế hoạch, quyết tâm phấn đấu để đạt được mục đích nhằm đóng góp cho lợi ích của cộng đồng, quốc gia, nhân loại."<span class="src">— GDCD 9, trang 8</span></div>
+    <p>Ba thành phần chính:</p>
+    <p>① <strong>Mục đích cao đẹp</strong> — không chỉ vì bản thân, có ý nghĩa cho người khác.<br>
+    ② <strong>Có kế hoạch</strong> — không phải mơ mộng suông.<br>
+    ③ <strong>Quyết tâm phấn đấu</strong> — sẵn sàng làm việc cho mục đích đó.</p>`,
+    analogy:'Như xây nhà: phải có ① bản thiết kế đẹp, ② kế hoạch xây từng bước, ③ quyết tâm đến khi hoàn thành. Thiếu một trong ba thì chỉ là mơ ước.',
+    before:'Trước: lí tưởng = ước mơ to.',
+    after:'Sau: lí tưởng = mục đích đẹp + kế hoạch + quyết tâm. Ba phần phải đủ.'
+  },
+  {
+    title:'3. Câu chuyện Hồ Chí Minh',
+    body:`<div class="profile-card"><div class="icon">🇻🇳</div><div class="info"><div class="name">Hồ Chí Minh (1890–1969)</div><div class="role">Vị Chủ tịch đầu tiên của nước Việt Nam Dân chủ Cộng hoà</div></div></div>
+    <p>Khi được hỏi về ham muốn cá nhân, Bác Hồ trả lời:</p>
+    <div class="quote">"Tôi tuyệt nhiên không ham muốn công danh phú quý chút nào... Tôi chỉ có một sự ham muốn, ham muốn tột bậc, là làm sao cho nước ta được hoàn toàn độc lập, dân ta được hoàn toàn tự do, đồng bào ai cũng có cơm ăn áo mặc, ai cũng được học hành."<span class="src">— Hồ Chí Minh, 1946</span></div>
+    <p>Đây là <strong>ví dụ kinh điển</strong> về sống có lí tưởng: mục đích không phải tiền tài, mà là độc lập tự do của cả dân tộc.</p>`,
+    analogy:'Bác Hồ ở vị trí cao nhất nước, nhưng "ham muốn" duy nhất là người dân được ăn no, mặc ấm, học hành — chứ không phải bản thân giàu có. Đó là sức mạnh của lí tưởng.',
+    before:'Trước: lãnh đạo lớn = người có quyền lực.',
+    after:'Sau: lãnh đạo lớn = người sống vì người khác, không phải vì bản thân.'
+  },
+  {
+    title:'4. Câu chuyện Đặng Thuỳ Trâm',
+    body:`<div class="profile-card"><div class="icon">⚕️</div><div class="info"><div class="name">Đặng Thuỳ Trâm (1942–1970)</div><div class="role">Bác sĩ trẻ tại chiến trường Đức Phổ, Quảng Ngãi</div><div class="quote-mini">"Hãy giữ vững tinh thần của mình, tinh thần của cộng sản, tinh thần trong suốt như pha lê..."</div></div></div>
+    <p>Khi 28 tuổi, chị Trâm hy sinh trong một trận càn. Cuốn nhật kí của chị (bị sĩ quan Mỹ thu giữ rồi sau này được trao trả) ghi lại những dòng cảm động:</p>
+    <div class="quote">"Đời người ai cũng phải chết một lần, nhưng chết khi tổ quốc cần đến mình thì cái chết đó đáng được ngẩng cao đầu..."</div>
+    <p>Đặng Thuỳ Trâm là biểu tượng <strong>thanh niên sống có lí tưởng</strong> — chọn nguy hiểm để cứu chữa thương binh.</p>`,
+    analogy:'Chị Trâm 28 tuổi — chỉ hơn Mika 14–15 tuổi. Tuổi đó có thể chọn an toàn, nhưng chị chọn ra chiến trường vì lí tưởng. Câu hỏi: nếu là em, em sẽ chọn gì?',
+    before:'Trước: anh hùng chỉ có trong sách.',
+    after:'Sau: anh hùng là người trẻ, chọn việc khó vì điều mình tin.'
+  },
+  {
+    title:'5. Phân biệt: lí tưởng – ước mơ – mục tiêu',
+    body:`<p>Ba từ giống nhau nhưng khác nhau:</p>
+    <p><span class="chip sun">Ước mơ</span> = điều em mong, có thể không có kế hoạch. <em>"Em muốn đi du lịch khắp thế giới"</em> — đẹp nhưng chưa thành lí tưởng nếu chưa có kế hoạch và mục đích cộng đồng.</p>
+    <p><span class="chip">Mục tiêu</span> = đích cụ thể, có thể đo. <em>"Đạt 8.0 IELTS năm tới"</em> — rõ ràng nhưng chưa phải lí tưởng nếu chỉ để khoe.</p>
+    <p><span class="chip" style="background:var(--sky);color:#fff">Lí tưởng</span> = mục đích cao đẹp + kế hoạch + quyết tâm + có ý nghĩa với cộng đồng. <em>"Trở thành bác sĩ để chữa bệnh cho người nghèo"</em> — có cả 4 yếu tố.</p>`,
+    analogy:'Ước mơ là hình ảnh trên bầu trời. Mục tiêu là cái đích trên đường. Lí tưởng là cả con đường — có hướng đi, có ý nghĩa, đi tới cuối đời.',
+    before:'Trước: ba từ này dùng lẫn lộn.',
+    after:'Sau: hiểu rõ — ước mơ → mục tiêu → lí tưởng là ba mức độ khác nhau.'
+  },
+  {
+    title:'6. Vì sao cần sống có lí tưởng?',
+    body:`<p>SGK nêu 3 ý nghĩa:</p>
+    <p>① <strong>Có động lực</strong> — gặp khó khăn không bỏ cuộc, vì biết mình đang đi đâu.<br>
+    ② <strong>Hoàn thành mục tiêu cá nhân</strong> — kế hoạch giúp em không phí thời gian.<br>
+    ③ <strong>Đóng góp xã hội</strong> — cuộc đời em có ý nghĩa với người khác.</p>
+    <p>Người sống có lí tưởng được <em>xã hội công nhận, tôn trọng và tin tưởng</em>.</p>`,
+    analogy:'Như có một ngọn đèn pha trong sương mù — em vẫn đi được dù không thấy rõ. Người không có lí tưởng giống đi trong sương mà không có đèn.',
+    before:'Trước: sống không cần lí tưởng cũng được.',
+    after:'Sau: lí tưởng là bộ "GPS" cho cuộc đời — không có thì lạc đường khi gặp khó khăn.'
+  },
+  {
+    title:'7. Lí tưởng của thanh niên Việt Nam ngày nay',
+    body:`<p>Theo Bài 1 và lời dạy của Bác Hồ tại Bộ Đoàn (1962):</p>
+    <div class="quote">"Thanh niên phải xung phong đến những nơi khó khăn gian khổ nhất, nơi nào người khác làm ít kết quả, thanh niên phải xung phong đến làm cho tốt..."<span class="src">— Hồ Chí Minh, 1962</span></div>
+    <p>Lí tưởng thanh niên Việt Nam ngày nay:</p>
+    <p>• Phấn đấu vì <strong>độc lập dân tộc</strong> và <strong>chủ nghĩa xã hội</strong><br>
+    • Học tập, rèn luyện theo tư tưởng Hồ Chí Minh<br>
+    • Trở thành <strong>công dân có năng lực, bản lĩnh</strong><br>
+    • Tham gia xây dựng và bảo vệ Tổ quốc</p>`,
+    analogy:'Lí tưởng "thanh niên Việt Nam" như một bản nhạc — không phải mỗi bạn chơi cùng một nốt, mà mỗi bạn đóng góp một phần để bản nhạc hay lên.',
+    before:'Trước: lí tưởng thanh niên là chuyện chính trị, xa xôi.',
+    after:'Sau: lí tưởng thanh niên cụ thể — học giỏi, rèn người, làm việc có ích, không né khó khăn.'
+  },
+  {
+    title:'8. Hai phẩm chất cốt lõi: Trung thành & Dũng cảm',
+    body:`<p>Bác Hồ nhấn mạnh hai phẩm chất:</p>
+    <p><span class="chip">Trung thành</span> = trọn đời trung thành với sự nghiệp cách mạng, với Tổ quốc, với Đảng, với giai cấp.</p>
+    <p><span class="chip sun">Dũng cảm</span> = không sợ khổ, không sợ khó, "đâu cần thanh niên có, việc gì khó thanh niên làm, gian khổ thì đi trước, hưởng thụ sau mọi người".</p>
+    <p>Hai phẩm chất này <em>không tách rời</em>: trung thành mà không dũng cảm thì chỉ là lời nói; dũng cảm mà không trung thành thì có thể đi sai đường.</p>`,
+    analogy:'Trung thành là <strong>la bàn</strong> — chỉ đúng hướng. Dũng cảm là <strong>đôi chân</strong> — đi được trên đường khó. Có cả hai mới đến được nơi đẹp.',
+    before:'Trước: trung thành nghe khô khan.',
+    after:'Sau: trung thành = giữ đúng giá trị; dũng cảm = dám hành động. Hai cái cùng nhau mới làm nên người tốt.'
+  },
+  {
+    title:'9. Học sinh cần làm gì? — Bốn việc',
+    body:`<p>Học sinh thực hiện lí tưởng qua bốn việc cụ thể:</p>
+    <p>① <strong>Học tập tích cực</strong> — không phải để khoe điểm, mà để có năng lực giúp người sau này.<br>
+    ② <strong>Lao động</strong> — làm việc nhà, việc trường, hiểu giá trị của lao động.<br>
+    ③ <strong>Rèn luyện sức khoẻ</strong> — không có sức khoẻ thì không đi được đường dài.<br>
+    ④ <strong>Tham gia hoạt động tập thể</strong> — Đoàn, Đội, tình nguyện, cộng đồng.</p>`,
+    analogy:'Bốn việc như bốn bánh xe — thiếu bánh nào, xe vẫn đi nhưng lệch. Đủ bốn thì đi xa.',
+    before:'Trước: lí tưởng là chuyện sau này, không liên quan tới việc làm bài tập hôm nay.',
+    after:'Sau: lí tưởng được xây từng ngày — qua bài tập, qua việc nhà, qua mỗi việc nhỏ.'
+  },
+  {
+    title:'10. Phân biệt: Lí tưởng cao đẹp vs Ảo tưởng',
+    body:`<p>Cẩn thận: không phải mọi "ước mơ to" đều là lí tưởng đẹp.</p>
+    <p><span class="chip">Lí tưởng cao đẹp</span>: có ích cho cộng đồng + có kế hoạch hiện thực + đem lại hạnh phúc cho người khác. <em>VD: trở thành kĩ sư xây cầu cho miền núi.</em></p>
+    <p><span class="chip" style="background:#fee2e2;color:#991b1b">Ảo tưởng</span>: viễn vông, không có kế hoạch, hoặc lợi mình hại người. <em>VD: "em muốn nổi tiếng để mọi người phục tùng em".</em></p>
+    <p>Tolstoy nói:</p>
+    <div class="quote">"Lí tưởng là ngọn đèn chỉ đường. Không có lí tưởng thì không có phương hướng kiên định, mà không có phương hướng thì không có cuộc sống."<span class="src">— Lev Tolstoy</span></div>`,
+    analogy:'Lí tưởng đẹp là ngọn lửa ấm — sưởi ấm cả em và người khác. Ảo tưởng là ngọn lửa cá nhân — chỉ đốt cháy chính mình.',
+    before:'Trước: mơ to là tốt, mơ càng to càng đẹp.',
+    after:'Sau: mơ to phải đi đôi với có kế hoạch và có ích cho người khác — không thì chỉ là ảo tưởng.'
+  },
+  {
+    title:'11. Lí tưởng của Mika là gì?',
+    body:`<p>Đến lúc tự hỏi:</p>
+    <p>① Em muốn cuộc đời em <em>có ý nghĩa cho ai</em>? (gia đình? cộng đồng? những người chưa biết em?)<br>
+    ② Em làm gì <em>giỏi nhất</em>? (vẽ? học? giúp đỡ? nói chuyện?)<br>
+    ③ Em làm gì <em>thấy hạnh phúc nhất</em>? (sáng tạo? học cái mới? gặp bạn?)<br>
+    ④ Khi 30 tuổi, em muốn <em>câu chuyện về em</em> kể cái gì?</p>
+    <p>Câu trả lời cho 4 câu hỏi này là điểm khởi đầu của lí tưởng cá nhân Mika. <strong>Không cần đúng ngay</strong> — em sẽ điều chỉnh theo thời gian. Quan trọng là <em>bắt đầu nghĩ</em>.</p>`,
+    analogy:'Lí tưởng cá nhân giống như tác phẩm nghệ thuật — em vẽ qua nhiều lần, sửa nhiều lần. Lần đầu không đẹp cũng không sao. Quan trọng là em đã cầm cọ.',
+    before:'Trước: lí tưởng là chuyện của người lớn.',
+    after:'Sau: 13 tuổi đã có thể bắt đầu nghĩ về lí tưởng — và sửa nó theo từng năm.'
+  }
+];
+
+function renderTheory(){
+  const p=loadProg();
+  const cont=document.getElementById('theoryContent');
+  cont.innerHTML='';
+  steps.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='step';
+    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
+    <div class="body">${applyTooltips(s.body)}</div>
+    <div class="analogy">${applyTooltips(s.analogy)}</div>
+    <div class="before-after">
+      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
+      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+    </div>
+    <div style="text-align:right;margin-top:8px">
+      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
+    </div>`;
+    cont.appendChild(el);
+  });
+}
+function markStep(i){
+  const p=loadProg();
+  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
+  renderTheory();updateOverall();
+}
+
+const practice = [
+  {
+    q:'Theo SGK, <strong>sống có lí tưởng</strong> là gì? Trả lời theo định nghĩa đã học (1-2 câu).',
+    hint:'Ba thành phần: mục đích cao đẹp + kế hoạch + quyết tâm phấn đấu cho ai?',
+    keywords:['mục đích','cao đẹp','kế hoạch','phấn đấu','cộng đồng','quốc gia','nhân loại','quyết tâm'],
+    minKw:3,
+    answer:'Sống có lí tưởng là xác định được mục đích cao đẹp và có kế hoạch, quyết tâm phấn đấu để đạt được mục đích nhằm đóng góp cho lợi ích của cộng đồng, quốc gia, nhân loại.',
+    explain:'Bài học: lí tưởng = mục đích đẹp + kế hoạch cụ thể + quyết tâm + lợi ích cho cộng đồng. Thiếu phần "lợi ích cho cộng đồng" thì chỉ là mục tiêu cá nhân.'
+  },
+  {
+    q:'Phân biệt <strong>ước mơ</strong> và <strong>lí tưởng</strong>. Cho ví dụ.',
+    hint:'Ước mơ có cần kế hoạch không? Có cần lợi ích cộng đồng không?',
+    keywords:['ước mơ','lí tưởng','kế hoạch','cộng đồng','quyết tâm','mục đích','khác'],
+    minKw:3,
+    answer:'Ước mơ là điều em mong muốn, có thể chưa có kế hoạch và có thể chỉ vì bản thân. Lí tưởng phải có mục đích cao đẹp, có kế hoạch, có quyết tâm, và có ích cho cộng đồng. Ví dụ: "Muốn đi Nhật" là ước mơ; "Trở thành bác sĩ để chữa bệnh miễn phí cho người nghèo" là lí tưởng.',
+    explain:'Mọi lí tưởng đều bắt nguồn từ ước mơ, nhưng ước mơ chỉ thành lí tưởng khi có kế hoạch + ý nghĩa cho người khác.'
+  },
+  {
+    q:'Nêu <strong>3 ý nghĩa</strong> của việc sống có lí tưởng.',
+    hint:'Động lực để làm gì? Hoàn thành điều gì? Đóng góp ra sao?',
+    keywords:['động lực','khó khăn','vượt qua','mục tiêu','hoàn thành','đóng góp','xã hội','tôn trọng','công nhận'],
+    minKw:3,
+    answer:'① Có động lực vượt qua khó khăn, thử thách. ② Giúp hoàn thành các mục tiêu cá nhân (kế hoạch tốt). ③ Đóng góp cho xã hội — được mọi người công nhận, tôn trọng, tin tưởng.',
+    explain:'Ba lợi ích này gắn liền nhau: cá nhân vững → cộng đồng được nhờ → cá nhân được tôn trọng lại.'
+  },
+  {
+    q:'Nêu <strong>lí tưởng của thanh niên Việt Nam ngày nay</strong> theo SGK.',
+    hint:'Phấn đấu vì điều gì? Học tập theo ai? Trở thành công dân như thế nào?',
+    keywords:['độc lập','chủ nghĩa xã hội','Hồ Chí Minh','học tập','rèn luyện','công dân','xây dựng','bảo vệ','Tổ quốc'],
+    minKw:3,
+    answer:'Phấn đấu vì độc lập dân tộc và chủ nghĩa xã hội; tích cực học tập và làm theo tư tưởng Hồ Chí Minh; nỗ lực rèn luyện sức khoẻ và học tập để trở thành công dân có năng lực, bản lĩnh; tham gia xây dựng và bảo vệ Tổ quốc.',
+    explain:'Đây là phần thường có trong đề thi vào 10. Nhớ 4 cụm: ① độc lập + CNXH ② Hồ Chí Minh ③ công dân tốt ④ xây dựng & bảo vệ.'
+  },
+  {
+    q:'<strong>Lí tưởng cá nhân của Mika</strong> là gì? Em muốn làm gì để hiện thực hoá nó? <em>(Câu này không có đáp án mẫu — em viết theo lòng em.)</em>',
+    hint:'Em làm gì giỏi? Em muốn giúp ai? Em sẽ rèn luyện gì từ năm 9?',
+    keywords:['em','muốn','học','rèn luyện','giúp','tương lai','vẽ','sáng tạo','thiết kế','bác sĩ','kĩ sư','công đồng','gia đình'],
+    minKw:1,
+    answer:'Đây là câu mở. Một câu trả lời mạnh có 3 phần: ① Em muốn làm việc gì có ích (vd: thiết kế truyện tranh để giúp trẻ em học); ② Vì sao việc đó quan trọng với em; ③ Bước đầu tiên em sẽ làm (vd: học vẽ mỗi ngày + rèn tiếng Việt).',
+    explain:'Không có đáp án sai. Lí tưởng đầu tiên của em có thể đơn giản — quan trọng là em đã viết nó ra. Năm sau quay lại, có thể sửa nó. Đó là bình thường.'
+  }
+];
+
+let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
+
+function checkLitAnswer(i,val){
+  const v=val.toLowerCase().normalize('NFC');
+  const matches = practice[i].keywords.filter(k=>v.includes(k.toLowerCase())).length;
+  return matches >= practice[i].minKw;
+}
+
+function renderPractice(){
+  const cont=document.getElementById('practiceContent');
+  cont.innerHTML='';
+  practice.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='problem';
+    div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
+    <textarea id="pin-${i}" placeholder="Mika viết câu trả lời ở đây..." ${prState[i].solved?'disabled':''}></textarea>
+    <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>
+    <div style="margin-top:8px">
+      <button class="btn" id="pbtn-${i}" onclick="checkAnswer(${i})" ${prState[i].solved?'disabled':''}>Kiểm tra</button>
+      <button class="btn ghost" onclick="showHint(${i})">💡 Gợi ý</button>
+      <button class="btn ghost" onclick="showAnswer(${i})">📖 Xem gợi ý mẫu</button>
+    </div>
+    <div id="pause-${i}" class="pause">⏸️ Dừng lại 5 giây — đọc lại câu hỏi, suy nghĩ, rồi viết lại.<div class="timer" id="ptimer-${i}">5</div></div>
+    <div id="pfb-${i}" class="feedback"></div>`;
+    cont.appendChild(div);
+  });
+}
+function showHint(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show';fb.style.background='#fef3c7';fb.style.color='#78350f';fb.style.borderLeftColor='#d97706';
+  fb.innerHTML='💡 '+applyTooltips(practice[i].hint);
+}
+function showAnswer(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show ok';
+  fb.innerHTML=`<strong>Gợi ý mẫu:</strong> ${applyTooltips(practice[i].answer)}<br><br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+}
+function checkAnswer(i){
+  if(prState[i].paused||prState[i].solved)return;
+  const val=(document.getElementById('pin-'+i).value||'').trim();
+  if(val.length<10){
+    const fb=document.getElementById('pfb-'+i);
+    fb.className='feedback show no';
+    fb.innerHTML='Câu trả lời còn quá ngắn. Hãy viết ít nhất một câu hoàn chỉnh.';
+    return;
+  }
+  const ok=checkLitAnswer(i,val);
+  prState[i].attempts++;
+  document.getElementById('pat-'+i).textContent=prState[i].attempts;
+  const fb=document.getElementById('pfb-'+i);
+  if(ok){
+    prState[i].solved=true;
+    fb.className='feedback show ok';
+    fb.innerHTML=`✓ Câu trả lời của em đã chạm đúng những ý chính.<br><br><strong>Gợi ý mẫu để so sánh:</strong> ${applyTooltips(practice[i].answer)}<br><br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p);bumpActivity()}
+    updateOverall();
+    return;
+  }
+  if(prState[i].attempts>=CFG.attemptLimit){
+    fb.className='feedback show no';
+    fb.innerHTML=`Đã thử ${CFG.attemptLimit} lần. <strong>Gợi ý mẫu:</strong> ${applyTooltips(practice[i].answer)}<br><br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+    prState[i].solved=true;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p)}
+    updateOverall();
+    return;
+  }
+  fb.className='feedback show no';
+  fb.innerHTML=`Câu trả lời chưa đủ ý chính. Mika thử nghĩ thêm về <em>${practice[i].keywords.slice(0,3).join(', ')}</em>. Còn ${CFG.attemptLimit-prState[i].attempts} lần.`;
+  prState[i].paused=true;
+  document.getElementById('pbtn-'+i).disabled=true;
+  document.getElementById('pin-'+i).disabled=true;
+  const pauseEl=document.getElementById('pause-'+i);
+  pauseEl.classList.add('show');
+  let n=CFG.pauseSeconds;
+  document.getElementById('ptimer-'+i).textContent=n;
+  const tk=setInterval(()=>{
+    n--;document.getElementById('ptimer-'+i).textContent=n;
+    if(n<=0){
+      clearInterval(tk);
+      pauseEl.classList.remove('show');
+      prState[i].paused=false;
+      document.getElementById('pbtn-'+i).disabled=false;
+      document.getElementById('pin-'+i).disabled=false;
+      document.getElementById('pin-'+i).focus();
+    }
+  },1000);
+}
+
+const gameRounds = [
+  {emoji:'🩺',q:'Bạn An nói: <em>"Tớ muốn trở thành bác sĩ để cứu người, đặc biệt là trẻ em ở miền núi nơi thiếu y tế. Tớ đang học chăm để vào đại học Y."</em>',
+   opts:[{t:'Lí tưởng cao đẹp',ok:true,why:'Có cả 3 phần: mục đích cao đẹp (cứu người + ưu tiên người yếu thế), kế hoạch (học vào đại học Y), quyết tâm (đang học chăm). Đầy đủ.'},
+   {t:'Chỉ là ước mơ',ok:false,why:'Có kế hoạch và quyết tâm rồi → đã vượt mức ước mơ.'},
+   {t:'Ảo tưởng',ok:false,why:'Hoàn toàn khả thi và có kế hoạch → không ảo tưởng.'}]},
+  {emoji:'💎',q:'Bạn Bình nói: <em>"Tớ sẽ rất giàu, có nhiều tiền, mua được mọi thứ tớ muốn."</em>',
+   opts:[{t:'Lí tưởng cao đẹp',ok:false,why:'Thiếu phần "có ích cho cộng đồng". Mục đích chỉ vì bản thân.'},
+   {t:'Mục tiêu cá nhân, chưa phải lí tưởng',ok:true,why:'Có thể là mục tiêu hợp lệ, nhưng thiếu yếu tố lí tưởng (lợi ích cộng đồng + kế hoạch cụ thể).'},
+   {t:'Ảo tưởng nguy hiểm',ok:false,why:'Không hẳn ảo tưởng — chỉ là chưa đủ "cao đẹp" theo định nghĩa.'}]},
+  {emoji:'🌍',q:'Bạn Châu nói: <em>"Tớ sẽ trở thành tỉ phú để giải quyết hết khó khăn của thế giới chỉ trong 5 năm tới."</em>',
+   opts:[{t:'Lí tưởng cao đẹp',ok:false,why:'Mục đích đẹp NHƯNG không có kế hoạch khả thi và mốc thời gian phi thực tế.'},
+   {t:'Ảo tưởng',ok:true,why:'Mục đích to nhưng thiếu kế hoạch cụ thể và phi thực tế (5 năm thành tỉ phú để cứu thế giới). Đẹp lời nhưng không có chân.'},
+   {t:'Mục tiêu thực tế',ok:false,why:'5 năm thành tỉ phú thì rất ít người làm được — không thực tế.'}]},
+  {emoji:'📚',q:'Bạn Dung nói: <em>"Em muốn trở thành kĩ sư xây cầu cho miền núi. Em đang học giỏi Toán, Lí, và đọc nhiều sách về kết cấu."</em>',
+   opts:[{t:'Lí tưởng cao đẹp',ok:true,why:'Mục đích đẹp (giúp miền núi), kế hoạch cụ thể (học Toán Lí, đọc sách), có hành động hiện tại.'},
+   {t:'Ước mơ',ok:false,why:'Đã có kế hoạch + hành động → cao hơn ước mơ.'},
+   {t:'Ảo tưởng',ok:false,why:'Hoàn toàn khả thi — kĩ sư xây cầu là nghề có thật.'}]},
+  {emoji:'🎮',q:'Bạn Em nói: <em>"Tớ chỉ muốn chơi game cả ngày, không cần học, không cần tương lai."</em>',
+   opts:[{t:'Lí tưởng',ok:false,why:'Không có mục đích cao đẹp, không có kế hoạch, không có ích cho ai.'},
+   {t:'Lối sống không có lí tưởng',ok:true,why:'Đây là ví dụ về sống KHÔNG có lí tưởng — không định hướng, không kế hoạch, không đóng góp.'},
+   {t:'Sự nổi loạn lành mạnh',ok:false,why:'Không có gì lành mạnh trong việc bỏ học và bỏ tương lai.'}]},
+  {emoji:'🌱',q:'Bạn Phát nói: <em>"Tớ làm tình nguyện trồng cây, dạy học miễn phí cho trẻ em mỗi cuối tuần. Tớ tin việc nhỏ làm đều cũng tạo nên thay đổi lớn."</em>',
+   opts:[{t:'Lí tưởng cao đẹp đang được sống',ok:true,why:'Mục đích đẹp (trẻ em, môi trường), có hành động cụ thể đều đặn, không phải nói suông.'},
+   {t:'Quá tham vọng',ok:false,why:'Trồng cây và dạy học miễn phí cuối tuần là việc khả thi và bền vững.'},
+   {t:'Mất thời gian',ok:false,why:'Không phải mất thời gian — đây là đầu tư vào bản thân và cộng đồng.'}]},
+  {emoji:'⚖️',q:'Bạn Giang nói: <em>"Tớ muốn là người nổi tiếng để mọi người ngưỡng mộ và tớ có quyền lực."</em>',
+   opts:[{t:'Lí tưởng cao đẹp',ok:false,why:'Mục đích chỉ vì bản thân (ngưỡng mộ + quyền lực) — không có ích cho cộng đồng.'},
+   {t:'Mục tiêu lệch hướng',ok:true,why:'Nổi tiếng và có quyền lực là phương tiện, không phải mục đích cuối. Nếu mục đích chỉ là phương tiện → lệch hướng.'},
+   {t:'Tham vọng tốt',ok:false,why:'Tham vọng chỉ tốt khi có hướng đi đúng. Đây thiếu yếu tố ý nghĩa cộng đồng.'}]},
+  {emoji:'🌟',q:'Đặng Thuỳ Trâm — bác sĩ trẻ ra chiến trường cứu thương binh, hy sinh ở tuổi 28. Đây là:',
+   opts:[{t:'Sự lựa chọn liều lĩnh',ok:false,why:'Không phải liều lĩnh — chị đã chuẩn bị (học y), có mục đích rõ ràng, và chấp nhận hậu quả.'},
+   {t:'Tấm gương sống có lí tưởng',ok:true,why:'Đầy đủ 3 yếu tố: mục đích cao đẹp (cứu thương binh), có chuẩn bị (học y), quyết tâm (chọn chiến trường). Lí tưởng được sống bằng cả mạng sống.'},
+   {t:'Bị ép buộc',ok:false,why:'Chị tự nguyện ra chiến trường — không bị ép.'}]},
+  {emoji:'💼',q:'Bạn Hùng nói: <em>"Tớ muốn học giỏi để sau này có lương cao, mua nhà cho bố mẹ, dành dụm giúp em gái đi học, và làm dự án từ thiện cho làng tớ."</em>',
+   opts:[{t:'Lí tưởng cao đẹp',ok:true,why:'Có cá nhân (lương cao) NHƯNG kết hợp với cộng đồng (bố mẹ, em, làng). Mục đích cuối là cho người khác. Có kế hoạch (học giỏi).'},
+   {t:'Quá vật chất',ok:false,why:'Tiền là phương tiện, không phải mục đích — anh dùng tiền để giúp người khác. Đó là lí tưởng cao đẹp.'},
+   {t:'Ích kỉ',ok:false,why:'Hoàn toàn không ích kỉ — phần lớn là cho người khác.'}]},
+  {emoji:'☀️',q:'Bạn Khanh nói: <em>"Tớ chưa biết lí tưởng của tớ là gì. Tớ đang học, đang tìm hiểu, đang thử nhiều việc."</em>',
+   opts:[{t:'Bạn ấy không có lí tưởng',ok:false,why:'Sai — đang tìm hiểu là một bước hoàn toàn hợp lí.'},
+   {t:'Bình thường — lí tưởng được hình thành dần',ok:true,why:'Ở tuổi 13-15, không nhất thiết phải có lí tưởng rõ. Quan trọng là đang học, đang thử, đang nghĩ. Lí tưởng sẽ hình thành theo thời gian.'},
+   {t:'Đáng lo ngại',ok:false,why:'Không đáng lo — bạn đang chủ động tìm hiểu là dấu hiệu tốt.'}]}
+];
+let gameIdx=0,gameOk=0,gameStarted=false;
+function startGame(){
+  gameStarted=true;gameIdx=0;gameOk=0;
+  document.getElementById('gameStartBtn').classList.add('hidden');
+  showGameRound();
+}
+function showGameRound(){
+  const r=gameRounds[gameIdx];
+  document.getElementById('gameRound').textContent=(gameIdx+1)+'/10';
+  document.getElementById('gameScore').textContent=gameOk+'/'+gameIdx;
+  document.getElementById('gameEmoji').textContent=r.emoji;
+  document.getElementById('gameQ').innerHTML=applyTooltips(r.q);
+  const ob=document.getElementById('gameOptions');
+  ob.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';b.textContent=o.t;
+    b.onclick=()=>pickGame(i);
+    ob.appendChild(b);
+  });
+  document.getElementById('gameFb').className='feedback';
+  document.getElementById('gameFb').innerHTML='';
+  document.getElementById('gameNextBtn').classList.add('hidden');
+}
+function pickGame(i){
+  const r=gameRounds[gameIdx];
+  const opts=document.querySelectorAll('#gameOptions .opt');
+  opts.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===i)b.classList.add(r.opts[j].ok?'right':'wrong');
+    else if(r.opts[j].ok)b.classList.add('right');
+  });
+  const fb=document.getElementById('gameFb');
+  if(r.opts[i].ok){
+    gameOk++;
+    fb.className='feedback show ok';
+    fb.innerHTML='✓ Tuyệt! '+applyTooltips(r.opts[i].why);
+  }else{
+    fb.className='feedback show no';
+    fb.innerHTML='✗ '+applyTooltips(r.opts[i].why);
+  }
+  document.getElementById('gameScore').textContent=gameOk+'/'+(gameIdx+1);
+  document.getElementById('gameNextBtn').classList.remove('hidden');
+}
+function nextGameRound(){
+  gameIdx++;
+  if(gameIdx>=gameRounds.length){
+    const stage=document.getElementById('gameStage');
+    const stars=gameOk>=8?'⭐⭐⭐':gameOk>=6?'⭐⭐':gameOk>=4?'⭐':'☀️';
+    stage.innerHTML=`<div class="game-emoji">${stars}</div><h3>Hoàn thành rồi!</h3><p>Mika phân biệt đúng <strong>${gameOk}/10</strong> tình huống.</p><button class="btn ghost" onclick="resetGame()">Chơi lại</button> <button class="btn" onclick="switchTab('quiz')">Sang Kiểm tra →</button>`;
+    const p=loadProg();
+    if(gameOk>p.game){p.game=gameOk;saveProg(p);bumpActivity();updateOverall()}
+    return;
+  }
+  showGameRound();
+}
+function resetGame(){
+  gameIdx=0;gameOk=0;gameStarted=false;
+  document.getElementById('gameStage').innerHTML=`<div class="game-emoji" id="gameEmoji">☀️</div>
+  <div class="game-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+  <div id="gameOptions"></div>
+  <div id="gameFb" class="feedback"></div>
+  <div style="margin-top:12px"><button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+  <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button></div>`;
+  document.getElementById('gameRound').textContent='1/10';
+  document.getElementById('gameScore').textContent='0/0';
+}
+
+const quiz = [
+  {q:'<strong>Sống có lí tưởng</strong> là:',opts:['Sống theo ý mình','Xác định mục đích cao đẹp + có kế hoạch + phấn đấu vì cộng đồng','Học giỏi để có công việc tốt','Trở thành người nổi tiếng'],ans:1,why:'Định nghĩa SGK: mục đích cao đẹp + kế hoạch + quyết tâm + lợi ích cộng đồng. Đáp án A và D thiếu yếu tố cộng đồng. Đáp án C là mục tiêu cá nhân, chưa phải lí tưởng.'},
+  {q:'Người sống có lí tưởng <strong>KHÔNG có</strong> đặc điểm nào sau đây?',opts:['Có động lực vượt qua khó khăn','Có kế hoạch cho tương lai','Chỉ làm việc khi được trả công xứng đáng','Đóng góp cho cộng đồng'],ans:2,why:'Người có lí tưởng không tính toán theo công xá — họ làm vì mục đích đẹp. Ba ý còn lại đều là đặc điểm của người có lí tưởng.'},
+  {q:'Câu nói <em>"Lí tưởng là ngọn đèn chỉ đường..."</em> là của ai?',opts:['Hồ Chí Minh','Đặng Thuỳ Trâm','Lev Tolstoy','Nguyễn Dữ'],ans:2,why:'Tolstoy — nhà văn Nga thế kỉ XIX. Câu đầy đủ: "Lí tưởng là ngọn đèn chỉ đường. Không có lí tưởng thì không có phương hướng kiên định, mà không có phương hướng thì không có cuộc sống."'},
+  {q:'Lí tưởng của thanh niên Việt Nam ngày nay <strong>KHÔNG bao gồm</strong>:',opts:['Phấn đấu vì độc lập dân tộc và CNXH','Học tập theo tư tưởng Hồ Chí Minh','Tránh xa các hoạt động cộng đồng','Xây dựng và bảo vệ Tổ quốc'],ans:2,why:'Ngược lại — thanh niên cần TÍCH CỰC tham gia hoạt động cộng đồng. Ba ý còn lại đều là lí tưởng thanh niên đúng theo SGK.'},
+  {q:'Đặng Thuỳ Trâm là tấm gương về:',opts:['Sống có lí tưởng — chọn cứu người dù nguy hiểm','Sự may mắn của tuổi trẻ','Lối sống tự do, không kế hoạch','Sự ích kỉ cá nhân'],ans:0,why:'Chị Trâm chọn ra chiến trường để cứu thương binh — có mục đích cao đẹp, có chuẩn bị (học y), và quyết tâm. Chị là biểu tượng của lí tưởng sống.'},
+  {q:'Học sinh thực hiện lí tưởng qua việc:',opts:['Chỉ cần học giỏi là đủ','Học tập + lao động + rèn luyện sức khoẻ + tham gia hoạt động tập thể','Tránh các hoạt động ngoài giờ','Tập trung vào điểm số'],ans:1,why:'SGK nêu 4 việc: học tập tích cực, lao động, rèn luyện sức khoẻ, tham gia hoạt động tập thể. Cả 4 việc cần thiết — thiếu một là lệch.'}
+];
+function renderQuiz(){
+  const cont=document.getElementById('quizContent');
+  cont.innerHTML='';
+  quiz.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`<div class="q" style="font-weight:600;margin-bottom:8px">Câu ${i+1}. ${applyTooltips(q.q)}</div>
+    <div id="qopts-${i}">${q.opts.map((o,j)=>`<button class="opt" data-q="${i}" data-j="${j}">${applyTooltips(o)}</button>`).join('')}</div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pickQuiz(+b.dataset.q,+b.dataset.j));
+  const submit=document.createElement('div');
+  submit.className='card';
+  submit.style.textAlign='center';
+  submit.innerHTML='<button class="btn alt" onclick="submitQuiz()">Nộp bài</button>';
+  cont.appendChild(submit);
+}
+let quizPicks=Array(6).fill(-1);
+function pickQuiz(i,j){
+  quizPicks[i]=j;
+  document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>b.classList.toggle('picked',k===j));
+}
+function submitQuiz(){
+  if(quizPicks.includes(-1)){alert('Mika ơi, còn câu chưa chọn!');return}
+  let ok=0;
+  quizPicks.forEach((j,i)=>{
+    document.querySelectorAll(`#qopts-${i} .opt`).forEach((b,k)=>{
+      b.disabled=true;
+      if(k===quiz[i].ans)b.classList.add('right');
+      else if(k===j)b.classList.add('wrong');
+    });
+    if(j===quiz[i].ans)ok++;
+    const card=document.querySelectorAll('#quizContent .card')[i];
+    const why=document.createElement('div');
+    why.className='feedback show '+(j===quiz[i].ans?'ok':'no');
+    why.innerHTML=applyTooltips(quiz[i].why);
+    card.appendChild(why);
+  });
+  const pct=ok/quiz.length;
+  const passed=pct>=CFG.passThreshold;
+  const res=document.getElementById('quizResult');
+  res.classList.remove('hidden');
+  document.getElementById('quizScore').textContent=`Điểm: ${ok}/${quiz.length} (${Math.round(pct*100)}%)`;
+  document.getElementById('quizMsg').innerHTML=passed
+    ?`🎉 Mika đã đạt mức Mở khoá! Bài 2 (Khoan dung) sẽ sẵn sàng khi mình xây xong.`
+    :`Cần đạt 80% (5/6) để mở khoá. Mika xem lại các câu sai rồi làm lại nhé.`;
+  document.getElementById('quizStatus').textContent=passed?'✓ Đã đạt':'chưa đạt';
+  document.getElementById('quizStatus').style.background=passed?'#e0f2fe':'#fee2e2';
+  document.getElementById('quizStatus').style.color=passed?'#0c4a6e':'#991b1b';
+  const p=loadProg();
+  if(pct>p.quizBest)p.quizBest=pct;
+  if(passed)p.quizPassed=true;
+  saveProg(p);bumpActivity();updateOverall();
+}
+function resetQuiz(){
+  quizPicks=Array(6).fill(-1);
+  document.getElementById('quizResult').classList.add('hidden');
+  renderQuiz();
+}
+
+renderTheory();renderPractice();renderQuiz();
+updateStreak();updateOverall();
+const p=loadProg();
+if(p.quizPassed){
+  document.getElementById('quizStatus').textContent='✓ Đã đạt';
+  document.getElementById('quizStatus').style.background='#e0f2fe';
+  document.getElementById('quizStatus').style.color='#0c4a6e';
+}
+bumpActivity();
+</script>
+</body>
+</html>

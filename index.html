@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coi Học — Hành trình lớp 9 của Mika</title>
+<style>
+:root {
+  color-scheme: light;
+  --ink:#0f172a; --ink-2:#475569; --line:#e2e8f0;
+  --bg:#fffaf5;
+  --shadow:0 2px 12px rgba(15,23,42,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:880px;margin:0 auto;padding:20px 18px 80px}
+header.hero{background:linear-gradient(135deg,#fbcfe8,#fde68a,#bef264,#a7f3d0,#fed7aa);border-radius:20px;padding:24px 22px;box-shadow:var(--shadow);margin-bottom:18px;text-align:center}
+header.hero h1{font-size:28px;font-weight:800;margin:0 0 6px;color:#1e293b}
+header.hero p{font-size:14px;color:#475569;margin:0}
+.streak-row{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.streak-pill{background:#fff;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.streak-pill.fire{color:#c2410c}
+.streak-pill.gold{color:#a16207}
+h2.section{font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-2);margin:24px 4px 10px;font-weight:700}
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.subject{background:#fff;border-radius:16px;padding:16px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:2px solid transparent;transition:all .2s;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.subject:hover{transform:translateY(-2px);box-shadow:0 4px 18px rgba(15,23,42,.1)}
+.subject .accent{position:absolute;left:0;top:0;bottom:0;width:5px}
+.subject .icon{font-size:28px;line-height:1;margin-left:8px}
+.subject .name{font-size:16px;font-weight:700;margin-left:8px}
+.subject .lesson{font-size:12px;color:var(--ink-2);margin-left:8px}
+.subject .pct-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 8px 0 8px}
+.subject .pct-fill{height:100%;transition:width .3s}
+.subject .pct-text{font-size:11px;color:var(--ink-2);margin-left:8px;text-align:right}
+.subject .badge-locked{position:absolute;top:10px;right:10px;font-size:11px;padding:3px 8px;background:#f1f5f9;color:#94a3b8;border-radius:999px}
+.subject .badge-passed{position:absolute;top:10px;right:10px;font-size:11px;padding:3px 8px;background:#dcfce7;color:#15803d;border-radius:999px}
+/* per-subject accents */
+.s-toan{--c1:#a78bfa;--c2:#7c3aed;--bg-soft:#ede9fe}
+.s-lichsu{--c1:#a16207;--c2:#854d0e;--bg-soft:#fef3c7}
+.s-diali{--c1:#15803d;--c2:#166534;--bg-soft:#dcfce7}
+.s-vatly{--c1:#0e7490;--c2:#155e75;--bg-soft:#cffafe}
+.s-hoahoc{--c1:#10b981;--c2:#059669;--bg-soft:#d1fae5}
+.s-sinhhoc{--c1:#65a30d;--c2:#4d7c0f;--bg-soft:#ecfccb}
+.s-nguvan{--c1:#e11d48;--c2:#be123c;--bg-soft:#ffe4e6}
+.s-gdcd{--c1:#0284c7;--c2:#0369a1;--bg-soft:#e0f2fe}
+.subject .accent{background:var(--c1)}
+.subject .pct-fill{background:linear-gradient(90deg,var(--c1),var(--c2))}
+.subject:hover{border-color:var(--c1)}
+.parent-card{background:#fff;border-radius:16px;padding:18px;margin-top:14px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);text-decoration:none;color:inherit;border:2px solid transparent;transition:all .2s}
+.parent-card:hover{border-color:#475569;transform:translateY(-2px)}
+.parent-card .icon{font-size:36px}
+.parent-card .text{flex:1}
+.parent-card .text h3{margin:0 0 2px;font-size:15px;font-weight:700}
+.parent-card .text p{margin:0;font-size:12px;color:var(--ink-2)}
+.tip{background:#fef3c7;border-radius:12px;padding:12px 16px;font-size:13px;color:#78350f;margin-top:18px;display:flex;align-items:flex-start;gap:10px}
+.tip .icon{font-size:18px;flex-shrink:0}
+footer{margin-top:24px;text-align:center;font-size:11px;color:var(--ink-2)}
+@media (max-width:600px){
+  .subjects{grid-template-columns:1fr}
+  header.hero h1{font-size:23px}
+  header.hero{padding:18px 16px}
+  .wrap{padding:14px 14px 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>Hành trình lớp 9 của Mika 🌸</h1>
+  <p>Học theo sách Kết nối tri thức · Bắt đầu từ bài đầu tiên của mỗi môn</p>
+  <div class="streak-row">
+    <span class="streak-pill fire">🔥 <span id="streakNum">0</span> ngày liên tục</span>
+    <span class="streak-pill gold">⭐ <span id="passedNum">0</span>/8 môn đã qua Bài 1</span>
+  </div>
+</header>
+
+<h2 class="section">Chọn môn để học</h2>
+
+<div class="subjects" id="subjects"></div>
+
+<h2 class="section">Cho bố mẹ</h2>
+<a class="parent-card" href="parent/">
+  <div class="icon">📊</div>
+  <div class="text">
+    <h3>Coach Console</h3>
+    <p>Theo dõi tiến độ, sự tham gia, và sức khoẻ học tập của Mika</p>
+  </div>
+  <div style="font-size:20px;color:#94a3b8">→</div>
+</a>
+
+<div class="tip">
+  <span class="icon">🌸</span>
+  <div>
+    <strong>Tip:</strong> Mỗi bài chỉ cần 10–15 phút. Đạt 80% trên bài kiểm tra để mở khoá bài tiếp theo. Có ngày nào bận, học 1 môn cũng được — quan trọng là <em>đều đặn</em> hơn nhiều.
+  </div>
+</div>
+
+<footer>Coi Học · Hành trình chinh phục lớp 9 · v0.1</footer>
+
+</div>
+
+<script>
+// Subject registry — keep in one place so future updates touch a single file
+const SUBJECTS = [
+  {slug:'toan9',     icon:'➗', name:'Toán 9',      lesson:'Bài 1 — Phương trình bậc nhất hai ẩn'},
+  {slug:'lichsu9',   icon:'📜', name:'Lịch sử 9',   lesson:'Bài 1 — Liên Xô 1918–1945'},
+  {slug:'diali9',    icon:'🌾', name:'Địa lí 9',    lesson:'Bài 1 — Dân tộc và dân số'},
+  {slug:'vatly9',    icon:'⚡', name:'Vật lý 9',    lesson:'Bài 2 — Động năng. Thế năng'},
+  {slug:'hoahoc9',   icon:'🧪', name:'Hoá học 9',   lesson:'Bài 18 — Tính chất chung của kim loại'},
+  {slug:'sinhhoc9',  icon:'🌱', name:'Sinh học 9',  lesson:'Bài 36 — Di truyền học'},
+  {slug:'nguvan9',   icon:'📖', name:'Ngữ văn 9',   lesson:'Bài 1 — Chuyện người con gái Nam Xương'},
+  {slug:'gdcd9',     icon:'☀️', name:'GDCD 9',      lesson:'Bài 1 — Sống có lí tưởng'}
+];
+
+const ACTIVITY_KEY = 'toan9-activity'; // shared across all subjects — see project skill §7
+
+function loadProg(slug){
+  try{return JSON.parse(localStorage.getItem(slug+'-progress'))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+  catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
+}
+
+function calcPct(p){
+  // Same formula as inside each lesson: 11 theory + 5 practice + 10 game + 1 quiz
+  const total = 11 + 5 + 10 + 1;
+  const done = (p.theory||0) + (p.practice||0) + (p.game||0) + (p.quizPassed?1:0);
+  return Math.round(100 * done / total);
+}
+
+function calcStreak(){
+  let act={};
+  try{act=JSON.parse(localStorage.getItem(ACTIVITY_KEY))||{}}catch(e){}
+  let n=0; const d=new Date();
+  while(true){
+    const k=d.toISOString().slice(0,10);
+    if(act[k])n++; else if(n>0||k!==new Date().toISOString().slice(0,10))break;
+    d.setDate(d.getDate()-1);
+    if(n>365)break;
+  }
+  return n;
+}
+
+function render(){
+  const cont = document.getElementById('subjects');
+  cont.innerHTML = '';
+  let passed = 0;
+  SUBJECTS.forEach(s => {
+    const p = loadProg(s.slug);
+    const pct = calcPct(p);
+    if(p.quizPassed) passed++;
+    const a = document.createElement('a');
+    a.className = 'subject s-' + s.slug.replace('9','');
+    a.href = 'lessons/' + s.slug + '/';
+    a.innerHTML = `
+      <div class="accent"></div>
+      ${p.quizPassed ? '<span class="badge-passed">✓ Đã đạt</span>' : (pct>0 ? `<span class="badge-locked">${pct}%</span>` : '<span class="badge-locked">Chưa bắt đầu</span>')}
+      <div class="icon">${s.icon}</div>
+      <div class="name">${s.name}</div>
+      <div class="lesson">${s.lesson}</div>
+      <div class="pct-bar"><div class="pct-fill" style="width:${pct}%"></div></div>
+      <div class="pct-text">${pct}% hoàn thành</div>
+    `;
+    cont.appendChild(a);
+  });
+  document.getElementById('streakNum').textContent = calcStreak();
+  document.getElementById('passedNum').textContent = passed;
+}
+
+render();
+</script>
+</body>
+</html>

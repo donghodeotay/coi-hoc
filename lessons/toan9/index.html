@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Toan9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "Toán 9 (Kết nối tri thức) interactive learning hub. All 10 chapters mapped, mastery-gated progression (need 80%+ on quiz to unlock next lesson). Each lesson teaches via story → before/after → micro-steps with analogies → practice → game → quiz. Vietnamese-first with English tooltips on math terms (tap or hover blue-underlined words). Chương 1 Bài 1 (Khái niệm phương trình bậc nhất hai ẩn) is fully built; other lessons unlock as she progresses. Progress saves automatically."
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toán 9 — Hành trình chinh phục</title>
+<style>
+:root { color-scheme: light; --primary:#6b46c1; --primary-d:#5b3aab; --primary-l:#a78bfa; --success:#10b981; --warn:#f59e0b; --danger:#ef4444; --card:#fff; --text:#2d2d3d; --muted:#6b7280; --border:#e5e7eb; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#fef9f3 0%,#f5f0fb 100%);color:var(--text);line-height:1.55;padding:12px;min-height:100vh;font-size:14px}
+.header{background:linear-gradient(135deg,#6b46c1 0%,#a78bfa 100%);color:#fff;padding:16px 18px;border-radius:14px;margin-bottom:14px;box-shadow:0 4px 14px rgba(107,70,193,.22)}
+.header h1{font-size:18px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:12px;opacity:.92}
+.header .greet{font-size:13px;margin-top:6px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:99px;display:inline-block;backdrop-filter:blur(10px);font-weight:500}
+.header .lang-tip{font-size:11px;margin-top:8px;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:8px;border-left:3px solid #fde68a;line-height:1.5}
+.header .lang-tip strong{color:#fef3c7;font-weight:700}
+.pbar{background:rgba(255,255,255,.25);border-radius:99px;height:7px;margin-top:10px;overflow:hidden}
+.pbar-fill{background:#fff;height:100%;transition:width .4s;border-radius:99px}
+.ptext{font-size:11px;margin-top:4px;opacity:.95}
+.crumb{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.crumb a{color:var(--primary);text-decoration:none;cursor:pointer;font-weight:500}
+.crumb a:hover{text-decoration:underline}
+.crumb .sep{opacity:.5}
+.card{background:var(--card);border-radius:11px;padding:13px;margin-bottom:9px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--border);transition:all .2s}
+.card.click{cursor:pointer}
+.card.click:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(107,70,193,.15);border-color:var(--primary-l)}
+.card.locked{opacity:.55;cursor:not-allowed}
+.card.done{border-color:var(--success);background:linear-gradient(135deg,#fff 0%,#f0fdf4 100%)}
+.tag{display:inline-block;background:var(--primary);color:#fff;padding:2px 9px;border-radius:99px;font-size:10px;font-weight:600;margin-bottom:5px;letter-spacing:.3px}
+.tag.gray{background:#9ca3af}
+.title{font-size:15px;font-weight:600;margin-bottom:3px;color:var(--text)}
+.desc{font-size:12px;color:var(--muted)}
+.row{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px}
+.mp{flex:1;background:#e5e7eb;height:6px;border-radius:99px;overflow:hidden}
+.mpf{background:var(--success);height:100%;transition:width .4s}
+.tip{border-bottom:1px dashed var(--primary);cursor:help;position:relative;color:#4c1d95;font-weight:500}
+.tip::after{content:attr(data-en);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:5px 9px;border-radius:5px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.18);font-weight:400;font-style:normal}
+.tip::before{content:'';position:absolute;bottom:calc(100% - 1px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1f2937;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
+.tip:hover::after,.tip:hover::before,.tip.act::after,.tip.act::before{opacity:1}
+.btn{display:inline-block;background:var(--primary);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;font-family:inherit}
+.btn:hover:not(:disabled){background:var(--primary-d);transform:translateY(-1px)}
+.btn.sec{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
+.btn.sec:hover:not(:disabled){background:var(--primary);color:#fff}
+.btn.ok{background:var(--success)}.btn.ok:hover:not(:disabled){background:#059669}
+.btn.warn{background:var(--warn)}.btn:disabled{background:#d1d5db;cursor:not-allowed;transform:none;opacity:.7}
+.tabs{display:flex;gap:3px;margin-bottom:11px;background:#f3f0fa;padding:3px;border-radius:9px}
+.tab{flex:1;padding:8px 4px;background:transparent;border:none;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;line-height:1.2;font-family:inherit}
+.tab.act{background:#fff;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08);font-weight:600}
+.tab.lock{opacity:.4;cursor:not-allowed}
+.tab .ic{font-size:14px;display:block;margin-bottom:2px}
+.theory{background:linear-gradient(135deg,#fff 0%,#faf7ff 100%);border:1px solid #e9e5f5;border-radius:11px;padding:14px;margin-bottom:11px}
+.theory h3{color:var(--primary);font-size:14px;margin-bottom:7px;display:flex;align-items:center;gap:6px;justify-content:space-between}
+.story{background:linear-gradient(135deg,#fff7ed 0%,#fef3c7 100%);border-left:4px solid var(--warn);border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+.story-title{font-weight:700;color:#92400e;margin-bottom:6px;display:flex;align-items:center;gap:6px;font-size:13px}
+.poem{background:#fff;border-left:3px solid var(--warn);padding:10px 12px;margin:8px 0;border-radius:6px;font-style:italic;line-height:1.7;color:#7c2d12;font-size:13px}
+.poem-en{background:#fff7ed;padding:8px 12px;margin:6px 0;border-radius:6px;font-size:12px;color:#9a3412;line-height:1.55}
+.poem-en strong{color:#7c2d12}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+@media(max-width:480px){.compare{grid-template-columns:1fr}}
+.compare > div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
+.after{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.compare h4{font-size:12px;margin-bottom:6px;font-weight:700}
+.analogy{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px;margin:8px 0;font-size:13px}
+.analogy::before{content:'💡 ';margin-right:2px}
+.analogy strong{color:#1e40af}
+.why{background:#fdf4ff;border:1px solid #f0abfc;border-radius:8px;padding:10px;margin:8px 0;font-size:13px}
+.why::before{content:'❓ ';margin-right:2px}
+.why strong{color:#86198f}
+.body-text{margin:10px 0;font-size:13px}
+.sgk-ref{display:inline-block;background:#fef3c7;color:#78350f;font-size:10px;padding:2px 7px;border-radius:99px;font-weight:700;margin-left:5px;border:1px solid #fde68a}
+.spk-btn{background:#fff;border:1.5px solid var(--primary);color:var(--primary);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;padding:0}
+.spk-btn:hover{background:var(--primary);color:#fff}
+.spk-btn.playing{background:var(--success);border-color:var(--success);color:#fff;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
+.math{font-family:'Cambria Math','STIX Two Math',Georgia,serif;font-style:italic}
+.mathd{text-align:center;font-size:17px;padding:8px 0;font-family:'Cambria Math',Georgia,serif;background:#fafafa;border-radius:6px;margin:8px 0;font-style:italic}
+.step-nav{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-top:12px;gap:8px}
+.step-dots{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;flex:1}
+.dot{width:8px;height:8px;border-radius:50%;background:#e5e7eb;transition:all .2s}
+.dot.act{background:var(--primary);transform:scale(1.3)}
+.dot.done{background:var(--success)}
+.problem{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:9px}
+.problem-q{font-size:13px;margin-bottom:9px;line-height:1.55}
+.opts{display:flex;flex-direction:column;gap:5px}
+.opt{padding:9px 11px;background:#f9f7ff;border:1.5px solid transparent;border-radius:7px;cursor:pointer;font-size:13px;transition:all .15s;text-align:left;font-family:inherit}
+.opt:hover:not(:disabled){background:#f0ebfd;border-color:var(--primary-l)}
+.opt.ok{border-color:var(--success);background:#d1fae5}
+.opt.no{border-color:var(--danger);background:#fee2e2}
+.opt:disabled{cursor:default}
+.fb{margin-top:9px;padding:9px 11px;border-radius:7px;font-size:12px;display:none;line-height:1.5}
+.fb.show{display:block;animation:fadeIn .3s}
+.fb.ok{background:#d1fae5;color:#065f46;border-left:3px solid var(--success)}
+.fb.no{background:#fee2e2;color:#991b1b;border-left:3px solid var(--danger)}
+.fb.hint{background:#fef3c7;color:#78350f;border-left:3px solid var(--warn)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.game{background:linear-gradient(135deg,#f0f9ff 0%,#faf7ff 100%);border-radius:11px;padding:14px;margin-bottom:11px}
+.game h4{color:var(--primary);font-size:13px;margin-bottom:6px}
+.game-eq{text-align:center;font-size:18px;padding:10px;background:#fff;border-radius:8px;margin:10px 0;font-family:'Cambria Math',Georgia,serif;font-style:italic;font-weight:600}
+.game-stats{display:flex;justify-content:space-around;background:#fff;border-radius:8px;padding:8px;margin:8px 0;font-size:11px}
+.game-stats > div{text-align:center}
+.game-stats .v{font-size:18px;font-weight:700;color:var(--primary);display:block}
+.game-stats .streak-on .v{color:var(--warn);animation:pulse2 1s infinite}
+@keyframes pulse2{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.points-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0}
+@media(max-width:380px){.points-grid{grid-template-columns:repeat(3,1fr)}}
+.pt-btn{padding:14px 4px;border-radius:9px;border:2px solid #ddd;background:#fff;cursor:pointer;font-family:'Cambria Math',Georgia,serif;font-size:13px;font-weight:600;transition:all .2s}
+.pt-btn:hover:not(:disabled){border-color:var(--primary);transform:scale(1.05)}
+.pt-btn.picked-ok{background:#d1fae5;border-color:var(--success);animation:pop .4s}
+.pt-btn.picked-no{background:#fee2e2;border-color:var(--danger);animation:shake .4s}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.pitfall{background:#fef2f2;border:2px solid #fca5a5;border-radius:8px;padding:10px 12px;margin:8px 0;font-size:12px;color:#991b1b;animation:fadeIn .3s;line-height:1.5}
+.pitfall b{color:#7f1d1d}
+.pitfall .pf-tag{display:inline-block;background:#dc2626;color:#fff;font-size:10px;padding:1px 6px;border-radius:99px;margin-right:6px;font-weight:700}
+.score-banner{background:#fff;border-radius:11px;padding:14px;text-align:center;margin-top:11px;border:2px solid var(--primary)}
+.score-banner.win{border-color:var(--success);background:linear-gradient(135deg,#fff 0%,#ecfdf5 100%)}
+.score-banner.lose{border-color:var(--warn);background:linear-gradient(135deg,#fff 0%,#fffbeb 100%)}
+.big{font-size:28px;font-weight:700;color:var(--primary)}
+.score-banner.win .big{color:var(--success)}
+.score-banner.lose .big{color:var(--warn)}
+.lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.badge{background:var(--success);color:#fff;padding:2px 7px;border-radius:99px;font-size:10px;font-weight:600}
+.center{text-align:center}
+.tiny{font-size:11px;color:var(--muted)}
+ul.simple{list-style:none;padding:0;margin:8px 0}
+ul.simple li{padding:5px 0 5px 22px;position:relative;font-size:13px}
+ul.simple li::before{content:'✓';position:absolute;left:0;color:var(--success);font-weight:700}
+ul.bad li::before{content:'✗';color:var(--danger)}
+.recap{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdfa 100%);border:1px solid #a7f3d0;border-radius:10px;padding:12px;margin:10px 0}
+.recap h4{color:#065f46;font-size:13px;margin-bottom:6px}
+details.examples{margin-top:10px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:0;overflow:hidden}
+details.examples summary{padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;color:#5b21b6;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.examples summary::-webkit-details-marker{display:none}
+details.examples summary::after{content:'▼';font-size:10px;transition:transform .2s}
+details.examples[open] summary::after{transform:rotate(180deg)}
+details.examples summary:hover{background:#ede9fe}
+details.examples .ex-list{padding:0 12px 10px}
+.ex-item{padding:8px 0;border-top:1px dashed #c4b5fd;font-size:13px}
+.ex-item:first-child{border-top:none}
+.ex-item .ex-q{font-weight:600;color:#5b21b6;margin-bottom:4px}
+.ex-item .ex-a{color:#374151;padding-left:8px;border-left:2px solid #c4b5fd}
+.graph-wrap{background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px;margin:10px 0;text-align:center;overflow-x:auto}
+.graph-info{font-size:12px;color:var(--muted);margin-top:6px;text-align:center}
+.blueprint{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdfa 100%);border:2px solid #6ee7b7;border-radius:10px;padding:12px;margin:10px 0;position:relative}
+.blueprint .bp-tag{position:absolute;top:-9px;left:12px;background:var(--success);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+.blueprint h4{color:#065f46;font-size:12px;margin:4px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.blueprint .bp-prob{font-size:13px;color:#064e3b;margin-bottom:6px;font-weight:500}
+.blueprint .bp-sol{font-size:13px;color:#065f46;background:#fff;padding:8px 10px;border-radius:6px;border-left:3px solid #10b981}
+.attempt{background:linear-gradient(135deg,#fff 0%,#fffbeb 100%);border:2px solid #fcd34d;border-radius:10px;padding:12px;margin:10px 0;position:relative}
+.attempt .at-tag{position:absolute;top:-9px;left:12px;background:var(--warn);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+.attempt h4{color:#78350f;font-size:12px;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.5px}
+.attempt .at-prompt{font-size:14px;color:#451a03;font-weight:500;margin-bottom:10px;line-height:1.55}
+.attempt input.at-input,.attempt textarea.at-input{padding:9px 12px;border:1.5px solid #fde68a;border-radius:7px;font-size:14px;width:100%;font-family:inherit;background:#fff}
+.attempt input.at-input:focus,.attempt textarea.at-input:focus{outline:none;border-color:var(--warn);box-shadow:0 0 0 3px rgba(245,158,11,.15)}
+.yesno{display:flex;gap:8px;margin:8px 0}
+.yesno button{flex:1;padding:12px;background:#fff;border:1.5px solid #fde68a;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:#78350f;font-family:inherit;transition:all .2s}
+.yesno button:hover:not(:disabled){background:#fef3c7;border-color:var(--warn)}
+.yesno button:disabled{cursor:default}
+.attempt-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.stop-fix{background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%);border:2px solid #fca5a5;border-radius:10px;padding:12px;margin:10px 0;animation:fadeIn .3s}
+.stop-fix .sf-title{color:#991b1b;font-weight:700;font-size:13px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.stop-fix .sf-body{font-size:13px;color:#7f1d1d;line-height:1.55}
+.stop-fix .sf-body b{color:#991b1b}
+.success-card{background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border:2px solid #6ee7b7;border-radius:10px;padding:12px;margin:10px 0;animation:fadeIn .3s}
+.success-card .sc-title{color:#065f46;font-weight:700;font-size:13px;margin-bottom:4px}
+.success-card .sc-body{font-size:13px;color:#064e3b}
+.replay{background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:2px solid #93c5fd;border-radius:10px;padding:14px;margin:10px 0;text-align:center;animation:fadeIn .3s}
+.replay .rp-title{color:#1e40af;font-weight:700;font-size:13px;margin-bottom:8px}
+.replay .rp-count{font-size:42px;font-weight:800;color:var(--primary);line-height:1;margin:6px 0}
+.replay .rp-text{font-size:12px;color:#1e3a8a;line-height:1.5}
+.attempts-trail{display:flex;gap:4px;margin-top:8px;font-size:11px;color:var(--muted);align-items:center}
+.attempts-trail .at-dot{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:#9ca3af}
+.attempts-trail .at-dot.ok{background:var(--success)}
+.attempts-trail .at-dot.no{background:var(--danger)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+"use strict";
+
+const TERMS = {
+  'phương trình bậc nhất hai ẩn':'linear equation in 2 unknowns',
+  'hệ hai phương trình bậc nhất hai ẩn':'system of 2 linear equations in 2 unknowns',
+  'phương trình bậc nhất một ẩn':'linear equation in 1 unknown',
+  'phương trình bậc hai':'quadratic equation',
+  'hệ phương trình':'system of equations',
+  'hệ thức lượng':'trigonometric ratios',
+  'tỉ số lượng giác':'trigonometric ratio',
+  'phương pháp thế':'substitution method',
+  'cộng đại số':'elimination',
+  'phương trình':'equation',
+  'bất phương trình':'inequality',
+  'bất đẳng thức':'inequality',
+  'biểu thức':'expression',
+  'đẳng thức':'equality / equation',
+  'hàm số':'function',
+  'căn thức':'radical',
+  'căn bậc hai':'square root',
+  'căn bậc ba':'cube root',
+  'tam giác vuông':'right triangle',
+  'tam giác':'triangle',
+  'góc nhọn':'acute angle',
+  'góc vuông':'right angle',
+  'góc tù':'obtuse angle',
+  'đường tròn':'circle',
+  'đường thẳng':'straight line',
+  'tiếp tuyến':'tangent',
+  'tần số':'frequency',
+  'xác suất':'probability',
+  'biến cố':'event',
+  'phép thử':'trial / experiment',
+  'tứ giác':'quadrilateral',
+  'đa giác đều':'regular polygon',
+  'đa giác':'polygon',
+  'hình trụ':'cylinder',
+  'hình nón':'cone',
+  'hình cầu':'sphere',
+  'hình khối':'3D solid',
+  'thực tiễn':'practical / real-world',
+  'rút gọn':'simplify',
+  'biến đổi':'transform',
+  'khai căn':'extract root',
+  'phép nhân':'multiplication',
+  'phép chia':'division',
+  'phép cộng':'addition',
+  'phép trừ':'subtraction',
+  'bậc nhất':'first-degree (linear)',
+  'bậc hai':'second-degree (quadratic)',
+  'bậc':'degree',
+  'hai ẩn':'two unknowns',
+  'một ẩn':'one unknown',
+  'ẩn số':'unknown number',
+  'ẩn':'unknown / variable',
+  'nghiệm':'solution / root',
+  'vô nghiệm':'no solution',
+  'vô số nghiệm':'infinite solutions',
+  'cặp số':'ordered pair',
+  'cặp':'pair',
+  'số thực':'real number',
+  'số nguyên':'integer',
+  'nguyên dương':'positive integer',
+  'số tự nhiên':'natural number',
+  'phân số':'fraction',
+  'tỉ lệ':'ratio / proportion',
+  'hệ số':'coefficient',
+  'cạnh':'side',
+  'góc':'angle',
+  'đỉnh':'vertex',
+  'đường kính':'diameter',
+  'bán kính':'radius',
+  'tâm':'center',
+  'cung':'arc',
+  'diện tích':'area',
+  'chu vi':'perimeter',
+  'thể tích':'volume',
+  'parabol':'parabola',
+  'đồ thị':'graph',
+  'tọa độ':'coordinates',
+  'mặt phẳng':'plane',
+  'biệt thức':'discriminant',
+  'song song':'parallel',
+  'vuông góc':'perpendicular',
+  'cắt nhau':'intersect',
+  'trùng nhau':'coincide',
+  'khái niệm':'concept',
+  'kiến thức':'knowledge',
+  'kĩ năng':'skill',
+  'thuật ngữ':'terminology',
+  'nhận biết':'identify / recognize',
+  'định lí':'theorem',
+  'định nghĩa':'definition',
+  'ví dụ':'example',
+  'bài toán':'word problem',
+  'bài toán cổ':'classical/folk problem',
+  'lập':'set up / formulate',
+  'thay':'substitute',
+  'thay vào':'substitute into',
+  'thoả mãn':'satisfy',
+  'thoả':'satisfy',
+  'tổng':'sum',
+  'tổng cộng':'in total',
+  'hiệu':'difference',
+  'tích':'product',
+  'thương':'quotient',
+  'vế trái':'left side (of equation)',
+  'vế phải':'right side (of equation)',
+  'vế':'side (of equation)',
+  'dạng':'form',
+  'dạng tổng quát':'general form',
+  'tổng quát':'general',
+  'đáp án':'answer',
+  'giải':'solve',
+  'giải bài':'solve problem',
+  'giải thích':'explain',
+  'giải lại':'re-solve',
+  'tính':'calculate',
+  'tìm':'find',
+  'chứa':'contain',
+  'diễn đạt':'express',
+  'mối liên hệ':'relationship',
+  'luỹ thừa':'power / exponent',
+  'giá trị':'value',
+  'không đổi':'constant',
+  'cùng nhau':'together',
+  'đồng thời':'simultaneously',
+  'duy nhất':'unique / only one',
+  'kiểm tra':'check / test',
+  'kiểm':'check',
+  'thử lại':'try again',
+  'làm chủ':'master',
+  'vận dụng':'apply / application (textbook section)',
+  'luyện tập':'practice (textbook section)',
+  'hoạt động':'activity',
+  'chú ý':'note (remark)',
+  'nhận xét':'observation',
+  'bài tập':'exercises',
+  'sách giáo khoa':'textbook',
+  'quýt':'tangerine / mandarin',
+  'cam':'orange (fruit)',
+  'táo':'apple',
+  'trái cây':'fruit',
+  'tươi':'fresh',
+  'miếng':'piece (slice)',
+  'người':'person',
+  'ngọt':'sweet',
+  'lành':'good / wholesome',
+  'mười bảy':'seventeen',
+  'một trăm':'one hundred',
+  'rành':'precisely / exactly',
+  'vui':'happy / joyful',
+  'là bao':'how much / how many',
+  'cùng vui':'together joyfully',
+  'buổi sáng':'morning',
+  'buổi':'period (of day)',
+  'sáng':'morning / light',
+  'mẹ':'mom',
+  'bố':'dad',
+  'em':'you (younger)',
+  'chợ':'market',
+  'mua':'buy',
+  'bán':'sell',
+  'quả':'fruit (counter word)',
+  'nghìn':'thousand',
+  'đồng':'đồng (Vietnamese currency)',
+  'biết':'know',
+  'không biết':'not know',
+  'chưa biết':'not yet known',
+  'giá':'price',
+  'mỗi':'each / every',
+  'hỏi':'ask',
+  'bao nhiêu':'how much / how many',
+  'mấy':'how many',
+  'trước khi':'before (doing)',
+  'trước':'before',
+  'sau khi':'after (doing)',
+  'sau':'after',
+  'học':'study / learn',
+  'bài':'lesson',
+  'này':'this',
+  'phải':'must',
+  'dò':'check / search',
+  'từng':'each (one by one)',
+  'trường hợp':'case',
+  'rất':'very',
+  'lâu':'long (time)',
+  'dễ':'easy',
+  'sai':'wrong / mistake',
+  'viết':'write',
+  'viết ra':'write out',
+  'nhanh':'fast',
+  'giây':'second (of time)',
+  'phút':'minute',
+  'giờ':'hour',
+  'chiếc':'piece (counter)',
+  'chìa khóa':'key',
+  'mở':'open',
+  'mở khóa':'unlock',
+  'cuộc sống':'life',
+  'có':'have',
+  'nhiều':'many / much',
+  'hai':'two',
+  'một':'one',
+  'ba':'three',
+  'bốn':'four',
+  'sáu':'six',
+  'bảy':'seven',
+  'tám':'eight',
+  'chín':'nine',
+  'mười':'ten',
+  'điều':'thing / matter',
+  'chưa':'not yet',
+  'cùng':'together',
+  'cùng lúc':'at the same time',
+  'lúc':'moment',
+  'số lượng':'quantity',
+  'vận tốc':'velocity / speed',
+  'thời gian':'time',
+  'tuổi':'age',
+  'gọi':'call',
+  'tên':'name',
+  'chữ cái':'letter (of alphabet)',
+  'chữ':'character / letter',
+  'như':'like / as',
+  'nó':'it',
+  'quyển':'volume (counter for books)',
+  'sách':'book',
+  'gì':'what',
+  'là':'is / equals',
+  'cái':'thing (counter)',
+  'cái cân':'a scale / balance',
+  'cân':'scale / balance',
+  'thăng bằng':'balanced',
+  'bên':'side',
+  'bên trái':'left side',
+  'bên phải':'right side',
+  'bằng':'equal',
+  'chính':'exactly',
+  'điểm tựa':'pivot point',
+  'của':'of / belongs to',
+  'nghĩa là':'means that',
+  'tức là':'in other words',
+  'nghĩa':'meaning',
+  'cộng':'add / plus',
+  'không phải':'is not',
+  'không':'no / not',
+  'chỉ':'only',
+  'ai':'who',
+  'có hai':'have two',
+  'kẹo':'candy',
+  'bút':'pen',
+  'cây':'tree / stem (counter)',
+  'cây kẹo':'piece of candy',
+  'món':'dish / item (counter)',
+  'mọi':'every / all',
+  'tất cả':'all',
+  'các':'(plural marker)',
+  'những':'(plural marker)',
+  'còn':'still / and',
+  'lưu ý':'note (verb)',
+  'không được':'not allowed',
+  'bằng 0':'equals 0',
+  'nếu':'if',
+  'cả hai':'both',
+  'thì':'then',
+  'không còn':'no longer',
+  'nữa':'anymore',
+  'mục đích':'purpose / goal',
+  'cuối cùng':'final / last',
+  'tức':'meaning',
+  'giống':'similar to',
+  'ổ khóa':'lock',
+  'vừa khít':'fits exactly',
+  'thử':'try',
+  'chìa':'key',
+  'khi':'when',
+  'đúng':'correct',
+  'không thể':'cannot',
+  'bí mật':'secret',
+  'vô số':'infinite',
+  'bí ẩn':'mystery',
+  'hộp':'box',
+  'hộp bí ẩn':'mystery box',
+  'gắn':'attach',
+  'nhãn':'label',
+  'thám tử':'detective',
+  'manh mối':'clue',
+  'tôi':'I (formal)',
+  'mình':'I / we (familiar)',
+  'đoán':'guess',
+  'khả năng':'possibility',
+  'thu hẹp':'narrow down',
+  'chỉ ra':'point out',
+  'một mình':'alone',
+  'không đủ':'not enough',
+  'với nhau':'with each other',
+  'với':'with',
+  'tốt hơn':'better than',
+  'tốt':'good',
+  'đủ':'enough',
+  'bộ':'set / kit',
+  'vạn năng':'universal',
+  'tổng kết':'summary',
+  'đã có':'have had',
+  'công cụ':'tool',
+  'tóm tắt':'summarize',
+  'chuyển động':'motion / movement',
+  'ứng dụng':'application',
+  'đời thật':'real life',
+  'cho trước':'given',
+  'từ':'from',
+  'đến':'to / arrive at',
+  'điểm':'point',
+  'cách nhau':'apart from each other',
+  'sau t giờ':'after t hours',
+  'pha trộn':'mix / blend',
+  'cà phê':'coffee',
+  'sữa':'milk',
+  'bất cứ':'any',
+  'lúc nào':'whenever',
+  'anh':'older brother / older male',
+  'chị':'older sister / older female',
+  'ông':'grandfather / sir',
+  'bà':'grandmother / lady',
+  'bạn':'friend / you',
+  'người ta':'people / one (impersonal)',
+  'và':'and',
+  'hoặc':'or',
+  'hay':'or / interesting',
+  'nhưng':'but',
+  'vì':'because',
+  'nên':'so / should',
+  'theo':'according to / by',
+  'tại':'at',
+  'đã':'(past marker)',
+  'đang':'(present marker)',
+  'sẽ':'(future marker)',
+  'rồi':'already',
+  'cũng':'also',
+  'vẫn':'still',
+  'vừa':'just (recently)',
+  'chính là':'exactly is',
+  'chính nó':'itself',
+  'làm':'do / make',
+  'làm gì':'do what',
+  'mới':'new / just',
+  'cũ':'old',
+  'đẹp':'beautiful',
+  'xấu':'ugly',
+  'lớn':'big',
+  'nhỏ':'small',
+  'nhiều hơn':'more',
+  'ít hơn':'less',
+  'ít':'few / little',
+  'cẩn thận':'careful',
+  'nhìn':'look',
+  'nhìn kỹ':'look carefully',
+  'kỹ':'carefully',
+  'nghe':'listen',
+  'nói':'say / speak',
+  'nói rằng':'say that',
+  'nghĩ':'think',
+  'trả lời':'answer (verb)',
+  'hiểu':'understand',
+  'không hiểu':'don\'t understand',
+  'đọc':'read',
+  'nhẩm':'recite silently',
+  'đọc thầm':'read silently',
+  'đọc lại':'re-read',
+  'nhanh chóng':'quickly',
+  'chậm':'slow',
+  'sao':'why / how',
+  'vì sao':'why',
+  'thế nào':'how',
+  'nào':'which',
+  'đâu':'where',
+  'ở đâu':'where',
+  'khi nào':'when',
+  'phải không':'isn\'t it',
+  'được':'can / able to',
+  'cần':'need',
+  'muốn':'want',
+  'thích':'like',
+  'rất thích':'love',
+  'có thể':'can / possibly',
+  'sẵn sàng':'ready',
+  'tuyệt vời':'wonderful',
+  'tuyệt':'great',
+  'giỏi':'good (skilled)',
+  'bắt đầu':'begin / start',
+  'tiếp tục':'continue',
+  'tiếp theo':'next',
+  'tiếp':'next',
+  'kết thúc':'finish / end',
+  'xong':'done',
+  'hoàn thành':'complete',
+  'bỏ':'skip / leave',
+  'làm lại':'redo',
+  'lại':'again',
+  'ôn lại':'review again',
+  'ôn':'review',
+  'em hãy':'please (you)',
+  'hãy':'please / let',
+  'cố':'try (hard)',
+  'thêm':'add / more',
+  'chút':'a bit',
+  'một chút':'a little bit',
+  'dấu trừ':'minus sign',
+  'dấu cộng':'plus sign',
+  'dấu':'sign / mark',
+  'âm':'negative',
+  'dương':'positive',
+  'quy tắc':'rule',
+  'nguyên tắc':'principle',
+  'thực sự':'actually',
+  'vòng':'round',
+  'trò chơi':'game',
+  'săn nghiệm':'hunt for solutions',
+  'bẫy':'trap',
+  'câu':'sentence / question (counter)',
+  'câu hỏi':'question',
+  'câu trả lời':'answer',
+  'làm bài':'do the work',
+  'đạt':'achieve',
+  'không đạt':'did not pass',
+  'hôm nay':'today',
+  'hôm qua':'yesterday',
+  'ngày':'day',
+  'tuần':'week',
+  'tháng':'month',
+  'chương':'chapter',
+  'tập':'volume',
+  'kết nối tri thức':'Connecting Knowledge (textbook series)',
+  'với cuộc sống':'with Life'
+};
+
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+
+function highlight(text){
+  if(!text) return '';
+  const keys = Object.keys(TERMS).sort((a,b)=>b.length-a.length);
+  const placeholders = [];
+  const parts = String(text).split(/(<[^>]*>)/g);
+  const processed = parts.map((part, idx) => {
+    if(idx % 2 === 1) return part;
+    let out = part;
+    keys.forEach(k=>{
+      const re = new RegExp(escRe(k),'gi');
+      out = out.replace(re, m=>{
+        const id = 'XPH'+placeholders.length+'XPH';
+        placeholders.push({id:id, html:'<span class="tip" data-en="'+TERMS[k]+'">'+m+'</span>'});
+        return id;
+      });
+    });
+    return out;
+  });
+  let final = processed.join('');
+  placeholders.forEach(p=>{ final = final.split(p.id).join(p.html); });
+  return final;
+}
+
+let currentSpeakBtn = null;
+function stripHtml(html){
+  const div = document.createElement('div'); div.innerHTML = html;
+  return (div.textContent || div.innerText || '').replace(/\s+/g,' ').trim();
+}
+function speak(btn, text){
+  if(!('speechSynthesis' in window)){ alert('Trình duyệt không hỗ trợ đọc tiếng Việt.'); return; }
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    if(currentSpeakBtn){ currentSpeakBtn.classList.remove('playing'); currentSpeakBtn.textContent='🔊'; }
+    if(currentSpeakBtn === btn){ currentSpeakBtn = null; return; }
+  }
+  const plain = stripHtml(text);
+  if(!plain) return;
+  const u = new SpeechSynthesisUtterance(plain);
+  u.lang = 'vi-VN'; u.rate = 0.92;
+  u.onend = ()=>{ btn.classList.remove('playing'); btn.textContent='🔊'; if(currentSpeakBtn===btn) currentSpeakBtn=null; };
+  u.onerror = u.onend;
+  btn.classList.add('playing'); btn.textContent='⏸';
+  currentSpeakBtn = btn;
+  window.speechSynthesis.speak(u);
+}
+
+function renderGraph(a, b, c, eqLabel, range){
+  range = range || 7;
+  const w = 280, h = 280;
+  const px = x => (x+range)*(w/(range*2));
+  const py = y => h - (y+range)*(h/(range*2));
+  let svg = '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" style="background:#fff;border-radius:8px;border:1px solid var(--border);max-width:100%">';
+  for(let i=-range;i<=range;i++){
+    svg += '<line x1="'+px(i)+'" y1="0" x2="'+px(i)+'" y2="'+h+'" stroke="#f3f4f6" stroke-width="1"/>';
+    svg += '<line x1="0" y1="'+py(i)+'" x2="'+w+'" y2="'+py(i)+'" stroke="#f3f4f6" stroke-width="1"/>';
+  }
+  svg += '<line x1="'+px(0)+'" y1="0" x2="'+px(0)+'" y2="'+h+'" stroke="#9ca3af" stroke-width="1.5"/>';
+  svg += '<line x1="0" y1="'+py(0)+'" x2="'+w+'" y2="'+py(0)+'" stroke="#9ca3af" stroke-width="1.5"/>';
+  svg += '<text x="'+(w-12)+'" y="'+(py(0)-6)+'" font-size="11" fill="#6b7280">x</text>';
+  svg += '<text x="'+(px(0)+6)+'" y="12" font-size="11" fill="#6b7280">y</text>';
+  for(let i=-range;i<=range;i+=2){
+    if(i!==0){
+      svg += '<text x="'+px(i)+'" y="'+(py(0)+13)+'" font-size="9" fill="#9ca3af" text-anchor="middle">'+i+'</text>';
+      svg += '<text x="'+(px(0)-5)+'" y="'+(py(i)+3)+'" font-size="9" fill="#9ca3af" text-anchor="end">'+i+'</text>';
+    }
+  }
+  if(b !== 0){
+    const x1=-range, x2=range, y1=(c-a*x1)/b, y2=(c-a*x2)/b;
+    svg += '<line x1="'+px(x1)+'" y1="'+py(y1)+'" x2="'+px(x2)+'" y2="'+py(y2)+'" stroke="#6b46c1" stroke-width="2.5" opacity="0.85"/>';
+  }
+  const dots = [];
+  for(let x=-3;x<=8;x++){
+    if(b!==0){ const y=(c-a*x)/b; if(y>=-range&&y<=range) dots.push([x,y]); }
+  }
+  dots.slice(0,9).forEach((p,i)=>{
+    svg += '<circle cx="'+px(p[0])+'" cy="'+py(p[1])+'" r="0" fill="#10b981" stroke="#fff" stroke-width="2"><animate attributeName="r" from="0" to="6" dur="0.4s" begin="'+(i*0.35+0.5)+'s" fill="freeze"/></circle>';
+    svg += '<text x="'+px(p[0])+'" y="'+(py(p[1])-10)+'" font-size="10" fill="#065f46" text-anchor="middle" opacity="0" font-weight="600"><animate attributeName="opacity" from="0" to="0.9" dur="0.4s" begin="'+(i*0.35+0.5)+'s" fill="freeze"/>('+p[0]+';'+p[1]+')</text>';
+  });
+  svg += '<text x="'+(w/2)+'" y="20" font-size="13" fill="#4c1d95" text-anchor="middle" font-weight="600">'+eqLabel+'</text>';
+  svg += '</svg>';
+  return '<div class="graph-wrap">'+svg+'<div class="graph-info">📍 Each green dot is a solution — they continue forever in both directions!</div></div>';
+}
+
+function norm(s){
+  if(s === undefined || s === null) return '';
+  return String(s).toLowerCase().replace(/\s+/g,'').replace(/[·×*]/g,'').replace(/[\-−–—]/g,'-').replace(/[≠]/g,'!=').trim();
+}
+function validateAttempt(attempt, userInput){
+  if(attempt.type === 'yesno'){
+    if(userInput === attempt.correct) return { ok:true };
+    if(attempt.errorMsg) return { ok:false, msg:attempt.errorMsg };
+    return { ok:false };
+  }
+  const u = norm(userInput);
+  if(!u) return { ok:false, msg:'Em hãy nhập câu trả lời trước nhé.' };
+  if(attempt.validate) return attempt.validate(userInput, u);
+  for(const a of (attempt.answers||[])){ if(norm(a) === u) return { ok:true }; }
+  for(const e of (attempt.errors||[])){
+    if(e.pat && e.pat.test(userInput)) return { ok:false, msg:e.msg };
+    if(e.match && norm(e.match) === u) return { ok:false, msg:e.msg };
+  }
+  return { ok:false };
+}
+
+// CURRICULUM aligned with official textbook (Sách giáo khoa Toán 9 Tập 1, Kết nối tri thức)
+// Tập 1 covers Chương I-V (Bài 1-17). Tập 2 covers Chương VI-X (estimated lesson list).
+const CURRICULUM = [
+  {id:'ch1',num:'Chương I',title:'Phương trình và hệ hai phương trình bậc nhất hai ẩn',desc:'Linear equations & systems with 2 unknowns (Tập 1)',lessons:[
+    {id:'l1',num:'Bài 1',title:'Khái niệm phương trình và hệ hai phương trình bậc nhất hai ẩn',desc:'Concept of equation and system',built:true},
+    {id:'l2',num:'Bài 2',title:'Giải hệ hai phương trình bậc nhất hai ẩn',desc:'Solving systems (substitution + elimination)',built:false},
+    {id:'l3',num:'Bài 3',title:'Giải bài toán bằng cách lập hệ phương trình',desc:'Word problems via systems',built:false}
+  ]},
+  {id:'ch2',num:'Chương II',title:'Phương trình và bất phương trình bậc nhất một ẩn',desc:'Linear equations & inequalities (1 unknown) (Tập 1)',lessons:[
+    {id:'l1',num:'Bài 4',title:'Phương trình quy về phương trình bậc nhất một ẩn',desc:'',built:false},
+    {id:'l2',num:'Bài 5',title:'Bất đẳng thức và tính chất',desc:'',built:false},
+    {id:'l3',num:'Bài 6',title:'Bất phương trình bậc nhất một ẩn',desc:'',built:false}
+  ]},
+  {id:'ch3',num:'Chương III',title:'Căn bậc hai và căn bậc ba',desc:'Square roots & cube roots (Tập 1)',lessons:[
+    {id:'l1',num:'Bài 7',title:'Căn bậc hai và căn thức bậc hai',desc:'',built:false},
+    {id:'l2',num:'Bài 8',title:'Khai căn bậc hai với phép nhân và phép chia',desc:'',built:false},
+    {id:'l3',num:'Bài 9',title:'Biến đổi đơn giản và rút gọn biểu thức chứa căn thức bậc hai',desc:'',built:false},
+    {id:'l4',num:'Bài 10',title:'Căn bậc ba và căn thức bậc ba',desc:'',built:false}
+  ]},
+  {id:'ch4',num:'Chương IV',title:'Hệ thức lượng trong tam giác vuông',desc:'Trigonometry in right triangles (Tập 1)',lessons:[
+    {id:'l1',num:'Bài 11',title:'Tỉ số lượng giác của góc nhọn',desc:'',built:false},
+    {id:'l2',num:'Bài 12',title:'Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng',desc:'',built:false}
+  ]},
+  {id:'ch5',num:'Chương V',title:'Đường tròn',desc:'Circles (Tập 1)',lessons:[
+    {id:'l1',num:'Bài 13',title:'Mở đầu về đường tròn',desc:'',built:false},
+    {id:'l2',num:'Bài 14',title:'Cung và dây của một đường tròn',desc:'',built:false},
+    {id:'l3',num:'Bài 15',title:'Độ dài của cung tròn. Diện tích hình quạt tròn',desc:'',built:false},
+    {id:'l4',num:'Bài 16',title:'Vị trí tương đối của đường thẳng và đường tròn',desc:'',built:false},
+    {id:'l5',num:'Bài 17',title:'Vị trí tương đối của hai đường tròn',desc:'',built:false}
+  ]},
+  {id:'ch6',num:'Chương VI',title:'(Tập 2 — chờ sách giáo khoa)',desc:'Functions, quadratics — uploaded textbook is Tập 1 only',lessons:[
+    {id:'l1',num:'Bài 18+',title:'(Tập 2)',desc:'',built:false}
+  ]},
+  {id:'ch7',num:'Chương VII',title:'(Tập 2 — chờ sách giáo khoa)',desc:'',lessons:[
+    {id:'l1',num:'Bài 19+',title:'(Tập 2)',desc:'',built:false}
+  ]},
+  {id:'ch8',num:'Chương VIII',title:'(Tập 2 — chờ sách giáo khoa)',desc:'',lessons:[
+    {id:'l1',num:'Bài 20+',title:'(Tập 2)',desc:'',built:false}
+  ]},
+  {id:'ch9',num:'Chương IX',title:'(Tập 2 — chờ sách giáo khoa)',desc:'',lessons:[
+    {id:'l1',num:'Bài 21+',title:'(Tập 2)',desc:'',built:false}
+  ]},
+  {id:'ch10',num:'Chương X',title:'(Tập 2 — chờ sách giáo khoa)',desc:'',lessons:[
+    {id:'l1',num:'Bài 22+',title:'(Tập 2)',desc:'',built:false}
+  ]}
+];
+
+const LESSON_CONTENT = {
+  'ch1-l1': {
+    story: {
+      problem:'<strong>Bài toán cổ <span class="sgk-ref">📘 SGK trang 5</span></strong><br><div class="poem">Quýt, cam mười bảy quả tươi<br>Đem chia cho một trăm người cùng vui.<br>Chia ba mỗi quả quýt rồi,<br>Còn cam, mỗi quả chia mười vừa xinh.<br>Trăm người, trăm miếng ngọt lành,<br>Quýt, cam mỗi loại tính rành là bao?</div><div class="poem-en"><strong>English:</strong> Tangerines and oranges, seventeen fresh fruits, shared with 100 happy people. Each tangerine is cut into 3 pieces, each orange into 10. 100 people, 100 sweet bites — how many of each kind?</div>👉 <b>Hỏi:</b> Có bao nhiêu quả cam và bao nhiêu quả quýt?',
+      before:{title:'TRƯỚC khi học bài này',body:'Em phải đoán mò:<br>• 5 cam + 12 quýt? Số miếng = 50+36 = 86 ❌<br>• 8 cam + 9 quýt? = 80+27 = 107 ❌<br>• ... rất chậm và dễ sai!'},
+      after:{title:'SAU khi học bài này',body:'Em viết hệ phương trình:<br><span class="math">x + y = 17</span><br><span class="math">10x + 3y = 100</span><br>Giải nhanh trong 30 giây → <b>7 cam, 10 quýt</b>. ✨'},
+      why:'Trong cuộc sống có rất nhiều bài toán có <b>hai điều chưa biết</b> cùng lúc — số cam và số quýt, giá và số lượng, tuổi và năm. Phương trình bậc nhất hai ẩn là <b>chiếc chìa khóa</b>.'
+    },
+    steps:[
+      {
+        title:'Ẩn là gì?',
+        why:'Để gọi tên những thứ ta <b>chưa biết</b> nhưng muốn tìm.',
+        analogy:'<strong>Hộp bí ẩn</strong> 📦 — Em không biết bên trong có gì, nên gắn nhãn "x".',
+        body:'Trong toán, ẩn là một số ta chưa biết, được đặt tên bằng chữ cái (x, y, z...). Trong bài toán cổ, em đặt: <b>x = số cam</b>, <b>y = số quýt</b> (với x, y nguyên dương).',
+        blueprint:{problem:'Em mua <b>x</b> quả cam, mỗi quả 6 nghìn. Tổng tiền là gì?',solution:'<b>Quan sát:</b> mỗi quả 6, có x quả → tổng = phép NHÂN.<br><b>Đáp án:</b> 6 × x = <b>6x</b> nghìn.'},
+        attempt:{type:'text',prompt:'<b>Lượt em:</b> Bố mua <b>y</b> quyển sách, mỗi quyển 25 nghìn. Tổng tiền sách là gì?<br><span class="tiny">(VD: 5x)</span>',placeholder:'VD: 6x',answers:['25y','25.y','y25','y.25'],errors:[
+          {pat:/(25\s*\+\s*y)|(y\s*\+\s*25)/i, msg:'<b>STOP.</b> Em đang CỘNG. Mỗi quyển 25, có y quyển → phép <b>NHÂN</b>: 25y.'},
+          {pat:/(25\s*-\s*y)|(y\s*-\s*25)/i, msg:'<b>STOP.</b> Em đang TRỪ. Tổng tiền = giá × số → phép NHÂN: 25y.'},
+          {pat:/(25\s*\/\s*y)|(y\s*\/\s*25)/i, msg:'<b>STOP.</b> Em đang CHIA. Tổng tiền là tích, không phải chia.'},
+          {match:'25', msg:'<b>STOP.</b> Em quên ẩn y rồi! Tổng tiền phụ thuộc số quyển y. Đáp án: 25 × y.'}
+        ],explanation:'✅ <b>25y</b> nghìn. Quy tắc: số đối tượng × giá mỗi cái = tổng (phép nhân).'},
+        examples:[{q:'Em có x cây bút, mỗi cây 5 nghìn. Tổng?', a:'5 × x = 5x.'},{q:'Bố hơn em y tuổi. Bố 40. Tuổi em?', a:'40 − y.'}]
+      },
+      {
+        title:'Phương trình là gì?',
+        why:'Cần phương trình để <b>diễn đạt</b> mối liên hệ giữa các số.',
+        analogy:'<strong>Cái cân thăng bằng</strong> ⚖️ — Bên trái = bên phải. "=" là điểm tựa.',
+        body:'Phương trình là đẳng thức có chứa ẩn. Trong bài toán cổ, câu "Quýt, cam mười bảy quả tươi" cho ta phương trình: <span class="math">x + y = 17</span>.',
+        blueprint:{problem:'Đặt phương trình cho: "Một số nhân 3 rồi cộng 5 thì bằng 14"',solution:'<b>Bước:</b> Số chưa biết = x. "Nhân 3" → 3x. "Cộng 5" → 3x+5. "Bằng 14" → đặt =.<br><b>Phương trình:</b> 3x + 5 = 14.'},
+        attempt:{type:'text',prompt:'<b>Lượt em:</b> Đặt phương trình: "Một số nhân 2 rồi cộng 1 thì bằng 7"',placeholder:'VD: 3x+5=14',answers:['2x+1=7','1+2x=7'],errors:[
+          {pat:/^[^=]+$/, msg:'<b>STOP.</b> Phương trình PHẢI có dấu "=". Đề "thì bằng 7" → có =.'},
+          {match:'2x=7', msg:'<b>STOP.</b> Em quên "+1". Đề: "nhân 2 RỒI CỘNG 1" → 2x + 1 = 7.'},
+          {pat:/2\+x/, msg:'<b>STOP.</b> "Nhân 2" = 2 × x = 2x, không phải 2 + x.'}
+        ],explanation:'✅ <b>2x + 1 = 7</b>. Bước: gọi x → "nhân 2" = 2x → "cộng 1" = 2x+1 → "bằng 7" = 7.'},
+        examples:[{q:'"Tuổi em + 10 = 25"', a:'x + 10 = 25.'}]
+      },
+      {
+        title:'Một ẩn vs Hai ẩn',
+        why:'Khi đề có <b>hai điều chưa biết</b>, ta cần <b>hai ẩn</b>.',
+        analogy:'<strong>Hai hộp bí ẩn</strong> 📦📦 — Một hộp x (cam), hộp kia y (quýt).',
+        body:'Phương trình bậc nhất hai ẩn dùng hai chữ khác nhau. Ví dụ từ bài toán cổ: <span class="math">10x + 3y = 100</span> — "100 miếng" với mỗi cam = 10 miếng, mỗi quýt = 3 miếng.',
+        blueprint:{problem:'Lan có x cam và y táo, tổng 8 quả. Phương trình?',solution:'<b>Bước:</b> Hai điều chưa biết → hai ẩn x, y. "Tổng cộng 8" → cộng = 8.<br><b>Đáp án:</b> x + y = 8.'},
+        attempt:{type:'text',prompt:'<b>Lượt em:</b> Bình có <b>a</b> kẹo và <b>b</b> bút, tổng 5 món. Viết phương trình.',placeholder:'VD: x+y=8',answers:['a+b=5','b+a=5'],errors:[
+          {match:'ab=5', msg:'<b>STOP.</b> "ab" = a×b. "Tổng" → phép CỘNG: a + b = 5.'},
+          {pat:/^a=5|^b=5/, msg:'<b>STOP.</b> Em mới dùng MỘT ẩn. Đề có hai điều chưa biết → cần CẢ a VÀ b.'}
+        ],explanation:'✅ <b>a + b = 5</b>. Hai chưa biết → hai ẩn. "Tổng" → cộng.'},
+        examples:[{q:'"Tổng hai số bằng 12"', a:'x + y = 12.'}]
+      },
+      {
+        title:'"Bậc nhất" nghĩa là gì?',
+        why:'Phân biệt phương trình <b>đơn giản</b> (đường thẳng) với <b>phức tạp</b> (cong).',
+        analogy:'<strong>Đếm bằng tay</strong> ✋ — "3 cây kẹo" = 3k. "k cái k" = k×k = k² → KHÔNG bậc nhất.',
+        body:'Bậc nhất = ẩn ở <b>luỹ thừa 1</b>, không có x², y³, hay xy.',
+        blueprint:{problem:'"2x + 3y = 5" có là bậc nhất hai ẩn?',solution:'<b>Kiểm:</b> ① Có 2 ẩn? ✓ ② Mỗi ẩn mũ 1? ✓ ③ Không có xy? ✓ → Là bậc nhất hai ẩn.'},
+        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Phương trình <b>x² + y = 4</b> có là bậc nhất hai ẩn?',correct:'no',errorMsg:'<b>STOP.</b> Nhìn kỹ <b>x²</b> — đó là x mũ 2, không phải mũ 1. → KHÔNG bậc nhất.',explanation:'❌ KHÔNG. x² vi phạm "ẩn chỉ mũ 1". Đây là phương trình bậc HAI.'},
+        examples:[{q:'7x + 8y = 100', a:'Bậc nhất hai ẩn ✓'},{q:'xy = 6', a:'Có xy → KHÔNG.'}]
+      },
+      {
+        title:'Dạng tổng quát: ax + by = c',
+        why:'Có một <b>khuôn mẫu chung</b> cho mọi phương trình bậc nhất hai ẩn.',
+        analogy:'<strong>Công thức nấu ăn</strong> 🍲 — Mỗi món có công thức chuẩn.',
+        body:'<span class="sgk-ref">📘 SGK trang 6</span> Định nghĩa: Phương trình bậc nhất hai ẩn x và y là hệ thức dạng:<br><div class="mathd">ax + by = c</div>trong đó a, b là các số đã biết (a ≠ 0 hoặc b ≠ 0).',
+        blueprint:{problem:'Cho 4x + 3y = 5 (Ví dụ 1 SGK). Tìm a, b, c.',solution:'<b>So với ax + by = c:</b><br>a = 4, b = 3, c = 5.'},
+        attempt:{type:'text',prompt:'<b>Lượt em:</b> Cho <b>9x − 2y = 15</b>. Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>',placeholder:'VD: a=4,b=3,c=5',validate:function(input){
+          const u = norm(input);
+          const m = u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
+          if(m){
+            const a = parseInt(m[1]), b = parseInt(m[2]), c = parseInt(m[3]);
+            if(a===9 && b===-2 && c===15) return { ok:true };
+            if(a===9 && b===2 && c===15) return { ok:false, msg:'<b>STOP.</b> Em viết b=2, nhưng <b>9x − 2y</b> = 15. Dấu trừ thuộc về b! → b = <b>−2</b>.' };
+            return { ok:false, msg:'<b>STOP.</b> Kiểm lại: trước x là 9, trước y là −2 (nhớ dấu trừ!), vế phải 15.' };
+          }
+          return { ok:false, msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…' };
+        },explanation:'✅ <b>a = 9, b = −2, c = 15</b>. Lưu ý: dấu trừ trước 2y → b âm.'},
+        examples:[{q:'7x + 2y = 14', a:'a=7, b=2, c=14.'},{q:'−3x + y = 0', a:'a=−3, b=1, c=0.'}]
+      },
+      {
+        title:'Nghiệm là gì?',
+        why:'Mục đích cuối cùng là <b>tìm nghiệm</b>.',
+        analogy:'<strong>Mở khóa</strong> 🔑 — Phương trình = ổ khóa, nghiệm = chìa khóa vừa khít.',
+        body:'<span class="sgk-ref">📘 SGK trang 6</span> Nghiệm = cặp (x₀; y₀) sao cho khi thay vào, hai vế bằng nhau. Ví dụ 1 SGK: cặp (2;-1) là nghiệm của 4x + 3y = 5 vì 4·2 + 3·(-1) = 5 ✓.',
+        blueprint:{problem:'(2; -1) có là nghiệm của 4x + 3y = 5?',solution:'<b>B1: Thay.</b> 4·2 + 3·(-1).<br><b>B2: Tính.</b> = 8 − 3 = 5.<br><b>B3: So sánh.</b> = vế phải ✓ → Là nghiệm.'},
+        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Cặp <b>(4; 1)</b> có là nghiệm của <b>2x + 3y = 11</b>?<br><span class="tiny">Hãy thay vào và tính trong đầu trước khi chọn.</span>',correct:'yes',errorMsg:'<b>STOP.</b> Thay từng bước: 2 × 4 = 8. 3 × 1 = 3. 8 + 3 = <b>11</b>. Bằng vế phải! → ĐÚNG là nghiệm.',explanation:'✅ ĐÚNG. 2(4) + 3(1) = 8 + 3 = 11 ✓'},
+        examples:[{q:'(1;0) thoả 4x + 3y = 5?', a:'4(1) + 3(0) = 4 ≠ 5 → KHÔNG (Ví dụ 1 SGK).'}]
+      },
+      {
+        title:'Bí mật: VÔ SỐ nghiệm!',
+        why:'Hiểu vì sao một phương trình thôi <b>chưa đủ</b>.',
+        analogy:'<strong>Manh mối thám tử</strong> 🔍 — "17 quả trái cây" có vô số khả năng.',
+        body:'<span class="sgk-ref">📘 SGK trang 7 — Chú ý</span> Mỗi phương trình bậc nhất hai ẩn có vô số nghiệm. Đồ thị của ax+by=c là một <b>đường thẳng</b>.<br><br><div data-graph="x+y=6"></div>',
+        blueprint:{problem:'Tìm 1 nghiệm của x + y = 7.',solution:'<b>Cách:</b> Cho x bất kỳ, tính y.<br>x = 0 → y = 7 → (0;7). x = 3 → y = 4 → (3;4). Vô số!'},
+        attempt:{type:'text',prompt:'<b>Lượt em:</b> Tìm <b>1 nghiệm</b> bất kỳ của <b>x + y = 5</b>.<br><span class="tiny">Gõ: (x;y) — VD (2;3)</span>',placeholder:'VD: (2;3)',validate:function(input){
+          const u = String(input).replace(/\s+/g,'').replace(/,/g,';');
+          const m = u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
+          if(!m) return { ok:false, msg:'<b>STOP.</b> Hãy viết dạng (x;y). VD: (2;3)' };
+          const x = parseInt(m[1]), y = parseInt(m[2]);
+          if(x + y === 5) return { ok:true };
+          return { ok:false, msg:'<b>STOP.</b> Em viết ('+x+';'+y+'). Thay vào: '+x+' + '+y+' = '+(x+y)+'. Phải bằng 5.' };
+        },explanation:'✅ Đúng! Nhiều cặp đúng: (0;5), (1;4), (2;3), (5;0)... vô số!'},
+        examples:[{q:'4 nghiệm của 2x + y = 4', a:'(0;4), (1;2), (2;0), (−1;6).'}]
+      },
+      {
+        title:'Hệ phương trình: hai manh mối > một',
+        why:'Để có <b>câu trả lời duy nhất</b>, cần thoả CẢ hai phương trình.',
+        analogy:'<strong>Hai manh mối</strong> 🔍🔍 — Một thu hẹp, hai chỉ ra đáp án duy nhất.',
+        body:'<span class="sgk-ref">📘 SGK trang 8</span> Hệ hai phương trình bậc nhất hai ẩn = hai phương trình {ax+by=c, a\'x+b\'y=c\'} viết cùng. Nghiệm phải thoả <b>cả hai</b>. Ví dụ 5 SGK: cặp (1;2) thoả hệ {2x-y=0, x+y=3}.',
+        blueprint:{problem:'(1; 2) có là nghiệm hệ {2x-y=0, x+y=3}?',solution:'<b>Kiểm CẢ HAI:</b><br>PT1: 2(1)-2=0 ✓<br>PT2: 1+2=3 ✓<br>→ Là nghiệm.'},
+        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Cặp <b>(3; 2)</b> có là nghiệm hệ <b>{x + y = 5, 2x − y = 4}</b>?',correct:'yes',errorMsg:'<b>STOP.</b> Kiểm:<br>PT1: 3+2=5 ✓<br>PT2: 2(3)−2 = 6−2 = 4 ✓<br>Cả hai ✓ → ĐÚNG.',explanation:'✅ ĐÚNG. PT1: 3+2=5 ✓. PT2: 2(3)−2=4 ✓.'},
+        examples:[{q:'(1;1) trong {x+y=2, x−y=1}?', a:'PT1 ✓, PT2: 1−1=0 ≠ 1 ✗ → KHÔNG.'}]
+      },
+      {
+        title:'🏁 VẬN DỤNG: Bài toán cổ',
+        why:'Em <b>tự tay</b> giải bài toán cổ trong sách giáo khoa.',
+        analogy:'<strong>Bộ chìa khóa vạn năng</strong> 🗝️',
+        body:'<span class="sgk-ref">📘 SGK trang 9 — Vận dụng</span> Quay lại bài toán cổ: Gọi x = số cam, y = số quýt (x, y nguyên dương). Hệ phương trình bậc nhất hai ẩn là:<div class="mathd">{ x + y = 17<br>&nbsp;10x + 3y = 100 }</div><div class="recap"><h4>Tóm tắt Bài 1:</h4><ul class="simple"><li>Ẩn = số chưa biết</li><li>PT bậc nhất 2 ẩn: ax + by = c (a≠0 hoặc b≠0)</li><li>Nghiệm = cặp (x₀;y₀) thoả pt</li><li>Một pt → vô số nghiệm (đồ thị là đường thẳng)</li><li>Hệ pt → cần thoả CẢ HAI pt</li></ul></div>',
+        blueprint:{problem:'Bài toán cổ — kiểm tra 2 cặp (10;7) và (7;10), cặp nào là nghiệm?',solution:'<b>Thử (10;7):</b><br>PT1: 10+7 = 17 ✓<br>PT2: 10·10 + 3·7 = 100+21 = 121 ❌<br><br><b>Thử (7;10):</b><br>PT1: 7+10 = 17 ✓<br>PT2: 10·7 + 3·10 = 70+30 = 100 ✓<br><br>→ <b>(7; 10)</b> là nghiệm: 7 cam, 10 quýt.'},
+        attempt:{type:'text',prompt:'<b>Câu hỏi cuối:</b> Cặp (7; 10) có thoả phương trình <b>10x + 3y = 100</b>? (gõ "có" hoặc "không")',placeholder:'có / không',answers:['có','co','yes','dung','đúng'],errors:[
+          {match:'không', msg:'<b>STOP.</b> Thay: 10(7)+3(10) = 70+30 = 100. Bằng vế phải! → ĐÚNG.'},
+          {match:'khong', msg:'<b>STOP.</b> Thay: 10(7)+3(10) = 70+30 = 100. Bằng vế phải! → ĐÚNG.'}
+        ],explanation:'✅ ĐÚNG. 10(7)+3(10) = 70+30 = 100 ✓. Đáp án bài toán cổ: <b>7 cam, 10 quýt</b>! Mika đã giải xong bài toán mà người Việt đã yêu thích hàng trăm năm. 🎉'},
+        examples:[{q:'Tại sao cần HAI phương trình?', a:'Vì có 2 ẩn. Mỗi pt cho vô số nghiệm; hai pt cho 1 nghiệm duy nhất.'},{q:'Cặp (10;7) có sai ở đâu?', a:'PT1 ✓ (10+7=17) nhưng PT2 sai: 10·10+3·7=121, không phải 100.'}]
+      }
+    ],
+    practice:[
+      {
+        blueprint:{problem:'Phương trình "3x + 2y = 7" có là bậc nhất hai ẩn?',solution:'Có. x mũ 1, y mũ 1, không có xy → bậc nhất 2 ẩn.'},
+        attempt:{type:'yesno',prompt:'<b>Câu 1 (theo Bài tập 1.1 SGK):</b> Phương trình <b>0x + 0y = 1</b> có là bậc nhất hai ẩn?',correct:'no',errorMsg:'<b>STOP.</b> Định nghĩa SGK: a ≠ 0 hoặc b ≠ 0. Nhưng ở đây a = b = 0! → KHÔNG phải.',explanation:'❌ KHÔNG. Định nghĩa SGK trang 6: a ≠ 0 hoặc b ≠ 0. Phương trình 0x + 0y = 1 vi phạm vì cả a và b đều = 0.'}
+      },
+      {
+        blueprint:{problem:'Cho 4x − 5y = 3. Tìm a, b, c.',solution:'a = 4, b = −5 (chú ý dấu trừ), c = 3.'},
+        attempt:{type:'text',prompt:'<b>Câu 2:</b> Cho <b>−6x + 3y = 12</b>. Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>',placeholder:'a=…, b=…, c=…',validate:function(input){
+          const u = norm(input);
+          const m = u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
+          if(m){
+            const a = parseInt(m[1]), b = parseInt(m[2]), c = parseInt(m[3]);
+            if(a===-6 && b===3 && c===12) return { ok:true };
+            if(a===6 && b===3 && c===12) return { ok:false, msg:'<b>STOP.</b> Em viết a=6, nhưng phương trình là <b>−6x</b>. Dấu trừ thuộc về a! → a = <b>−6</b>.' };
+            if(a===-6 && b===-3 && c===12) return { ok:false, msg:'<b>STOP.</b> b=−3 không đúng. Phương trình là <b>+3y</b> → b = <b>3</b>.' };
+            return { ok:false, msg:'<b>STOP.</b> Đáp án đúng: a=−6, b=3, c=12. Em hãy kiểm tra lại.' };
+          }
+          return { ok:false, msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…' };
+        },explanation:'✅ <b>a = −6, b = 3, c = 12</b>. Dấu trước x thuộc về a; dấu trước y thuộc về b.'}
+      },
+      {
+        blueprint:{problem:'Cặp (3;1) thoả 2x − y = 5?',solution:'Thay: 2(3)−1 = 6−1 = 5 ✓ → Là nghiệm.'},
+        attempt:{type:'yesno',prompt:'<b>Câu 3:</b> Cặp <b>(2; −1)</b> có là nghiệm của <b>3x + 2y = 4</b>?<br><span class="tiny">Tính trong đầu trước khi chọn.</span>',correct:'yes',errorMsg:'<b>STOP.</b> Thay từng bước: 3 × 2 = 6. 2 × (−1) = −2. 6 + (−2) = 4. Bằng vế phải → ĐÚNG.',explanation:'✅ ĐÚNG. 3(2) + 2(−1) = 6 − 2 = 4 ✓. Cẩn thận với số âm!'}
+      },
+      {
+        blueprint:{problem:'Tìm 1 cặp KHÔNG phải nghiệm của x + y = 8.',solution:'Thử (3;4): 3+4=7 ≠ 8 → không phải nghiệm.'},
+        attempt:{type:'text',prompt:'<b>Câu 4:</b> Tìm <b>1 cặp số KHÔNG phải nghiệm</b> của <b>x + y = 8</b>.<br><span class="tiny">Gõ: (x;y) — VD (2;3)</span>',placeholder:'VD: (1;2)',validate:function(input){
+          const u = String(input).replace(/\s+/g,'').replace(/,/g,';');
+          const m = u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
+          if(!m) return { ok:false, msg:'<b>STOP.</b> Hãy viết dạng (x;y). VD: (1;2)' };
+          const x = parseInt(m[1]), y = parseInt(m[2]);
+          if(x + y === 8) return { ok:false, msg:'<b>STOP.</b> ('+x+';'+y+') có '+x+'+'+y+'=8 — đây THỰC RA là nghiệm! Đề yêu cầu cặp KHÔNG phải nghiệm. Thử cặp khác.' };
+          return { ok:true };
+        },explanation:'✅ Đúng! Bất kỳ cặp (x;y) mà x+y ≠ 8 đều không phải nghiệm.'}
+      },
+      {
+        blueprint:{problem:'(1;2) thoả hệ {2x-y=0, x+y=3}? (Ví dụ 5 SGK)',solution:'PT1: 2(1)-2=0 ✓. PT2: 1+2=3 ✓. → Là nghiệm.'},
+        attempt:{type:'yesno',prompt:'<b>Câu 5:</b> Cặp <b>(1; 2)</b> có là nghiệm hệ <b>{x + y = 3, 2x − y = 0}</b>?',correct:'yes',errorMsg:'<b>STOP.</b> Kiểm tra CẢ HAI:<br>PT1: 1+2=3 ✓<br>PT2: 2(1)−2 = 2−2 = 0 ✓<br>Cả hai ✓ → ĐÚNG.',explanation:'✅ ĐÚNG (đây chính là Ví dụ 5 SGK trang 9). PT1: 1+2=3 ✓. PT2: 2−2=0 ✓.'}
+      }
+    ],
+    game:{
+      title:'Săn nghiệm',
+      desc:'Click cặp số <b>là nghiệm</b>. +1 đúng, −1 bẫy. Streak 3+ = bonus!',
+      rounds:[
+        {eq:'2x + y = 6',a:2,b:1,c:6,points:[[0,6],[1,4],[2,2],[3,0],[1,5],[4,-1],[-1,8],[5,1]]},
+        {eq:'x − y = 3',a:1,b:-1,c:3,points:[[3,0],[5,2],[4,1],[0,-3],[2,1],[-1,-4],[6,3],[1,2]]},
+        {eq:'3x + 2y = 12',a:3,b:2,c:12,points:[[0,6],[2,3],[4,0],[1,4],[6,-3],[3,2],[-2,9],[1,5]]},
+        {eq:'4x + 3y = 5',a:4,b:3,c:5,points:[[2,-1],[1,0],[-1,3],[5,-5],[0,2],[8,-9],[2,1],[-4,7]]},
+        {eq:'x + y = 17',a:1,b:1,c:17,points:[[7,10],[10,7],[5,12],[8,8],[0,17],[15,2],[17,1],[9,9]]},
+        {eq:'10x + 3y = 100',a:10,b:3,c:100,points:[[7,10],[10,7],[1,30],[4,20],[10,3],[7,11],[5,15],[8,40]]}
+      ]
+    },
+    quiz:[
+      {q:'Phương trình nào KHÔNG phải bậc nhất hai ẩn? (theo SGK trang 6)',opts:['2x + 3y = 5','0x + 0y = 1','−x + 4y = 0','x − y = 7'],ans:1},
+      {q:'Trong 3x − 2y = 6, hệ số b bằng:',opts:['3','2','−2','6'],ans:2},
+      {q:'Cặp (2;-1) có là nghiệm của 4x + 3y = 5? (Ví dụ 1 SGK)',opts:['Có','Không','Chưa đủ thông tin','Tuỳ trường hợp'],ans:0},
+      {q:'Một pt bậc nhất hai ẩn có bao nhiêu nghiệm? (Chú ý SGK trang 7)',opts:['Đúng 1','Đúng 2','Không có','Vô số'],ans:3},
+      {q:'Trong bài toán cổ "Quýt cam mười bảy quả tươi", đáp án là:',opts:['7 cam, 10 quýt','10 cam, 7 quýt','5 cam, 12 quýt','8 cam, 9 quýt'],ans:0},
+      {q:'Để có 1 đáp án duy nhất với 2 ẩn, cần ít nhất:',opts:['1 pt','2 pt','3 pt','Không cần'],ans:1}
+    ]
+  }
+};
+
+let state = loadState();
+let view = { type:'hub' };
+let lessonView = { tab:'theory', step:-1, attempt:null, practiceIdx:0, practiceCorrect:0, quizIdx:0, quizAnswers:[], gameState:null };
+let replayTimer = null;
+
+function loadState(){
+  try { const s = localStorage.getItem('toan9-progress'); if(s) return JSON.parse(s); } catch(e){}
+  return { progress:{} };
+}
+function saveState(){ try { localStorage.setItem('toan9-progress', JSON.stringify(state)); } catch(e){} }
+function getProgress(chId,lId){ return state.progress[chId+'-'+lId] || { theorySteps:0, practice:0, game:0, quiz:0 }; }
+function setProgress(chId,lId,upd){
+  const k = chId+'-'+lId;
+  state.progress[k] = Object.assign({}, getProgress(chId,lId), upd);
+  saveState();
+  try {
+    let act = JSON.parse(localStorage.getItem('toan9-activity') || '[]');
+    const today = new Date().toISOString().slice(0,10);
+    if(!act.includes(today)){ act.push(today); act = act.sort().slice(-365); localStorage.setItem('toan9-activity', JSON.stringify(act)); }
+  } catch(e){}
+}
+function isLessonDone(chId,lId){
+  const p = getProgress(chId,lId);
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  if(!lc) return false;
+  return p.theorySteps >= lc.steps.length && p.practice >= 80 && p.quiz >= 80;
+}
+function isLessonUnlocked(chId,lId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  const idx = ch.lessons.findIndex(l=>l.id===lId);
+  if(idx === 0){
+    const chIdx = CURRICULUM.findIndex(c=>c.id===chId);
+    if(chIdx === 0) return true;
+    const prevCh = CURRICULUM[chIdx-1];
+    return prevCh.lessons.every(l=>isLessonDone(prevCh.id, l.id));
+  }
+  const prev = ch.lessons[idx-1];
+  return isLessonDone(chId, prev.id);
+}
+function calcOverall(){
+  let t=0,c=0;
+  CURRICULUM.forEach(ch=>ch.lessons.forEach(l=>{ if(l.built){ c++; if(isLessonDone(ch.id,l.id)) t++; } }));
+  return c>0 ? Math.round(t/c*100) : 0;
+}
+function getCurrentDpItem(){
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  if(lessonView.tab === 'theory') return lc.steps[lessonView.step];
+  if(lessonView.tab === 'practice') return lc.practice[lessonView.practiceIdx];
+  return null;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = renderHeader() + renderMain();
+  document.querySelectorAll('[data-graph]').forEach(el=>{ el.innerHTML = renderGraph(1, 1, 6, 'x + y = 6', 8); });
+  attachEvents();
+  attachTooltipTaps();
+}
+function renderHeader(){
+  const o = calcOverall();
+  return '<div class="header"><h1>📚 Toán 9 — Hành trình chinh phục</h1><div class="sub">Sách Kết nối tri thức với cuộc sống · Tập 1</div><div class="greet">👋 Hi Mika!</div><div class="lang-tip">💡 <strong>Hint for Mika:</strong> Tap or hover any underlined Vietnamese word to see the English meaning.</div><div class="pbar"><div class="pbar-fill" style="width:'+o+'%"></div></div><div class="ptext">Tổng tiến độ: '+o+'% hoàn thành</div></div>';
+}
+function renderMain(){
+  if(view.type==='hub') return renderHub();
+  if(view.type==='chapter') return renderChapter(view.chId);
+  if(view.type==='lesson') return renderLesson(view.chId, view.lId);
+  return '';
+}
+function renderHub(){
+  let h = '<div class="crumb"><span>Trang chủ</span></div>';
+  CURRICULUM.forEach(ch=>{
+    const built = ch.lessons.filter(l=>l.built).length;
+    const done = ch.lessons.filter(l=>isLessonDone(ch.id,l.id)).length;
+    const tot = built > 0 ? built : ch.lessons.length;
+    const pct = tot>0 ? Math.round(done/tot*100) : 0;
+    const u = isLessonUnlocked(ch.id, ch.lessons[0].id);
+    h += '<div class="card '+(u?'click':'locked')+' '+(pct===100&&built>0?'done':'')+'" data-act="open-ch" data-ch="'+ch.id+'"><div class="tag">'+ch.num+(u?'':' 🔒')+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div><div class="row"><div class="mp"><div class="mpf" style="width:'+pct+'%"></div></div><span>'+done+'/'+tot+'</span></div></div>';
+  });
+  return h;
+}
+function renderChapter(chId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  let h = '<div class="crumb"><a data-act="hub">Trang chủ</a><span class="sep">›</span><span>'+ch.num+'</span></div><div class="card"><div class="tag">'+ch.num+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div></div>';
+  ch.lessons.forEach(l=>{
+    const u = isLessonUnlocked(chId, l.id);
+    const d = isLessonDone(chId, l.id);
+    const tagColor = !l.built ? 'gray' : '';
+    const tagSuffix = !u ? ' 🔒' : (!l.built ? ' • Sắp ra mắt' : '');
+    h += '<div class="card '+(((!u||!l.built))?'locked':'click')+' '+(d?'done':'')+'" data-act="open-l" data-ch="'+chId+'" data-l="'+l.id+'"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div style="flex:1;min-width:0"><div class="tag '+tagColor+'">'+l.num+tagSuffix+'</div><div class="title" style="font-size:14px">'+highlight(l.title)+'</div><div class="desc">'+l.desc+'</div></div>'+(d?'<span class="badge">✓ Đạt</span>':'')+'</div></div>';
+  });
+  return h;
+}
+function renderLesson(chId,lId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  const l = ch.lessons.find(x=>x.id===lId);
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const p = getProgress(chId,lId);
+  const tabs = [
+    { id:'theory', icon:'📖', label:'Lý thuyết', unlocked:true, done:p.theorySteps>=lc.steps.length },
+    { id:'practice', icon:'✏️', label:'Luyện tập', unlocked:p.theorySteps>=lc.steps.length, done:p.practice>=80 },
+    { id:'game', icon:'🎮', label:'Trò chơi', unlocked:p.practice>=80, done:p.game>=70 },
+    { id:'quiz', icon:'🏆', label:'Kiểm tra', unlocked:p.practice>=80, done:p.quiz>=80 }
+  ];
+  let h = '<div class="crumb"><a data-act="hub">Trang chủ</a><span class="sep">›</span><a data-act="open-ch" data-ch="'+chId+'">'+ch.num+'</a><span class="sep">›</span><span>'+l.num+'</span></div>';
+  h += '<div class="card"><div class="tag">'+l.num+'</div><div class="title" style="font-size:15px">'+highlight(l.title)+'</div></div>';
+  h += '<div class="tabs">';
+  tabs.forEach(t=>{
+    const cls = (lessonView.tab===t.id?'act':'') + (!t.unlocked?' lock':'');
+    h += '<button class="tab '+cls+'" data-act="tab" data-tab="'+t.id+'" '+(!t.unlocked?'disabled':'')+'><span class="ic">'+t.icon+'</span>'+t.label+(t.done?' ✓':'')+'</button>';
+  });
+  h += '</div>';
+  if(lessonView.tab==='theory') h += renderTheory(chId,lId);
+  else if(lessonView.tab==='practice') h += renderPractice(chId,lId);
+  else if(lessonView.tab==='game') h += renderGame(chId,lId);
+  else if(lessonView.tab==='quiz') h += renderQuiz(chId,lId);
+  return h;
+}
+function renderTheory(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  if(lessonView.step === -1){
+    const s = lc.story;
+    const storyText = stripHtml(s.problem)+'. Trước khi học: '+stripHtml(s.before.body)+'. Sau khi học: '+stripHtml(s.after.body)+'. '+stripHtml(s.why);
+    return '<div class="theory"><h3><span>📖 Câu chuyện mở đầu</span><button class="spk-btn" data-spk-text="'+encodeURIComponent(storyText)+'">🔊</button></h3><div class="story"><div class="story-title">🍊 Bài toán cổ (theo SGK)</div>'+highlight(s.problem)+'</div><div class="compare"><div class="before"><h4>'+s.before.title+'</h4>'+highlight(s.before.body)+'</div><div class="after"><h4>'+s.after.title+'</h4>'+highlight(s.after.body)+'</div></div><div class="why"><strong>Vì sao học bài này?</strong> '+highlight(s.why)+'</div><div class="center" style="margin-top:14px"><button class="btn" data-act="theory-start">Bắt đầu học từng bước nhỏ →</button></div></div>';
+  }
+  if(lessonView.step >= lc.steps.length){
+    return '<div class="theory"><h3>🎉 Hoàn thành lý thuyết!</h3><p>Mika đã học xong tất cả '+lc.steps.length+' bước. Qua phần Luyện tập nhé!</p><div class="center" style="margin-top:12px"><button class="btn ok" data-act="goto-practice">Qua Luyện tập →</button></div></div>';
+  }
+  const step = lc.steps[lessonView.step];
+  const total = lc.steps.length;
+  const cur = lessonView.step;
+  const p = getProgress(chId,lId);
+  let dots = '';
+  for(let i=0;i<total;i++){
+    const cls = i===cur?'act':(i<p.theorySteps?'done':'');
+    dots += '<span class="dot '+cls+'"></span>';
+  }
+  const fullText = step.title+'. Vì sao: '+stripHtml(step.why)+'. So sánh: '+stripHtml(step.analogy)+'. '+stripHtml(step.body);
+  let h = '<div class="theory"><h3><span>Bước '+(cur+1)+'/'+total+': '+highlight(step.title)+'</span><button class="spk-btn" data-spk-text="'+encodeURIComponent(fullText)+'">🔊</button></h3>';
+  h += '<div class="why"><strong>Vì sao cần?</strong> '+highlight(step.why)+'</div>';
+  h += '<div class="analogy"><strong>Phép so sánh:</strong> '+highlight(step.analogy)+'</div>';
+  h += '<div class="body-text">'+highlight(step.body)+'</div>';
+  if(step.examples && step.examples.length){
+    h += '<details class="examples"><summary>📚 Xem thêm ví dụ ('+step.examples.length+')</summary><div class="ex-list">';
+    step.examples.forEach(ex=>{ h += '<div class="ex-item"><div class="ex-q">❓ '+highlight(ex.q)+'</div><div class="ex-a">→ '+highlight(ex.a)+'</div></div>'; });
+    h += '</div></details>';
+  }
+  h += renderDeepPractice(step, 'theory');
+  h += '<div class="step-nav"><button class="btn sec" data-act="step-prev">← Trước</button><div class="step-dots">'+dots+'</div><button class="btn" data-act="step-next" id="next-btn" '+(lessonView.attempt && lessonView.attempt.passed ? '' : 'disabled')+'>Sau →</button></div>';
+  h += '</div>';
+  return h;
+}
+function renderDeepPractice(item, ctx){
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const a = lessonView.attempt;
+  const bp = item.blueprint;
+  const at = item.attempt;
+  let h = '';
+  if(bp){
+    h += '<div class="blueprint"><div class="bp-tag">BƯỚC 1 · QUAN SÁT</div><h4>👀 Xem chuyên gia làm</h4><div class="bp-prob"><b>Bài:</b> '+highlight(bp.problem)+'</div><div class="bp-sol">'+highlight(bp.solution)+'</div></div>';
+  }
+  h += '<div class="attempt"><div class="at-tag">BƯỚC 2 · LƯỢT EM</div><h4>✏️ Em hãy thử</h4><div class="at-prompt">'+highlight(at.prompt)+'</div>';
+  if(at.type === 'yesno'){
+    h += '<div class="yesno"><button data-act="dp-yesno" data-v="yes" '+(a.passed||a.state==='pause'?'disabled':'')+'>✓ Có</button><button data-act="dp-yesno" data-v="no" '+(a.passed||a.state==='pause'?'disabled':'')+'>✗ Không</button></div>';
+  } else {
+    h += '<input type="text" class="at-input" id="dp-input" placeholder="'+(at.placeholder||'')+'" value="'+(a.lastInput||'').replace(/"/g,'&quot;')+'" '+(a.passed||a.state==='pause'?'disabled':'')+' autocomplete="off">';
+    h += '<div class="attempt-actions"><button class="btn" data-act="dp-submit" '+(a.passed||a.state==='pause'?'disabled':'')+'>Kiểm tra</button>'+(a.tries>0 && !a.passed?'<button class="btn sec" data-act="dp-reset">↻ Bắt đầu lại</button>':'')+'</div>';
+  }
+  if(a.history.length > 0){
+    h += '<div class="attempts-trail"><span>Lượt:</span>';
+    a.history.forEach((r,i)=>{ h += '<span class="at-dot '+(r?'ok':'no')+'">'+(i+1)+'</span>'; });
+    h += '</div>';
+  }
+  if(a.state === 'wrong' && a.lastMsg){
+    h += '<div class="stop-fix"><div class="sf-title">🛑 Dừng lại — kiểm tra lỗi</div><div class="sf-body">'+highlight(a.lastMsg)+'</div></div>';
+  }
+  if(a.state === 'pause'){
+    h += '<div class="replay"><div class="rp-title">🧘 Đọc thầm trong đầu...</div><div class="rp-count" id="rp-count">'+a.pauseLeft+'</div><div class="rp-text">Đọc lại bài giải mẫu, nhẩm các bước, rồi thử lại.</div></div>';
+  }
+  if(a.state === 'correct' && a.passed){
+    h += '<div class="success-card"><div class="sc-title">🎯 Đúng rồi!</div><div class="sc-body">'+highlight(at.explanation)+'</div>';
+    if(ctx === 'practice'){
+      h += '<div style="margin-top:10px"><button class="btn ok" data-act="practice-next">Câu tiếp →</button></div>';
+    }
+    h += '</div>';
+  }
+  if(a.revealed && !a.passed){
+    h += '<div class="success-card" style="background:linear-gradient(135deg,#fff7ed,#fef3c7);border-color:#fcd34d;"><div class="sc-title" style="color:#92400e">📖 Đáp án</div><div class="sc-body" style="color:#78350f">'+highlight(at.explanation)+'<br><br>Hãy đọc kỹ rồi tiếp tục.</div>';
+    if(ctx === 'practice'){
+      h += '<div style="margin-top:10px"><button class="btn warn" data-act="practice-next">Câu tiếp →</button></div>';
+    }
+    h += '</div>';
+  }
+  h += '</div>';
+  return h;
+}
+function renderPractice(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const total = lc.practice.length;
+  if(lessonView.practiceIdx >= total){
+    const correct = (lessonView.practiceCorrect || 0);
+    const pct = Math.round(correct/total*100);
+    setProgress(chId,lId,{ practice: Math.max(getProgress(chId,lId).practice, pct) });
+    const win = pct >= 80;
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Số câu giải được trong 3 lượt ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🎉 Tuyệt vời, Mika!':'💪 Cần ≥80% (4/5 câu) để mở Trò chơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="practice-restart">Làm lại</button>'+(win?'<button class="btn ok" data-act="goto-game">Sang Trò chơi →</button>':'')+'</div></div>';
+  }
+  const item = lc.practice[lessonView.practiceIdx];
+  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
+  h += renderDeepPractice(item, 'practice');
+  return h;
+}
+function renderGame(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const game = lc.game;
+  if(!lessonView.gameState){ lessonView.gameState = { round:0, picked:[], finishedRounds:[], streak:0, bonus:0, lastWrong:null }; }
+  const gs = lessonView.gameState;
+  if(gs.round >= game.rounds.length){
+    const total = gs.finishedRounds.reduce((a,b)=>a+b.score,0) + gs.bonus;
+    const max = gs.finishedRounds.reduce((a,b)=>a+b.max,0);
+    const pct = max>0 ? Math.round(total/max*100) : 0;
+    setProgress(chId,lId,{ game: Math.max(getProgress(chId,lId).game, pct) });
+    const win = pct >= 70;
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+total+'/'+max+'</div><div class="lbl">Điểm trò chơi ('+pct+'%) • Bonus: +'+gs.bonus+'</div><div style="margin-top:10px;font-size:13px">'+(win?'🎮 Mika quá giỏi!':'🎯 Chơi lại nhé!')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="game-restart">Chơi lại</button>'+(win?'<button class="btn ok" data-act="goto-quiz">Sang Kiểm tra →</button>':'')+'</div></div>';
+  }
+  const r = game.rounds[gs.round];
+  const curScore = gs.finishedRounds.reduce((a,b)=>a+b.score,0)+gs.bonus;
+  let h = '<div class="game"><h4>🎮 '+game.title+'</h4><div class="tiny">Vòng '+(gs.round+1)+'/'+game.rounds.length+' — '+game.desc+'</div>'+
+    '<div class="game-stats"><div><span class="lbl">Điểm</span><span class="v">'+curScore+'</span></div><div class="'+(gs.streak>=2?'streak-on':'')+'"><span class="lbl">🔥 Streak</span><span class="v">'+gs.streak+'</span></div><div><span class="lbl">Bonus</span><span class="v">+'+gs.bonus+'</span></div></div>'+
+    '<div class="game-eq">'+r.eq+'</div>';
+  if(gs.lastWrong){
+    h += '<div class="pitfall"><span class="pf-tag">SAI</span>'+gs.lastWrong+'</div>';
+  }
+  h += '<div class="tiny center">Streak ≥ 3 → bonus mỗi cú đúng!</div><div class="points-grid">';
+  r.points.forEach((p,i)=>{
+    const isSol = (r.a*p[0] + r.b*p[1]) === r.c;
+    let cls = '';
+    if(gs.picked.includes(i)){ cls = isSol ? 'picked-ok' : 'picked-no'; }
+    h += '<button class="pt-btn '+cls+'" data-act="game-pick" data-i="'+i+'" '+(gs.picked.includes(i)?'disabled':'')+'>('+p[0]+'; '+p[1]+')</button>';
+  });
+  h += '</div><div class="center" style="margin-top:8px"><button class="btn" data-act="game-done">Xong vòng này →</button></div></div>';
+  return h;
+}
+function renderQuiz(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const total = lc.quiz.length;
+  if(lessonView.quizIdx >= total){
+    const correct = lessonView.quizAnswers.filter((a,i)=>a===lc.quiz[i].ans).length;
+    const pct = Math.round(correct/total*100);
+    setProgress(chId,lId,{ quiz: Math.max(getProgress(chId,lId).quiz, pct) });
+    const win = pct >= 80;
+    if(win) celebrate();
+    let nextBtn = '';
+    if(win){
+      const ch = CURRICULUM.find(c=>c.id===chId);
+      const idx = ch.lessons.findIndex(x=>x.id===lId);
+      if(idx+1 < ch.lessons.length){ nextBtn = '<button class="btn ok" data-act="open-l" data-ch="'+chId+'" data-l="'+ch.lessons[idx+1].id+'">Bài tiếp →</button>'; }
+    }
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Điểm KT ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🏆 Mika đã ĐẠT!':'📚 Cần ≥80%, Mika ơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="quiz-restart">Làm lại</button>'+(!win?'<button class="btn warn" data-act="goto-theory">Ôn lại</button>':'')+nextBtn+'</div></div>';
+  }
+  const q = lc.quiz[lessonView.quizIdx];
+  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.quizIdx+1)+'/'+total+' • Cần 80%</div><div class="problem-q" style="margin-top:5px">'+highlight(q.q)+'</div><div class="opts">';
+  q.opts.forEach((o,i)=>{ h += '<button class="opt" data-act="quiz-ans" data-i="'+i+'">'+highlight(o)+'</button>'; });
+  h += '</div></div>';
+  return h;
+}
+
+function attachEvents(){
+  document.querySelectorAll('[data-act]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      handleAction(el.dataset.act, el);
+    });
+  });
+  document.querySelectorAll('[data-spk-text]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      speak(el, decodeURIComponent(el.dataset.spkText));
+    });
+  });
+  const inp = document.getElementById('dp-input');
+  if(inp && !inp.disabled) inp.focus();
+  if(inp){
+    inp.addEventListener('keydown', e=>{
+      if(e.key === 'Enter'){ e.preventDefault(); handleDeepSubmit(inp.value); }
+    });
+  }
+}
+function handleAction(act, el){
+  switch(act){
+    case 'hub': view = {type:'hub'}; resetLessonView(); render(); break;
+    case 'open-ch': view = {type:'chapter', chId:el.dataset.ch}; resetLessonView(); render(); break;
+    case 'open-l': {
+      const chId = el.dataset.ch, lId = el.dataset.l;
+      const ch = CURRICULUM.find(c=>c.id===chId);
+      const l = ch.lessons.find(x=>x.id===lId);
+      if(!isLessonUnlocked(chId,lId)){ showToast('🔒 Bài này chưa mở.'); return; }
+      if(!l.built){ showToast('🚧 Bài này đang phát triển.'); return; }
+      view = {type:'lesson', chId:chId, lId:lId};
+      resetLessonView();
+      const p = getProgress(chId,lId);
+      lessonView.step = p.theorySteps > 0 ? p.theorySteps : -1;
+      const lc = LESSON_CONTENT[chId+'-'+lId];
+      if(lessonView.step >= lc.steps.length) lessonView.step = lc.steps.length - 1;
+      render(); break;
+    }
+    case 'tab': lessonView.tab = el.dataset.tab; lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.quizIdx=0; lessonView.quizAnswers=[]; lessonView.gameState=null; lessonView.attempt=null; render(); break;
+    case 'theory-start': lessonView.step = 0; lessonView.attempt = null; render(); break;
+    case 'step-prev':
+      stopReplay();
+      if(lessonView.step > 0){ lessonView.step--; lessonView.attempt = null; render(); }
+      else if(lessonView.step === 0){ lessonView.step = -1; lessonView.attempt = null; render(); }
+      break;
+    case 'step-next': {
+      stopReplay();
+      lessonView.step++;
+      lessonView.attempt = null;
+      const p = getProgress(view.chId,view.lId);
+      setProgress(view.chId,view.lId,{ theorySteps: Math.max(p.theorySteps, lessonView.step) });
+      render(); break;
+    }
+    case 'dp-submit': {
+      const inp = document.getElementById('dp-input');
+      handleDeepSubmit(inp ? inp.value : ''); break;
+    }
+    case 'dp-yesno': handleDeepSubmit(el.dataset.v); break;
+    case 'dp-reset': lessonView.attempt = null; render(); break;
+    case 'practice-next': {
+      if(lessonView.attempt && lessonView.attempt.passed && !lessonView.attempt.revealed){
+        lessonView.practiceCorrect = (lessonView.practiceCorrect||0) + 1;
+      }
+      lessonView.practiceIdx++;
+      lessonView.attempt = null;
+      stopReplay();
+      render(); break;
+    }
+    case 'practice-restart': lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.attempt=null; render(); break;
+    case 'quiz-ans': handleQuizAnswer(parseInt(el.dataset.i)); break;
+    case 'quiz-restart': lessonView.quizIdx=0; lessonView.quizAnswers=[]; render(); break;
+    case 'game-pick': handleGamePick(parseInt(el.dataset.i)); break;
+    case 'game-done': handleGameRoundDone(); break;
+    case 'game-restart': lessonView.gameState = null; render(); break;
+    case 'goto-practice': lessonView.tab='practice'; lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.attempt=null; render(); break;
+    case 'goto-game': lessonView.tab='game'; lessonView.gameState=null; render(); break;
+    case 'goto-quiz': lessonView.tab='quiz'; lessonView.quizIdx=0; lessonView.quizAnswers=[]; render(); break;
+    case 'goto-theory': lessonView.tab='theory'; lessonView.step=-1; lessonView.attempt=null; render(); break;
+  }
+}
+function handleDeepSubmit(input){
+  const item = getCurrentDpItem();
+  if(!item) return;
+  const at = item.attempt;
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const a = lessonView.attempt;
+  if(a.passed || a.state === 'pause') return;
+  a.lastInput = input;
+  const result = validateAttempt(at, input);
+  a.tries++;
+  a.history.push(result.ok);
+  if(result.ok){
+    a.passed = true;
+    a.state = 'correct';
+  } else {
+    a.state = 'wrong';
+    a.lastMsg = result.msg || '<b>Chưa đúng.</b> Nhìn lại bài mẫu, đọc nhẩm trong đầu, rồi thử lại.';
+    if(a.tries >= 3){ a.revealed = true; a.passed = true; a.state = 'correct'; }
+  }
+  render();
+  if(!a.passed && !a.revealed){ setTimeout(()=>startReplay(), 500); }
+}
+function startReplay(){
+  const a = lessonView.attempt;
+  if(!a) return;
+  a.state = 'pause';
+  a.pauseLeft = 5;
+  render();
+  replayTimer = setInterval(()=>{
+    a.pauseLeft--;
+    const el = document.getElementById('rp-count');
+    if(el) el.textContent = a.pauseLeft;
+    if(a.pauseLeft <= 0){
+      clearInterval(replayTimer); replayTimer = null;
+      a.state = 'idle';
+      a.lastInput = '';
+      render();
+    }
+  }, 1000);
+}
+function stopReplay(){ if(replayTimer){ clearInterval(replayTimer); replayTimer = null; } }
+function resetLessonView(){
+  stopReplay();
+  lessonView = { tab:'theory', step:-1, attempt:null, practiceIdx:0, practiceCorrect:0, quizIdx:0, quizAnswers:[], gameState:null };
+}
+function handleQuizAnswer(i){
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  const q = lc.quiz[lessonView.quizIdx];
+  lessonView.quizAnswers.push(i);
+  const opts = document.querySelectorAll('.problem .opt');
+  opts.forEach((o,idx)=>{
+    o.disabled = true;
+    if(idx === q.ans) o.classList.add('ok');
+    else if(idx === i) o.classList.add('no');
+  });
+  setTimeout(()=>{ lessonView.quizIdx++; render(); }, 900);
+}
+function handleGamePick(i){
+  const gs = lessonView.gameState;
+  if(gs.picked.includes(i)) return;
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  const r = lc.game.rounds[gs.round];
+  const p = r.points[i];
+  const lhs = r.a*p[0] + r.b*p[1];
+  const isSol = lhs === r.c;
+  gs.picked.push(i);
+  if(isSol){
+    gs.streak = (gs.streak||0) + 1;
+    if(gs.streak >= 3) gs.bonus = (gs.bonus||0) + 1;
+    gs.lastWrong = null;
+  } else {
+    gs.streak = 0;
+    let hint = '<b>('+p[0]+'; '+p[1]+'):</b> Thay vào: '+r.a+'·('+p[0]+') + '+r.b+'·('+p[1]+') = '+lhs+'. Phải bằng <b>'+r.c+'</b>, nhưng được '+lhs+' → KHÔNG phải nghiệm.';
+    const diff = lhs - r.c;
+    if(Math.abs(diff) <= Math.abs(r.a) && r.a !== 0){
+      hint += '<br>📍 <i>Có thể em quên hệ số '+r.a+' trước x.</i>';
+    } else if(Math.abs(diff) <= Math.abs(r.b) && r.b !== 0){
+      hint += '<br>📍 <i>Có thể em quên hệ số '+r.b+' trước y.</i>';
+    } else if(r.b < 0 && p[1] > 0){
+      hint += '<br>📍 <i>Cẩn thận với dấu trừ trước y!</i>';
+    }
+    gs.lastWrong = hint;
+  }
+  render();
+}
+function handleGameRoundDone(){
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  const r = lc.game.rounds[lessonView.gameState.round];
+  let score = 0, max = 0;
+  r.points.forEach((p,i)=>{
+    const isSol = (r.a*p[0] + r.b*p[1]) === r.c;
+    if(isSol) max++;
+    if(lessonView.gameState.picked.includes(i)){
+      if(isSol) score++; else score--;
+    }
+  });
+  if(score < 0) score = 0;
+  lessonView.gameState.finishedRounds.push({score:score, max:max});
+  lessonView.gameState.round++;
+  lessonView.gameState.picked = [];
+  lessonView.gameState.lastWrong = null;
+  render();
+}
+function attachTooltipTaps(){
+  document.querySelectorAll('.tip').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      document.querySelectorAll('.tip.act').forEach(t=>{ if(t!==el) t.classList.remove('act'); });
+      el.classList.toggle('act');
+    });
+  });
+  document.addEventListener('click', ()=>{
+    document.querySelectorAll('.tip.act').forEach(t=>t.classList.remove('act'));
+  });
+}
+function showToast(msg){
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:1000;max-width:90%;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.25)';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2400);
+}
+function celebrate(){
+  const colors = ['#6b46c1','#10b981','#f59e0b','#ef4444','#0ea5e9','#f43f5e'];
+  for(let i=0;i<40;i++){
+    const c = document.createElement('div');
+    c.style.cssText = 'position:fixed;width:8px;height:8px;background:'+colors[i%colors.length]+';top:-10px;left:'+(Math.random()*100)+'%;z-index:1000;border-radius:2px;pointer-events:none';
+    document.body.appendChild(c);
+    const dur = 1500 + Math.random()*1500;
+    c.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:'translateY('+(window.innerHeight+20)+'px) rotate(1080deg)',opacity:.6}], {duration:dur,easing:'ease-in'});
+    setTimeout(()=>c.remove(), dur);
+  }
+}
+
+render();
+</script>
+</body>
+</html>

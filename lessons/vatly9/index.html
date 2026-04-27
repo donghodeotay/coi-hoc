@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Vatly9 Hanh Trinh Chinh Phuc",
+  "schemaVersion": 1,
+  "description": "Vật lý 9 (Physics 9) hub artifact for Mika. Vietnamese Grade 9 physics content from KHTN textbook (combined Physics+Chemistry+Biology, but split per Lam's design choice). 5 chapters: I Mechanical Energy, II Light, III Electricity, IV Electromagnetism, V Energy & Life. Bài 2 (Động năng. Thế năng / Kinetic & Potential energy) fully built — 11 micro-steps with formulas, calculation practice, game, quiz. Physics-specific vocabulary tooltips (~150 terms). Teal/blue color theme. Reads/writes localStorage 'vatly9-progress' and shared 'toan9-activity' for cross-subject streak tracking.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vật lý 9 — Hành trình chinh phục</title>
+<style>
+:root{ color-scheme:light; --primary:#0e7490; --primary-d:#155e75; --primary-l:#22d3ee; --success:#10b981; --warn:#f59e0b; --danger:#dc2626; --card:#fff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0; --teal:#14b8a6; --sky:#0ea5e9; --indigo:#4f46e5; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#ecfeff 0%,#dbeafe 50%,#e0f2fe 100%);color:var(--text);line-height:1.55;padding:12px;min-height:100vh;font-size:14px}
+.header{background:linear-gradient(135deg,#0e7490 0%,#0891b2 50%,#4f46e5 100%);color:#fff;padding:16px 18px;border-radius:14px;margin-bottom:14px;box-shadow:0 4px 14px rgba(14,116,144,.28);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-30px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
+.header h1{font-size:18px;font-weight:700;margin-bottom:4px;position:relative}
+.header .sub{font-size:12px;opacity:.92;position:relative}
+.header .greet{font-size:13px;margin-top:6px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:99px;display:inline-block;backdrop-filter:blur(10px);font-weight:500;position:relative}
+.header .lang-tip{font-size:11px;margin-top:8px;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:8px;border-left:3px solid #fde68a;line-height:1.5;position:relative}
+.header .lang-tip strong{color:#fef3c7;font-weight:700}
+.pbar{background:rgba(255,255,255,.25);border-radius:99px;height:7px;margin-top:10px;overflow:hidden;position:relative}
+.pbar-fill{background:#fff;height:100%;transition:width .4s;border-radius:99px}
+.ptext{font-size:11px;margin-top:4px;opacity:.95;position:relative}
+.crumb{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.crumb a{color:var(--primary);text-decoration:none;cursor:pointer;font-weight:500}
+.crumb a:hover{text-decoration:underline}
+.crumb .sep{opacity:.5}
+.card{background:var(--card);border-radius:11px;padding:13px;margin-bottom:9px;box-shadow:0 1px 3px rgba(0,0,0,.05);border:1px solid var(--border);transition:all .2s}
+.card.click{cursor:pointer}
+.card.click:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(14,116,144,.18);border-color:var(--primary-l)}
+.card.locked{opacity:.55;cursor:not-allowed}
+.card.done{border-color:var(--success);background:linear-gradient(135deg,#fff 0%,#f0fdf4 100%)}
+.tag{display:inline-block;background:var(--primary);color:#fff;padding:2px 9px;border-radius:99px;font-size:10px;font-weight:600;margin-bottom:5px;letter-spacing:.3px}
+.tag.gray{background:#94a3b8}
+.title{font-size:15px;font-weight:600;margin-bottom:3px;color:var(--text)}
+.desc{font-size:12px;color:var(--muted)}
+.row{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px}
+.mp{flex:1;background:#e2e8f0;height:6px;border-radius:99px;overflow:hidden}
+.mpf{background:var(--success);height:100%;transition:width .4s}
+.tip{border-bottom:1px dashed var(--primary);cursor:help;position:relative;color:var(--primary-d);font-weight:500}
+.tip::after{content:attr(data-en);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:5px 9px;border-radius:5px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.18);font-weight:400;font-style:normal}
+.tip:hover::after,.tip.act::after{opacity:1}
+.btn{display:inline-block;background:var(--primary);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn:hover:not(:disabled){background:var(--primary-d);transform:translateY(-1px)}
+.btn.sec{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
+.btn.sec:hover:not(:disabled){background:var(--primary);color:#fff}
+.btn.ok{background:var(--success)}.btn.ok:hover:not(:disabled){background:#059669}
+.btn.warn{background:var(--warn)}.btn:disabled{background:#cbd5e1;cursor:not-allowed;transform:none;opacity:.7}
+.tabs{display:flex;gap:3px;margin-bottom:11px;background:#e0f2fe;padding:3px;border-radius:9px}
+.tab{flex:1;padding:8px 4px;background:transparent;border:none;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s;line-height:1.2;font-family:inherit}
+.tab.act{background:#fff;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.08);font-weight:600}
+.tab.lock{opacity:.4;cursor:not-allowed}
+.tab .ic{font-size:14px;display:block;margin-bottom:2px}
+.theory{background:linear-gradient(135deg,#fff 0%,#ecfeff 100%);border:1px solid #a5f3fc;border-radius:11px;padding:14px;margin-bottom:11px}
+.theory h3{color:var(--primary);font-size:14px;margin-bottom:7px;display:flex;align-items:center;gap:6px;justify-content:space-between}
+.story{background:linear-gradient(135deg,#dbeafe 0%,#cffafe 100%);border-left:4px solid var(--sky);border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+.story-title{font-weight:700;color:#1e3a8a;margin-bottom:6px;display:flex;align-items:center;gap:6px;font-size:13px}
+.story-en{background:#eff6ff;padding:8px 12px;margin:8px 0 0;border-radius:6px;font-size:12px;color:#1e40af;line-height:1.55;border-left:3px solid #3b82f6}
+.story-en strong{color:#1e3a8a}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+@media(max-width:480px){.compare{grid-template-columns:1fr}}
+.compare > div{padding:10px;border-radius:8px;font-size:12px}
+.before{background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
+.after{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.compare h4{font-size:12px;margin-bottom:6px;font-weight:700}
+.analogy{background:#ede9fe;border:1px solid #c4b5fd;border-radius:8px;padding:10px;margin:8px 0;font-size:13px}
+.analogy::before{content:'💡 ';margin-right:2px}
+.analogy strong{color:#5b21b6}
+.why{background:#fdf4ff;border:1px solid #f0abfc;border-radius:8px;padding:10px;margin:8px 0;font-size:13px}
+.why::before{content:'❓ ';margin-right:2px}
+.why strong{color:#86198f}
+.body-text{margin:10px 0;font-size:13px}
+.formula{background:#f0f9ff;border:2px solid var(--sky);border-radius:8px;padding:14px;margin:10px 0;text-align:center;font-family:'Cambria Math',Georgia,serif;font-size:18px;font-weight:600;color:var(--primary-d)}
+.formula .lbl{display:block;font-size:11px;color:var(--muted);font-family:inherit;font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.sgk-ref{display:inline-block;background:#cffafe;color:#155e75;font-size:10px;padding:2px 7px;border-radius:99px;font-weight:700;margin-left:5px;border:1px solid #67e8f9}
+.spk-btn{background:#fff;border:1.5px solid var(--primary);color:var(--primary);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;padding:0}
+.spk-btn:hover{background:var(--primary);color:#fff}
+.spk-btn.playing{background:var(--success);border-color:var(--success);color:#fff;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
+.step-nav{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-top:12px;gap:8px}
+.step-dots{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;flex:1}
+.dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;transition:all .2s}
+.dot.act{background:var(--primary);transform:scale(1.3)}
+.dot.done{background:var(--success)}
+.problem{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:9px}
+.problem-q{font-size:13px;margin-bottom:9px;line-height:1.55}
+.opts{display:flex;flex-direction:column;gap:5px}
+.opt{padding:9px 11px;background:#f0f9ff;border:1.5px solid transparent;border-radius:7px;cursor:pointer;font-size:13px;transition:all .15s;text-align:left;font-family:inherit}
+.opt:hover:not(:disabled){background:#e0f2fe;border-color:var(--primary-l)}
+.opt.ok{border-color:var(--success);background:#d1fae5}
+.opt.no{border-color:var(--danger);background:#fee2e2}
+.opt:disabled{cursor:default}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.score-banner{background:#fff;border-radius:11px;padding:14px;text-align:center;margin-top:11px;border:2px solid var(--primary)}
+.score-banner.win{border-color:var(--success);background:linear-gradient(135deg,#fff 0%,#ecfdf5 100%)}
+.score-banner.lose{border-color:var(--warn);background:linear-gradient(135deg,#fff 0%,#fffbeb 100%)}
+.big{font-size:28px;font-weight:700;color:var(--primary)}
+.score-banner.win .big{color:var(--success)}
+.score-banner.lose .big{color:var(--warn)}
+.lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.badge{background:var(--success);color:#fff;padding:2px 7px;border-radius:99px;font-size:10px;font-weight:600}
+.center{text-align:center}
+.tiny{font-size:11px;color:var(--muted)}
+ul.simple{list-style:none;padding:0;margin:8px 0}
+ul.simple li{padding:5px 0 5px 22px;position:relative;font-size:13px}
+ul.simple li::before{content:'✓';position:absolute;left:0;color:var(--success);font-weight:700}
+.recap{background:linear-gradient(135deg,#cffafe 0%,#dbeafe 100%);border:1px solid #67e8f9;border-radius:10px;padding:12px;margin:10px 0}
+.recap h4{color:#155e75;font-size:13px;margin-bottom:6px}
+.blueprint{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdfa 100%);border:2px solid #6ee7b7;border-radius:10px;padding:12px;margin:10px 0;position:relative}
+.blueprint .bp-tag{position:absolute;top:-9px;left:12px;background:var(--success);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+.blueprint h4{color:#065f46;font-size:12px;margin:4px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.blueprint .bp-prob{font-size:13px;color:#064e3b;margin-bottom:6px;font-weight:500}
+.blueprint .bp-sol{font-size:13px;color:#065f46;background:#fff;padding:8px 10px;border-radius:6px;border-left:3px solid #10b981}
+.attempt{background:linear-gradient(135deg,#fff 0%,#fffbeb 100%);border:2px solid #fcd34d;border-radius:10px;padding:12px;margin:10px 0;position:relative}
+.attempt .at-tag{position:absolute;top:-9px;left:12px;background:var(--warn);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+.attempt h4{color:#78350f;font-size:12px;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.5px}
+.attempt .at-prompt{font-size:14px;color:#451a03;font-weight:500;margin-bottom:10px;line-height:1.55}
+.attempt input.at-input{padding:9px 12px;border:1.5px solid #fde68a;border-radius:7px;font-size:14px;width:100%;font-family:inherit;background:#fff}
+.attempt input.at-input:focus{outline:none;border-color:var(--warn);box-shadow:0 0 0 3px rgba(245,158,11,.15)}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.choice-grid button{padding:11px 8px;background:#fff;border:1.5px solid #fde68a;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:#78350f;font-family:inherit;transition:all .2s;text-align:left;line-height:1.4}
+.choice-grid button:hover:not(:disabled){background:#fef3c7;border-color:var(--warn)}
+.choice-grid button.ok{background:#d1fae5;border-color:var(--success);color:#065f46}
+.choice-grid button.no{background:#fee2e2;border-color:var(--danger);color:#991b1b}
+.choice-grid button:disabled{cursor:default}
+.attempt-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.stop-fix{background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%);border:2px solid #fca5a5;border-radius:10px;padding:12px;margin:10px 0;animation:fadeIn .3s}
+.stop-fix .sf-title{color:#991b1b;font-weight:700;font-size:13px;margin-bottom:6px}
+.stop-fix .sf-body{font-size:13px;color:#7f1d1d;line-height:1.55}
+.success-card{background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border:2px solid #6ee7b7;border-radius:10px;padding:12px;margin:10px 0;animation:fadeIn .3s}
+.success-card .sc-title{color:#065f46;font-weight:700;font-size:13px;margin-bottom:4px}
+.success-card .sc-body{font-size:13px;color:#064e3b}
+.replay{background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border:2px solid #93c5fd;border-radius:10px;padding:14px;margin:10px 0;text-align:center;animation:fadeIn .3s}
+.replay .rp-title{color:#1e40af;font-weight:700;font-size:13px;margin-bottom:8px}
+.replay .rp-count{font-size:42px;font-weight:800;color:var(--primary);line-height:1;margin:6px 0}
+.replay .rp-text{font-size:12px;color:#1e3a8a;line-height:1.5}
+.attempts-trail{display:flex;gap:4px;margin-top:8px;font-size:11px;color:var(--muted);align-items:center}
+.attempts-trail .at-dot{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:#94a3b8}
+.attempts-trail .at-dot.ok{background:var(--success)}
+.attempts-trail .at-dot.no{background:var(--danger)}
+.energy-game{background:linear-gradient(135deg,#cffafe 0%,#dbeafe 100%);border-radius:11px;padding:14px;margin-bottom:11px}
+.energy-game h4{color:var(--primary-d);font-size:13px;margin-bottom:6px}
+.eg-stats{display:flex;justify-content:space-around;background:#fff;border-radius:8px;padding:8px;margin:8px 0;font-size:11px}
+.eg-stats > div{text-align:center}
+.eg-stats .v{font-size:18px;font-weight:700;color:var(--primary);display:block}
+.eg-prob{background:#fff;border:2px solid var(--sky);border-radius:8px;padding:14px;margin:12px 0;font-size:13px;color:#1e3a8a;line-height:1.6}
+.eg-prob .vals{display:flex;gap:14px;justify-content:center;margin:10px 0;flex-wrap:wrap}
+.eg-prob .v{background:#dbeafe;padding:6px 14px;border-radius:8px;font-weight:600;color:#1e40af}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+"use strict";
+
+const TERMS = {
+  // Physics-specific
+  'năng lượng cơ học':'mechanical energy',
+  'năng lượng':'energy',
+  'động năng':'kinetic energy',
+  'thế năng':'potential energy',
+  'thế năng trọng trường':'gravitational potential energy',
+  'cơ năng':'mechanical energy (KE+PE)',
+  'công':'work',
+  'công suất':'power',
+  'lực':'force',
+  'trọng lực':'gravity',
+  'trọng lượng':'weight (force of gravity)',
+  'khối lượng':'mass',
+  'tốc độ':'speed',
+  'vận tốc':'velocity',
+  'gia tốc':'acceleration',
+  'độ cao':'height / altitude',
+  'mặt đất':'ground / Earth surface',
+  'gốc thế năng':'potential energy reference point',
+  'jun':'joule (J)',
+  'niutơn':'newton (N)',
+  'oát':'watt (W)',
+  'kilôgam':'kilogram (kg)',
+  'kilôgram':'kilogram',
+  'mét':'meter (m)',
+  'giây':'second (s)',
+  'mét trên giây':'meters per second',
+  'biểu thức':'expression / formula',
+  'công thức':'formula',
+  'chuyển động':'motion',
+  'đứng yên':'at rest / stationary',
+  'va đập':'collision / impact',
+  'tuabin':'turbine',
+  'thuỷ điện':'hydroelectric',
+  'phong điện':'wind power',
+  'gió':'wind',
+  'nước':'water',
+  'dòng nước':'water current',
+  'nhà máy':'factory / plant',
+  'phát điện':'generate electricity',
+  'tích trữ':'store / accumulate',
+  'tích trữ năng lượng':'store energy',
+  'đập':'dam',
+  'cao':'high',
+  'thấp':'low',
+  'đỉnh':'peak / top',
+  'thanh':'beam / rod',
+  'thanh thẳng':'straight rod',
+  'nhiều':'many / much',
+  'ít':'few / little',
+  'lớn':'large / big',
+  'nhỏ':'small',
+  'tăng':'increase',
+  'giảm':'decrease',
+  'gấp đôi':'double',
+  'gấp ba':'triple',
+  'lần':'times (multiplier)',
+  'phụ thuộc':'depend on',
+  'phụ thuộc vào':'depends on',
+  'thay đổi':'change',
+  'như thế nào':'how',
+  'vì sao':'why',
+  'so với':'compared to',
+  'lớn hơn':'larger than',
+  'nhỏ hơn':'smaller than',
+  'càng':'the more...',
+  'cùng':'same / together',
+  'mỗi':'each',
+  'một số':'some / several',
+  'mỗi lần':'each time',
+  'chuyển động độc lập':'independent motion',
+  'mở đầu':'opening / introduction',
+  'mục tiêu':'objectives',
+  'biểu thức tính':'formula for calculating',
+  'đơn vị':'unit',
+  'đơn vị đo':'unit of measure',
+  'tính':'calculate',
+  'tìm':'find',
+  'cho biết':'state / give',
+  'so sánh':'compare',
+  'giải thích':'explain',
+  'quan sát':'observe',
+  'trả lời':'answer',
+  'ví dụ':'example',
+  'hình':'figure / image',
+  'hỏi':'ask',
+  'em đã học':'what you have learned',
+  'em có thể':'you can',
+  'tích trữ':'store / accumulate',
+  'nguyên lý':'principle',
+  // Common Vietnamese
+  'em':'you (younger)',
+  'là':'is',
+  'có':'have',
+  'không':'no / not',
+  'của':'of',
+  'và':'and',
+  'với':'with',
+  'trong':'in / inside',
+  'một':'one',
+  'hai':'two',
+  'ba':'three',
+  'bốn':'four',
+  'năm':'five',
+  'sáu':'six',
+  'bảy':'seven',
+  'tám':'eight',
+  'chín':'nine',
+  'mười':'ten',
+  'này':'this',
+  'đó':'that',
+  'như':'like / as',
+  'khi':'when',
+  'nếu':'if',
+  'thì':'then',
+  'do':'because of / by',
+  'sẽ':'will',
+  'đã':'(past marker)',
+  'đang':'(present marker)',
+  'cũng':'also',
+  'cũng có':'also has',
+  'rất':'very',
+  'theo':'according to',
+  'bài':'lesson',
+  'chương':'chapter',
+  'sách giáo khoa':'textbook',
+  'sgk':'textbook',
+  'trang':'page',
+  'lý thuyết':'theory',
+  'luyện tập':'practice',
+  'trò chơi':'game',
+  'kiểm tra':'test / quiz',
+  'tổng kết':'summary',
+  'tóm tắt':'summarize',
+  'bài tập':'exercises',
+  'câu':'question',
+  'câu hỏi':'question',
+  'hãy':'please / let',
+  'em hãy':'please (you)',
+  'người':'person',
+  'người chơi':'player',
+  'xích đu':'swing (playground)',
+  'cao nhất':'highest',
+  'thấp nhất':'lowest',
+  'vị trí':'position',
+  'qua':'through / past',
+  'quả bóng':'ball',
+  'ô tô':'car',
+  'xe':'vehicle',
+  'máy bay':'airplane',
+  'lăn':'roll',
+  'chạy':'run / move',
+  'bay':'fly',
+  'đường băng':'runway',
+  'cung':'bow (archery)',
+  'mũi tên':'arrow',
+  'kéo':'pull',
+  'thả':'release',
+  'bắn':'shoot',
+  'cuối cùng':'final',
+  'mục đích':'purpose',
+  'hai vị trí':'two positions',
+  'đó là':'that is',
+  'cho rằng':'consider',
+  'như sau':'as follows',
+  'vậy':'so / thus',
+  'mặc định':'default'
+};
+
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function highlight(text){
+  if(!text) return '';
+  const keys = Object.keys(TERMS).sort((a,b)=>b.length-a.length);
+  const placeholders = [];
+  const parts = String(text).split(/(<[^>]*>)/g);
+  const processed = parts.map((part, idx) => {
+    if(idx % 2 === 1) return part;
+    let out = part;
+    keys.forEach(k=>{
+      const re = new RegExp(escRe(k),'gi');
+      out = out.replace(re, m=>{
+        const id = 'XPH'+placeholders.length+'XPH';
+        placeholders.push({id:id, html:'<span class="tip" data-en="'+TERMS[k]+'">'+m+'</span>'});
+        return id;
+      });
+    });
+    return out;
+  });
+  let final = processed.join('');
+  placeholders.forEach(p=>{ final = final.split(p.id).join(p.html); });
+  return final;
+}
+
+let currentSpeakBtn = null;
+function stripHtml(html){
+  const div = document.createElement('div'); div.innerHTML = html;
+  return (div.textContent || div.innerText || '').replace(/\s+/g,' ').trim();
+}
+function speak(btn, text){
+  if(!('speechSynthesis' in window)){ alert('Trình duyệt không hỗ trợ đọc tiếng Việt.'); return; }
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    if(currentSpeakBtn){ currentSpeakBtn.classList.remove('playing'); currentSpeakBtn.textContent='🔊'; }
+    if(currentSpeakBtn === btn){ currentSpeakBtn = null; return; }
+  }
+  const plain = stripHtml(text);
+  if(!plain) return;
+  const u = new SpeechSynthesisUtterance(plain);
+  u.lang = 'vi-VN'; u.rate = 0.92;
+  u.onend = ()=>{ btn.classList.remove('playing'); btn.textContent='🔊'; if(currentSpeakBtn===btn) currentSpeakBtn=null; };
+  u.onerror = u.onend;
+  btn.classList.add('playing'); btn.textContent='⏸';
+  currentSpeakBtn = btn;
+  window.speechSynthesis.speak(u);
+}
+
+function norm(s){
+  if(s === undefined || s === null) return '';
+  return String(s).toLowerCase().replace(/\s+/g,'').replace(/[\-−–—]/g,'-').replace(/,/g,'.').trim();
+}
+function validateAttempt(attempt, userInput){
+  if(attempt.type === 'choice'){
+    if(parseInt(userInput) === attempt.correct) return { ok:true };
+    if(attempt.errorMsg) return { ok:false, msg:attempt.errorMsg };
+    return { ok:false };
+  }
+  if(attempt.type === 'yesno'){
+    if(userInput === attempt.correct) return { ok:true };
+    if(attempt.errorMsg) return { ok:false, msg:attempt.errorMsg };
+    return { ok:false };
+  }
+  const u = norm(userInput);
+  if(!u) return { ok:false, msg:'Em hãy nhập câu trả lời trước nhé.' };
+  if(attempt.validate) return attempt.validate(userInput, u);
+  for(const a of (attempt.answers||[])){ if(norm(a) === u) return { ok:true }; }
+  return { ok:false };
+}
+
+const CURRICULUM = [
+  {id:'ch1',num:'Chương I',title:'Năng lượng cơ học',desc:'Mechanical Energy',lessons:[
+    {id:'l1',num:'Bài 2',title:'Động năng. Thế năng',desc:'Kinetic & Potential energy',built:true},
+    {id:'l2',num:'Bài 3',title:'Cơ năng',desc:'Mechanical energy (total)',built:false},
+    {id:'l3',num:'Bài 4',title:'Công và công suất',desc:'Work & power',built:false}
+  ]},
+  {id:'ch2',num:'Chương II',title:'Ánh sáng',desc:'Light',lessons:[
+    {id:'l1',num:'Bài 5',title:'Lăng kính',desc:'',built:false},
+    {id:'l2',num:'Bài 6',title:'Phản xạ toàn phần',desc:'',built:false},
+    {id:'l3',num:'Bài 7',title:'Lăng kính (tt)',desc:'',built:false},
+    {id:'l4',num:'Bài 8',title:'Thấu kính',desc:'',built:false},
+    {id:'l5',num:'Bài 9',title:'Thực hành: Đo tiêu cự',desc:'',built:false}
+  ]},
+  {id:'ch3',num:'Chương III',title:'Điện',desc:'Electricity',lessons:[
+    {id:'l1',num:'Bài 10',title:'Điện trở. Định luật Ohm',desc:'',built:false},
+    {id:'l2',num:'Bài 11',title:'Đoạn mạch nối tiếp, song song',desc:'',built:false},
+    {id:'l3',num:'Bài 12',title:'Năng lượng dòng điện và công suất điện',desc:'',built:false}
+  ]},
+  {id:'ch4',num:'Chương IV',title:'Điện từ',desc:'Electromagnetism',lessons:[
+    {id:'l1',num:'Bài 13',title:'Cảm ứng điện từ. Dòng điện xoay chiều',desc:'',built:false},
+    {id:'l2',num:'Bài 14',title:'Tác dụng của dòng điện xoay chiều',desc:'',built:false}
+  ]},
+  {id:'ch5',num:'Chương V',title:'Năng lượng với cuộc sống',desc:'Energy & Life',lessons:[
+    {id:'l1',num:'Bài 15',title:'Năng lượng tái tạo, năng lượng hoá thạch',desc:'',built:false},
+    {id:'l2',num:'Bài 16',title:'Một số dạng năng lượng tái tạo',desc:'',built:false}
+  ]}
+];
+
+const LESSON_CONTENT = {
+  'ch1-l1': {
+    story: {
+      problem:'<strong>🎢 Bài toán xích đu:</strong> Khi chơi xích đu, động năng của người chơi thay đổi như thế nào trong các chuyển động giữa hai vị trí cao nhất A và vị trí thấp nhất O?<br><br>(Hình 2.1 SGK trang 15)<div class="story-en"><strong>For Mika (English):</strong> On a swing, how does the rider\'s kinetic energy change between the highest position (A) and lowest position (O)? This question opens the lesson — by the end you\'ll be able to explain it precisely with formulas.</div>',
+      before:{title:'TRƯỚC khi học bài này',body:'Em thấy quả bóng lăn, ô tô chạy, nước đập thuỷ điện — nhưng không có công cụ để mô tả "năng lượng" của chúng bằng số.'},
+      after:{title:'SAU khi học bài này',body:'Em viết được:<br>• Động năng: <b>W<sub>đ</sub> = ½mv²</b><br>• Thế năng: <b>W<sub>t</sub> = mgh = Ph</b><br>Tính được năng lượng của bất kỳ vật nào!'},
+      why:'<strong>Mục tiêu (theo SGK trang 15):</strong><br>• Viết được biểu thức tính động năng của vật<br>• Viết được biểu thức tính thế năng của vật ở gần mặt Đất<br><br>Bài này là <b>nền tảng</b> cho mọi vấn đề về năng lượng trong vật lý — từ thuỷ điện, phong điện, cho đến súng cao su và cung tên.'
+    },
+    steps:[
+      {
+        title:'Năng lượng cơ học là gì?',
+        why:'Để hiểu vì sao mọi vật chuyển động hoặc ở độ cao đều "có" năng lượng.',
+        analogy:'<strong>Như tiền trong ngân hàng</strong> — em không thấy nó nhưng nó tồn tại. Năng lượng cũng vậy: em không "thấy" nhưng nó làm cho mọi việc xảy ra.',
+        body:'<span class="sgk-ref">📘 SGK trang 14-15</span> Năng lượng cơ học gồm <b>2 dạng chính</b>:<br>• <b>Động năng</b> — năng lượng do chuyển động<br>• <b>Thế năng</b> — năng lượng do vị trí (độ cao)<br><br>Vật nào có chuyển động hoặc ở độ cao đều có năng lượng cơ học.',
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Năng lượng cơ học gồm những dạng nào?',choices:['Chỉ động năng','Chỉ thế năng','Động năng và thế năng','Nhiệt năng và quang năng'],correct:2,errorMsg:'<b>STOP.</b> Năng lượng cơ học gồm 2 dạng chính: động năng (do chuyển động) VÀ thế năng (do vị trí cao). Nhiệt và ánh sáng là các dạng năng lượng khác.',explanation:'✅ Đúng! Cơ học = chuyển động + vị trí → động năng + thế năng.'}
+      },
+      {
+        title:'Động năng — năng lượng của vật chuyển động',
+        why:'Mọi vật đang chuyển động đều có động năng. Đây là lý do tại sao xe đụng vào tường gây hại — nó đang có động năng.',
+        analogy:'<strong>Quả bóng đập vào em</strong> ⚽ — quả bóng càng nặng và bay càng nhanh thì đập càng đau. Đó là vì động năng phụ thuộc khối lượng và tốc độ.',
+        body:'<span class="sgk-ref">📘 SGK trang 15</span> Vật chuyển động có động năng. Ví dụ:<br>• Quả bóng lăn → có động năng<br>• Gió làm quay tuabin → động năng của gió<br>• Dòng nước chảy quay tuabin thuỷ điện → động năng của nước',
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Vật nào KHÔNG có động năng?',choices:['Quả bóng đang lăn','Một quyển sách đặt yên trên bàn','Ô tô đang chạy trên đường','Máy bay đang bay'],correct:1,errorMsg:'<b>STOP.</b> Động năng = năng lượng do CHUYỂN ĐỘNG. Quyển sách đứng yên (không chuyển động) → không có động năng.',explanation:'✅ Đúng! Quyển sách đứng yên không có động năng. Còn các vật đang lăn, chạy, bay đều có.'}
+      },
+      {
+        title:'Hai yếu tố: khối lượng và tốc độ',
+        why:'Động năng không chỉ phụ thuộc 1 thứ. Hiểu cả 2 yếu tố để dự đoán năng lượng.',
+        analogy:'<strong>Xe tải vs xe đạp</strong> 🚛🚲 — cùng tốc độ, xe tải có động năng lớn hơn (khối lượng lớn). Cùng khối lượng, xe chạy nhanh có động năng lớn hơn.',
+        body:'<span class="sgk-ref">📘 SGK trang 15</span> Động năng phụ thuộc <b>2 yếu tố</b>:<br>① <b>Khối lượng (m)</b> — vật càng nặng → động năng càng lớn<br>② <b>Tốc độ (v)</b> — vật càng nhanh → động năng càng lớn<br><br>Đặc biệt: <b>tốc độ ảnh hưởng MẠNH HƠN</b> khối lượng (vì v được bình phương).',
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Hai quả bóng cùng tốc độ. Quả A nặng 0,5 kg, quả B nặng 1 kg. Quả nào có động năng lớn hơn?',choices:['Quả A (nhẹ hơn)','Quả B (nặng hơn)','Bằng nhau','Không thể biết'],correct:1,errorMsg:'<b>STOP.</b> Cùng tốc độ → khối lượng càng lớn → động năng càng lớn. Quả B nặng hơn nên có động năng lớn hơn.',explanation:'✅ Đúng! Cùng v, m càng lớn → W<sub>đ</sub> càng lớn. B (1 kg) > A (0,5 kg).'}
+      },
+      {
+        title:'Công thức: W<sub>đ</sub> = ½mv²',
+        why:'Công thức để TÍNH chính xác động năng của vật. Đây là kiến thức cốt lõi cần nhớ.',
+        analogy:'<strong>Công thức nấu ăn</strong> 🍲 — cần đúng tỷ lệ. Năng lượng động cũng cần đúng công thức: ½ × khối lượng × tốc độ bình phương.',
+        body:'<span class="sgk-ref">📘 SGK trang 15-16 — Định nghĩa</span>'+
+          '<div class="formula"><span class="lbl">Động năng</span>W<sub>đ</sub> = ½ m v²</div>'+
+          '<b>Trong đó:</b><br>• <b>m</b> = khối lượng (kg)<br>• <b>v</b> = tốc độ (m/s)<br>• <b>W<sub>đ</sub></b> = động năng (jun, ký hiệu J)<br><br>⚠️ Lưu ý: <b>v² là v bình phương</b> = v × v. Tốc độ tăng gấp đôi → động năng tăng <b>4 lần</b>.',
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Nếu tốc độ của xe tăng GẤP ĐÔI (v → 2v), động năng của xe sẽ tăng:',choices:['Gấp đôi (2 lần)','Gấp ba (3 lần)','Gấp bốn (4 lần)','Không đổi'],correct:2,errorMsg:'<b>STOP.</b> W<sub>đ</sub> = ½mv². Khi v → 2v, ta có (2v)² = 4v². → Động năng tăng <b>4 lần</b>, không phải 2 lần!',explanation:'✅ Đúng! Vì v BÌNH PHƯƠNG. (2v)² = 4v² → động năng gấp 4 lần. Đây là lý do xe nhanh nguy hiểm hơn rất nhiều.'}
+      },
+      {
+        title:'Tính động năng — bước theo bước',
+        why:'Áp dụng công thức vào bài toán cụ thể. Em cần làm thành thạo việc tính.',
+        body:'<span class="sgk-ref">📘 SGK trang 16 — Câu hỏi 2</span> Bài toán: Tính động năng của quả bóng có khối lượng m = 0,5 kg, đang bay với tốc độ v = 10 m/s.',
+        blueprint:{problem:'Tính W<sub>đ</sub> cho m = 0,5 kg, v = 10 m/s',solution:'<b>Bước:</b><br>① W<sub>đ</sub> = ½ × m × v²<br>② W<sub>đ</sub> = ½ × 0,5 × 10²<br>③ W<sub>đ</sub> = ½ × 0,5 × 100<br>④ W<sub>đ</sub> = <b>25 J</b>'},
+        attempt:{type:'text',prompt:'<b>Lượt em:</b> Tính W<sub>đ</sub> cho m = 2 kg, v = 3 m/s. Đáp án (số jun)?',placeholder:'VD: 25',answers:['9','9j','9 jun','9 J'],errors:[],explanation:'✅ <b>9 J</b>. W<sub>đ</sub> = ½ × 2 × 3² = ½ × 2 × 9 = 9 J.'}
+      },
+      {
+        title:'Thế năng — năng lượng do vị trí',
+        why:'Vật ở độ cao có thể "rơi" → có năng lượng tiềm tàng. Đây là cách thuỷ điện hoạt động!',
+        analogy:'<strong>Hộp quà trên kệ cao</strong> 🎁 — chưa rơi nhưng có "tiềm năng" rơi. Càng cao → càng dễ làm hư khi rơi → càng nhiều thế năng.',
+        body:'<span class="sgk-ref">📘 SGK trang 16</span> <b>Thế năng trọng trường</b> (gọi tắt là thế năng) là năng lượng của vật khi ở một <b>độ cao</b> nhất định so với mặt đất.<br><br>Ví dụ:<br>• Nước trên đỉnh núi → có thế năng<br>• Đập thuỷ điện chứa nước cao → tích trữ thế năng<br>• Khi nước chảy xuống → thế năng → động năng → điện năng',
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Vật nào có thế năng lớn nhất?',choices:['Quyển sách trên bàn (cao 1m)','Quả táo trên cây (cao 3m)','Đá trên đỉnh núi (cao 1000m)','Cá dưới đáy hồ'],correct:2,errorMsg:'<b>STOP.</b> Thế năng = năng lượng do ĐỘ CAO. Đá trên núi cao nhất (1000m) → có thế năng lớn nhất.',explanation:'✅ Đúng! Càng cao càng nhiều thế năng. Cá dưới đáy hồ thậm chí có thể có thế năng âm (so với mặt đất).'}
+      },
+      {
+        title:'Hai yếu tố: khối lượng và độ cao',
+        why:'Như động năng, thế năng cũng phụ thuộc 2 yếu tố.',
+        analogy:'<strong>Hai thùng nước trên đập</strong> — thùng nặng hơn ở cùng độ cao có thế năng lớn hơn. Cùng thùng, ở đập cao hơn có thế năng lớn hơn.',
+        body:'<span class="sgk-ref">📘 SGK trang 16</span> Thế năng phụ thuộc <b>2 yếu tố</b>:<br>① <b>Khối lượng (m)</b> — vật càng nặng → thế năng càng lớn<br>② <b>Độ cao (h)</b> — vật càng cao → thế năng càng lớn<br><br>Khác với động năng: <b>cả m và h đều ảnh hưởng tuyến tính</b> (không bình phương).',
+        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Hai vật ở cùng độ cao h. Vật A: 3 kg, Vật B: 1 kg. Thế năng của A so với B?',choices:['Bằng nhau','Gấp 3 lần','Gấp 9 lần','Không thể biết'],correct:1,errorMsg:'<b>STOP.</b> Cùng h → khối lượng càng lớn → thế năng càng lớn. m_A = 3 × m_B → W_t của A = 3 × W_t của B (gấp 3 lần, không phải 9).',explanation:'✅ Đúng! Cùng h, m gấp 3 → W<sub>t</sub> gấp 3. Không bình phương như động năng.'}
+      },
+      {
+        title:'Công thức: W<sub>t</sub> = mgh = Ph',
+        why:'Công thức để tính thế năng. Cần nhớ chính xác.',
+        body:'<span class="sgk-ref">📘 SGK trang 16 — Định nghĩa</span>'+
+          '<div class="formula"><span class="lbl">Thế năng trọng trường</span>W<sub>t</sub> = m·g·h = P·h</div>'+
+          '<b>Trong đó:</b><br>• <b>m</b> = khối lượng (kg), <b>g ≈ 10 m/s²</b> trên Trái Đất<br>• <b>h</b> = độ cao so với gốc thế năng (m)<br>• <b>P = mg</b> = trọng lượng (N)<br>• <b>W<sub>t</sub></b> = thế năng (J)',
+        attempt:{type:'text',prompt:'<b>Lượt em:</b> Tính W<sub>t</sub> cho vật nặng 5 kg ở độ cao 4 m (lấy g = 10 m/s²). Đáp án (J)?',placeholder:'VD: 25',answers:['200','200j','200 J','200 jun'],errors:[],explanation:'✅ <b>200 J</b>. W<sub>t</sub> = m × g × h = 5 × 10 × 4 = 200 J.'}
+      },
+      {
+        title:'Gốc thế năng — chọn ở đâu?',
+        why:'Thế năng phụ thuộc vào ĐIỂM SO SÁNH. Cùng vật, chọn gốc khác → thế năng khác.',
+        analogy:'<strong>Đo độ cao của em</strong> — so với mặt đất em cao 1,5m; nhưng so với đỉnh núi em "thấp" -1000m. Cùng em, gốc khác → số khác.',
+        body:'<span class="sgk-ref">📘 SGK trang 16-17</span> Khi tính thế năng, ta phải chọn <b>gốc thế năng</b> (điểm có thế năng = 0).<br><br>Ví dụ SGK: Công nhân vác bao xi măng 500N trên tầng thượng cao 20m. Bao cách sàn 1,4m.<br>• Chọn gốc tại <b>sàn thượng</b>: h = 1,4m → W<sub>t</sub> = 500 × 1,4 = 700 J<br>• Chọn gốc tại <b>mặt đất</b>: h = 20 + 1,4 = 21,4m → W<sub>t</sub> = 500 × 21,4 = 10 700 J<br><br>👉 Cả hai đều đúng — chỉ khác gốc! Trong vật lý, thường chọn <b>mặt đất làm gốc</b>.',
+        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Cùng một vật, có thể có thế năng khác nhau tuỳ chọn gốc thế năng?',correct:'yes',errorMsg:'<b>STOP.</b> CÓ. Thế năng là tương đối — phụ thuộc gốc đã chọn. Vật ở 20m so với đất → 0m so với chính nó.',explanation:'✅ Đúng. Thế năng KHÔNG TUYỆT ĐỐI — phụ thuộc vào gốc. Đó là lý do trong bài toán phải nói rõ "gốc tại đâu".'}
+      },
+      {
+        title:'🏁 TÍCH HỢP: Trả lời bài toán xích đu',
+        why:'Em quay về câu hỏi mở đầu — giờ em có công cụ để trả lời.',
+        body:'<b>Câu hỏi mở đầu:</b> Khi chơi xích đu, động năng của người chơi thay đổi như thế nào giữa vị trí cao nhất A và vị trí thấp nhất O?<br><br><div class="recap"><h4>Tóm tắt Bài 2:</h4><ul class="simple"><li>Động năng W<sub>đ</sub> = ½mv² (do chuyển động)</li><li>Thế năng W<sub>t</sub> = mgh (do độ cao)</li><li>Năng lượng cơ học = động năng + thế năng</li></ul></div><br><b>Phân tích:</b><br>• Tại A (cao nhất): tốc độ ≈ 0 → W<sub>đ</sub> = 0; nhưng h lớn → W<sub>t</sub> lớn<br>• Tại O (thấp nhất): h = 0 → W<sub>t</sub> = 0; nhưng tốc độ cao → W<sub>đ</sub> lớn<br><br>👉 <b>Năng lượng "chuyển hoá" giữa thế năng và động năng!</b> Đây là nguyên lý em sẽ học sâu hơn ở Bài 3 (Cơ năng).',
+        attempt:{type:'choice',prompt:'<b>Câu cuối:</b> Tại vị trí cao nhất A của xích đu, động năng của người chơi là:',choices:['Lớn nhất','Bằng 0 (vì tốc độ = 0)','Bằng thế năng','Không thể biết'],correct:1,errorMsg:'<b>STOP.</b> Tại điểm cao nhất, xích đu DỪNG LẠI một khoảnh khắc (đổi hướng). Tốc độ v = 0 → W<sub>đ</sub> = ½m(0)² = 0.',explanation:'🎉 Đúng! Tại A, v = 0 → W<sub>đ</sub> = 0. Toàn bộ năng lượng là thế năng. Mika đã hoàn thành Bài 2!'}
+      }
+    ],
+    practice:[
+      {
+        blueprint:{problem:'Tính W<sub>đ</sub> cho m = 1 kg, v = 4 m/s.',solution:'W<sub>đ</sub> = ½ × 1 × 4² = 8 J.'},
+        attempt:{type:'text',prompt:'<b>Câu 1:</b> Tính W<sub>đ</sub> cho m = 3 kg, v = 2 m/s. Đáp án (J)?',placeholder:'',answers:['6','6j','6J'],errors:[],explanation:'✅ <b>6 J</b>. W<sub>đ</sub> = ½ × 3 × 2² = ½ × 3 × 4 = 6 J.'}
+      },
+      {
+        blueprint:{problem:'Khi tốc độ tăng gấp 3, động năng tăng?',solution:'Động năng tỉ lệ với v². v → 3v thì v² → 9v². → tăng 9 lần.'},
+        attempt:{type:'choice',prompt:'<b>Câu 2:</b> Tốc độ một xe tăng GẤP 3. Động năng tăng:',choices:['Gấp 3','Gấp 6','Gấp 9','Không đổi'],correct:2,errorMsg:'<b>STOP.</b> v² = bình phương. (3v)² = 9v². → động năng tăng 9 lần.',explanation:'✅ <b>Gấp 9</b>. v² là bình phương. Đây là lý do giảm tốc độ xe rất quan trọng cho an toàn.'}
+      },
+      {
+        blueprint:{problem:'Tính W<sub>t</sub> cho m = 2 kg, h = 10 m, g = 10 m/s².',solution:'W<sub>t</sub> = m × g × h = 2 × 10 × 10 = 200 J.'},
+        attempt:{type:'text',prompt:'<b>Câu 3:</b> Tính W<sub>t</sub> cho m = 4 kg, h = 5 m (g = 10 m/s²). Đáp án (J)?',placeholder:'',answers:['200','200j'],errors:[],explanation:'✅ <b>200 J</b>. W<sub>t</sub> = 4 × 10 × 5 = 200 J.'}
+      },
+      {
+        blueprint:{problem:'Vật A và B cùng độ cao. m_A = 6 kg, m_B = 2 kg. So sánh thế năng.',solution:'Cùng h → W<sub>t</sub> tỉ lệ với m. m_A/m_B = 3 → W<sub>t</sub>(A) = 3 × W<sub>t</sub>(B).'},
+        attempt:{type:'choice',prompt:'<b>Câu 4:</b> Hai vật ở CÙNG ĐỘ CAO. Vật X nặng gấp 5 lần vật Y. Thế năng X so với Y:',choices:['Bằng nhau','Gấp 5','Gấp 25','Bằng ½'],correct:1,errorMsg:'<b>STOP.</b> Cùng h, W<sub>t</sub> = mgh tỉ lệ với m. m gấp 5 → W<sub>t</sub> gấp 5 (không phải 25 — vì m KHÔNG bình phương).',explanation:'✅ <b>Gấp 5</b>. Khác động năng (v²), thế năng tỉ lệ tuyến tính với m và h.'}
+      },
+      {
+        blueprint:{problem:'Một vật có m = 0,5 kg, đứng yên trên kệ cao 2m. Có động năng nào? Có thế năng nào?',solution:'Động năng: v = 0 → W<sub>đ</sub> = 0. Thế năng: W<sub>t</sub> = 0,5 × 10 × 2 = 10 J.'},
+        attempt:{type:'choice',prompt:'<b>Câu 5:</b> Quả bóng đứng yên trên kệ cao 1m, m = 0,2 kg, g = 10 m/s². Quả bóng có:',choices:['Chỉ động năng','Chỉ thế năng = 2 J','Cả hai (mỗi loại 2 J)','Không có năng lượng nào'],correct:1,errorMsg:'<b>STOP.</b> Đứng yên (v=0) → W<sub>đ</sub> = 0. Nhưng cao 1m → W<sub>t</sub> = 0,2 × 10 × 1 = 2 J.',explanation:'✅ Đúng! Đứng yên = không có động năng. Nhưng có thế năng vì ở độ cao.'}
+      }
+    ],
+    game:{
+      title:'Tính năng lượng nhanh',
+      desc:'Em tính động năng hoặc thế năng cho từng bài. Đúng = +1, streak 3+ = bonus!',
+      events:[
+        {q:'W<sub>đ</sub> cho m=2kg, v=3m/s', choices:['6 J','9 J','12 J','18 J'], correct:1, exp:'½×2×3² = 9 J'},
+        {q:'W<sub>t</sub> cho m=1kg, h=10m, g=10', choices:['10 J','100 J','50 J','1000 J'], correct:1, exp:'1×10×10 = 100 J'},
+        {q:'W<sub>đ</sub> cho m=0,5kg, v=4m/s', choices:['1 J','2 J','4 J','8 J'], correct:2, exp:'½×0,5×4² = 4 J'},
+        {q:'W<sub>t</sub> cho m=3kg, h=5m, g=10', choices:['15 J','75 J','150 J','300 J'], correct:2, exp:'3×10×5 = 150 J'},
+        {q:'v gấp đôi → W<sub>đ</sub> gấp:', choices:['1','2','4','8'], correct:2, exp:'(2v)² = 4v² → ×4'},
+        {q:'h gấp 3 → W<sub>t</sub> gấp:', choices:['1','3','9','27'], correct:1, exp:'h tuyến tính → ×3'},
+        {q:'W<sub>đ</sub> cho m=10kg, v=1m/s', choices:['1 J','5 J','10 J','100 J'], correct:1, exp:'½×10×1² = 5 J'},
+        {q:'W<sub>t</sub> cho m=2kg, h=2m, g=10', choices:['4 J','20 J','40 J','80 J'], correct:2, exp:'2×10×2 = 40 J'},
+        {q:'Vật đứng yên trên đất phẳng có:', choices:['Cả 2','Chỉ W<sub>đ</sub>','Chỉ W<sub>t</sub>','Không có'], correct:3, exp:'v=0 và h=0 → cả hai đều 0'},
+        {q:'W<sub>đ</sub> cho m=4kg, v=5m/s', choices:['10 J','20 J','50 J','100 J'], correct:2, exp:'½×4×5² = 50 J'}
+      ]
+    },
+    quiz:[
+      {q:'Công thức tính động năng là:',opts:['W<sub>đ</sub> = mgh','W<sub>đ</sub> = ½mv²','W<sub>đ</sub> = mv','W<sub>đ</sub> = mv²'],ans:1},
+      {q:'Đơn vị của năng lượng (cả động và thế năng) là:',opts:['Niutơn (N)','Jun (J)','Oát (W)','Mét/giây (m/s)'],ans:1},
+      {q:'Tốc độ của xe tăng gấp đôi → động năng tăng:',opts:['Gấp 2','Gấp 4','Gấp 8','Không đổi'],ans:1},
+      {q:'Thế năng của vật phụ thuộc vào:',opts:['Tốc độ và khối lượng','Khối lượng và độ cao','Chỉ độ cao','Chỉ khối lượng'],ans:1},
+      {q:'Vật đứng yên (v=0) trên kệ cao 2m có:',opts:['Chỉ động năng','Chỉ thế năng','Cả hai','Không có gì'],ans:1},
+      {q:'Tại vị trí cao nhất của xích đu (v=0), năng lượng cơ học = ?',opts:['Toàn động năng','Toàn thế năng','Một nửa-một nửa','Bằng 0'],ans:1}
+    ]
+  }
+};
+
+let state = loadState();
+let view = { type:'hub' };
+let lessonView = { tab:'theory', step:-1, attempt:null, practiceIdx:0, practiceCorrect:0, quizIdx:0, quizAnswers:[], gameState:null };
+let replayTimer = null;
+
+function loadState(){
+  try { const s = localStorage.getItem('vatly9-progress'); if(s) return JSON.parse(s); } catch(e){}
+  return { progress:{} };
+}
+function saveState(){ try { localStorage.setItem('vatly9-progress', JSON.stringify(state)); } catch(e){} }
+function getProgress(chId,lId){ return state.progress[chId+'-'+lId] || { theorySteps:0, practice:0, game:0, quiz:0 }; }
+function setProgress(chId,lId,upd){
+  const k = chId+'-'+lId;
+  state.progress[k] = Object.assign({}, getProgress(chId,lId), upd);
+  saveState();
+  try { let act = JSON.parse(localStorage.getItem('toan9-activity') || '[]');
+    const today = new Date().toISOString().slice(0,10);
+    if(!act.includes(today)){ act.push(today); act = act.sort().slice(-365); localStorage.setItem('toan9-activity', JSON.stringify(act)); }
+  } catch(e){}
+}
+function isLessonDone(chId,lId){
+  const p = getProgress(chId,lId);
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  if(!lc) return false;
+  return p.theorySteps >= lc.steps.length && p.practice >= 80 && p.quiz >= 80;
+}
+function isLessonUnlocked(chId,lId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  const idx = ch.lessons.findIndex(l=>l.id===lId);
+  if(idx === 0){
+    const chIdx = CURRICULUM.findIndex(c=>c.id===chId);
+    if(chIdx === 0) return true;
+    const prevCh = CURRICULUM[chIdx-1];
+    return prevCh.lessons.every(l=>isLessonDone(prevCh.id, l.id));
+  }
+  const prev = ch.lessons[idx-1];
+  return isLessonDone(chId, prev.id);
+}
+function calcOverall(){
+  let t=0,c=0;
+  CURRICULUM.forEach(ch=>ch.lessons.forEach(l=>{ if(l.built){ c++; if(isLessonDone(ch.id,l.id)) t++; } }));
+  return c>0 ? Math.round(t/c*100) : 0;
+}
+function getCurrentDpItem(){
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  if(lessonView.tab === 'theory') return lc.steps[lessonView.step];
+  if(lessonView.tab === 'practice') return lc.practice[lessonView.practiceIdx];
+  return null;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = renderHeader() + renderMain();
+  attachEvents();
+  attachTooltipTaps();
+}
+function renderHeader(){
+  const o = calcOverall();
+  return '<div class="header"><h1>⚡ Vật lý 9 — Hành trình chinh phục</h1><div class="sub">Sách Kết nối tri thức · Khoa học tự nhiên 9 (phần Vật lý)</div><div class="greet">👋 Hi Mika!</div><div class="lang-tip">💡 <strong>Hint:</strong> Tap any underlined Vietnamese word for English. Physics formulas use Vietnamese conventions: W<sub>đ</sub> = động năng (kinetic), W<sub>t</sub> = thế năng (potential).</div><div class="pbar"><div class="pbar-fill" style="width:'+o+'%"></div></div><div class="ptext">Tổng tiến độ: '+o+'% hoàn thành</div></div>';
+}
+function renderMain(){
+  if(view.type==='hub') return renderHub();
+  if(view.type==='chapter') return renderChapter(view.chId);
+  if(view.type==='lesson') return renderLesson(view.chId, view.lId);
+  return '';
+}
+function renderHub(){
+  let h = '<div class="crumb"><span>Trang chủ</span></div>';
+  CURRICULUM.forEach(ch=>{
+    const built = ch.lessons.filter(l=>l.built).length;
+    const done = ch.lessons.filter(l=>isLessonDone(ch.id,l.id)).length;
+    const tot = built > 0 ? built : ch.lessons.length;
+    const pct = tot>0 ? Math.round(done/tot*100) : 0;
+    const u = isLessonUnlocked(ch.id, ch.lessons[0].id);
+    h += '<div class="card '+(u?'click':'locked')+' '+(pct===100&&built>0?'done':'')+'" data-act="open-ch" data-ch="'+ch.id+'"><div class="tag">'+ch.num+(u?'':' 🔒')+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div><div class="row"><div class="mp"><div class="mpf" style="width:'+pct+'%"></div></div><span>'+done+'/'+tot+'</span></div></div>';
+  });
+  return h;
+}
+function renderChapter(chId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  let h = '<div class="crumb"><a data-act="hub">Trang chủ</a><span class="sep">›</span><span>'+ch.num+'</span></div><div class="card"><div class="tag">'+ch.num+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div></div>';
+  ch.lessons.forEach(l=>{
+    const u = isLessonUnlocked(chId, l.id);
+    const d = isLessonDone(chId, l.id);
+    const tagColor = !l.built ? 'gray' : '';
+    const tagSuffix = !u ? ' 🔒' : (!l.built ? ' • Sắp ra mắt' : '');
+    h += '<div class="card '+(((!u||!l.built))?'locked':'click')+' '+(d?'done':'')+'" data-act="open-l" data-ch="'+chId+'" data-l="'+l.id+'"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div style="flex:1;min-width:0"><div class="tag '+tagColor+'">'+l.num+tagSuffix+'</div><div class="title" style="font-size:14px">'+highlight(l.title)+'</div><div class="desc">'+l.desc+'</div></div>'+(d?'<span class="badge">✓ Đạt</span>':'')+'</div></div>';
+  });
+  return h;
+}
+function renderLesson(chId,lId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  const l = ch.lessons.find(x=>x.id===lId);
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const p = getProgress(chId,lId);
+  const tabs = [
+    { id:'theory', icon:'📖', label:'Lý thuyết', unlocked:true, done:p.theorySteps>=lc.steps.length },
+    { id:'practice', icon:'✏️', label:'Luyện tập', unlocked:p.theorySteps>=lc.steps.length, done:p.practice>=80 },
+    { id:'game', icon:'⚡', label:'Trò chơi', unlocked:p.practice>=80, done:p.game>=70 },
+    { id:'quiz', icon:'🏆', label:'Kiểm tra', unlocked:p.practice>=80, done:p.quiz>=80 }
+  ];
+  let h = '<div class="crumb"><a data-act="hub">Trang chủ</a><span class="sep">›</span><a data-act="open-ch" data-ch="'+chId+'">'+ch.num+'</a><span class="sep">›</span><span>'+l.num+'</span></div>';
+  h += '<div class="card"><div class="tag">'+l.num+'</div><div class="title" style="font-size:15px">'+highlight(l.title)+'</div></div>';
+  h += '<div class="tabs">';
+  tabs.forEach(t=>{
+    const cls = (lessonView.tab===t.id?'act':'') + (!t.unlocked?' lock':'');
+    h += '<button class="tab '+cls+'" data-act="tab" data-tab="'+t.id+'" '+(!t.unlocked?'disabled':'')+'><span class="ic">'+t.icon+'</span>'+t.label+(t.done?' ✓':'')+'</button>';
+  });
+  h += '</div>';
+  if(lessonView.tab==='theory') h += renderTheory(chId,lId);
+  else if(lessonView.tab==='practice') h += renderPractice(chId,lId);
+  else if(lessonView.tab==='game') h += renderGame(chId,lId);
+  else if(lessonView.tab==='quiz') h += renderQuiz(chId,lId);
+  return h;
+}
+function renderTheory(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  if(lessonView.step === -1){
+    const s = lc.story;
+    const storyText = stripHtml(s.problem)+'. '+stripHtml(s.why);
+    return '<div class="theory"><h3><span>📖 Câu chuyện mở đầu</span><button class="spk-btn" data-spk-text="'+encodeURIComponent(storyText)+'">🔊</button></h3><div class="story"><div class="story-title">⚡ Bài toán mở đầu</div>'+highlight(s.problem)+'</div><div class="compare"><div class="before"><h4>'+s.before.title+'</h4>'+highlight(s.before.body)+'</div><div class="after"><h4>'+s.after.title+'</h4>'+highlight(s.after.body)+'</div></div><div class="why"><strong>Mục tiêu bài học:</strong> '+highlight(s.why)+'</div><div class="center" style="margin-top:14px"><button class="btn" data-act="theory-start">Bắt đầu học từng bước nhỏ →</button></div></div>';
+  }
+  if(lessonView.step >= lc.steps.length){
+    return '<div class="theory"><h3>🎉 Hoàn thành lý thuyết!</h3><p>Mika đã học xong tất cả '+lc.steps.length+' bước. Qua phần Luyện tập nhé!</p><div class="center" style="margin-top:12px"><button class="btn ok" data-act="goto-practice">Qua Luyện tập →</button></div></div>';
+  }
+  const step = lc.steps[lessonView.step];
+  const total = lc.steps.length;
+  const cur = lessonView.step;
+  const p = getProgress(chId,lId);
+  let dots = '';
+  for(let i=0;i<total;i++){
+    const cls = i===cur?'act':(i<p.theorySteps?'done':'');
+    dots += '<span class="dot '+cls+'"></span>';
+  }
+  const fullText = step.title+'. Vì sao: '+stripHtml(step.why||'')+'. '+stripHtml(step.body);
+  let h = '<div class="theory"><h3><span>Bước '+(cur+1)+'/'+total+': '+highlight(step.title)+'</span><button class="spk-btn" data-spk-text="'+encodeURIComponent(fullText)+'">🔊</button></h3>';
+  if(step.why) h += '<div class="why"><strong>Vì sao quan trọng?</strong> '+highlight(step.why)+'</div>';
+  if(step.analogy) h += '<div class="analogy"><strong>Ghi nhớ dễ:</strong> '+highlight(step.analogy)+'</div>';
+  h += '<div class="body-text">'+highlight(step.body)+'</div>';
+  h += renderDeepPractice(step, 'theory');
+  h += '<div class="step-nav"><button class="btn sec" data-act="step-prev">← Trước</button><div class="step-dots">'+dots+'</div><button class="btn" data-act="step-next" id="next-btn" '+(lessonView.attempt && lessonView.attempt.passed ? '' : 'disabled')+'>Sau →</button></div>';
+  h += '</div>';
+  return h;
+}
+function renderDeepPractice(item, ctx){
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const a = lessonView.attempt;
+  const bp = item.blueprint;
+  const at = item.attempt;
+  let h = '';
+  if(bp){
+    h += '<div class="blueprint"><div class="bp-tag">BƯỚC 1 · QUAN SÁT</div><h4>👀 Xem cách giải</h4><div class="bp-prob"><b>Bài:</b> '+highlight(bp.problem)+'</div><div class="bp-sol">'+highlight(bp.solution)+'</div></div>';
+  }
+  h += '<div class="attempt"><div class="at-tag">BƯỚC 2 · LƯỢT EM</div><h4>✏️ Em hãy thử</h4><div class="at-prompt">'+highlight(at.prompt)+'</div>';
+  if(at.type === 'yesno'){
+    h += '<div class="choice-grid"><button data-act="dp-yesno" data-v="yes" '+(a.passed||a.state==='pause'?'disabled':'')+'>✓ Có</button><button data-act="dp-yesno" data-v="no" '+(a.passed||a.state==='pause'?'disabled':'')+'>✗ Không</button></div>';
+  } else if(at.type === 'choice'){
+    h += '<div class="choice-grid">';
+    at.choices.forEach((c,i)=>{
+      let cls = '';
+      if(a.history.length > 0 && a.passed){
+        if(i === at.correct) cls = 'ok';
+      }
+      h += '<button data-act="dp-choice" data-i="'+i+'" '+(a.passed||a.state==='pause'?'disabled':'')+' class="'+cls+'">'+highlight(c)+'</button>';
+    });
+    h += '</div>';
+  } else {
+    h += '<input type="text" class="at-input" id="dp-input" placeholder="'+(at.placeholder||'')+'" value="'+(a.lastInput||'').replace(/"/g,'&quot;')+'" '+(a.passed||a.state==='pause'?'disabled':'')+' autocomplete="off">';
+    h += '<div class="attempt-actions"><button class="btn" data-act="dp-submit" '+(a.passed||a.state==='pause'?'disabled':'')+'>Kiểm tra</button>'+(a.tries>0 && !a.passed?'<button class="btn sec" data-act="dp-reset">↻ Bắt đầu lại</button>':'')+'</div>';
+  }
+  if(a.history.length > 0){
+    h += '<div class="attempts-trail"><span>Lượt:</span>';
+    a.history.forEach((r,i)=>{ h += '<span class="at-dot '+(r?'ok':'no')+'">'+(i+1)+'</span>'; });
+    h += '</div>';
+  }
+  if(a.state === 'wrong' && a.lastMsg){
+    h += '<div class="stop-fix"><div class="sf-title">🛑 Dừng lại — kiểm tra lỗi</div><div class="sf-body">'+highlight(a.lastMsg)+'</div></div>';
+  }
+  if(a.state === 'pause'){
+    h += '<div class="replay"><div class="rp-title">🧘 Đọc thầm trong đầu...</div><div class="rp-count" id="rp-count">'+a.pauseLeft+'</div><div class="rp-text">Đọc lại bài giải mẫu, nhẩm các bước, rồi thử lại.</div></div>';
+  }
+  if(a.state === 'correct' && a.passed){
+    h += '<div class="success-card"><div class="sc-title">🎯 Đúng rồi!</div><div class="sc-body">'+highlight(at.explanation||'')+'</div>';
+    if(ctx === 'practice'){
+      h += '<div style="margin-top:10px"><button class="btn ok" data-act="practice-next">Câu tiếp →</button></div>';
+    }
+    h += '</div>';
+  }
+  if(a.revealed && !a.passed){
+    h += '<div class="success-card" style="background:linear-gradient(135deg,#fff7ed,#fef3c7);border-color:#fcd34d"><div class="sc-title" style="color:#92400e">📖 Đáp án</div><div class="sc-body" style="color:#78350f">'+highlight(at.explanation||'')+'<br><br>Hãy đọc kỹ rồi tiếp tục.</div>';
+    if(ctx === 'practice'){
+      h += '<div style="margin-top:10px"><button class="btn warn" data-act="practice-next">Câu tiếp →</button></div>';
+    }
+    h += '</div>';
+  }
+  h += '</div>';
+  return h;
+}
+function renderPractice(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const total = lc.practice.length;
+  if(lessonView.practiceIdx >= total){
+    const correct = (lessonView.practiceCorrect || 0);
+    const pct = Math.round(correct/total*100);
+    setProgress(chId,lId,{ practice: Math.max(getProgress(chId,lId).practice, pct) });
+    const win = pct >= 80;
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Số câu đúng ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🎉 Tuyệt vời, Mika!':'💪 Cần ≥80% để mở Trò chơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="practice-restart">Làm lại</button>'+(win?'<button class="btn ok" data-act="goto-game">Sang Trò chơi →</button>':'')+'</div></div>';
+  }
+  const item = lc.practice[lessonView.practiceIdx];
+  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
+  h += renderDeepPractice(item, 'practice');
+  return h;
+}
+function renderGame(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const game = lc.game;
+  if(!lessonView.gameState){ lessonView.gameState = { round:0, picked:-1, correctCount:0, streak:0, bonus:0 }; }
+  const gs = lessonView.gameState;
+  if(gs.round >= game.events.length){
+    const max = game.events.length;
+    const pct = Math.round(gs.correctCount/max*100);
+    setProgress(chId,lId,{ game: Math.max(getProgress(chId,lId).game, pct) });
+    const win = pct >= 70;
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+gs.correctCount+'/'+max+'</div><div class="lbl">Câu đúng ('+pct+'%) • Bonus: +'+gs.bonus+'</div><div style="margin-top:10px;font-size:13px">'+(win?'⚡ Mika quá giỏi!':'🎯 Chơi lại nhé!')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="game-restart">Chơi lại</button>'+(win?'<button class="btn ok" data-act="goto-quiz">Sang Kiểm tra →</button>':'')+'</div></div>';
+  }
+  const r = game.events[gs.round];
+  let h = '<div class="energy-game"><h4>⚡ '+game.title+'</h4><div class="tiny">Vòng '+(gs.round+1)+'/'+game.events.length+' — '+game.desc+'</div>'+
+    '<div class="eg-stats"><div><span class="lbl">Đúng</span><span class="v">'+gs.correctCount+'</span></div><div><span class="lbl">🔥 Streak</span><span class="v">'+gs.streak+'</span></div><div><span class="lbl">Bonus</span><span class="v">+'+gs.bonus+'</span></div></div>'+
+    '<div class="eg-prob"><b>Tính:</b> '+r.q+'</div>'+
+    '<div class="choice-grid">';
+  r.choices.forEach((c,i)=>{
+    let cls = '';
+    if(gs.picked === i){ cls = (i === r.correct ? 'ok' : 'no'); }
+    else if(gs.picked >= 0 && i === r.correct){ cls = 'ok'; }
+    h += '<button data-act="game-pick" data-i="'+i+'" '+(gs.picked>=0?'disabled':'')+' class="'+cls+'">'+c+'</button>';
+  });
+  h += '</div>';
+  if(gs.picked >= 0){
+    h += '<div class="center" style="margin-top:10px;font-size:12px;color:#155e75"><b>'+r.exp+'</b></div>';
+    h += '<div class="center" style="margin-top:10px"><button class="btn" data-act="game-next">Câu tiếp →</button></div>';
+  }
+  h += '</div>';
+  return h;
+}
+function renderQuiz(chId,lId){
+  const lc = LESSON_CONTENT[chId+'-'+lId];
+  const total = lc.quiz.length;
+  if(lessonView.quizIdx >= total){
+    const correct = lessonView.quizAnswers.filter((a,i)=>a===lc.quiz[i].ans).length;
+    const pct = Math.round(correct/total*100);
+    setProgress(chId,lId,{ quiz: Math.max(getProgress(chId,lId).quiz, pct) });
+    const win = pct >= 80;
+    if(win) celebrate();
+    let nextBtn = '';
+    if(win){
+      const ch = CURRICULUM.find(c=>c.id===chId);
+      const idx = ch.lessons.findIndex(x=>x.id===lId);
+      if(idx+1 < ch.lessons.length){ nextBtn = '<button class="btn ok" data-act="open-l" data-ch="'+chId+'" data-l="'+ch.lessons[idx+1].id+'">Bài tiếp →</button>'; }
+    }
+    return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Điểm KT ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🏆 Mika đã ĐẠT!':'📚 Cần ≥80%, Mika ơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="quiz-restart">Làm lại</button>'+(!win?'<button class="btn warn" data-act="goto-theory">Ôn lại</button>':'')+nextBtn+'</div></div>';
+  }
+  const q = lc.quiz[lessonView.quizIdx];
+  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.quizIdx+1)+'/'+total+' • Cần 80%</div><div class="problem-q" style="margin-top:5px">'+highlight(q.q)+'</div><div class="opts">';
+  q.opts.forEach((o,i)=>{ h += '<button class="opt" data-act="quiz-ans" data-i="'+i+'">'+highlight(o)+'</button>'; });
+  h += '</div></div>';
+  return h;
+}
+
+function attachEvents(){
+  document.querySelectorAll('[data-act]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      handleAction(el.dataset.act, el);
+    });
+  });
+  document.querySelectorAll('[data-spk-text]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      speak(el, decodeURIComponent(el.dataset.spkText));
+    });
+  });
+  const inp = document.getElementById('dp-input');
+  if(inp && !inp.disabled) inp.focus();
+  if(inp){ inp.addEventListener('keydown', e=>{ if(e.key === 'Enter'){ e.preventDefault(); handleDeepSubmit(inp.value); } }); }
+}
+function handleAction(act, el){
+  switch(act){
+    case 'hub': view = {type:'hub'}; resetLessonView(); render(); break;
+    case 'open-ch': view = {type:'chapter', chId:el.dataset.ch}; resetLessonView(); render(); break;
+    case 'open-l': {
+      const chId = el.dataset.ch, lId = el.dataset.l;
+      const ch = CURRICULUM.find(c=>c.id===chId);
+      const l = ch.lessons.find(x=>x.id===lId);
+      if(!isLessonUnlocked(chId,lId)){ showToast('🔒 Bài này chưa mở.'); return; }
+      if(!l.built){ showToast('🚧 Bài này đang phát triển.'); return; }
+      view = {type:'lesson', chId:chId, lId:lId};
+      resetLessonView();
+      const p = getProgress(chId,lId);
+      lessonView.step = p.theorySteps > 0 ? p.theorySteps : -1;
+      const lc = LESSON_CONTENT[chId+'-'+lId];
+      if(lessonView.step >= lc.steps.length) lessonView.step = lc.steps.length - 1;
+      render(); break;
+    }
+    case 'tab': lessonView.tab = el.dataset.tab; lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.quizIdx=0; lessonView.quizAnswers=[]; lessonView.gameState=null; lessonView.attempt=null; render(); break;
+    case 'theory-start': lessonView.step = 0; lessonView.attempt = null; render(); break;
+    case 'step-prev':
+      stopReplay();
+      if(lessonView.step > 0){ lessonView.step--; lessonView.attempt = null; render(); }
+      else if(lessonView.step === 0){ lessonView.step = -1; lessonView.attempt = null; render(); }
+      break;
+    case 'step-next': {
+      stopReplay();
+      lessonView.step++;
+      lessonView.attempt = null;
+      const p = getProgress(view.chId,view.lId);
+      setProgress(view.chId,view.lId,{ theorySteps: Math.max(p.theorySteps, lessonView.step) });
+      render(); break;
+    }
+    case 'dp-submit': { const inp = document.getElementById('dp-input'); handleDeepSubmit(inp ? inp.value : ''); break; }
+    case 'dp-yesno': handleDeepSubmit(el.dataset.v); break;
+    case 'dp-choice': handleDeepSubmit(parseInt(el.dataset.i)); break;
+    case 'dp-reset': lessonView.attempt = null; render(); break;
+    case 'practice-next': {
+      if(lessonView.attempt && lessonView.attempt.passed && !lessonView.attempt.revealed){
+        lessonView.practiceCorrect = (lessonView.practiceCorrect||0) + 1;
+      }
+      lessonView.practiceIdx++;
+      lessonView.attempt = null;
+      stopReplay();
+      render(); break;
+    }
+    case 'practice-restart': lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.attempt=null; render(); break;
+    case 'quiz-ans': handleQuizAnswer(parseInt(el.dataset.i)); break;
+    case 'quiz-restart': lessonView.quizIdx=0; lessonView.quizAnswers=[]; render(); break;
+    case 'game-pick': handleGamePick(parseInt(el.dataset.i)); break;
+    case 'game-next': handleGameNext(); break;
+    case 'game-restart': lessonView.gameState = null; render(); break;
+    case 'goto-practice': lessonView.tab='practice'; lessonView.practiceIdx=0; lessonView.practiceCorrect=0; lessonView.attempt=null; render(); break;
+    case 'goto-game': lessonView.tab='game'; lessonView.gameState=null; render(); break;
+    case 'goto-quiz': lessonView.tab='quiz'; lessonView.quizIdx=0; lessonView.quizAnswers=[]; render(); break;
+    case 'goto-theory': lessonView.tab='theory'; lessonView.step=-1; lessonView.attempt=null; render(); break;
+  }
+}
+function handleDeepSubmit(input){
+  const item = getCurrentDpItem();
+  if(!item) return;
+  const at = item.attempt;
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const a = lessonView.attempt;
+  if(a.passed || a.state === 'pause') return;
+  a.lastInput = input;
+  const result = validateAttempt(at, input);
+  a.tries++;
+  a.history.push(result.ok);
+  if(result.ok){ a.passed = true; a.state = 'correct'; }
+  else {
+    a.state = 'wrong';
+    a.lastMsg = result.msg || '<b>Chưa đúng.</b> Đọc lại bài, nhẩm trong đầu, rồi thử lại.';
+    if(a.tries >= 3){ a.revealed = true; a.passed = true; a.state = 'correct'; }
+  }
+  render();
+  if(!a.passed && !a.revealed){ setTimeout(()=>startReplay(), 500); }
+}
+function startReplay(){
+  const a = lessonView.attempt;
+  if(!a) return;
+  a.state = 'pause';
+  a.pauseLeft = 5;
+  render();
+  replayTimer = setInterval(()=>{
+    a.pauseLeft--;
+    const el = document.getElementById('rp-count');
+    if(el) el.textContent = a.pauseLeft;
+    if(a.pauseLeft <= 0){
+      clearInterval(replayTimer); replayTimer = null;
+      a.state = 'idle';
+      render();
+    }
+  }, 1000);
+}
+function stopReplay(){ if(replayTimer){ clearInterval(replayTimer); replayTimer = null; } }
+function resetLessonView(){
+  stopReplay();
+  lessonView = { tab:'theory', step:-1, attempt:null, practiceIdx:0, practiceCorrect:0, quizIdx:0, quizAnswers:[], gameState:null };
+}
+function handleQuizAnswer(i){
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  const q = lc.quiz[lessonView.quizIdx];
+  lessonView.quizAnswers.push(i);
+  const opts = document.querySelectorAll('.problem .opt');
+  opts.forEach((o,idx)=>{
+    o.disabled = true;
+    if(idx === q.ans) o.classList.add('ok');
+    else if(idx === i) o.classList.add('no');
+  });
+  setTimeout(()=>{ lessonView.quizIdx++; render(); }, 1100);
+}
+function handleGamePick(i){
+  const gs = lessonView.gameState;
+  if(gs.picked >= 0) return;
+  const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
+  const r = lc.game.events[gs.round];
+  gs.picked = i;
+  if(i === r.correct){
+    gs.correctCount++;
+    gs.streak++;
+    if(gs.streak >= 3) gs.bonus++;
+  } else { gs.streak = 0; }
+  render();
+}
+function handleGameNext(){
+  const gs = lessonView.gameState;
+  gs.round++;
+  gs.picked = -1;
+  render();
+}
+function attachTooltipTaps(){
+  document.querySelectorAll('.tip').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      document.querySelectorAll('.tip.act').forEach(t=>{ if(t!==el) t.classList.remove('act'); });
+      el.classList.toggle('act');
+    });
+  });
+  document.addEventListener('click', ()=>{ document.querySelectorAll('.tip.act').forEach(t=>t.classList.remove('act')); });
+}
+function showToast(msg){
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:1000;max-width:90%;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.25)';
+  t.textContent = msg; document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2400);
+}
+function celebrate(){
+  const colors = ['#0e7490','#0891b2','#06b6d4','#0ea5e9','#3b82f6','#4f46e5'];
+  for(let i=0;i<40;i++){
+    const c = document.createElement('div');
+    c.style.cssText = 'position:fixed;width:8px;height:8px;background:'+colors[i%colors.length]+';top:-10px;left:'+(Math.random()*100)+'%;z-index:1000;border-radius:2px;pointer-events:none';
+    document.body.appendChild(c);
+    const dur = 1500 + Math.random()*1500;
+    c.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:'translateY('+(window.innerHeight+20)+'px) rotate(1080deg)',opacity:.6}], {duration:dur,easing:'ease-in'});
+    setTimeout(()=>c.remove(), dur);
+  }
+}
+
+render();
+</script>
+</body>
+</html>
