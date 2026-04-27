@@ -154,6 +154,13 @@ nav.tabs button:hover:not(.active){background:var(--leaf-soft);color:var(--leaf-
 .step-after{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.6);border-radius:8px;font-size:13px;color:#14532d;font-style:italic}
 @media (max-width:600px){.opts{grid-template-columns:1fr}}
 
+
+/* === SGK exercise section === */
+.sgk-section-header{margin:18px 0 8px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
+.problem-sgk .q{color:#7c2d12}
 </style>
 </head>
 <body>
@@ -760,15 +767,61 @@ const practice = [
     accept:[/^tr(ắ|a)ng$/i,/^white$/i,/hoa\s*tr(ắ|a)ng/i],
     answer:'Trắng',
     explain:'aa = đồng hợp lặn → cả 2 allele đều là dạng lặn → kiểu hình lặn (trắng) hiện ra.'
+  },
+  // === 📘 Bài tập SGK trang 158-161 ===
+  {
+    q: `<b>📘 SGK trang 158:</b> Đọc thông tin trong bài, hãy <b>phân biệt</b> khái niệm di truyền và biến dị ở các sinh vật. <em>(Trả lời ngắn 2-3 câu)</em>`,
+    hint: `Hai hiện tượng song song. Một là "giống" — một là "khác".`,
+    keywords: ['di truyền','biến dị','khác','giống','bố mẹ','con','đặc điểm'],
+    minKw: 3,
+    answer: `Di truyền là hiện tượng bố mẹ truyền những đặc điểm cho con (con GIỐNG bố mẹ). Biến dị là hiện tượng con cái có những đặc điểm KHÁC bố mẹ và khác cả anh chị em ruột. Hai hiện tượng song song và đi đôi với nhau.`,
+    explain: `Di truyền + biến dị luôn cùng tồn tại — không có gia đình nào con hoàn toàn giống bố mẹ, cũng không có gia đình nào con hoàn toàn khác.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 159:</b> Cho <b>ví dụ</b> chứng minh nhận xét của Mendel về di truyền và biến dị có cơ sở khoa học.`,
+    hint: `Một ví dụ: nhóm máu của em so với bố mẹ. Hoặc: chiều cao của hai chị em ruột.`,
+    keywords: ['ví dụ','nhóm máu','bố mẹ','chiều cao','màu mắt','con','khác','giống','di truyền','biến dị'],
+    minKw: 3,
+    answer: `Ví dụ 1 (di truyền): Bố mẹ nhóm máu A → con thường nhóm máu A hoặc O. Đó là di truyền đặc điểm sinh học. Ví dụ 2 (biến dị): Hai chị em ruột vẫn khác nhau về chiều cao, màu mắt, tính cách — đó là biến dị xảy ra tự nhiên.`,
+    explain: `Bài tốt cần có: 1 ví dụ DI TRUYỀN (con giống bố mẹ về 1 đặc điểm) + 1 ví dụ BIẾN DỊ (anh chị em ruột khác nhau về 1 đặc điểm).`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 160 (Hình 37.1):</b> Trong thí nghiệm Mendel: lai cây hoa <b>tím thuần chủng</b> × cây hoa <b>trắng thuần chủng</b>. <b>Tỉ lệ kiểu hình ở F₂</b> là gì?`,
+    hint: `Mendel quan sát thí nghiệm hàng ngàn lần. Tỉ lệ là cố định.`,
+    keywords: ['3','1','3:1','3 tím','1 trắng','3 trội','1 lặn'],
+    minKw: 1,
+    answer: `3 tím : 1 trắng (tức là 3 trội : 1 lặn). Đây là tỉ lệ kinh điển của Mendel — hiện ra khi cho F₁ tự thụ phấn thành F₂.`,
+    explain: `Tỉ lệ 3:1 xuất hiện vì: F₁ là Aa, Aa × Aa cho 1 AA + 2 Aa + 1 aa = 3 trội (AA + Aa + Aa) : 1 lặn (aa).`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 161:</b> Trình bày các <b>bước tiến hành thí nghiệm</b> Hình 36.1 (lai đậu Hà Lan) và rút ra nhận xét.`,
+    hint: `P → F₁ → F₂. Mỗi bước Mendel làm gì?`,
+    keywords: ['p','thuần chủng','lai','f1','f2','tự thụ phấn','3:1','tỉ lệ','tím','trắng','trội','lặn'],
+    minKw: 4,
+    answer: `Bước 1 — chọn hai dòng đậu THUẦN CHỦNG (P): tím thuần × trắng thuần. Bước 2 — lai chéo: thu được F₁ toàn hoa tím (100%). Bước 3 — cho F₁ tự thụ phấn: thu được F₂ có tỉ lệ ~3 tím : 1 trắng. Nhận xét: tính trạng "trắng" biến mất ở F₁ rồi xuất hiện trở lại ở F₂ — chứng tỏ tính trạng theo quy luật trội/lặn, KHÔNG pha trộn.`,
+    explain: `Bài tốt có cả 3 bước (P → F₁ → F₂) + tỉ lệ 3:1 + nhận xét về quy luật trội/lặn.`,
+    source: 'sgk'
   }
+
 ];
 let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
 function renderPractice(){
   const cont=document.getElementById('practiceContent');
   cont.innerHTML='';
+  let prevSource = null;
   practice.forEach((p,i)=>{
+    if(p.source==='sgk' && prevSource!=='sgk'){
+      const hdr=document.createElement('div');
+      hdr.className='sgk-section-header';
+      hdr.innerHTML='<span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang 158-161</span>';
+      cont.appendChild(hdr);
+    }
+    prevSource = p.source;
     const div=document.createElement('div');
-    div.className='problem';
+    div.className='problem' + (p.source==='sgk' ? ' problem-sgk' : '');
     div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
     <input type="text" id="pin-${i}" placeholder="Nhập câu trả lời..." ${prState[i].solved?'disabled':''}>
     <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>

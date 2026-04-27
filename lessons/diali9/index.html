@@ -151,6 +151,13 @@ nav.tabs button:hover:not(.active){background:var(--green-soft);color:var(--gree
 .step-dot.done{background:#dcfce7;border:1.5px solid #15803d}
 @media (max-width:600px){.opts{grid-template-columns:1fr}}
 
+
+/* === SGK exercise section === */
+.sgk-section-header{margin:18px 0 8px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
+.problem-sgk .q{color:#7c2d12}
 </style>
 </head>
 <body>
@@ -772,15 +779,61 @@ const practice = [
     accept:[/dân\s*số\s*vàng/i,/^vàng$/i,/^golden/i],
     answer:'Dân số vàng',
     explain:'"Dân số vàng" = thời kì nhóm lao động (15-64) chiếm ~2/3 dân số. Việt Nam đang trong giai đoạn này từ ~2009. Sau 2024, có thể bước vào già hoá.'
+  },
+  // === 📘 Bài tập SGK trang 106-108 ===
+  {
+    q: `<b>📘 SGK trang 106:</b> Đọc thông tin trong bài, hãy <b>trình bày đặc điểm phân bố</b> các dân tộc Việt Nam. <em>(Phân bố Kinh và thiểu số ở đâu?)</em>`,
+    hint: `54 dân tộc — Kinh ở đâu, thiểu số ở đâu, có thay đổi gì theo thời gian?`,
+    keywords: ['54','kinh','thiểu số','đồng bằng','trung du','miền núi','phân bố','đan xen'],
+    minKw: 3,
+    answer: `Việt Nam có 54 dân tộc. Người KINH (>85%) tập trung chủ yếu ở đồng bằng và trung du. Các dân tộc THIỂU SỐ (gần 15%) tập trung đông ở trung du và miền núi (Bắc Bộ, Trường Sơn-Tây Nguyên). Sau 1960, do chính sách kinh tế, các dân tộc dần phân bố ĐAN XEN — không còn tách biệt như trước.`,
+    explain: `Bài tốt có: số dân tộc + nơi tập trung Kinh + nơi tập trung thiểu số + xu hướng đan xen.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 107:</b> Dựa vào bảng 1.1 (1989–2021), hãy <b>nhận xét quy mô dân số và tỉ lệ gia tăng</b> dân số của Việt Nam.`,
+    hint: `Quy mô = tổng số người. Tỉ lệ = tốc độ tăng. Hai cái có cùng xu hướng không?`,
+    keywords: ['98','tăng','64','triệu','tỉ lệ','giảm','2.10','0.94','quy mô'],
+    minKw: 3,
+    answer: `Quy mô dân số TĂNG: từ 64.4 triệu (1989) lên 98.5 triệu (2021) — thêm hơn 34 triệu người trong 32 năm. Tỉ lệ gia tăng GIẢM: từ 2.10% (1989) xuống 0.94% (2021) — giảm hơn một nửa. Lưu ý: tỉ lệ giảm KHÔNG có nghĩa dân số giảm — tổng dân số vẫn tăng, chỉ là tăng chậm hơn trước.`,
+    explain: `Hai xu hướng ngược chiều: quy mô tăng nhưng tốc độ tăng đang giảm. Việt Nam đang chuyển dần sang giai đoạn ổn định dân số.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 108 — Luyện tập:</b> Dựa vào bảng 1.1, hãy <b>vẽ biểu đồ</b> thể hiện <b>tỉ lệ gia tăng dân số</b> Việt Nam giai đoạn 1989–2021. <em>(Mô tả biểu đồ em sẽ vẽ — không cần vẽ thật)</em>`,
+    hint: `Trục hoành = năm, trục tung = %. Loại biểu đồ phù hợp: cột đứng hoặc đường.`,
+    keywords: ['cột','đường','năm','tỉ lệ','%','trục','biểu đồ','giảm','2.10','0.94'],
+    minKw: 3,
+    answer: `Biểu đồ cột đứng: trục hoành ghi 5 năm (1989, 1999, 2009, 2019, 2021). Trục tung ghi % (từ 0 đến 2.5). Vẽ 5 cột với chiều cao tương ứng: 2.10 — 1.51 — 1.06 — 1.15 — 0.94. Nhận xét trên biểu đồ: tỉ lệ gia tăng dân số có xu hướng GIẢM dần.`,
+    explain: `Biểu đồ cột phù hợp khi có ít mốc thời gian rời rạc. Biểu đồ đường phù hợp khi muốn nhấn mạnh xu hướng liên tục.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 108 — Vận dụng:</b> Lựa chọn <b>một dân tộc</b> ở Việt Nam mà em quan tâm. Sưu tầm và giới thiệu <b>2-3 nét văn hoá đặc sắc</b> của dân tộc đó.`,
+    hint: `Có thể chọn: Kinh, Tày, Thái, Mường, Mông, Khmer, Chăm, Ê-đê... Mỗi dân tộc có nét riêng về trang phục, ẩm thực, lễ hội, ngôn ngữ.`,
+    keywords: ['dân tộc','văn hoá','trang phục','lễ hội','ngôn ngữ','ẩm thực','nhà sàn','áo dài','cồng chiêng'],
+    minKw: 2,
+    answer: `(Câu mở — không có đáp án duy nhất.) Ví dụ chọn dân tộc Tày: (1) Trang phục: áo chàm, váy chàm, khăn vấn. (2) Nhà sàn truyền thống — sàn cao, mái cọ. (3) Hát Then — loại hình âm nhạc dân gian được UNESCO công nhận năm 2019. Hoặc dân tộc Khmer: lễ hội Chol Chnam Thmay (Tết Khmer), kiến trúc chùa Khmer, múa Apsara.`,
+    explain: `Bài tốt nên chọn 1 dân tộc cụ thể + nêu 2-3 nét văn hoá có dẫn chứng (tên lễ hội, kiểu nhà, loại trang phục). Câu này không chấm sai/đúng tuyệt đối.`,
+    source: 'sgk'
   }
+
 ];
 let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
 function renderPractice(){
   const cont=document.getElementById('practiceContent');
   cont.innerHTML='';
+  let prevSource = null;
   practice.forEach((p,i)=>{
+    if(p.source==='sgk' && prevSource!=='sgk'){
+      const hdr=document.createElement('div');
+      hdr.className='sgk-section-header';
+      hdr.innerHTML='<span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang 106-108</span>';
+      cont.appendChild(hdr);
+    }
+    prevSource = p.source;
     const div=document.createElement('div');
-    div.className='problem';
+    div.className='problem' + (p.source==='sgk' ? ' problem-sgk' : '');
     div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
     <input type="text" id="pin-${i}" placeholder="Nhập câu trả lời..." ${prState[i].solved?'disabled':''}>
     <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>

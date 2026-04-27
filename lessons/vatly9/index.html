@@ -171,6 +171,11 @@ body{background:#f0fdfa !important}
 .pbar{background:rgba(0,0,0,.08) !important}
 .pbar-fill{background:#0891b2 !important}
 .ptext{color:#075985 !important;opacity:.85 !important}
+
+.sgk-section-header{margin:12px 0 10px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 </style>
 </head>
 <body>
@@ -550,6 +555,11 @@ const LESSON_CONTENT = {
         blueprint:{problem:'Một vật có m = 0,5 kg, đứng yên trên kệ cao 2m. Có động năng nào? Có thế năng nào?',solution:'Động năng: v = 0 → W<sub>đ</sub> = 0. Thế năng: W<sub>t</sub> = 0,5 × 10 × 2 = 10 J.'},
         attempt:{type:'choice',prompt:'<b>Câu 5:</b> Quả bóng đứng yên trên kệ cao 1m, m = 0,2 kg, g = 10 m/s². Quả bóng có:',choices:['Chỉ động năng','Chỉ thế năng = 2 J','Cả hai (mỗi loại 2 J)','Không có năng lượng nào'],correct:1,errorMsg:'<b>STOP.</b> Đứng yên (v=0) → W<sub>đ</sub> = 0. Nhưng cao 1m → W<sub>t</sub> = 0,2 × 10 × 1 = 2 J.',explanation:'✅ Đúng! Đứng yên = không có động năng. Nhưng có thế năng vì ở độ cao.'}
       }
+    ,
+      // === 📘 Bài tập SGK trang 17 ===
+      { blueprint:{problem:`Một quả bóng có khối lượng 0,5 kg đang chuyển động với tốc độ 4 m/s. Tính động năng.`,solution:`W_đ = ½ × m × v² = ½ × 0,5 × 4² = ½ × 0,5 × 16 = 4 J.`}, attempt:{type:'choice',prompt:`<b>📘 SGK trang 17 (theo công thức W_đ = ½mv²):</b> Một xe đồ chơi khối lượng <b>0,2 kg</b> chạy với tốc độ <b>3 m/s</b>. <b>Động năng</b> của xe là?`,choices:['0,3 J','0,6 J','0,9 J','1,8 J'],correct:2,errorMsg:`<b>STOP.</b> W_đ = ½ × m × v² = ½ × 0,2 × 3² = ½ × 0,2 × 9 = 0,1 × 9 = 0,9 J.`,explanation:`✅ Đúng. <b>W_đ = ½ × 0,2 × 9 = 0,9 J</b>. Lưu ý: bình phương tốc độ TRƯỚC, rồi nhân với khối lượng và chia 2.`}, sgk:true, page:'17' },
+      { blueprint:{problem:`Một quyển sách 0,5 kg đặt trên bàn cao 0,8 m so với mặt đất (g = 10 m/s²). Tính thế năng so với mặt đất.`,solution:`W_t = m × g × h = 0,5 × 10 × 0,8 = 4 J.`}, attempt:{type:'choice',prompt:`<b>📘 SGK trang 17 (theo công thức W_t = mgh):</b> Một viên gạch khối lượng <b>2 kg</b> ở trên giá cao <b>1,5 m</b> so với mặt đất (g = 10 m/s²). <b>Thế năng</b> so với mặt đất là?`,choices:['15 J','20 J','30 J','45 J'],correct:2,errorMsg:`<b>STOP.</b> W_t = m × g × h = 2 × 10 × 1,5 = 30 J. Đừng quên nhân 3 số.`,explanation:`✅ Đúng. <b>W_t = 2 × 10 × 1,5 = 30 J</b>. Thế năng tỉ lệ thuận với cả khối lượng và độ cao.`}, sgk:true, page:'17' },
+      { blueprint:{problem:`Một xích đu khối lượng 30 kg ở vị trí cao nhất, độ cao 1,2 m so với điểm thấp nhất. Tốc độ tại đó = 0. Năng lượng cơ học toàn phần?`,solution:`Tại điểm cao nhất: v=0 → W_đ=0. W_t = mgh = 30×10×1,2 = 360 J. → Tổng cơ năng = 360 J.`}, attempt:{type:'yesno',prompt:`<b>📘 SGK trang 17 (Vận dụng):</b> Một quả bóng được giữ đứng yên ở độ cao 2 m. Khi này quả bóng <b>có động năng</b> không?`,correct:'no',errorMsg:`<b>STOP.</b> "Đứng yên" → tốc độ v = 0 → W_đ = ½ × m × 0² = 0. KHÔNG có động năng. NHƯNG có thế năng vì độ cao ≠ 0.`,explanation:`❌ KHÔNG. Đứng yên = v=0 → động năng = 0. Nhưng quả bóng có THẾ NĂNG (W_t = mgh) vì ở độ cao 2 m. Khi thả ra, thế năng sẽ chuyển thành động năng.`}, sgk:true, page:'17' }
     ],
     game:{
       title:'Tính năng lượng nhanh',
@@ -787,7 +797,11 @@ function renderPractice(chId,lId){
     return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Số câu đúng ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🎉 Tuyệt vời, Mika!':'💪 Cần ≥80% để mở Trò chơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="practice-restart">Làm lại</button>'+(win?'<button class="btn ok" data-act="goto-game">Sang Trò chơi →</button>':'')+'</div></div>';
   }
   const item = lc.practice[lessonView.practiceIdx];
-  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
+  let sgkHeader = '';
+  if(item.sgk && (lessonView.practiceIdx===0 || !lc.practice[lessonView.practiceIdx-1].sgk)){
+    sgkHeader = '<div class="sgk-section-header"><span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang '+item.page+'</span></div>';
+  }
+  let h = sgkHeader + '<div class="problem' + (item.sgk?' problem-sgk':'') + '"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
   h += renderDeepPractice(item, 'practice');
   return h;
 }

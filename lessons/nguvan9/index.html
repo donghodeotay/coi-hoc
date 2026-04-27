@@ -148,6 +148,12 @@ nav.tabs button:hover:not(.active){background:var(--rose-soft);color:var(--rose-
 .step-dot.done{background:#ffe4e6;border:1.5px solid #e11d48}
 @media (max-width:600px){.opts{grid-template-columns:1fr}}
 
+
+.sgk-section-header{margin:18px 0 8px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
+.problem-sgk .q{color:#7c2d12}
 </style>
 </head>
 <body>
@@ -780,7 +786,45 @@ const practice = [
     minKw:2,
     answer:'Vì nếu Vũ Nương sống lại bình thường, thông điệp của truyện sẽ nhẹ đi — như "hiểu lầm rồi giải quyết là xong". Nguyễn Dữ giữ kết thúc đau đớn để PHÊ PHÁN xã hội: một khi đã mất, không thể cứu lại. Đó là bi kịch của thời đại.',
     explain:'Nguyễn Dữ dùng kết bi kịch như tiếng chuông cảnh báo — gieo cho người đọc nỗi đau, để người đọc tự rút ra bài học.'
+  },
+  // === 📘 Bài tập SGK trang 16 ===
+  {
+    q: `<b>📘 SGK trang 16, Câu 2 (Sau khi đọc):</b> Ở phần đầu tác phẩm, Nguyễn Dữ đã làm <b>nổi bật những nét gì</b> ở nhân vật <b>Vũ Nương</b> và <b>Trương Sinh</b>? Lời người kể chuyện có vai trò như thế nào trong việc khắc hoạ nhân vật?`,
+    hint: `Vũ Nương: thuỳ mị, nết na, tư dung tốt đẹp. Trương Sinh: con nhà giàu, không học, đa nghi. Lời kể giúp ta nhận ra ngay sự đối lập.`,
+    keywords: ['vũ nương','thuỳ mị','nết na','đẹp','trương sinh','đa nghi','không có học','giàu','đối lập','khắc hoạ'],
+    minKw: 4,
+    answer: `Vũ Nương: được mô tả "tính đã thuỳ mị, nết na, lại thêm tư dung tốt đẹp" — toàn phẩm chất tốt. Trương Sinh: "con nhà hào phú nhưng không có học", "có tính đa nghi, đối với vợ phòng ngừa quá sức". Lời người kể chuyện (ngôi thứ ba toàn tri) khắc hoạ trực tiếp đặc điểm hai nhân vật, làm nổi bật sự đối lập về phẩm chất và học vấn — gieo trước cho người đọc cảm giác bi kịch sắp xảy ra.`,
+    explain: `Bài tốt cần đối sánh hai nhân vật + nhận ra vai trò lời kể (khẳng định trực tiếp về tính cách, không cần qua hành động).`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 16, Câu 4 (Sau khi đọc):</b> Cho biết những <b>nguyên nhân</b> gây ra <b>bi kịch</b> của Vũ Nương. Nguyên nhân nào là chủ yếu?`,
+    hint: `Có nhiều nguyên nhân: bé Đản, cái bóng, Trương Sinh, xã hội phong kiến... cái nào là gốc?`,
+    keywords: ['trương sinh','đa nghi','không học','bóng','bé đản','phong kiến','nam quyền','xã hội','nghi oan','chủ yếu'],
+    minKw: 5,
+    answer: `Có nhiều nguyên nhân: (1) bé Đản nói lời ngây ngô về "cái bóng"; (2) chiến tranh khiến vợ chồng xa cách lâu; (3) Trương Sinh đa nghi, không có học, không chịu hỏi rõ; (4) xã hội phong kiến nam quyền không cho phụ nữ tiếng nói tự bảo vệ. Nguyên nhân CHỦ YẾU là Trương Sinh + xã hội phong kiến — trẻ con không có lỗi vì không hiểu hậu quả; chính người lớn (Trương Sinh) và chế độ xã hội (cho phép đàn ông xử vợ tuỳ ý) đã giết Vũ Nương.`,
+    explain: `Bài tốt liệt kê 3-4 nguyên nhân + xếp hạng + giải thích vì sao một nguyên nhân là chủ yếu (không đổ lỗi cho trẻ con).`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 16, Câu 6 (Sau khi đọc):</b> Hình ảnh Vũ Nương <b>hiện về</b> khi Trương Sinh lập đàn giải oan trên bến Hoàng Giang được tác giả miêu tả qua những <b>chi tiết kì ảo</b> nào? <b>Đoạn kết kì ảo</b> này có tác dụng gì trong việc thể hiện chủ đề?`,
+    hint: `Chi tiết: kiệu hoa, võng lọng, làn khói, lời từ biệt rồi biến mất. Tác dụng: trả công bằng cho Vũ Nương trong cõi tâm linh.`,
+    keywords: ['kiệu hoa','võng lọng','khói','hiện về','biến mất','giải oan','công bằng','tâm linh','thông điệp','phê phán'],
+    minKw: 4,
+    answer: `Chi tiết kì ảo: Vũ Nương ngồi trên kiệu hoa, có võng lọng tán đi theo, lúc ẩn lúc hiện trong làn khói, nói lời từ biệt rồi biến mất. Tác dụng: (1) Tác giả "trả lại công bằng" cho Vũ Nương trong cõi tâm linh — vì hiện thực phong kiến không cho phép cứu nàng; (2) Thể hiện ước mơ về công lí và sự bất tử của đức hạnh; (3) Kết kì ảo nhưng buồn → giữ sức nặng phê phán: một khi mất, không thể cứu lại.`,
+    explain: `Bài tốt liệt kê chi tiết kì ảo cụ thể + giải thích tác dụng kép (an ủi + phê phán).`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 16 — Viết kết nối với đọc:</b> Viết <b>đoạn văn</b> (khoảng 7–9 câu) trình bày <b>suy nghĩ của em</b> về chi tiết <b>"cái bóng"</b> trong truyện.`,
+    hint: `Cái bóng có mấy ý nghĩa: (1) là biểu hiện tình mẹ-con; (2) là điều gây hiểu lầm; (3) là biểu tượng cho sự mong manh.`,
+    keywords: ['cái bóng','bóng','vũ nương','tường','bé đản','cha','dỗ','hiểu lầm','tình mẹ','biểu tượng','mong manh','bi kịch'],
+    minKw: 4,
+    answer: `Đoạn văn mẫu (7-9 câu): "Cái bóng" trong "Chuyện người con gái Nam Xương" là một chi tiết nhỏ nhưng mang nhiều tầng ý nghĩa. Trước tiên, nó là biểu hiện của tình thương: Vũ Nương trỏ bóng mình trên tường gọi đó là "cha con" để dỗ bé Đản, không cho con buồn vì thiếu cha. Đó là sự sáng tạo đầy nhân hậu. Tiếp đến, cái bóng trở thành nguyên nhân gây hiểu lầm: bé Đản kể lại với cha về "người đàn ông đến đêm đêm", và Trương Sinh không hỏi rõ liền nghi vợ phản bội. Cuối cùng, cái bóng là biểu tượng cho số phận mong manh của người phụ nữ phong kiến: chỉ một bóng đen trên tường cũng đủ để giết một con người. Nguyễn Dữ chọn chi tiết "bóng" — vô hình, không có thực — để cho thấy bi kịch nhỏ đến mức nào, mà hậu quả lại lớn vô cùng. Cái bóng là tấm gương soi rọi cả sự yêu thương lẫn sự bất công của một thời đại.`,
+    explain: `Bài tốt: 7-9 câu đủ; có nêu được nhiều mặt của "cái bóng" (tình thương + hiểu lầm + biểu tượng); có cảm nghĩ riêng của em.`,
+    source: 'sgk'
   }
+
 ];
 
 let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
@@ -794,9 +838,17 @@ function checkLitAnswer(i,val){
 function renderPractice(){
   const cont=document.getElementById('practiceContent');
   cont.innerHTML='';
+  let prevSource = null;
   practice.forEach((p,i)=>{
+    if(p.source==='sgk' && prevSource!=='sgk'){
+      const hdr=document.createElement('div');
+      hdr.className='sgk-section-header';
+      hdr.innerHTML='<span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang 16</span>';
+      cont.appendChild(hdr);
+    }
+    prevSource = p.source;
     const div=document.createElement('div');
-    div.className='problem';
+    div.className='problem' + (p.source==='sgk' ? ' problem-sgk' : '');
     div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
     <textarea id="pin-${i}" placeholder="Mika viết câu trả lời ở đây..." ${prState[i].solved?'disabled':''}></textarea>
     <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>

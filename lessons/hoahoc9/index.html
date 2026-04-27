@@ -146,6 +146,13 @@ nav.tabs button:hover:not(.active){background:var(--mint-soft);color:var(--mint-
 .step-dot.done{background:#d1fae5;border:1.5px solid #10b981}
 @media (max-width:600px){.opts{grid-template-columns:1fr}}
 
+
+/* === SGK exercise section === */
+.sgk-section-header{margin:18px 0 8px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
+.problem-sgk .q{color:#7c2d12}
 </style>
 </head>
 <body>
@@ -760,7 +767,45 @@ const practice = [
     accept:[/^na$/i,/natri/i,/^na\b/i],
     answer:'Na (natri)',
     explain:'Trong 4 kim loại, chỉ Na là kim loại kiềm → phản ứng với nước thường tạo NaOH + H₂. Au, Ag không phản ứng. Fe chỉ phản ứng với hơi nước nóng.'
+  },
+  // === 📘 Bài tập SGK trang 86-91 ===
+  {
+    q: `<b>📘 SGK trang 86 (mở đầu):</b> Vì sao các đồ vật bằng <b>vàng, bạc</b> giữ được lâu mà <b>sắt</b> thì hay bị gỉ?`,
+    hint: `Liên quan đến phản ứng với oxygen trong không khí.`,
+    keywords: ['oxygen','phản ứng','không khí','vàng','bạc','sắt','gỉ','iron oxide','không phản ứng'],
+    minKw: 3,
+    answer: `Sắt phản ứng với oxygen trong không khí (đặc biệt là không khí ẩm) tạo iron oxide — đó là gỉ. Vàng và bạc là kim loại "kém hoạt động" — không phản ứng với oxygen ở nhiệt độ thường, nên giữ được vẻ ngoài lâu.`,
+    explain: `3Fe + 2O₂ → Fe₃O₄ (gỉ). Au, Ag không phản ứng với O₂ → trang sức giữ được lâu.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 87:</b> Quan sát các đồ vật bằng kim loại quanh em (muỗng inox, dây điện đồng, vòng tay vàng). <b>Liệt kê 4 tính chất vật lí chung</b> của kim loại mà em quan sát được.`,
+    hint: `4 tính chất: dẻo + dẫn điện + dẫn nhiệt + một tính chất nữa khiến đồ kim loại đẹp.`,
+    keywords: ['dẻo','dẫn điện','dẫn nhiệt','ánh kim','bóng'],
+    minKw: 3,
+    answer: `4 tính chất vật lí chung: (1) Tính dẻo (uốn được không gãy), (2) Dẫn điện (dây điện đồng), (3) Dẫn nhiệt (nồi nhôm nóng nhanh), (4) Ánh kim (đồ kim loại bóng đẹp).`,
+    explain: `Mỗi kim loại đều có cả 4 tính chất, nhưng mức độ khác nhau (vd: bạc dẫn điện tốt nhất, vàng dẻo nhất).`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 89 (thí nghiệm):</b> Bỏ một mảnh sắt vào dung dịch CuSO₄ (xanh lam). Mô tả <b>hiện tượng</b> và viết <b>phương trình phản ứng</b>.`,
+    hint: `Sắt mạnh hơn đồng → đẩy đồng ra. Quan sát màu trên đinh sắt và màu dung dịch.`,
+    keywords: ['fe','cuso4','feso4','cu','đỏ nâu','đẩy','phủ','nhạt'],
+    minKw: 3,
+    answer: `Hiện tượng: đinh sắt phủ một lớp màu đỏ nâu (đó là đồng kim loại); dung dịch CuSO₄ ban đầu xanh lam dần nhạt màu (vì Cu²⁺ chuyển thành Fe²⁺). Phương trình: Fe + CuSO₄ → FeSO₄ + Cu.`,
+    explain: `Quy luật: kim loại mạnh đẩy kim loại yếu ra khỏi muối. Fe mạnh hơn Cu → Fe đẩy Cu ra.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 91 ("Em có thể"):</b> Dựa vào tính chất của kim loại, hãy <b>giải thích việc lựa chọn kim loại</b> phù hợp với 2 trong các trường hợp sau: <em>(a) làm dây điện, (b) làm nồi nấu, (c) làm trang sức</em>`,
+    hint: `Mỗi trường hợp cần một tính chất khác nhau (dẫn điện / dẫn nhiệt / ánh kim + không gỉ).`,
+    keywords: ['đồng','dẫn điện','dẫn nhiệt','nhôm','nồi','ánh kim','vàng','bạc','trang sức','không gỉ','không phản ứng'],
+    minKw: 4,
+    answer: `(a) DÂY ĐIỆN: Đồng — vì đồng dẫn điện tốt và giá hợp lí (rẻ hơn bạc). (b) NỒI NẤU: Nhôm — vì nhôm dẫn nhiệt tốt, nhẹ, và giá phải chăng. (c) TRANG SỨC: Vàng/bạc — vì có ánh kim đẹp và KHÔNG phản ứng với O₂/HCl ở môi trường thường (giữ được lâu, không xỉn màu).`,
+    explain: `Mỗi tính chất kim loại quyết định việc dùng nó: dẫn điện→điện, dẫn nhiệt→bếp núc, ánh kim+không hoạt động→trang sức.`,
+    source: 'sgk'
   }
+
 ];
 let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
 function renderPractice(){

@@ -199,6 +199,11 @@ body{background:#faf5ff !important}
 .pbar{background:rgba(0,0,0,.08) !important}
 .pbar-fill{background:#a78bfa !important}
 .ptext{color:#7c3aed !important;opacity:.85 !important}
+
+.sgk-section-header{margin:12px 0 10px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 </style>
 </head>
 <body>
@@ -958,6 +963,11 @@ const LESSON_CONTENT = {
         blueprint:{problem:'(1;2) thoả hệ {2x-y=0, x+y=3}? (Ví dụ 5 SGK)',solution:'PT1: 2(1)-2=0 ✓. PT2: 1+2=3 ✓. → Là nghiệm.'},
         attempt:{type:'yesno',prompt:'<b>Câu 5:</b> Cặp <b>(1; 2)</b> có là nghiệm hệ <b>{x + y = 3, 2x − y = 0}</b>?',correct:'yes',errorMsg:'<b>STOP.</b> Kiểm tra CẢ HAI:<br>PT1: 1+2=3 ✓<br>PT2: 2(1)−2 = 2−2 = 0 ✓<br>Cả hai ✓ → ĐÚNG.',explanation:'✅ ĐÚNG (đây chính là Ví dụ 5 SGK trang 9). PT1: 1+2=3 ✓. PT2: 2−2=0 ✓.'}
       }
+    ,
+      // === 📘 Bài tập SGK trang 10 ===
+      { blueprint:{problem:`Phương trình 5x − 8y = 0 — có là phương trình bậc nhất hai ẩn?`,solution:`Có. Dạng ax + by = c với a=5, b=−8, c=0. Cả hai biến mũ 1, không có xy, có ít nhất một hệ số ≠ 0 → ĐÚNG là bậc nhất hai ẩn.`}, attempt:{type:'yesno',prompt:`<b>📘 Bài tập 1.1 (a) SGK trang 10:</b> Phương trình <b>5x − 8y = 0</b> có là phương trình bậc nhất hai ẩn không?`,correct:'yes',errorMsg:`<b>STOP.</b> Định nghĩa SGK: ax + by = c với a≠0 hoặc b≠0. Ở đây a=5, b=−8 (cả hai ≠ 0). Bậc của x và y đều là 1. → CÓ.`,explanation:`✅ Đúng. a=5, b=−8, c=0. Đáp ứng đủ định nghĩa SGK trang 6.`}, sgk:true, page:'10' },
+      { blueprint:{problem:`Hệ {2x − y = −6, 5x + 4y = 1}. Cặp (−3;6) có là nghiệm?`,solution:`Thay (x;y) = (−3;6) vào CẢ HAI phương trình. PT1: 2(−3)−6 = −6−6 = −12 ≠ −6 ✗. → KHÔNG phải nghiệm (chỉ cần PT1 sai là đủ).`}, attempt:{type:'yesno',prompt:`<b>📘 Bài tập 1.4 (b) SGK trang 10:</b> Cặp số <b>(−3; 6)</b> có là nghiệm của hệ <b>{2x − y = −6, 5x + 4y = 1}</b>?`,correct:'no',errorMsg:`<b>STOP.</b> Phải kiểm CẢ HAI PT.<br>PT1: 2(−3)−6 = −12 ≠ −6 → đã SAI ngay PT1.<br>→ KHÔNG là nghiệm.`,explanation:`❌ KHÔNG. PT1 yêu cầu = −6 nhưng (−3;6) cho kết quả −12. Chỉ cần một PT sai là cặp số không phải nghiệm hệ.`}, sgk:true, page:'10' },
+      { blueprint:{problem:`Tìm các cặp là nghiệm của 5x + 4y = 8 trong: (−2;1), (0;2), (1;0), (1,5;3), (4;−3).`,solution:`Thay từng cặp:<br>(−2;1): 5(−2)+4(1) = −10+4 = −6 ≠ 8 ✗<br>(0;2): 0+8 = 8 ✓<br>(1;0): 5+0 = 5 ≠ 8 ✗<br>(1,5;3): 7,5+12 = 19,5 ≠ 8 ✗<br>(4;−3): 20−12 = 8 ✓<br>→ Hai cặp (0;2) và (4;−3).`}, attempt:{type:'choice',prompt:`<b>📘 Bài tập 1.5 (a) SGK trang 10:</b> Trong các cặp số (−2;1), (0;2), (1;0), (1,5;3), (4;−3), <b>cặp nào</b> là nghiệm của <b>5x + 4y = 8</b>?`,choices:['Chỉ (0;2)','Chỉ (4;−3)','(0;2) và (4;−3)','(1;0) và (4;−3)'],correct:2,errorMsg:`<b>STOP.</b> Phải thử từng cặp:<br>(0;2): 0+8 = 8 ✓<br>(4;−3): 20−12 = 8 ✓<br>(1;0): 5+0 = 5 ≠ 8 ✗<br>→ Đáp án: (0;2) VÀ (4;−3).`,explanation:`✅ Đúng. Hai cặp (0;2) và (4;−3) thoả mãn. Phải kiên nhẫn thử từng cặp.`}, sgk:true, page:'10' }
     ],
     game:{
       title:'Săn nghiệm',
@@ -1188,7 +1198,11 @@ function renderPractice(chId,lId){
     return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Số câu giải được trong 3 lượt ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🎉 Tuyệt vời, Mika!':'💪 Cần ≥80% (4/5 câu) để mở Trò chơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="practice-restart">Làm lại</button>'+(win?'<button class="btn ok" data-act="goto-game">Sang Trò chơi →</button>':'')+'</div></div>';
   }
   const item = lc.practice[lessonView.practiceIdx];
-  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
+  let sgkHeader = '';
+  if(item.sgk && (lessonView.practiceIdx===0 || !lc.practice[lessonView.practiceIdx-1].sgk)){
+    sgkHeader = '<div class="sgk-section-header"><span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang '+item.page+'</span></div>';
+  }
+  let h = sgkHeader + '<div class="problem' + (item.sgk?' problem-sgk':'') + '"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
   h += renderDeepPractice(item, 'practice');
   return h;
 }

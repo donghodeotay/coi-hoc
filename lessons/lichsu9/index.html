@@ -200,6 +200,11 @@ body{background:#fffbeb !important}
 .pbar{background:rgba(0,0,0,.08) !important}
 .pbar-fill{background:#d97706 !important}
 .ptext{color:#92400e !important;opacity:.85 !important}
+
+.sgk-section-header{margin:12px 0 10px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 </style>
 </head>
 <body>
@@ -629,6 +634,11 @@ const LESSON_CONTENT = {
         blueprint:{problem:'Cuộc chiến tranh giữ nước vĩ đại bắt đầu khi nào?',solution:'Tháng 6-1941, khi phát xít Đức tấn công Liên Xô.'},
         attempt:{type:'choice',prompt:'<b>Câu 5:</b> Cuộc chiến tranh giữ nước vĩ đại của Liên Xô là cuộc chiến chống lại nước nào?',choices:['Anh','Mỹ','Pháp','Phát xít Đức'],correct:3,errorMsg:'<b>STOP.</b> Theo SGK trang 9: Tháng 6-1941, <b>phát xít Đức</b> tấn công Liên Xô → Liên Xô tiến hành cuộc chiến tranh giữ nước vĩ đại.',explanation:'✅ <b>Phát xít Đức</b>. Liên Xô tham chiến trong WWII từ 1941 và đóng vai trò quyết định trong việc đánh bại Đức.'}
       }
+    ,
+      // === 📘 Bài tập SGK trang 9 ===
+      { blueprint:{problem:`Theo SGK trang 9 (bảng tổng kết), Liên Xô đạt thành tựu gì về kinh tế trong giai đoạn 1922-1945?`,solution:`Cường quốc công nghiệp #2 thế giới (sau Mỹ); tập thể hoá nông nghiệp hoàn thành; 3 sản lượng chính tăng mạnh: thép, dầu, điện.`}, attempt:{type:'choice',prompt:`<b>📘 Luyện tập 1 SGK trang 9:</b> Thành tựu <b>kinh tế</b> nào sau đây thuộc về Liên Xô giai đoạn 1922-1945?`,choices:['Trở thành cường quốc nông nghiệp','Cường quốc công nghiệp đứng thứ 2 thế giới','Phát minh ra ô tô đầu tiên','Xuất khẩu dầu lớn nhất thế giới'],correct:1,errorMsg:`<b>STOP.</b> Theo bảng SGK trang 9: Liên Xô là cường quốc CÔNG NGHIỆP #2 (sau Mỹ). Tập thể hoá NN cũng hoàn thành nhưng đó là về TỔ CHỨC, không phải thành nông nghiệp lớn.`,explanation:`✅ Đúng. Thành tựu kinh tế lớn nhất: cường quốc công nghiệp #2 thế giới, đứng đầu châu Âu.`}, sgk:true, page:'9' },
+      { blueprint:{problem:`Vì sao Liên Xô từ một nước nông nghiệp lạc hậu (1918) trở thành cường quốc công nghiệp #2 (1937)?`,solution:`3 nguyên nhân: (1) Chính sách công nghiệp hoá tập trung (kế hoạch 5 năm); (2) Tập trung vào công nghiệp NẶNG (thép, dầu, điện); (3) Tập thể hoá nông nghiệp giải phóng lao động cho công nghiệp; (4) Sự huy động cao của nhà nước Xô viết.`}, attempt:{type:'choice',prompt:`<b>📘 Vận dụng SGK trang 9:</b> <b>Lý do chính</b> giúp Liên Xô từ nước nông nghiệp lạc hậu trở thành cường quốc công nghiệp trong 12 năm (1925-1937) là?`,choices:['Có nhiều dầu mỏ','Có 2 kế hoạch 5 năm tập trung phát triển công nghiệp nặng','Có viện trợ của Mỹ','May mắn'],correct:1,errorMsg:`<b>STOP.</b> Chìa khoá là CHIẾN LƯỢC CÓ KẾ HOẠCH: 2 kế hoạch 5 năm (1928-1932 và 1933-1937), trọng tâm công nghiệp nặng, tập thể hoá NN.`,explanation:`✅ Đúng. Đây là bài học về CHIẾN LƯỢC: tập trung vào ưu tiên (công nghiệp nặng), có kế hoạch dài hạn rõ ràng (5 năm/đợt), thực hiện kiên định.`}, sgk:true, page:'9' },
+      { blueprint:{problem:`Hạn chế của xây dựng XHCN ở Liên Xô là gì? (Theo SGK trang 9)`,solution:`3 hạn chế: nóng vội tập thể hoá; thiếu dân chủ; chưa nâng cao đời sống nhân dân đúng mức.`}, attempt:{type:'choice',prompt:`<b>📘 Bảng tổng kết SGK trang 9:</b> Cột "Hạn chế" của Liên Xô <b>KHÔNG bao gồm</b> điều nào?`,choices:['Nóng vội trong tập thể hoá nông nghiệp','Thiếu dân chủ','Chưa nâng cao đời sống nhân dân','Chậm phát triển công nghiệp'],correct:3,errorMsg:`<b>STOP.</b> Liên Xô CHẬM PHÁT TRIỂN CÔNG NGHIỆP là sai — họ đứng thứ 2 thế giới! 3 hạn chế chính: nóng vội tập thể hoá, thiếu dân chủ, chưa nâng cao đời sống.`,explanation:`✅ Đúng. Công nghiệp là THÀNH TỰU rực rỡ, không phải hạn chế. Hạn chế nằm ở mặt MỀM: dân chủ, đời sống, sự nóng vội.`}, sgk:true, page:'9' }
     ],
     game:{
       title:'Dòng thời gian Liên Xô',
@@ -868,7 +878,11 @@ function renderPractice(chId,lId){
     return '<div class="score-banner '+(win?'win':'lose')+'"><div class="big">'+correct+'/'+total+'</div><div class="lbl">Số câu đúng ('+pct+'%)</div><div style="margin-top:10px;font-size:13px">'+(win?'🎉 Tuyệt vời, Mika!':'💪 Cần ≥80% (4/5 câu) để mở Trò chơi.')+'</div><div style="margin-top:11px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn sec" data-act="practice-restart">Làm lại</button>'+(win?'<button class="btn ok" data-act="goto-game">Sang Trò chơi →</button>':'')+'</div></div>';
   }
   const item = lc.practice[lessonView.practiceIdx];
-  let h = '<div class="problem"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
+  let sgkHeader = '';
+  if(item.sgk && (lessonView.practiceIdx===0 || !lc.practice[lessonView.practiceIdx-1].sgk)){
+    sgkHeader = '<div class="sgk-section-header"><span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang '+item.page+'</span></div>';
+  }
+  let h = sgkHeader + '<div class="problem' + (item.sgk?' problem-sgk':'') + '"><div class="tiny">Câu '+(lessonView.practiceIdx+1)+'/'+total+'</div></div>';
   h += renderDeepPractice(item, 'practice');
   return h;
 }

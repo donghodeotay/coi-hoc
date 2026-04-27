@@ -150,6 +150,12 @@ nav.tabs button:hover:not(.active){background:var(--sky-soft);color:var(--sky-2)
 .step-dot.done{background:#e0f2fe;border:1.5px solid #0284c7}
 @media (max-width:600px){.opts{grid-template-columns:1fr}}
 
+
+.sgk-section-header{margin:18px 0 8px;padding:10px 14px;background:#fffbeb;border-left:4px solid #d97706;border-radius:8px;font-size:14px;font-weight:700;color:#78350f;display:flex;align-items:center;gap:8px}
+.sgk-section-header .sgk-icon{font-size:18px}
+.sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
+.problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
+.problem-sgk .q{color:#7c2d12}
 </style>
 </head>
 <body>
@@ -760,7 +766,45 @@ const practice = [
     minKw:1,
     answer:'Đây là câu mở. Một câu trả lời mạnh có 3 phần: ① Em muốn làm việc gì có ích (vd: thiết kế truyện tranh để giúp trẻ em học); ② Vì sao việc đó quan trọng với em; ③ Bước đầu tiên em sẽ làm (vd: học vẽ mỗi ngày + rèn tiếng Việt).',
     explain:'Không có đáp án sai. Lí tưởng đầu tiên của em có thể đơn giản — quan trọng là em đã viết nó ra. Năm sau quay lại, có thể sửa nó. Đó là bình thường.'
+  },
+  // === 📘 Bài tập SGK trang 8-9 ===
+  {
+    q: `<b>📘 SGK trang 8, Luyện tập 1:</b> Em <b>đồng tình</b> hay <b>không đồng tình</b> với quan điểm sau? <b>Vì sao</b>? <em>"Tất cả những người sống có mục đích đều là những người sống có lí tưởng."</em>`,
+    hint: `Mục đích nhỏ và mục đích lớn — có khác nhau không? Mục đích vì mình có giống mục đích cho cộng đồng?`,
+    keywords: ['không đồng tình','khác','mục đích','lí tưởng','cộng đồng','cao đẹp','vị kỉ','vì mình','vì người'],
+    minKw: 3,
+    answer: `KHÔNG đồng tình. Mục đích là cái đích cụ thể (vd: "đạt 8.0 IELTS", "trở thành tỉ phú để sống sang"). Lí tưởng là MỘT LOẠI mục đích đặc biệt — phải có 3 thành phần: (1) cao đẹp; (2) có kế hoạch; (3) có ý nghĩa cho cộng đồng/quốc gia/nhân loại. Một người có mục đích chỉ vì bản thân (vd: "muốn nổi tiếng để được phục tùng") — vẫn có mục đích, nhưng KHÔNG có lí tưởng. Vì thế tất cả lí tưởng đều là mục đích, nhưng không phải mọi mục đích đều là lí tưởng.`,
+    explain: `Quan hệ "mục đích" và "lí tưởng" giống "động vật" và "chó": chó là động vật (lí tưởng là mục đích), nhưng không phải mọi động vật đều là chó.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 9, Luyện tập 4:</b> Em hãy kể về <b>một tấm gương thanh niên Việt Nam tiêu biểu</b> trong hoạt động <b>học tập / nghiên cứu khoa học / khởi nghiệp / thiện nguyện</b>... và <b>rút ra bài học</b> cho bản thân.`,
+    hint: `Có nhiều: Đặng Thuỳ Trâm (chiến trường), Nguyễn Hà Đông (Flappy Bird), các bạn HSG quốc tế, các nhóm thiện nguyện sinh viên... Chọn 1 và nêu bài học.`,
+    keywords: ['thanh niên','tấm gương','học tập','nghiên cứu','khởi nghiệp','thiện nguyện','bài học','noi gương','phấn đấu'],
+    minKw: 3,
+    answer: `(Câu mở — chọn 1 tấm gương rồi nêu bài học.) Ví dụ: Anh Nguyễn Hà Đông — tác giả game Flappy Bird (2013) đã chứng tỏ một thanh niên Việt Nam, làm việc tại nhà, vẫn có thể tạo ra sản phẩm vươn ra thế giới (đứng #1 App Store toàn cầu). Bài học: lí tưởng không cần điều kiện hoành tráng. Em có thể bắt đầu từ kĩ năng nhỏ (vd: lập trình, vẽ tranh) ở chính nhà mình, miễn là kiên trì và mục đích lớn. Hoặc Đặng Thuỳ Trâm — chọn ra chiến trường để cứu chữa thương binh dù chỉ 28 tuổi. Bài học: tuổi trẻ không là rào cản — quan trọng là sự chuẩn bị (chị đã học y) và quyết tâm.`,
+    explain: `Bài tốt: chọn 1 tấm gương cụ thể (có tên, có thời điểm, có việc làm) + nêu bài học cụ thể em sẽ áp dụng.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 9, Luyện tập 5:</b> Dựa vào <b>nhiệm vụ của thanh niên Việt Nam</b>, em hãy xác định <b>nhiệm vụ mà bản thân</b> phải thực hiện trong học tập và cuộc sống, từ đó xây dựng <b>kế hoạch</b> để thực hiện.`,
+    hint: `4 việc cụ thể của học sinh: học tập + lao động + rèn sức khoẻ + tham gia hoạt động tập thể. Mika sẽ làm gì cụ thể?`,
+    keywords: ['học tập','lao động','rèn luyện','sức khoẻ','hoạt động','kế hoạch','hằng ngày','hằng tuần','mục tiêu'],
+    minKw: 3,
+    answer: `(Câu cá nhân — phải có kế hoạch cụ thể của em.) Ví dụ kế hoạch: HỌC TẬP — học 30 phút/ngày môn yếu nhất (toán/Việt văn/tiếng Anh), đọc 1 cuốn sách phi giáo trình mỗi tháng. LAO ĐỘNG — phụ việc nhà 2 lần/tuần (rửa bát, lau nhà). SỨC KHOẺ — đi bộ/đạp xe 30 phút/ngày, ngủ đủ 8 giờ. HOẠT ĐỘNG TẬP THỂ — tham gia 1 nhóm CLB ở trường (vẽ/võ thuật/nhảy) hoặc 1 hoạt động thiện nguyện mỗi học kì. ĐÁNH GIÁ — cuối tuần em ngồi xem mình hoàn thành được mấy điểm trong kế hoạch.`,
+    explain: `Bài tốt cần kế hoạch CỤ THỂ (số phút, số lần, tần suất) — không chung chung. Cũng cần điểm "đánh giá" để theo dõi.`,
+    source: 'sgk'
+  },
+  {
+    q: `<b>📘 SGK trang 9, Vận dụng 1:</b> Hãy <b>thiết kế một thông điệp</b> về <b>lí tưởng sống</b> để trang trí ở góc học tập, làm <b>mục tiêu phấn đấu</b> của em.`,
+    hint: `Thông điệp ngắn, dễ nhớ, có ý nghĩa cá nhân. Có thể từ câu danh ngôn hoặc tự viết.`,
+    keywords: ['thông điệp','lí tưởng','sống','học tập','phấn đấu','mỗi ngày','bản thân','cộng đồng'],
+    minKw: 2,
+    answer: `(Câu sáng tạo — em tự viết theo lí tưởng riêng.) Ví dụ thông điệp: "Mỗi ngày một bước nhỏ, một cuộc đời lớn dần" — nhắc em rằng việc nhỏ tích luỹ tạo nên việc lớn. Hoặc: "Học vì hiểu, không vì điểm" — đặt mục đích sâu hơn việc thi cử. Hoặc dùng câu Tolstoy đã học: "Lí tưởng là ngọn đèn chỉ đường — không có lí tưởng thì không có cuộc sống." Cách trình bày: viết lên giấy A5 màu pastel + vẽ tranh nhỏ minh hoạ + dán lên bàn học. Mỗi sáng đọc lại 1 lần.`,
+    explain: `Bài tốt: thông điệp ngắn (≤15 từ), có ý nghĩa cá nhân + có cách trình bày cụ thể (cách trang trí). Đây là dự án thực tế — Mika thật sự làm.`,
+    source: 'sgk'
   }
+
 ];
 
 let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
@@ -774,9 +818,17 @@ function checkLitAnswer(i,val){
 function renderPractice(){
   const cont=document.getElementById('practiceContent');
   cont.innerHTML='';
+  let prevSource = null;
   practice.forEach((p,i)=>{
+    if(p.source==='sgk' && prevSource!=='sgk'){
+      const hdr=document.createElement('div');
+      hdr.className='sgk-section-header';
+      hdr.innerHTML='<span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang 8-9</span>';
+      cont.appendChild(hdr);
+    }
+    prevSource = p.source;
     const div=document.createElement('div');
-    div.className='problem';
+    div.className='problem' + (p.source==='sgk' ? ' problem-sgk' : '');
     div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
     <textarea id="pin-${i}" placeholder="Mika viết câu trả lời ở đây..." ${prState[i].solved?'disabled':''}></textarea>
     <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>
