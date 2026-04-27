@@ -152,11 +152,16 @@ ul.simple li::before{content:'✓';position:absolute;left:0;color:var(--success)
 .eg-prob{background:#fff;border:2px solid var(--sky);border-radius:8px;padding:14px;margin:12px 0;font-size:13px;color:#1e3a8a;line-height:1.6}
 .eg-prob .vals{display:flex;gap:14px;justify-content:center;margin:10px 0;flex-wrap:wrap}
 .eg-prob .v{background:#dbeafe;padding:6px 14px;border-radius:8px;font-weight:600;color:#1e40af}
+
+/* Position back-link above app content */
+body > .back-link{margin:8px 12px 0;display:inline-block}
+
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
 </style>
 </head>
 <body>
+<a href="../../" class="back-link" id="backHome">← Trang chính</a>
 <div id="app"></div>
 
 <script>

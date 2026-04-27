@@ -180,11 +180,16 @@ details.examples .ex-list{padding:0 12px 10px}
 .attempts-trail .at-dot{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;background:#9ca3af}
 .attempts-trail .at-dot.ok{background:var(--success)}
 .attempts-trail .at-dot.no{background:var(--danger)}
+
+/* Position back-link above app content */
+body > .back-link{margin:8px 12px 0;display:inline-block}
+
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
 </style>
 </head>
 <body>
+<a href="../../" class="back-link" id="backHome">← Trang chính</a>
 <div id="app"></div>
 
 <script>
