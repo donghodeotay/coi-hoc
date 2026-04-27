@@ -114,6 +114,44 @@ nav.tabs button:hover:not(.active){background:var(--leaf-soft);color:var(--leaf-
 .hidden{display:none}
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
+
+/* === Step-by-step deep-practice UI === */
+.step-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.step-header{font-size:16px;font-weight:700;color:var(--leaf-2);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.step-why{background:var(--lav-soft,#fce7f3);padding:9px 12px;border-radius:8px;font-size:13px;color:#831843;margin:8px 0;font-style:italic}
+.step-mnem{background:var(--cream,#fff7ed);padding:9px 12px;border-radius:8px;font-size:13px;color:#78350f;margin:8px 0;border-left:3px solid var(--pink)}
+.step-body{margin:14px 0;font-size:14px;line-height:1.6}
+.step-blueprint{background:var(--leaf-bg);border:1px solid var(--leaf-soft);border-radius:10px;padding:12px;margin:12px 0;position:relative}
+.step-bp-tag{display:inline-block;background:var(--leaf);color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-bp-q{font-size:13px;color:var(--ink);margin-bottom:6px}
+.step-bp-a{font-size:13px;color:var(--leaf-2);background:#fff;padding:8px 12px;border-radius:6px;border-left:3px solid var(--leaf)}
+.step-attempt{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;margin:12px 0}
+.step-at-tag{display:inline-block;background:var(--pink);color:#fff;padding:2px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.step-at-q{font-size:13px;color:var(--ink);margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.opt-btn{background:#fff;border:1.5px solid var(--line);padding:10px 14px;border-radius:8px;font-size:13px;cursor:pointer;text-align:left;color:var(--ink);transition:all .15s;font-family:inherit}
+.opt-btn:hover:not(:disabled){border-color:var(--leaf);background:var(--leaf-bg)}
+.opt-btn:disabled{cursor:not-allowed}
+.opt-btn.right{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:600}
+.opt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d}
+.step-feedback{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px}
+.step-feedback.err{background:#fee2e2;color:#7f1d1d;border-left:3px solid #dc2626}
+.step-feedback.ok{background:#dcfce7;color:#14532d;border-left:3px solid #16a34a}
+.tries-left{font-size:11px;opacity:.8;display:block;margin-top:4px}
+.step-pause{margin-top:10px;padding:14px;background:var(--cream,#fff7ed);border-radius:10px;text-align:center;font-size:13px;color:#78350f;border:1.5px dashed var(--pink)}
+.step-pause-timer{font-size:34px;font-weight:700;color:var(--pink);margin-top:8px}
+.step-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;background:#fff;padding:12px;border-radius:14px;box-shadow:var(--shadow)}
+.step-nav-btn{background:#fff;border:1.5px solid var(--line);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-2);font-family:inherit}
+.step-nav-btn:hover:not(:disabled){border-color:var(--leaf);color:var(--leaf-2)}
+.step-nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.step-nav-btn.primary{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+.step-nav-btn.primary:hover:not(:disabled){background:var(--leaf-2)}
+.step-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.step-dot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .15s}
+.step-dot.curr{background:var(--leaf);transform:scale(1.4)}
+.step-dot.done{background:var(--leaf-soft);border:1.5px solid var(--leaf)}
+@media (max-width:600px){.opts{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -373,6 +411,9 @@ const steps = [
     analogy:'Như vẽ chân dung — nhìn vào tranh, bạn nhận ra bố mẹ trong gương mặt em (di truyền), nhưng vẫn có nét riêng chỉ em mới có (biến dị).',
     before:'Trước: em giống bố mẹ vì... ngẫu nhiên?',
     after:'Sau: di truyền là quy luật, không phải ngẫu nhiên. Có khoa học giải thích.'
+  ,
+    blueprint:{problem:'Mika có mắt giống mẹ (di truyền), nhưng tính cách khác cả hai (biến dị). Hai hiện tượng đi đôi với nhau.',solution:`<b>Di truyền + biến dị</b> luôn song hành. Bố mẹ truyền đặc điểm (di truyền) NHƯNG con vẫn có nét riêng (biến dị).`},
+    attempt:{type:'choice',prompt:`Hiện tượng con cái có những đặc điểm <b>KHÁC</b> bố mẹ gọi là gì?`,choices:['Di truyền','Biến dị','Tiến hoá','Đột biến'],correct:1,errorMsg:`<b>STOP.</b> Di truyền = giống bố mẹ (truyền lại). Biến dị = khác bố mẹ (xuất hiện mới).`,explanation:`✅ Đúng. <b>Biến dị</b> = con khác bố mẹ. Đột biến chỉ là một loại biến dị đặc biệt.`}
   },
   {
     title:'2. Di truyền là gì?',
@@ -381,6 +422,9 @@ const steps = [
     analogy:'Giống như Mika nhận quà từ bố mẹ — nhưng quà ở đây là gene, không phải đồ chơi.',
     before:'Trước: di truyền chỉ nghe trong phim.',
     after:'Sau: di truyền có định nghĩa rõ — bố mẹ chuyển đặc điểm cho con qua gene.'
+  ,
+    blueprint:{problem:'Bố nhóm máu A, mẹ nhóm máu A. Con sẽ có nhóm máu gì?',solution:`Thường là <b>nhóm A</b>, vì di truyền = truyền đặc điểm từ bố mẹ sang con.`},
+    attempt:{type:'choice',prompt:`Mèo mẹ tam thể, mèo bố tam thể. Mèo con thường:`,choices:['Cũng tam thể','Có màu lông hoàn toàn mới','Toàn trắng','Không thể đoán'],correct:0,errorMsg:`<b>STOP.</b> Đây là di truyền — đặc điểm bố mẹ truyền lại cho con.`,explanation:`✅ Đúng. Bố mẹ tam thể → con thường tam thể. Đó là di truyền.`}
   },
   {
     title:'3. Biến dị là gì?',
@@ -389,6 +433,9 @@ const steps = [
     analogy:'Một mẻ bánh quy cùng công thức nhưng mỗi cái vẫn có hình dạng hơi khác — biến dị giống vậy.',
     before:'Trước: anh chị em phải giống y nhau.',
     after:'Sau: anh chị em đều có biến dị — đó là chuyện bình thường, có thật và đo được.'
+  ,
+    blueprint:{problem:'Hai chị em ruột phải có chiều cao bằng nhau?',solution:`<b>KHÔNG.</b> Anh chị em ruột vẫn khác nhau — đó là biến dị, hoàn toàn bình thường.`},
+    attempt:{type:'yesno',prompt:`Anh chị em ruột phải có cùng màu mắt, cùng chiều cao, cùng tính cách?`,correct:'no',errorMsg:`<b>STOP.</b> Không phải. Anh chị em ruột vẫn khác nhau — đó là biến dị.`,explanation:`❌ KHÔNG. Anh chị em ruột đều có biến dị (khác nhau ở vài đặc điểm) dù chung bố mẹ.`}
   },
   {
     title:'4. Tính trạng — đặc điểm đo được',
@@ -397,6 +444,9 @@ const steps = [
     analogy:'Tính trạng = các "ô" trong thẻ căn cước sinh học: cao 1m50, mắt nâu, tóc đen — mỗi ô là một tính trạng.',
     before:'Trước: "đặc điểm" nghe mơ hồ.',
     after:'Sau: tính trạng có thể đo, đếm, so sánh giữa các cá thể.'
+  ,
+    blueprint:{problem:'Trong các sau đây, đâu là tính trạng?',solution:`<b>Tính trạng = đặc điểm đo/đếm được</b>: chiều cao, màu mắt, hình dạng hạt. Cảm xúc thoáng qua KHÔNG phải tính trạng (không bền vững).`},
+    attempt:{type:'choice',prompt:`Đâu <b>KHÔNG</b> phải là tính trạng?`,choices:['Chiều cao của cây','Màu hoa của cây','Cảm xúc thoáng qua khi vui','Hình dạng hạt'],correct:2,errorMsg:`<b>STOP.</b> Tính trạng phải đo/đếm được và bền vững. Cảm xúc thoáng qua thì không.`,explanation:`✅ Cảm xúc thoáng qua không phải tính trạng. Tính trạng là đặc điểm bền vững và đo được.`}
   },
   {
     title:'5. Tính trạng tương phản',
@@ -406,6 +456,9 @@ const steps = [
     analogy:'Như công tắc đèn: BẬT hoặc TẮT, không có giữa. Tính trạng tương phản là "cặp đôi đối lập".',
     before:'Trước: tính trạng có thể có nhiều mức độ.',
     after:'Sau: với mỗi tính trạng có thể tách thành các cặp tương phản — dễ nghiên cứu hơn.'
+  ,
+    blueprint:{problem:'"Cao" và "thấp" có phải là cặp tính trạng tương phản không?',solution:`<b>CÓ.</b> Cao và thấp là hai trạng thái đối lập của cùng một tính trạng (chiều cao). Đó là tương phản.`},
+    attempt:{type:'choice',prompt:`Cặp nào sau đây là <b>tính trạng tương phản</b>?`,choices:['Cao và thấp','Cao và dài','Tím và đỏ','Hạt và lá'],correct:0,errorMsg:`<b>STOP.</b> Tương phản = hai trạng thái đối lập của CÙNG một tính trạng. Tím và đỏ là hai trong nhiều màu, không tương phản.`,explanation:`✅ Cao/thấp là cặp đối lập của tính trạng "chiều cao". Đó là tương phản.`}
   },
   {
     title:'6. Mendel — cha đẻ di truyền học',
@@ -414,6 +467,9 @@ const steps = [
     analogy:'Hình dung Mendel như một thám tử — ông quan sát rất nhiều "vụ án" (cặp lai) để tìm quy luật chung. Kiên nhẫn là siêu năng lực.',
     before:'Trước: di truyền là chuyện huyền bí, không ai hiểu.',
     after:'Sau: từ năm 1865, di truyền đã có khoa học — nhờ Mendel.'
+  ,
+    blueprint:{problem:'Mendel sống vào thời nào?',solution:`<b>1822–1884.</b> Thế kỉ XIX. Người Áo-Hung. Là tu sĩ và nhà sinh học.`},
+    attempt:{type:'choice',prompt:`Gregor Mendel sống vào năm nào?`,choices:['1822–1884','1822–1900','1850–1920','1900–1965'],correct:0,errorMsg:`<b>STOP.</b> Theo bài: Mendel (1822–1884), thế kỉ XIX, sống cách đây ~200 năm.`,explanation:`✅ Đúng. <b>1822–1884</b>. Mendel sống ở thế kỉ XIX, không phải XX.`}
   },
   {
     title:'7. Vì sao Mendel chọn đậu Hà Lan?',
@@ -425,6 +481,9 @@ const steps = [
     analogy:'Mendel chọn đậu Hà Lan giống như em chọn đề tài dự án — phải đơn giản, đo được, làm xong trong thời gian cho phép.',
     before:'Trước: Mendel chọn đậu Hà Lan vì... thích đậu?',
     after:'Sau: Mendel chọn vì đậu là "đối tượng nghiên cứu lý tưởng" — quan trọng cho thiết kế thí nghiệm.'
+  ,
+    blueprint:{problem:'Liệt kê 4 lý do Mendel chọn đậu Hà Lan.',solution:`(1) Vòng đời ngắn — 2 vụ/năm. (2) Nhiều tính trạng tương phản. (3) Tự thụ phấn — dễ tạo dòng thuần. (4) Giao phấn nhân tạo được — kiểm soát phép lai.`},
+    attempt:{type:'choice',prompt:`Lý do nào <b>KHÔNG</b> phải là lý do Mendel chọn đậu Hà Lan?`,choices:['Vòng đời ngắn','Có nhiều tính trạng tương phản','Hoa rất đẹp','Tự thụ phấn được'],correct:2,errorMsg:`<b>STOP.</b> Mendel chọn vì lý do KHOA HỌC, không phải thẩm mỹ. Đậu Hà Lan có hoa nhỏ, không đặc biệt đẹp.`,explanation:`✅ Đậu Hà Lan không được chọn vì hoa đẹp. Lý do là khoa học: vòng đời ngắn, tính trạng tương phản, tự thụ phấn được.`}
   },
   {
     title:'8. Thí nghiệm: P → F₁ → F₂',
@@ -440,6 +499,9 @@ const steps = [
     analogy:'Như món soup: trộn nước tím + nước trắng → tưởng được hồng nhạt. Nhưng F₁ ra tím nguyên chất, không pha. Đến F₂, trắng hiện trở lại — như có "công tắc giấu" bên trong.',
     before:'Trước: lai hai màu sẽ ra màu pha trộn.',
     after:'Sau: tính trạng không "pha trộn" — chúng theo quy luật trội/lặn.'
+  ,
+    blueprint:{problem:'Lai cây hoa tím thuần × cây hoa trắng thuần. F₁ ra sao?',solution:`<b>F₁ = 100% hoa tím</b>. Trắng "biến mất" ở F₁. Đến F₂ (cho F₁×F₁) trắng quay lại theo tỉ lệ 1/4.`},
+    attempt:{type:'choice',prompt:`Lai hoa tím thuần × hoa trắng thuần. F₁ là gì?`,choices:['100% hoa tím','100% hoa trắng','50% tím : 50% trắng','3 tím : 1 trắng'],correct:0,errorMsg:`<b>STOP.</b> F₁ là thế hệ đầu tiên. Tím là tính trạng trội → F₁ toàn tím. Tỉ lệ 3:1 chỉ xuất hiện ở F₂.`,explanation:`✅ Đúng. F₁ = 100% tím vì tím trội. Trắng "ẩn" rồi xuất hiện trở lại ở F₂ (3 tím : 1 trắng).`}
   },
   {
     title:'9. Tính trạng trội và lặn',
@@ -454,6 +516,9 @@ const steps = [
     analogy:'A và a là hai "tấm thẻ" — mỗi cây cầm 2 thẻ, một từ mẹ, một từ bố. Thẻ A "to tiếng" hơn thẻ a, nên có A là biểu hiện theo A.',
     before:'Trước: hai tính trạng phải pha trộn.',
     after:'Sau: tính trạng có cấp bậc — trội thì hiện ra, lặn thì ẩn cho đến khi gặp aa.'
+  ,
+    blueprint:{problem:'Cây có kiểu gene Aa có kiểu hình gì?',solution:`<b>Tím</b>. Vì A trội, Aa biểu hiện theo A → tím. Chỉ aa mới cho trắng.`},
+    attempt:{type:'choice',prompt:`Cây có kiểu gene <b>Aa</b> sẽ có kiểu hình gì? (A trội tím, a lặn trắng)`,choices:['Tím','Trắng','Hồng (pha)','Không xác định'],correct:0,errorMsg:`<b>STOP.</b> A trội → khi có A là biểu hiện theo A. Tính trạng KHÔNG pha trộn.`,explanation:`✅ Đúng. Aa = tím (vì có A trội). Tính trạng không pha trộn — đó là phát hiện chính của Mendel.`}
   },
   {
     title:'10. Thuật ngữ và kí hiệu',
@@ -469,6 +534,9 @@ const steps = [
     analogy:'Kiểu gene = công thức nấu ăn (giấy ghi). Kiểu hình = món ăn ra đĩa (mình ăn được). Có công thức rồi mới ra món, nhưng cùng công thức có thể trông hơi khác do nồi nấu.',
     before:'Trước: P, F₁, F₂ là gì? Không biết.',
     after:'Sau: đọc đề "P: AA × aa, tìm F₁" thì hiểu ngay là đang nói về phép lai bố mẹ.'
+  ,
+    blueprint:{problem:'Aa là kiểu gene gì?',solution:`<b>Dị hợp</b>. Hai allele khác nhau (A và a). Aa luôn biểu hiện theo allele trội.`},
+    attempt:{type:'choice',prompt:`Kiểu gene <b>Aa</b> được gọi là gì?`,choices:['Đồng hợp trội','Dị hợp','Đồng hợp lặn','Kiểu hình trắng'],correct:1,errorMsg:`<b>STOP.</b> Đồng hợp = 2 allele giống nhau (AA hoặc aa). Aa có 2 allele khác → dị hợp.`,explanation:`✅ Đúng. <b>Dị hợp</b> = 2 allele khác nhau (A và a). AA = đồng hợp trội. aa = đồng hợp lặn.`}
   },
   {
     title:'11. Ý nghĩa của di truyền học',
@@ -480,34 +548,179 @@ const steps = [
     analogy:'Di truyền học như chìa khoá — mở nhiều cánh cửa: bệnh viện, ruộng đồng, phòng xử án, công viên thú.',
     before:'Trước: di truyền học chỉ là môn khô khan trong sách.',
     after:'Sau: di truyền học có mặt trong cuộc sống hằng ngày — từ bữa cơm đến bệnh viện.'
+  ,
+    blueprint:{problem:'Di truyền học ứng dụng trong lĩnh vực nào?',solution:`Y học (chẩn đoán bệnh di truyền), Nông nghiệp (giống tốt), Pháp y (ADN), Bảo tồn (đa dạng sinh học).`},
+    attempt:{type:'choice',prompt:`Di truyền học <b>KHÔNG</b> ứng dụng trực tiếp trong lĩnh vực nào?`,choices:['Y học','Nông nghiệp','Pháp y','Trang trí nội thất'],correct:3,errorMsg:`<b>STOP.</b> Trang trí nội thất không liên quan đến gene/di truyền.`,explanation:`✅ Trang trí nội thất không cần di truyền học. Y, nông, pháp y đều là ứng dụng thực tế.`}
   }
 ];
 
+let currentStep = 0;
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+
 function renderTheory(){
   const p=loadProg();
+  // Resume at last step user was on
+  if(currentStep===0 && p.theory>0) currentStep = Math.min(p.theory, steps.length-1);
   const cont=document.getElementById('theoryContent');
-  cont.innerHTML='';
-  steps.forEach((s,i)=>{
-    const el=document.createElement('div');
-    el.className='step';
-    el.innerHTML=`<div><span class="num">${i+1}</span><span class="title">${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</span></div>
-    <div class="body">${applyTooltips(s.body)}</div>
-    <div class="analogy">${applyTooltips(s.analogy)}</div>
-    <div class="before-after">
-      <div class="before"><strong>Trước:</strong> ${applyTooltips(s.before)}</div>
-      <div class="after"><strong>Sau:</strong> ${applyTooltips(s.after)}</div>
+  const i = currentStep;
+  const s = steps[i];
+  const isPassed = i < p.theory;
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  
+  let attemptHtml = '';
+  if(s.attempt){
+    if(s.attempt.type === 'choice'){
+      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+        let cls='opt-btn';
+        if(stepAttempt.picked!==null){
+          if(j===s.attempt.correct) cls += ' right';
+          else if(j===stepAttempt.picked) cls += ' wrong';
+        }
+        const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+        return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
+      }).join('') + '</div>';
+    } else if(s.attempt.type === 'yesno'){
+      const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
+    }
+  }
+  
+  let feedbackHtml = '';
+  if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+  } else if(stepAttempt.passed){
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}</div>`;
+  } else if(stepAttempt.tries >= CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+  }
+  
+  let pauseHtml = '';
+  if(stepAttempt.paused){
+    pauseHtml = `<div class="step-pause">⏸️ Dừng 5 giây trong đầu — suy nghĩ lại — rồi thử tiếp.<div class="step-pause-timer" id="stepTimer">5</div></div>`;
+  }
+  
+  // Step indicator dots
+  const dots = steps.map((_,k)=>{
+    let cls='step-dot';
+    if(k===i) cls+=' curr';
+    else if(k<p.theory) cls+=' done';
+    return `<span class="${cls}" onclick="jumpStep(${k})" title="Bước ${k+1}"></span>`;
+  }).join('');
+  
+  cont.innerHTML = `
+    <div class="step-card">
+      <div class="step-header">Bước ${i+1}/${steps.length}: ${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</div>
+      <div class="step-why"><b>❓ Vì sao quan trọng?</b> ${applyTooltips(s.body.replace(/<[^>]*>/g,'').slice(0,120))}...</div>
+      <div class="step-mnem"><b>💡 Ghi nhớ dễ:</b> ${applyTooltips(s.analogy)}</div>
+      <div class="step-body">${applyTooltips(s.body)}</div>
+      ${s.attempt ? `
+        <div class="step-blueprint"><div class="step-bp-tag">BƯỚC 1 · QUAN SÁT</div>
+          <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
+          <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
+        </div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+          <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
+          ${attemptHtml}
+          ${feedbackHtml}
+          ${pauseHtml}
+        </div>
+      ` : ''}
     </div>
-    <div style="text-align:right;margin-top:8px">
-      <button class="btn ghost" data-step="${i}" onclick="markStep(${i})">${i<p.theory?'✓ Đã hiểu':'Đánh dấu đã hiểu'}</button>
-    </div>`;
-    cont.appendChild(el);
-  });
+    <div class="step-nav">
+      <button class="step-nav-btn" onclick="prevStep()" ${i===0?'disabled':''}>← Trước</button>
+      <div class="step-dots">${dots}</div>
+      <button class="step-nav-btn primary" onclick="nextStep()" ${(!stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit && s.attempt) ? 'disabled' : ''}>Sau →</button>
+    </div>
+  `;
 }
-function markStep(i){
-  const p=loadProg();
-  if(i+1>p.theory){p.theory=i+1;saveProg(p);bumpActivity()}
-  renderTheory();updateOverall();
+
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+
+function pickStep(j){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = j;
+  stepAttempt.tries++;
+  if(j === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
 }
+
+function pickStepYN(v){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  stepAttempt.picked = v;
+  stepAttempt.tries++;
+  if(v === s.attempt.correct){
+    stepAttempt.passed = true;
+    bumpActivity();
+    const p = loadProg();
+    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+  } else if(stepAttempt.tries < CFG.attemptLimit){
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+    }, 1000);
+    return;
+  }
+  renderTheory();
+}
+
+function nextStep(){
+  if(currentStep < steps.length-1){
+    currentStep++;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    switchTab('practice');
+  }
+}
+function prevStep(){
+  if(currentStep > 0){
+    currentStep--;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+function jumpStep(k){
+  const p = loadProg();
+  if(k <= p.theory){
+    currentStep = k;
+    resetStepAttempt();
+    if(k < p.theory) stepAttempt.passed = true;
+    renderTheory();
+  }
+}
+
+function markStep(){ /* legacy no-op, replaced by step-by-step engine */ }
 
 // ===== Practice =====
 const practice = [
