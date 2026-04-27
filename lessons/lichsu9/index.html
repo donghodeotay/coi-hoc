@@ -187,6 +187,19 @@ body > .back-link{margin:8px 12px 0;display:inline-block}
 
 .back-link{display:inline-block;color:#475569;text-decoration:none;font-size:13px;margin-bottom:10px;padding:5px 12px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;font-weight:500}
 .back-link:hover{background:#f8fafc;color:#0f172a;border-color:#94a3b8}
+
+/* === Visual refresh — matches Địa lí soft-pastel style === */
+body{background:#fffbeb !important}
+.header{background:linear-gradient(135deg,#fde68a,#fed7aa,#fca5a5) !important;color:#78350f !important;box-shadow:0 2px 12px rgba(15,23,42,.06) !important;border-radius:18px !important}
+.header::before{display:none !important}
+.header h1{color:#78350f !important;font-weight:800 !important}
+.header .sub{opacity:1 !important;color:#92400e !important;font-style:italic !important}
+.header .greet{background:#fff !important;color:#a16207 !important;backdrop-filter:none !important;font-weight:600 !important;box-shadow:0 1px 4px rgba(0,0,0,.06) !important}
+.header .lang-tip{background:rgba(255,255,255,.65) !important;color:#78350f !important;border-left-color:#d97706 !important;backdrop-filter:none !important}
+.header .lang-tip strong{color:#78350f !important}
+.pbar{background:rgba(0,0,0,.08) !important}
+.pbar-fill{background:#d97706 !important}
+.ptext{color:#92400e !important;opacity:.85 !important}
 </style>
 </head>
 <body>
@@ -704,7 +717,7 @@ function render(){
 }
 function renderHeader(){
   const o = calcOverall();
-  return '<div class="header"><h1>📜 Lịch sử 9 — Hành trình chinh phục</h1><div class="sub">Sách Kết nối tri thức với cuộc sống · Lịch sử và Địa lí 9</div><div class="greet">👋 Hi Mika!</div><div class="lang-tip">💡 <strong>Hint for Mika:</strong> Tap or hover any underlined Vietnamese word to see the English meaning.</div><div class="pbar"><div class="pbar-fill" style="width:'+o+'%"></div></div><div class="ptext">Tổng tiến độ: '+o+'% hoàn thành</div></div>';
+  return '<div class="header"><h1>📜 Lịch sử 9 — Hành trình chinh phục</h1><div class="sub">Sách Kết nối tri thức với cuộc sống · Lịch sử và Địa lí 9</div><div class="greet">Chào Mika! 📜</div><div class="lang-tip">💡 <strong>Hint for Mika:</strong> Tap or hover any underlined Vietnamese word to see the English meaning.</div><div class="pbar"><div class="pbar-fill" style="width:'+o+'%"></div></div><div class="ptext">Tổng tiến độ: '+o+'% hoàn thành</div></div>';
 }
 function renderMain(){
   if(view.type==='hub') return renderHub();
