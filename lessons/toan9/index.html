@@ -204,6 +204,15 @@ body{background:#faf5ff !important}
 .sgk-section-header .sgk-icon{font-size:18px}
 .sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
 .problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
+
+/* === Mastery model: 5+ attempts, need 3 in a row === */
+.mastery-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:8px 12px;background:#fef3c7;border-radius:8px;font-size:12px;color:#78350f;flex-wrap:wrap}
+.m-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.m-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fcd34d;border:2px solid #d97706;margin-right:4px;transition:all .2s}
+.m-dot.on{background:#16a34a;border-color:#15803d;box-shadow:0 0 0 3px #dcfce7}
+.m-progress{font-size:11px;opacity:.85}
+.success-card.streaking{background:linear-gradient(135deg,#dcfce7,#fef3c7) !important;border-color:#86efac !important;animation:pulse-streak 1.6s ease-out}
+@keyframes pulse-streak{0%{transform:scale(.97);opacity:.7}50%{transform:scale(1);opacity:1}100%{transform:scale(.99);opacity:.95}}
 </style>
 </head>
 <body>
@@ -816,12 +825,13 @@ const LESSON_CONTENT = {
         analogy:'<strong>Hộp bí ẩn</strong> 📦 — Em không biết bên trong có gì, nên gắn nhãn "x".',
         body:'Trong toán, ẩn là một số ta chưa biết, được đặt tên bằng chữ cái (x, y, z...). Trong bài toán cổ, em đặt: <b>x = số cam</b>, <b>y = số quýt</b> (với x, y nguyên dương).',
         blueprint:{problem:'Em mua <b>x</b> quả cam, mỗi quả 6 nghìn. Tổng tiền là gì?',solution:'<b>Quan sát:</b> mỗi quả 6, có x quả → tổng = phép NHÂN.<br><b>Đáp án:</b> 6 × x = <b>6x</b> nghìn.'},
-        attempt:{type:'text',prompt:'<b>Lượt em:</b> Bố mua <b>y</b> quyển sách, mỗi quyển 25 nghìn. Tổng tiền sách là gì?<br><span class="tiny">(VD: 5x)</span>',placeholder:'VD: 6x',answers:['25y','25.y','y25','y.25'],errors:[
-          {pat:/(25\s*\+\s*y)|(y\s*\+\s*25)/i, msg:'<b>STOP.</b> Em đang CỘNG. Mỗi quyển 25, có y quyển → phép <b>NHÂN</b>: 25y.'},
-          {pat:/(25\s*-\s*y)|(y\s*-\s*25)/i, msg:'<b>STOP.</b> Em đang TRỪ. Tổng tiền = giá × số → phép NHÂN: 25y.'},
-          {pat:/(25\s*\/\s*y)|(y\s*\/\s*25)/i, msg:'<b>STOP.</b> Em đang CHIA. Tổng tiền là tích, không phải chia.'},
-          {match:'25', msg:'<b>STOP.</b> Em quên ẩn y rồi! Tổng tiền phụ thuộc số quyển y. Đáp án: 25 × y.'}
-        ],explanation:'✅ <b>25y</b> nghìn. Quy tắc: số đối tượng × giá mỗi cái = tổng (phép nhân).'},
+        attempts:[
+      {type:'text',prompt:`<b>Lượt em (1/5):</b> Bố mua <b>y</b> quyển sách, mỗi quyển 25 nghìn. Tổng tiền sách là gì?`,placeholder:`VD: 6x`,answers:['25y','25.y','y25','y.25'],errors:[{pat:/(25\s*\+\s*y)|(y\s*\+\s*25)/i, msg:'<b>STOP.</b> Em đang CỘNG. Mỗi quyển 25, có y quyển → phép NHÂN: 25y.'},{pat:/(25\s*-\s*y)|(y\s*-\s*25)/i, msg:'<b>STOP.</b> Em đang TRỪ. Tổng = giá × số → NHÂN: 25y.'},{match:'25', msg:'<b>STOP.</b> Em quên ẩn y rồi! Đáp án: 25y.'}],explanation:`✅ <b>25y</b>. Quy tắc: số đối tượng × giá mỗi cái = tổng (NHÂN).`},
+      {type:'text',prompt:`<b>Lượt em (2/5):</b> Mẹ mua <b>a</b> cái bánh, mỗi cái 8 nghìn. Tổng tiền bánh là gì?`,placeholder:`VD: 5x`,answers:['8a','8.a','a8','a.8'],errors:[{pat:/(8\s*\+\s*a)/i, msg:'<b>STOP.</b> Tổng = giá × số → NHÂN, không CỘNG. Đáp án: 8a.'},{match:'8', msg:'<b>STOP.</b> Em quên ẩn a rồi. Đáp án: 8a.'}],explanation:`✅ <b>8a</b>. Mỗi cái bánh 8 nghìn × a cái = 8a nghìn.`},
+      {type:'text',prompt:`<b>Lượt em (3/5):</b> Cửa hàng có <b>n</b> kg gạo, giá 12 nghìn/kg. Tổng tiền gạo?`,placeholder:`VD: 5x`,answers:['12n','12.n','n12','n.12'],errors:[{pat:/12\s*\+\s*n/i, msg:'<b>STOP.</b> Tổng tiền = giá × số kg → NHÂN. Đáp án: 12n.'},{match:'12', msg:'<b>STOP.</b> Em quên n.'}],explanation:`✅ <b>12n</b>. n kg gạo × 12 nghìn/kg = 12n.`},
+      {type:'text',prompt:`<b>Lượt em (4/5):</b> Lan có <b>k</b> cây kẹo, mỗi cây 15 nghìn. Tổng tiền kẹo?`,placeholder:`VD: 5x`,answers:['15k','15.k','k15','k.15'],errors:[{pat:/15\s*\+\s*k/i, msg:'<b>STOP.</b> NHÂN, không CỘNG: 15k.'},{match:'15', msg:'<b>STOP.</b> Em quên k.'}],explanation:`✅ <b>15k</b>.`},
+      {type:'text',prompt:`<b>Lượt em (5/5):</b> Em mua <b>t</b> bút bi, mỗi cây 5 nghìn. Tổng tiền là gì?`,placeholder:`VD: 5x`,answers:['5t','5.t','t5','t.5'],errors:[{pat:/5\s*\+\s*t/i, msg:'<b>STOP.</b> NHÂN: 5t.'},{match:'5', msg:'<b>STOP.</b> Em quên t.'}],explanation:`✅ <b>5t</b>.`}
+    ],
         examples:[{q:'Em có x cây bút, mỗi cây 5 nghìn. Tổng?', a:'5 × x = 5x.'},{q:'Bố hơn em y tuổi. Bố 40. Tuổi em?', a:'40 − y.'}]
       },
       {
@@ -830,11 +840,13 @@ const LESSON_CONTENT = {
         analogy:'<strong>Cái cân thăng bằng</strong> ⚖️ — Bên trái = bên phải. "=" là điểm tựa.',
         body:'Phương trình là đẳng thức có chứa ẩn. Trong bài toán cổ, câu "Quýt, cam mười bảy quả tươi" cho ta phương trình: <span class="math">x + y = 17</span>.',
         blueprint:{problem:'Đặt phương trình cho: "Một số nhân 3 rồi cộng 5 thì bằng 14"',solution:'<b>Bước:</b> Số chưa biết = x. "Nhân 3" → 3x. "Cộng 5" → 3x+5. "Bằng 14" → đặt =.<br><b>Phương trình:</b> 3x + 5 = 14.'},
-        attempt:{type:'text',prompt:'<b>Lượt em:</b> Đặt phương trình: "Một số nhân 2 rồi cộng 1 thì bằng 7"',placeholder:'VD: 3x+5=14',answers:['2x+1=7','1+2x=7'],errors:[
-          {pat:/^[^=]+$/, msg:'<b>STOP.</b> Phương trình PHẢI có dấu "=". Đề "thì bằng 7" → có =.'},
-          {match:'2x=7', msg:'<b>STOP.</b> Em quên "+1". Đề: "nhân 2 RỒI CỘNG 1" → 2x + 1 = 7.'},
-          {pat:/2\+x/, msg:'<b>STOP.</b> "Nhân 2" = 2 × x = 2x, không phải 2 + x.'}
-        ],explanation:'✅ <b>2x + 1 = 7</b>. Bước: gọi x → "nhân 2" = 2x → "cộng 1" = 2x+1 → "bằng 7" = 7.'},
+        attempts:[
+      {type:'text',prompt:`<b>Lượt em (1/5):</b> Đặt phương trình: "Một số nhân 2 rồi cộng 1 thì bằng 7"`,placeholder:`VD: 3x+5=14`,answers:['2x+1=7','1+2x=7'],errors:[{pat:/^[^=]+$/, msg:'<b>STOP.</b> Phương trình PHẢI có dấu "=". Đề "thì bằng 7" → có =.'},{match:'2x=7', msg:'<b>STOP.</b> Em quên "+1". Đề: "nhân 2 RỒI CỘNG 1" → 2x + 1 = 7.'}],explanation:`✅ <b>2x + 1 = 7</b>.`},
+      {type:'text',prompt:`<b>Lượt em (2/5):</b> Đặt phương trình: "Một số nhân 3 rồi cộng 4 thì bằng 10"`,placeholder:`VD: 3x+5=14`,answers:['3x+4=10','4+3x=10'],errors:[{pat:/^[^=]+$/, msg:'<b>STOP.</b> Phải có dấu =.'},{match:'3x=10', msg:'<b>STOP.</b> Quên +4.'}],explanation:`✅ <b>3x + 4 = 10</b>.`},
+      {type:'text',prompt:`<b>Lượt em (3/5):</b> Đặt phương trình: "Một số nhân 5 rồi trừ 2 thì bằng 13"`,placeholder:`VD: 3x+5=14`,answers:['5x-2=13'],errors:[{pat:/^[^=]+$/, msg:'<b>STOP.</b> Phải có =.'},{match:'5x=13', msg:'<b>STOP.</b> Quên -2.'}],explanation:`✅ <b>5x − 2 = 13</b>.`},
+      {type:'text',prompt:`<b>Lượt em (4/5):</b> Đặt phương trình: "Một số nhân 4 thì bằng 20"`,placeholder:`VD: 3x+5=14`,answers:['4x=20'],errors:[{pat:/^[^=]+$/, msg:'<b>STOP.</b> Phải có =.'},{match:'4x', msg:'<b>STOP.</b> Quên "= 20".'}],explanation:`✅ <b>4x = 20</b>. (Không có "cộng" hay "trừ" → chỉ một bước.)`},
+      {type:'text',prompt:`<b>Lượt em (5/5):</b> Đặt phương trình: "Một số cộng 10 thì bằng 25"`,placeholder:`VD: 3x+5=14`,answers:['x+10=25','10+x=25'],errors:[{pat:/^[^=]+$/, msg:'<b>STOP.</b> Phải có =.'},{match:'x10=25', msg:'<b>STOP.</b> "x10" không đúng cú pháp. Viết: x + 10 = 25.'}],explanation:`✅ <b>x + 10 = 25</b>. (Không có "nhân" → hệ số trước x là 1, viết x.)`}
+    ],
         examples:[{q:'"Tuổi em + 10 = 25"', a:'x + 10 = 25.'}]
       },
       {
@@ -843,10 +855,13 @@ const LESSON_CONTENT = {
         analogy:'<strong>Hai hộp bí ẩn</strong> 📦📦 — Một hộp x (cam), hộp kia y (quýt).',
         body:'Phương trình bậc nhất hai ẩn dùng hai chữ khác nhau. Ví dụ từ bài toán cổ: <span class="math">10x + 3y = 100</span> — "100 miếng" với mỗi cam = 10 miếng, mỗi quýt = 3 miếng.',
         blueprint:{problem:'Lan có x cam và y táo, tổng 8 quả. Phương trình?',solution:'<b>Bước:</b> Hai điều chưa biết → hai ẩn x, y. "Tổng cộng 8" → cộng = 8.<br><b>Đáp án:</b> x + y = 8.'},
-        attempt:{type:'text',prompt:'<b>Lượt em:</b> Bình có <b>a</b> kẹo và <b>b</b> bút, tổng 5 món. Viết phương trình.',placeholder:'VD: x+y=8',answers:['a+b=5','b+a=5'],errors:[
-          {match:'ab=5', msg:'<b>STOP.</b> "ab" = a×b. "Tổng" → phép CỘNG: a + b = 5.'},
-          {pat:/^a=5|^b=5/, msg:'<b>STOP.</b> Em mới dùng MỘT ẩn. Đề có hai điều chưa biết → cần CẢ a VÀ b.'}
-        ],explanation:'✅ <b>a + b = 5</b>. Hai chưa biết → hai ẩn. "Tổng" → cộng.'},
+        attempts:[
+      {type:'text',prompt:`<b>Lượt em (1/5):</b> Bình có <b>a</b> kẹo và <b>b</b> bút, tổng 5 món. Viết phương trình.`,placeholder:`VD: x+y=8`,answers:['a+b=5','b+a=5'],errors:[{match:'ab=5', msg:'<b>STOP.</b> "ab" = a×b. "Tổng" → CỘNG: a + b = 5.'},{pat:/^a=5|^b=5/, msg:'<b>STOP.</b> Em mới dùng MỘT ẩn. Cần CẢ a VÀ b.'}],explanation:`✅ <b>a + b = 5</b>. Hai chưa biết → hai ẩn.`},
+      {type:'text',prompt:`<b>Lượt em (2/5):</b> "Tổng hai số x, y bằng 12". Viết phương trình.`,placeholder:`VD: a+b=5`,answers:['x+y=12','y+x=12'],errors:[{match:'xy=12', msg:'<b>STOP.</b> "xy" = x×y. Tổng → CỘNG.'}],explanation:`✅ <b>x + y = 12</b>.`},
+      {type:'text',prompt:`<b>Lượt em (3/5):</b> Lan có <b>m</b> bút và <b>n</b> thước, tổng 8 món. Phương trình?`,placeholder:`VD: a+b=5`,answers:['m+n=8','n+m=8'],errors:[{match:'mn=8', msg:'<b>STOP.</b> Tổng → CỘNG.'}],explanation:`✅ <b>m + n = 8</b>.`},
+      {type:'text',prompt:`<b>Lượt em (4/5):</b> Em có <b>c</b> quả táo và <b>d</b> quả lê, tổng 20 quả. Phương trình?`,placeholder:`VD: a+b=5`,answers:['c+d=20','d+c=20'],errors:[{match:'cd=20', msg:'<b>STOP.</b> Tổng → CỘNG: c + d = 20.'}],explanation:`✅ <b>c + d = 20</b>.`},
+      {type:'text',prompt:`<b>Lượt em (5/5):</b> Anh có <b>u</b> sách và <b>v</b> vở, tổng 15 cuốn. Phương trình?`,placeholder:`VD: a+b=5`,answers:['u+v=15','v+u=15'],errors:[{match:'uv=15', msg:'<b>STOP.</b> Cộng, không nhân.'}],explanation:`✅ <b>u + v = 15</b>.`}
+    ],
         examples:[{q:'"Tổng hai số bằng 12"', a:'x + y = 12.'}]
       },
       {
@@ -855,7 +870,13 @@ const LESSON_CONTENT = {
         analogy:'<strong>Đếm bằng tay</strong> ✋ — "3 cây kẹo" = 3k. "k cái k" = k×k = k² → KHÔNG bậc nhất.',
         body:'Bậc nhất = ẩn ở <b>luỹ thừa 1</b>, không có x², y³, hay xy.',
         blueprint:{problem:'"2x + 3y = 5" có là bậc nhất hai ẩn?',solution:'<b>Kiểm:</b> ① Có 2 ẩn? ✓ ② Mỗi ẩn mũ 1? ✓ ③ Không có xy? ✓ → Là bậc nhất hai ẩn.'},
-        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Phương trình <b>x² + y = 4</b> có là bậc nhất hai ẩn?',correct:'no',errorMsg:'<b>STOP.</b> Nhìn kỹ <b>x²</b> — đó là x mũ 2, không phải mũ 1. → KHÔNG bậc nhất.',explanation:'❌ KHÔNG. x² vi phạm "ẩn chỉ mũ 1". Đây là phương trình bậc HAI.'},
+        attempts:[
+      {type:'yesno',prompt:`<b>Lượt em (1/5):</b> Phương trình <b>x² + y = 4</b> có là bậc nhất hai ẩn?`,correct:'no',errorMsg:`<b>STOP.</b> Nhìn kỹ <b>x²</b> — đó là x mũ 2, không phải mũ 1. → KHÔNG bậc nhất.`,explanation:`❌ KHÔNG. x² vi phạm "ẩn chỉ mũ 1".`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Phương trình <b>7x + 8y = 100</b> có là bậc nhất hai ẩn?`,correct:'yes',errorMsg:`<b>STOP.</b> Hai ẩn x, y, mỗi ẩn mũ 1, không có xy. → CÓ.`,explanation:`✅ CÓ. Đáp ứng đủ định nghĩa.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Phương trình <b>xy = 6</b> có là bậc nhất hai ẩn?`,correct:'no',errorMsg:`<b>STOP.</b> "xy" = x × y — có TÍCH HAI ẨN. Định nghĩa cấm có xy. → KHÔNG.`,explanation:`❌ KHÔNG. xy vi phạm.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Phương trình <b>3x − 5y = 12</b> có là bậc nhất hai ẩn?`,correct:'yes',errorMsg:`<b>STOP.</b> Hai ẩn, mỗi ẩn mũ 1, không có xy → CÓ.`,explanation:`✅ CÓ. a=3, b=−5, c=12.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Phương trình <b>x + y³ = 7</b> có là bậc nhất hai ẩn?`,correct:'no',errorMsg:`<b>STOP.</b> y³ là y mũ 3 — vi phạm "ẩn chỉ mũ 1". → KHÔNG.`,explanation:`❌ KHÔNG. y³ vi phạm.`}
+    ],
         examples:[{q:'7x + 8y = 100', a:'Bậc nhất hai ẩn ✓'},{q:'xy = 6', a:'Có xy → KHÔNG.'}]
       },
       {
@@ -864,17 +885,41 @@ const LESSON_CONTENT = {
         analogy:'<strong>Công thức nấu ăn</strong> 🍲 — Mỗi món có công thức chuẩn.',
         body:'<span class="sgk-ref">📘 SGK trang 6</span> Định nghĩa: Phương trình bậc nhất hai ẩn x và y là hệ thức dạng:<br><div class="mathd">ax + by = c</div>trong đó a, b là các số đã biết (a ≠ 0 hoặc b ≠ 0).',
         blueprint:{problem:'Cho 4x + 3y = 5 (Ví dụ 1 SGK). Tìm a, b, c.',solution:'<b>So với ax + by = c:</b><br>a = 4, b = 3, c = 5.'},
-        attempt:{type:'text',prompt:'<b>Lượt em:</b> Cho <b>9x − 2y = 15</b>. Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>',placeholder:'VD: a=4,b=3,c=5',validate:function(input){
-          const u = norm(input);
-          const m = u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
-          if(m){
-            const a = parseInt(m[1]), b = parseInt(m[2]), c = parseInt(m[3]);
-            if(a===9 && b===-2 && c===15) return { ok:true };
-            if(a===9 && b===2 && c===15) return { ok:false, msg:'<b>STOP.</b> Em viết b=2, nhưng <b>9x − 2y</b> = 15. Dấu trừ thuộc về b! → b = <b>−2</b>.' };
-            return { ok:false, msg:'<b>STOP.</b> Kiểm lại: trước x là 9, trước y là −2 (nhớ dấu trừ!), vế phải 15.' };
-          }
-          return { ok:false, msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…' };
-        },explanation:'✅ <b>a = 9, b = −2, c = 15</b>. Lưu ý: dấu trừ trước 2y → b âm.'},
+        attempts:[
+      {type:'text',prompt:`<b>Lượt em (1/5):</b> Cho <b>9x − 2y = 15</b>. Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>`,placeholder:'VD: a=4,b=3,c=5',validate:function(input){
+      const u=norm(input); const m=u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
+      if(m){const a=parseInt(m[1]),b=parseInt(m[2]),cc=parseInt(m[3]);
+        if(a===9&&b===-2&&cc===15)return{ok:true};
+        if(a===9&&b===2&&cc===15)return{ok:false,msg:'<b>STOP.</b> Em viết b=2, nhưng <b>9x − 2y</b>. Dấu trừ thuộc về b! → b = <b>−2</b>.'};
+        return{ok:false,msg:'<b>STOP.</b> Kiểm lại: a trước x là 9, b trước y là −2 (nhớ dấu trừ!), c là 15.'};}
+      return{ok:false,msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…'};},explanation:'✅ <b>a = 9, b = −2, c = 15</b>. Dấu trừ trước 2y → b âm.'},
+      {type:'text',prompt:`<b>Lượt em (2/5):</b> Cho <b>4x + 3y = 5</b> (Ví dụ 1 SGK). Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>`,placeholder:'VD: a=…,b=…,c=…',validate:function(input){
+      const u=norm(input); const m=u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
+      if(m){const a=parseInt(m[1]),b=parseInt(m[2]),cc=parseInt(m[3]);
+        if(a===4&&b===3&&cc===5)return{ok:true};
+        return{ok:false,msg:'<b>STOP.</b> a=4, b=3, c=5. Cẩn thận đọc đúng số.'};}
+      return{ok:false,msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…'};},explanation:'✅ <b>a = 4, b = 3, c = 5</b>.'},
+      {type:'text',prompt:`<b>Lượt em (3/5):</b> Cho <b>−3x + y = 0</b>. Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>`,placeholder:'VD: a=…,b=…,c=…',validate:function(input){
+      const u=norm(input); const m=u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
+      if(m){const a=parseInt(m[1]),b=parseInt(m[2]),cc=parseInt(m[3]);
+        if(a===-3&&b===1&&cc===0)return{ok:true};
+        if(b===0)return{ok:false,msg:'<b>STOP.</b> Trước y không có số nào → hệ số là <b>1</b> (mặc định), không phải 0.'};
+        return{ok:false,msg:'<b>STOP.</b> a=−3 (dấu trừ!), b=1 (mặc định), c=0.'};}
+      return{ok:false,msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…'};},explanation:'✅ <b>a = −3, b = 1, c = 0</b>. Trước y không có số → hệ số là 1.'},
+      {type:'text',prompt:`<b>Lượt em (4/5):</b> Cho <b>7x + 2y = 14</b>. Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>`,placeholder:'VD: a=…,b=…,c=…',validate:function(input){
+      const u=norm(input); const m=u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
+      if(m){const a=parseInt(m[1]),b=parseInt(m[2]),cc=parseInt(m[3]);
+        if(a===7&&b===2&&cc===14)return{ok:true};
+        return{ok:false,msg:'<b>STOP.</b> a=7, b=2, c=14.'};}
+      return{ok:false,msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…'};},explanation:'✅ <b>a = 7, b = 2, c = 14</b>.'},
+      {type:'text',prompt:`<b>Lượt em (5/5):</b> Cho <b>2x − 5y = 10</b>. Tìm a, b, c.<br><span class="tiny">Gõ: a=…, b=…, c=…</span>`,placeholder:'VD: a=…,b=…,c=…',validate:function(input){
+      const u=norm(input); const m=u.match(/a=(-?\d+)[,;]*b=(-?\d+)[,;]*c=(-?\d+)/);
+      if(m){const a=parseInt(m[1]),b=parseInt(m[2]),cc=parseInt(m[3]);
+        if(a===2&&b===-5&&cc===10)return{ok:true};
+        if(b===5)return{ok:false,msg:'<b>STOP.</b> Đề <b>2x − 5y</b>. Dấu trừ thuộc về b → b = <b>−5</b>.'};
+        return{ok:false,msg:'<b>STOP.</b> a=2, b=−5 (dấu trừ!), c=10.'};}
+      return{ok:false,msg:'<b>STOP.</b> Hãy gõ đúng dạng: a=…, b=…, c=…'};},explanation:'✅ <b>a = 2, b = −5, c = 10</b>.'}
+    ],
         examples:[{q:'7x + 2y = 14', a:'a=7, b=2, c=14.'},{q:'−3x + y = 0', a:'a=−3, b=1, c=0.'}]
       },
       {
@@ -883,7 +928,13 @@ const LESSON_CONTENT = {
         analogy:'<strong>Mở khóa</strong> 🔑 — Phương trình = ổ khóa, nghiệm = chìa khóa vừa khít.',
         body:'<span class="sgk-ref">📘 SGK trang 6</span> Nghiệm = cặp (x₀; y₀) sao cho khi thay vào, hai vế bằng nhau. Ví dụ 1 SGK: cặp (2;-1) là nghiệm của 4x + 3y = 5 vì 4·2 + 3·(-1) = 5 ✓.',
         blueprint:{problem:'(2; -1) có là nghiệm của 4x + 3y = 5?',solution:'<b>B1: Thay.</b> 4·2 + 3·(-1).<br><b>B2: Tính.</b> = 8 − 3 = 5.<br><b>B3: So sánh.</b> = vế phải ✓ → Là nghiệm.'},
-        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Cặp <b>(4; 1)</b> có là nghiệm của <b>2x + 3y = 11</b>?<br><span class="tiny">Hãy thay vào và tính trong đầu trước khi chọn.</span>',correct:'yes',errorMsg:'<b>STOP.</b> Thay từng bước: 2 × 4 = 8. 3 × 1 = 3. 8 + 3 = <b>11</b>. Bằng vế phải! → ĐÚNG là nghiệm.',explanation:'✅ ĐÚNG. 2(4) + 3(1) = 8 + 3 = 11 ✓'},
+        attempts:[
+      {type:'yesno',prompt:`<b>Lượt em (1/5):</b> Cặp <b>(4; 1)</b> có là nghiệm của <b>2x + 3y = 11</b>?<br><span class="tiny">Tính trong đầu trước khi chọn.</span>`,correct:'yes',errorMsg:`<b>STOP.</b> Thay từng bước: 2 × 4 = 8. 3 × 1 = 3. 8 + 3 = <b>11</b>. Bằng vế phải! → ĐÚNG.`,explanation:`✅ ĐÚNG. 2(4) + 3(1) = 8 + 3 = 11 ✓`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Cặp <b>(2; −1)</b> có là nghiệm của <b>4x + 3y = 5</b>? (Ví dụ 1 SGK)`,correct:'yes',errorMsg:`<b>STOP.</b> 4(2) + 3(−1) = 8 − 3 = <b>5</b> ✓ → ĐÚNG.`,explanation:`✅ ĐÚNG. 8 − 3 = 5 ✓ (Ví dụ 1 SGK trang 6).`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Cặp <b>(3; 0)</b> có là nghiệm của <b>x + y = 3</b>?`,correct:'yes',errorMsg:`<b>STOP.</b> 3 + 0 = 3 ✓ → ĐÚNG.`,explanation:`✅ ĐÚNG. 3 + 0 = 3 ✓ (cẩn thận: 0 vẫn là số hợp lệ).`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Cặp <b>(1; 0)</b> có là nghiệm của <b>4x + 3y = 5</b>?`,correct:'no',errorMsg:`<b>STOP.</b> 4(1) + 3(0) = 4 + 0 = 4 ≠ 5 → KHÔNG.`,explanation:`❌ KHÔNG. 4 ≠ 5.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Cặp <b>(5; −3)</b> có là nghiệm của <b>2x + y = 7</b>?`,correct:'yes',errorMsg:`<b>STOP.</b> 2(5) + (−3) = 10 − 3 = <b>7</b> ✓ → ĐÚNG.`,explanation:`✅ ĐÚNG. 10 − 3 = 7 ✓ (cẩn thận với số âm).`}
+    ],
         examples:[{q:'(1;0) thoả 4x + 3y = 5?', a:'4(1) + 3(0) = 4 ≠ 5 → KHÔNG (Ví dụ 1 SGK).'}]
       },
       {
@@ -892,14 +943,38 @@ const LESSON_CONTENT = {
         analogy:'<strong>Manh mối thám tử</strong> 🔍 — "17 quả trái cây" có vô số khả năng.',
         body:'<span class="sgk-ref">📘 SGK trang 7 — Chú ý</span> Mỗi phương trình bậc nhất hai ẩn có vô số nghiệm. Đồ thị của ax+by=c là một <b>đường thẳng</b>.<br><br><div data-graph="x+y=6"></div>',
         blueprint:{problem:'Tìm 1 nghiệm của x + y = 7.',solution:'<b>Cách:</b> Cho x bất kỳ, tính y.<br>x = 0 → y = 7 → (0;7). x = 3 → y = 4 → (3;4). Vô số!'},
-        attempt:{type:'text',prompt:'<b>Lượt em:</b> Tìm <b>1 nghiệm</b> bất kỳ của <b>x + y = 5</b>.<br><span class="tiny">Gõ: (x;y) — VD (2;3)</span>',placeholder:'VD: (2;3)',validate:function(input){
-          const u = String(input).replace(/\s+/g,'').replace(/,/g,';');
-          const m = u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
-          if(!m) return { ok:false, msg:'<b>STOP.</b> Hãy viết dạng (x;y). VD: (2;3)' };
-          const x = parseInt(m[1]), y = parseInt(m[2]);
-          if(x + y === 5) return { ok:true };
-          return { ok:false, msg:'<b>STOP.</b> Em viết ('+x+';'+y+'). Thay vào: '+x+' + '+y+' = '+(x+y)+'. Phải bằng 5.' };
-        },explanation:'✅ Đúng! Nhiều cặp đúng: (0;5), (1;4), (2;3), (5;0)... vô số!'},
+        attempts:[
+      {type:'text',prompt:`<b>Lượt em (1/5):</b> Tìm <b>1 nghiệm</b> bất kỳ của <b>x + y = 5</b>.<br><span class="tiny">Gõ: (x;y)</span>`,placeholder:'VD: (2;3)',validate:function(input){
+      const u=String(input).replace(/\s+/g,'').replace(/,/g,';'); const m=u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
+      if(!m)return{ok:false,msg:'<b>STOP.</b> Dạng (x;y). VD: (2;3)'};
+      const x=parseInt(m[1]),y=parseInt(m[2]);
+      if(x+y===5)return{ok:true};
+      return{ok:false,msg:'<b>STOP.</b> ('+x+';'+y+'). Thay vào: '+x+'+'+y+'='+(x+y)+'. Phải = 5.'};},explanation:'✅ Đúng! Vô số: (0;5), (1;4), (2;3), (5;0)…'},
+      {type:'text',prompt:`<b>Lượt em (2/5):</b> Tìm <b>1 nghiệm</b> bất kỳ của <b>2x + y = 4</b>.<br><span class="tiny">Gõ: (x;y)</span>`,placeholder:'VD: (1;2)',validate:function(input){
+      const u=String(input).replace(/\s+/g,'').replace(/,/g,';'); const m=u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
+      if(!m)return{ok:false,msg:'<b>STOP.</b> Dạng (x;y).'};
+      const x=parseInt(m[1]),y=parseInt(m[2]);
+      if(2*x+y===4)return{ok:true};
+      return{ok:false,msg:'<b>STOP.</b> 2('+x+')+('+y+')='+(2*x+y)+'. Phải = 4.'};},explanation:'✅ Vô số: (0;4), (1;2), (2;0), (−1;6)…'},
+      {type:'text',prompt:`<b>Lượt em (3/5):</b> Tìm <b>1 nghiệm</b> bất kỳ của <b>x − y = 2</b>.<br><span class="tiny">Gõ: (x;y)</span>`,placeholder:'VD: (5;3)',validate:function(input){
+      const u=String(input).replace(/\s+/g,'').replace(/,/g,';'); const m=u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
+      if(!m)return{ok:false,msg:'<b>STOP.</b> Dạng (x;y).'};
+      const x=parseInt(m[1]),y=parseInt(m[2]);
+      if(x-y===2)return{ok:true};
+      return{ok:false,msg:'<b>STOP.</b> '+x+'−'+y+'='+(x-y)+'. Phải = 2.'};},explanation:'✅ Vô số: (2;0), (3;1), (5;3), (10;8)…'},
+      {type:'text',prompt:`<b>Lượt em (4/5):</b> Tìm <b>1 nghiệm</b> bất kỳ của <b>x + 2y = 6</b>.<br><span class="tiny">Gõ: (x;y)</span>`,placeholder:'VD: (2;2)',validate:function(input){
+      const u=String(input).replace(/\s+/g,'').replace(/,/g,';'); const m=u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
+      if(!m)return{ok:false,msg:'<b>STOP.</b> Dạng (x;y).'};
+      const x=parseInt(m[1]),y=parseInt(m[2]);
+      if(x+2*y===6)return{ok:true};
+      return{ok:false,msg:'<b>STOP.</b> '+x+'+2('+y+')='+(x+2*y)+'. Phải = 6.'};},explanation:'✅ Vô số: (0;3), (2;2), (4;1), (6;0)…'},
+      {type:'text',prompt:`<b>Lượt em (5/5):</b> Tìm <b>1 nghiệm</b> bất kỳ của <b>3x + y = 9</b>.<br><span class="tiny">Gõ: (x;y)</span>`,placeholder:'VD: (1;6)',validate:function(input){
+      const u=String(input).replace(/\s+/g,'').replace(/,/g,';'); const m=u.match(/^\(?(-?\d+);(-?\d+)\)?$/);
+      if(!m)return{ok:false,msg:'<b>STOP.</b> Dạng (x;y).'};
+      const x=parseInt(m[1]),y=parseInt(m[2]);
+      if(3*x+y===9)return{ok:true};
+      return{ok:false,msg:'<b>STOP.</b> 3('+x+')+'+y+'='+(3*x+y)+'. Phải = 9.'};},explanation:'✅ Vô số: (0;9), (1;6), (2;3), (3;0)…'}
+    ],
         examples:[{q:'4 nghiệm của 2x + y = 4', a:'(0;4), (1;2), (2;0), (−1;6).'}]
       },
       {
@@ -908,7 +983,13 @@ const LESSON_CONTENT = {
         analogy:'<strong>Hai manh mối</strong> 🔍🔍 — Một thu hẹp, hai chỉ ra đáp án duy nhất.',
         body:'<span class="sgk-ref">📘 SGK trang 8</span> Hệ hai phương trình bậc nhất hai ẩn = hai phương trình {ax+by=c, a\'x+b\'y=c\'} viết cùng. Nghiệm phải thoả <b>cả hai</b>. Ví dụ 5 SGK: cặp (1;2) thoả hệ {2x-y=0, x+y=3}.',
         blueprint:{problem:'(1; 2) có là nghiệm hệ {2x-y=0, x+y=3}?',solution:'<b>Kiểm CẢ HAI:</b><br>PT1: 2(1)-2=0 ✓<br>PT2: 1+2=3 ✓<br>→ Là nghiệm.'},
-        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Cặp <b>(3; 2)</b> có là nghiệm hệ <b>{x + y = 5, 2x − y = 4}</b>?',correct:'yes',errorMsg:'<b>STOP.</b> Kiểm:<br>PT1: 3+2=5 ✓<br>PT2: 2(3)−2 = 6−2 = 4 ✓<br>Cả hai ✓ → ĐÚNG.',explanation:'✅ ĐÚNG. PT1: 3+2=5 ✓. PT2: 2(3)−2=4 ✓.'},
+        attempts:[
+      {type:'yesno',prompt:`<b>Lượt em (1/5):</b> Cặp <b>(3; 2)</b> có là nghiệm hệ <b>{x + y = 5, 2x − y = 4}</b>?`,correct:'yes',errorMsg:`<b>STOP.</b> PT1: 3+2=5 ✓. PT2: 2(3)−2 = 4 ✓. Cả hai → ĐÚNG.`,explanation:`✅ ĐÚNG. PT1: 5 ✓. PT2: 4 ✓.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Cặp <b>(1; 2)</b> có là nghiệm hệ <b>{2x − y = 0, x + y = 3}</b>? (Ví dụ 5 SGK)`,correct:'yes',errorMsg:`<b>STOP.</b> PT1: 2(1)−2 = 0 ✓. PT2: 1+2 = 3 ✓. → ĐÚNG.`,explanation:`✅ ĐÚNG (Ví dụ 5 SGK trang 9).`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Cặp <b>(2; 1)</b> có là nghiệm hệ <b>{x + y = 3, 3x − y = 5}</b>?`,correct:'yes',errorMsg:`<b>STOP.</b> PT1: 2+1=3 ✓. PT2: 3(2)−1 = 5 ✓. → ĐÚNG.`,explanation:`✅ ĐÚNG. PT1: 3 ✓. PT2: 5 ✓.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Cặp <b>(1; 1)</b> có là nghiệm hệ <b>{x + y = 2, x − y = 1}</b>?`,correct:'no',errorMsg:`<b>STOP.</b> PT1: 1+1=2 ✓. PT2: 1−1 = 0 ≠ 1 ✗. → KHÔNG (chỉ cần một PT sai là đủ).`,explanation:`❌ KHÔNG. PT2 sai (0 ≠ 1).`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Cặp <b>(4; −1)</b> có là nghiệm hệ <b>{x + y = 3, x − y = 5}</b>?`,correct:'yes',errorMsg:`<b>STOP.</b> PT1: 4+(−1) = 3 ✓. PT2: 4−(−1) = 4+1 = 5 ✓. → ĐÚNG.`,explanation:`✅ ĐÚNG. (Cẩn thận với x − (−y) = x + y.)`}
+    ],
         examples:[{q:'(1;1) trong {x+y=2, x−y=1}?', a:'PT1 ✓, PT2: 1−1=0 ≠ 1 ✗ → KHÔNG.'}]
       },
       {
@@ -917,10 +998,13 @@ const LESSON_CONTENT = {
         analogy:'<strong>Bộ chìa khóa vạn năng</strong> 🗝️',
         body:'<span class="sgk-ref">📘 SGK trang 9 — Vận dụng</span> Quay lại bài toán cổ: Gọi x = số cam, y = số quýt (x, y nguyên dương). Hệ phương trình bậc nhất hai ẩn là:<div class="mathd">{ x + y = 17<br>&nbsp;10x + 3y = 100 }</div><div class="recap"><h4>Tóm tắt Bài 1:</h4><ul class="simple"><li>Ẩn = số chưa biết</li><li>PT bậc nhất 2 ẩn: ax + by = c (a≠0 hoặc b≠0)</li><li>Nghiệm = cặp (x₀;y₀) thoả pt</li><li>Một pt → vô số nghiệm (đồ thị là đường thẳng)</li><li>Hệ pt → cần thoả CẢ HAI pt</li></ul></div>',
         blueprint:{problem:'Bài toán cổ — kiểm tra 2 cặp (10;7) và (7;10), cặp nào là nghiệm?',solution:'<b>Thử (10;7):</b><br>PT1: 10+7 = 17 ✓<br>PT2: 10·10 + 3·7 = 100+21 = 121 ❌<br><br><b>Thử (7;10):</b><br>PT1: 7+10 = 17 ✓<br>PT2: 10·7 + 3·10 = 70+30 = 100 ✓<br><br>→ <b>(7; 10)</b> là nghiệm: 7 cam, 10 quýt.'},
-        attempt:{type:'text',prompt:'<b>Câu hỏi cuối:</b> Cặp (7; 10) có thoả phương trình <b>10x + 3y = 100</b>? (gõ "có" hoặc "không")',placeholder:'có / không',answers:['có','co','yes','dung','đúng'],errors:[
-          {match:'không', msg:'<b>STOP.</b> Thay: 10(7)+3(10) = 70+30 = 100. Bằng vế phải! → ĐÚNG.'},
-          {match:'khong', msg:'<b>STOP.</b> Thay: 10(7)+3(10) = 70+30 = 100. Bằng vế phải! → ĐÚNG.'}
-        ],explanation:'✅ ĐÚNG. 10(7)+3(10) = 70+30 = 100 ✓. Đáp án bài toán cổ: <b>7 cam, 10 quýt</b>! Mika đã giải xong bài toán mà người Việt đã yêu thích hàng trăm năm. 🎉'},
+        attempts:[
+      {type:'yesno',prompt:`<b>Lượt em (1/5):</b> Cặp <b>(7; 10)</b> (7 cam, 10 quýt) có thoả phương trình <b>10x + 3y = 100</b>?`,correct:'yes',errorMsg:`<b>STOP.</b> 10(7) + 3(10) = 70 + 30 = <b>100</b> ✓ → ĐÚNG.`,explanation:`✅ ĐÚNG. 70 + 30 = 100 ✓ (đáp án bài toán cổ).`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Cặp <b>(10; 7)</b> có thoả phương trình <b>10x + 3y = 100</b>?`,correct:'no',errorMsg:`<b>STOP.</b> 10(10) + 3(7) = 100 + 21 = <b>121</b> ≠ 100 → KHÔNG.`,explanation:`❌ KHÔNG. 121 ≠ 100. Trật tự (cam; quýt) quan trọng!`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Cặp <b>(5; 12)</b> có thoả phương trình <b>x + y = 17</b>?`,correct:'yes',errorMsg:`<b>STOP.</b> 5 + 12 = 17 ✓ → ĐÚNG.`,explanation:`✅ ĐÚNG cho PT1. Nhưng đề kiểm CẢ HAI PT — em phải kiểm thêm PT2.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Cặp <b>(5; 12)</b> có là nghiệm của <b>HỆ {x + y = 17, 10x + 3y = 100}</b>?`,correct:'no',errorMsg:`<b>STOP.</b> PT1 ✓, nhưng PT2: 10(5) + 3(12) = 50 + 36 = 86 ≠ 100 ✗. → KHÔNG là nghiệm hệ.`,explanation:`❌ KHÔNG. Phải thoả CẢ HAI PT. Đáp án thật là (7; 10).`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Cặp <b>(8; 9)</b> có là nghiệm của <b>HỆ {x + y = 17, 10x + 3y = 100}</b>?`,correct:'no',errorMsg:`<b>STOP.</b> PT1: 8+9=17 ✓. PT2: 10(8)+3(9) = 80+27 = 107 ≠ 100 ✗. → KHÔNG.`,explanation:`❌ KHÔNG. Chỉ (7; 10) thoả cả hai. Đó là đáp án bài toán cổ.`}
+    ],
         examples:[{q:'Tại sao cần HAI phương trình?', a:'Vì có 2 ẩn. Mỗi pt cho vô số nghiệm; hai pt cho 1 nghiệm duy nhất.'},{q:'Cặp (10;7) có sai ở đâu?', a:'PT1 ✓ (10+7=17) nhưng PT2 sai: 10·10+3·7=121, không phải 100.'}]
       }
     ],
@@ -1036,6 +1120,20 @@ function calcOverall(){
   CURRICULUM.forEach(ch=>ch.lessons.forEach(l=>{ if(l.built){ c++; if(isLessonDone(ch.id,l.id)) t++; } }));
   return c>0 ? Math.round(t/c*100) : 0;
 }
+function getCurrentAttempt(item){
+  // Backward compat: support both old single attempt and new attempts array
+  if(item.attempts && Array.isArray(item.attempts)){
+    if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[], currentVar:0, streak:0 };
+    if(typeof lessonView.attempt.currentVar !== 'number') lessonView.attempt.currentVar = 0;
+    return item.attempts[lessonView.attempt.currentVar % item.attempts.length];
+  }
+  return item.attempt;
+}
+function getMasteryTotal(item){
+  return item.attempts ? item.attempts.length : 1;
+}
+function getMasteryRequired(){ return 3; } // 3 correct in a row to advance
+
 function getCurrentDpItem(){
   const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
   if(lessonView.tab === 'theory') return lc.steps[lessonView.step];
@@ -1147,12 +1245,21 @@ function renderDeepPractice(item, ctx){
   if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
   const a = lessonView.attempt;
   const bp = item.blueprint;
-  const at = item.attempt;
+  const at = getCurrentAttempt(item);
   let h = '';
   if(bp){
     h += '<div class="blueprint"><div class="bp-tag">BƯỚC 1 · QUAN SÁT</div><h4>👀 Xem chuyên gia làm</h4><div class="bp-prob"><b>Bài:</b> '+highlight(bp.problem)+'</div><div class="bp-sol">'+highlight(bp.solution)+'</div></div>';
   }
-  h += '<div class="attempt"><div class="at-tag">BƯỚC 2 · LƯỢT EM</div><h4>✏️ Em hãy thử</h4><div class="at-prompt">'+highlight(at.prompt)+'</div>';
+  h += '<div class="attempt"><div class="at-tag">BƯỚC 2 · LƯỢT EM</div><h4>✏️ Em hãy thử</h4>'+
+    (item.attempts ? (function(){
+      const need = getMasteryRequired();
+      const streak = (a.streak || 0);
+      let dots = '';
+      for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+      const total = getMasteryTotal(item);
+      const varN = (a.currentVar || 0) % total + 1;
+      return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+    })() : '')+'<div class="at-prompt">'+highlight(at.prompt)+'</div>';
   if(at.type === 'yesno'){
     h += '<div class="yesno"><button data-act="dp-yesno" data-v="yes" '+(a.passed||a.state==='pause'?'disabled':'')+'>✓ Có</button><button data-act="dp-yesno" data-v="no" '+(a.passed||a.state==='pause'?'disabled':'')+'>✗ Không</button></div>';
   } else {
@@ -1169,6 +1276,9 @@ function renderDeepPractice(item, ctx){
   }
   if(a.state === 'pause'){
     h += '<div class="replay"><div class="rp-title">🧘 Đọc thầm trong đầu...</div><div class="rp-count" id="rp-count">'+a.pauseLeft+'</div><div class="rp-text">Đọc lại bài giải mẫu, nhẩm các bước, rồi thử lại.</div></div>';
+  }
+  if(a.state === 'correct-streaking'){
+    h += '<div class="success-card streaking"><div class="sc-title">✅ Đúng — sang biến thể tiếp...</div><div class="sc-body">Mastery: '+(a.streak||0)+'/'+getMasteryRequired()+' đúng liên tiếp.</div></div>';
   }
   if(a.state === 'correct' && a.passed){
     h += '<div class="success-card"><div class="sc-title">🎯 Đúng rồi!</div><div class="sc-body">'+highlight(at.explanation)+'</div>';
@@ -1345,24 +1455,54 @@ function handleAction(act, el){
 function handleDeepSubmit(input){
   const item = getCurrentDpItem();
   if(!item) return;
-  const at = item.attempt;
-  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const at = getCurrentAttempt(item);
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[], currentVar:0, streak:0 };
   const a = lessonView.attempt;
+  if(typeof a.currentVar !== 'number') a.currentVar = 0;
+  if(typeof a.streak !== 'number') a.streak = 0;
   if(a.passed || a.state === 'pause') return;
   a.lastInput = input;
   const result = validateAttempt(at, input);
   a.tries++;
   a.history.push(result.ok);
-  if(result.ok){
-    a.passed = true;
-    a.state = 'correct';
+  
+  // Mastery model (5+ variations, need 3 correct in a row)
+  if(item.attempts){
+    if(result.ok){
+      a.streak++;
+      if(a.streak >= getMasteryRequired()){
+        a.passed = true;
+        a.state = 'correct';
+      } else {
+        // Got it right but mastery not reached — advance to next variation, stay in idle
+        a.currentVar = (a.currentVar + 1) % item.attempts.length;
+        a.lastInput = '';
+        a.state = 'correct-streaking'; // intermediate state — show "Đúng! Sang câu tiếp..."
+        a.lastMsg = result.msg || '';
+        // Auto-advance after 2 sec
+        setTimeout(()=>{ if(a.state==='correct-streaking'){ a.state='idle'; render(); } }, 1800);
+      }
+    } else {
+      a.state = 'wrong';
+      a.streak = 0; // reset streak on wrong
+      a.lastMsg = result.msg || '<b>Chưa đúng.</b> Nhìn lại bài mẫu, đọc nhẩm trong đầu, rồi thử lại.';
+      if(a.tries >= 8){ // safety: 8 total tries, reveal and allow advance
+        a.revealed = true;
+        a.passed = true;
+        a.state = 'correct';
+      }
+    }
   } else {
-    a.state = 'wrong';
-    a.lastMsg = result.msg || '<b>Chưa đúng.</b> Nhìn lại bài mẫu, đọc nhẩm trong đầu, rồi thử lại.';
-    if(a.tries >= 3){ a.revealed = true; a.passed = true; a.state = 'correct'; }
+    // Old single-attempt path (legacy)
+    if(result.ok){ a.passed = true; a.state = 'correct'; }
+    else {
+      a.state = 'wrong';
+      a.lastMsg = result.msg || '<b>Chưa đúng.</b>';
+      if(a.tries >= 3){ a.revealed = true; a.passed = true; a.state = 'correct'; }
+    }
   }
   render();
-  if(!a.passed && !a.revealed){ setTimeout(()=>startReplay(), 500); }
+  if(!a.passed && !a.revealed && a.state==='wrong'){ setTimeout(()=>startReplay(), 500); }
 }
 function startReplay(){
   const a = lessonView.attempt;
@@ -1378,6 +1518,11 @@ function startReplay(){
       clearInterval(replayTimer); replayTimer = null;
       a.state = 'idle';
       a.lastInput = '';
+      // After pause from a wrong answer, advance to next variation (if mastery model)
+      const item = getCurrentDpItem();
+      if(item && item.attempts){
+        a.currentVar = (a.currentVar + 1) % item.attempts.length;
+      }
       render();
     }
   }, 1000);
