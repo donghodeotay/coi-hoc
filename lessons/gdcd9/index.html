@@ -156,6 +156,12 @@ nav.tabs button:hover:not(.active){background:var(--sky-soft);color:var(--sky-2)
 .sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
 .problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 .problem-sgk .q{color:#7c2d12}
+
+.mastery-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:8px 12px;background:#fef3c7;border-radius:8px;font-size:12px;color:#78350f;flex-wrap:wrap}
+.m-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.m-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fcd34d;border:2px solid #d97706;margin-right:4px;transition:all .2s}
+.m-dot.on{background:#16a34a;border-color:#15803d;box-shadow:0 0 0 3px #dcfce7}
+.m-progress{font-size:11px;opacity:.85}
 </style>
 </head>
 <body>
@@ -416,7 +422,13 @@ const steps = [
     after:'Sau: lí tưởng đơn giản là câu trả lời cho "em muốn cuộc đời em có ý nghĩa gì?"'
   ,
     blueprint:{problem:`Lí tưởng = câu trả lời cho "em muốn cuộc đời em có ý nghĩa gì?"`,solution:`Bài hôm nay khám phá: lí tưởng là gì và tại sao quan trọng.`},
-    attempt:{type:`choice`,prompt:`Lí tưởng là gì?`,choices:[`Một loại bài hát`,`Mục đích cao đẹp + có ý nghĩa cho người khác`,`Một giấc mơ ngắn`,`Một lời hứa`],correct:1,errorMsg:`<b>STOP.</b> Lí tưởng = mục đích cao đẹp + ý nghĩa cho cộng đồng.`,explanation:`✅ Đúng. Mục đích cao đẹp, vì người khác.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Lí tưởng là gì?`,choices:['Một loại bài hát','Mục đích cao đẹp + ý nghĩa cho người khác','Một giấc mơ ngắn','Một lời hứa'],correct:1,errorMsg:`<b>STOP.</b> Mục đích cao đẹp + lợi ích cộng đồng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Lí tưởng phải có ý nghĩa cho cộng đồng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Lí tưởng KHÔNG phải:`,choices:['Mục đích cao đẹp','Có kế hoạch','Một ham muốn nhỏ','Quyết tâm'],correct:2,errorMsg:`<b>STOP.</b> Ham muốn nhỏ ≠ lí tưởng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Người sống có lí tưởng có động lực vượt khó?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Trong bài hát "Tự nguyện", "Là người tôi sẽ chết cho quê hương" thể hiện điều gì?`,choices:['Sự tuyệt vọng','Lí tưởng cao đẹp','Buồn bã','Sợ hãi'],correct:1,errorMsg:`<b>STOP.</b> Lí tưởng — sống vì quê hương.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'2. Định nghĩa — sống có lí tưởng',
@@ -431,7 +443,13 @@ const steps = [
     after:'Sau: lí tưởng = mục đích đẹp + kế hoạch + quyết tâm. Ba phần phải đủ.'
   ,
     blueprint:{problem:`Sống có lí tưởng = mục đích cao đẹp + có kế hoạch + quyết tâm phấn đấu.`,solution:`3 thành phần phải đủ. Thiếu 1 = không phải lí tưởng.`},
-    attempt:{type:`choice`,prompt:`"Sống có lí tưởng" KHÔNG bao gồm thành phần nào?`,choices:[`Mục đích cao đẹp`,`Có kế hoạch`,`Quyết tâm phấn đấu`,`Phải có nhiều tiền`],correct:3,errorMsg:`<b>STOP.</b> Tiền không phải thành phần của lí tưởng — tiền chỉ là phương tiện.`,explanation:`✅ Đúng. Lí tưởng cần đủ 3: mục đích + kế hoạch + quyết tâm.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> "Sống có lí tưởng" KHÔNG bao gồm thành phần nào?`,choices:['Mục đích cao đẹp','Có kế hoạch','Quyết tâm phấn đấu','Phải có nhiều tiền'],correct:3,errorMsg:`<b>STOP.</b> Tiền không phải thành phần.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Lí tưởng có 3 thành phần. Đó là?`,choices:['Cao + sang + đẹp','Mục đích + kế hoạch + quyết tâm','Tiền + danh + lợi','Học + làm + ngủ'],correct:1,errorMsg:`<b>STOP.</b> Mục đích + kế hoạch + quyết tâm.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Có mục đích nhưng không có kế hoạch — đây vẫn là lí tưởng?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Phải có cả 3 thành phần.`,explanation:`❌ KHÔNG.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Lí tưởng phải có ích cho cộng đồng / quốc gia / nhân loại?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> "Tôi muốn nổi tiếng để mọi người ngưỡng mộ" — đây là?`,choices:['Lí tưởng cao đẹp','Mục đích cá nhân, chưa phải lí tưởng','Ảo tưởng','Ước mơ đẹp'],correct:1,errorMsg:`<b>STOP.</b> Chỉ vì bản thân → mục đích cá nhân, không lí tưởng.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'3. Câu chuyện Hồ Chí Minh',
@@ -444,7 +462,13 @@ const steps = [
     after:'Sau: lãnh đạo lớn = người sống vì người khác, không phải vì bản thân.'
   ,
     blueprint:{problem:`Bác Hồ: "ham muốn tột bậc" là độc lập + tự do + dân được ăn no, mặc ấm, học hành.`,solution:`Lãnh đạo lớn = sống vì người khác, không phải vì bản thân.`},
-    attempt:{type:`choice`,prompt:`Theo lời Bác Hồ, "ham muốn tột bậc" của Bác là:`,choices:[`Tiền tài`,`Độc lập tự do, dân được ấm no học hành`,`Quyền lực`,`Du lịch`],correct:1,errorMsg:`<b>STOP.</b> Bác Hồ ở vị trí cao nhất nhưng "ham muốn" duy nhất là người dân được no ấm.`,explanation:`✅ Đúng. Sức mạnh của lí tưởng.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> "Ham muốn tột bậc" của Bác Hồ là?`,choices:['Tiền tài','Độc lập tự do, dân được ấm no học hành','Quyền lực','Du lịch'],correct:1,errorMsg:`<b>STOP.</b> Theo lời Bác.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Bác Hồ ở vị trí cao nhất nước nhưng có ham muốn cá nhân?`,correct:'no',errorMsg:`<b>STOP.</b> SAI — Bác chỉ ham muốn cho người dân.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Bác Hồ là tấm gương về?`,choices:['Sự giàu có','Sống có lí tưởng cho dân tộc','Sự cô đơn','Sự nổi tiếng'],correct:1,errorMsg:`<b>STOP.</b> Lí tưởng cho dân tộc.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Theo Bác, "thanh niên phải":`,choices:['Hưởng thụ','Xung phong đến nơi khó khăn','Tránh khó','Chỉ học'],correct:1,errorMsg:`<b>STOP.</b> Xung phong đến nơi khó khăn.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Lãnh đạo lớn = sống vì người khác?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — đó là sức mạnh của lí tưởng.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'4. Câu chuyện Đặng Thuỳ Trâm',
@@ -457,7 +481,13 @@ const steps = [
     after:'Sau: anh hùng là người trẻ, chọn việc khó vì điều mình tin.'
   ,
     blueprint:{problem:`Đặng Thuỳ Trâm (1942-1970), bác sĩ trẻ, hy sinh ở chiến trường Đức Phổ khi 28 tuổi.`,solution:`Chị chọn nguy hiểm để cứu chữa thương binh — biểu tượng thanh niên có lí tưởng.`},
-    attempt:{type:`choice`,prompt:`Đặng Thuỳ Trâm là tấm gương về:`,choices:[`Sự liều lĩnh thiếu suy nghĩ`,`Sống có lí tưởng — chọn cứu người dù nguy hiểm`,`Sự may mắn`,`Lười biếng`],correct:1,errorMsg:`<b>STOP.</b> Chị có chuẩn bị (học y), có mục đích cao đẹp, có quyết tâm — đầy đủ lí tưởng.`,explanation:`✅ Đúng. Lí tưởng được sống bằng cả mạng sống.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Đặng Thuỳ Trâm là tấm gương về?`,choices:['Sự liều lĩnh','Sống có lí tưởng — chọn cứu người dù nguy hiểm','Sự may mắn','Lười biếng'],correct:1,errorMsg:`<b>STOP.</b> Lí tưởng cao đẹp.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Đặng Thuỳ Trâm là?`,choices:['Ca sĩ','Bác sĩ trẻ tại chiến trường','Chính trị gia','Diễn viên'],correct:1,errorMsg:`<b>STOP.</b> Bác sĩ trẻ.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Chị hy sinh ở tuổi nào?`,choices:['18','22','28','40'],correct:2,errorMsg:`<b>STOP.</b> 28 tuổi.`,explanation:`✅ 28.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Đặng Thuỳ Trâm có chuẩn bị (học y) trước khi ra chiến trường?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — không liều lĩnh, có chuẩn bị.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Bài học từ Đặng Thuỳ Trâm cho thanh niên ngày nay?`,choices:['Hưởng thụ','Có chuẩn bị + quyết tâm + mục đích cao đẹp','Tránh nguy hiểm','Đi du lịch'],correct:1,errorMsg:`<b>STOP.</b> Chuẩn bị + quyết tâm + mục đích.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'5. Phân biệt: lí tưởng – ước mơ – mục tiêu',
@@ -470,7 +500,13 @@ const steps = [
     after:'Sau: hiểu rõ — ước mơ → mục tiêu → lí tưởng là ba mức độ khác nhau.'
   ,
     blueprint:{problem:`Ước mơ: chỉ mong, chưa kế hoạch. Mục tiêu: cụ thể, có thể chỉ vì mình. Lí tưởng: cao đẹp + kế hoạch + có ích cộng đồng.`,solution:`3 mức độ khác nhau — đừng nhầm.`},
-    attempt:{type:`choice`,prompt:`"Em muốn đi du lịch khắp thế giới" là gì?`,choices:[`Lí tưởng cao đẹp`,`Mục tiêu cụ thể`,`Ước mơ (chưa có kế hoạch và lợi ích cộng đồng)`,`Ảo tưởng`],correct:2,errorMsg:`<b>STOP.</b> Có muốn nhưng chưa kế hoạch, chưa có lợi ích cộng đồng → là ước mơ.`,explanation:`✅ Đúng. Ước mơ — chưa thành lí tưởng.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> "Em muốn đi du lịch khắp thế giới" là?`,choices:['Lí tưởng','Mục tiêu','Ước mơ (chưa kế hoạch + cộng đồng)','Ảo tưởng'],correct:2,errorMsg:`<b>STOP.</b> Ước mơ.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> "Em sẽ đạt 8.0 IELTS năm tới" là?`,choices:['Lí tưởng','Mục tiêu cụ thể','Ước mơ','Ảo tưởng'],correct:1,errorMsg:`<b>STOP.</b> Mục tiêu — cụ thể, đo được.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> "Trở thành bác sĩ để chữa bệnh cho người nghèo" là?`,choices:['Lí tưởng','Mục tiêu cá nhân','Ước mơ','Ảo tưởng'],correct:0,errorMsg:`<b>STOP.</b> Lí tưởng — đầy đủ 3 thành phần.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Mọi lí tưởng đều bắt đầu từ một ước mơ?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — ước mơ + kế hoạch + ý nghĩa cộng đồng = lí tưởng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Mọi mục tiêu đều là lí tưởng?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Mục tiêu chỉ thành lí tưởng khi có ý nghĩa cộng đồng.`,explanation:`❌ KHÔNG.`}
+    ]
   },
   {
     title:'6. Vì sao cần sống có lí tưởng?',
@@ -484,7 +520,13 @@ const steps = [
     after:'Sau: lí tưởng là bộ "GPS" cho cuộc đời — không có thì lạc đường khi gặp khó khăn.'
   ,
     blueprint:{problem:`3 ý nghĩa: động lực vượt khó + hoàn thành mục tiêu cá nhân + đóng góp xã hội.`,solution:`Lí tưởng như đèn pha trong sương — vẫn đi được dù không thấy rõ.`},
-    attempt:{type:`choice`,prompt:`Sống có lí tưởng KHÔNG mang lại điều nào?`,choices:[`Động lực vượt khó`,`Hoàn thành mục tiêu cá nhân`,`Đóng góp cho xã hội`,`Bay được lên trời`],correct:3,errorMsg:`<b>STOP.</b> Lí tưởng không mang phép màu — chỉ giúp định hướng và đóng góp.`,explanation:`✅ Đúng. 3 ý nghĩa thực tế.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Sống có lí tưởng KHÔNG mang lại điều nào?`,choices:['Động lực vượt khó','Hoàn thành mục tiêu','Đóng góp xã hội','Bay được lên trời'],correct:3,errorMsg:`<b>STOP.</b> Lí tưởng không làm phép màu.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Người có lí tưởng được xã hội tôn trọng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Lí tưởng giống như:`,choices:['Một giấc mơ','Ngọn đèn pha trong sương mù','Tiếng nhạc','Một lời chào'],correct:1,errorMsg:`<b>STOP.</b> Đèn pha → định hướng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Sống có lí tưởng giúp em hoàn thành mục tiêu cá nhân?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Có 3 ý nghĩa của sống có lí tưởng. Một trong số đó là?`,choices:['Đẹp ảnh','Đóng góp cho xã hội','Du lịch nhiều','Có nhiều bạn'],correct:1,errorMsg:`<b>STOP.</b> Đóng góp xã hội.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'7. Lí tưởng của thanh niên Việt Nam ngày nay',
@@ -500,7 +542,13 @@ const steps = [
     after:'Sau: lí tưởng thanh niên cụ thể — học giỏi, rèn người, làm việc có ích, không né khó khăn.'
   ,
     blueprint:{problem:`Lí tưởng thanh niên VN ngày nay: phấn đấu vì độc lập + CNXH; học theo Bác Hồ; trở thành công dân tốt; xây dựng + bảo vệ Tổ quốc.`,solution:`Câu hỏi này thường có trong đề thi vào 10.`},
-    attempt:{type:`choice`,prompt:`Lí tưởng thanh niên Việt Nam ngày nay KHÔNG bao gồm điều nào?`,choices:[`Phấn đấu vì độc lập dân tộc`,`Học tập theo tư tưởng Hồ Chí Minh`,`Tránh xa các hoạt động cộng đồng`,`Xây dựng và bảo vệ Tổ quốc`],correct:2,errorMsg:`<b>STOP.</b> Ngược lại — thanh niên cần TÍCH CỰC tham gia hoạt động cộng đồng.`,explanation:`✅ Đúng. Tham gia, không tránh xa.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Lí tưởng thanh niên VN ngày nay KHÔNG bao gồm:`,choices:['Phấn đấu vì độc lập dân tộc','Học theo tư tưởng Hồ Chí Minh','Tránh xa hoạt động cộng đồng','Xây dựng và bảo vệ Tổ quốc'],correct:2,errorMsg:`<b>STOP.</b> Phải tham gia, không tránh.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Thanh niên cần học theo tư tưởng Hồ Chí Minh?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Lí tưởng thanh niên VN là phấn đấu vì:`,choices:['Tiền','Độc lập + CNXH','Quyền lực','Cá nhân'],correct:1,errorMsg:`<b>STOP.</b> Độc lập dân tộc + CNXH.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Trở thành công dân tốt là một phần của lí tưởng thanh niên?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Lí tưởng thanh niên VN bao gồm tham gia vào:`,choices:['Du lịch','Cách mạng cá nhân','Xây dựng + bảo vệ Tổ quốc','Đầu tư'],correct:2,errorMsg:`<b>STOP.</b> Xây dựng + bảo vệ Tổ quốc.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'8. Hai phẩm chất cốt lõi: Trung thành & Dũng cảm',
@@ -513,7 +561,13 @@ const steps = [
     after:'Sau: trung thành = giữ đúng giá trị; dũng cảm = dám hành động. Hai cái cùng nhau mới làm nên người tốt.'
   ,
     blueprint:{problem:`Trung thành = la bàn (giữ đúng giá trị). Dũng cảm = đôi chân (dám hành động). Cần CẢ HAI.`,solution:`Trung thành mà không dũng cảm = chỉ lời nói. Dũng cảm mà không trung thành = đi sai đường.`},
-    attempt:{type:`choice`,prompt:`Hai phẩm chất cốt lõi của thanh niên là:`,choices:[`Giàu và đẹp`,`Trung thành và dũng cảm`,`Khoẻ và thông minh`,`Vui vẻ và năng động`],correct:1,errorMsg:`<b>STOP.</b> Bác Hồ nhấn mạnh: trung thành (giữ giá trị) + dũng cảm (dám hành động).`,explanation:`✅ Đúng. La bàn + đôi chân.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Hai phẩm chất cốt lõi của thanh niên là?`,choices:['Giàu và đẹp','Trung thành và dũng cảm','Khoẻ và thông minh','Vui vẻ và năng động'],correct:1,errorMsg:`<b>STOP.</b> Bác Hồ nhấn mạnh.`,explanation:`✅ Trung thành + dũng cảm.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> "Trung thành" giống như?`,choices:['Đôi chân','La bàn','Bàn tay','Mắt'],correct:1,errorMsg:`<b>STOP.</b> Trung thành = la bàn (giữ hướng).`,explanation:`✅ La bàn.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> "Dũng cảm" giống như?`,choices:['La bàn','Đôi chân (dám hành động)','Mũ','Đèn'],correct:1,errorMsg:`<b>STOP.</b> Dũng cảm = đôi chân (hành động).`,explanation:`✅ Đôi chân.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Trung thành mà không dũng cảm = chỉ lời nói?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Dũng cảm mà không trung thành có thể đi sai đường?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — cần cả hai.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'9. Học sinh cần làm gì? — Bốn việc',
@@ -527,7 +581,13 @@ const steps = [
     after:'Sau: lí tưởng được xây từng ngày — qua bài tập, qua việc nhà, qua mỗi việc nhỏ.'
   ,
     blueprint:{problem:`4 việc cụ thể: học tập + lao động + rèn luyện sức khoẻ + tham gia hoạt động tập thể.`,solution:`4 bánh xe — thiếu 1 thì xe lệch.`},
-    attempt:{type:`choice`,prompt:`Học sinh thực hiện lí tưởng qua mấy việc cụ thể?`,choices:[`1`,`2`,`4`,`6`],correct:2,errorMsg:`<b>STOP.</b> SGK liệt kê 4 việc.`,explanation:`✅ Đúng. 4 việc: học, lao động, rèn sức khoẻ, hoạt động tập thể.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Học sinh thực hiện lí tưởng qua mấy việc cụ thể?`,choices:['1','2','4','6'],correct:2,errorMsg:`<b>STOP.</b> 4 việc.`,explanation:`✅ 4.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Một trong 4 việc học sinh phải làm là?`,choices:['Du lịch','Học tập tích cực','Mua sắm','Ngủ'],correct:1,errorMsg:`<b>STOP.</b> Học tập tích cực.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Việc nào KHÔNG nằm trong 4 việc của học sinh theo SGK?`,choices:['Học tập','Lao động','Rèn luyện sức khoẻ','Mua sắm hàng hiệu'],correct:3,errorMsg:`<b>STOP.</b> Mua sắm không phải.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Tham gia hoạt động tập thể (Đoàn, tình nguyện) là một trong 4 việc?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> 4 việc giống như:`,choices:['4 mùa','4 bánh xe (thiếu 1 lệch)','4 con số','4 màu'],correct:1,errorMsg:`<b>STOP.</b> 4 bánh xe.`,explanation:`✅ 4 bánh xe.`}
+    ]
   },
   {
     title:'10. Phân biệt: Lí tưởng cao đẹp vs Ảo tưởng',
@@ -541,7 +601,13 @@ const steps = [
     after:'Sau: mơ to phải đi đôi với có kế hoạch và có ích cho người khác — không thì chỉ là ảo tưởng.'
   ,
     blueprint:{problem:`Lí tưởng cao đẹp: có ích cho cộng đồng + có kế hoạch hiện thực. Ảo tưởng: viễn vông, không kế hoạch.`,solution:`Mục đích to mà không có chân thì chỉ là ảo tưởng.`},
-    attempt:{type:`choice`,prompt:`Bạn nói: "Tớ sẽ thành tỉ phú để cứu thế giới chỉ trong 5 năm." Đây là:`,choices:[`Lí tưởng cao đẹp`,`Ảo tưởng (mục đích to nhưng không kế hoạch khả thi)`,`Mục tiêu thực tế`,`Ước mơ bình thường`],correct:1,errorMsg:`<b>STOP.</b> 5 năm thành tỉ phú để cứu thế giới = phi thực tế. Đẹp lời nhưng không có chân.`,explanation:`✅ Đúng. Ảo tưởng — đẹp lời nhưng không khả thi.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> "Tớ sẽ thành tỉ phú để cứu thế giới chỉ trong 5 năm" là?`,choices:['Lí tưởng','Ảo tưởng (mục đích to + không khả thi)','Mục tiêu','Ước mơ bình thường'],correct:1,errorMsg:`<b>STOP.</b> Đẹp lời nhưng không có chân.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Lí tưởng cao đẹp luôn có kế hoạch hiện thực?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Ảo tưởng có thể tốt cho cá nhân?`,correct:'no',errorMsg:`<b>STOP.</b> SAI — chỉ đốt cháy bản thân.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Lí tưởng đẹp giống như "ngọn lửa":`,choices:['Đốt cháy bản thân','Sưởi ấm cả em và người khác','Phá huỷ','Mơ hồ'],correct:1,errorMsg:`<b>STOP.</b> Sưởi ấm cộng đồng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Tolstoy nói lí tưởng giống như?`,choices:['Mặt trời','Ngọn đèn chỉ đường','Cơn gió','Dòng sông'],correct:1,errorMsg:`<b>STOP.</b> "Lí tưởng là ngọn đèn chỉ đường".`,explanation:`✅ Ngọn đèn.`}
+    ]
   },
   {
     title:'11. Lí tưởng của Mika là gì?',
@@ -556,12 +622,29 @@ const steps = [
     after:'Sau: 13 tuổi đã có thể bắt đầu nghĩ về lí tưởng — và sửa nó theo từng năm.'
   ,
     blueprint:{problem:`Lí tưởng cá nhân Mika hình thành dần qua: việc em giỏi + việc em yêu + cái em muốn cho người khác.`,solution:`13 tuổi chưa có lí tưởng rõ là bình thường — quan trọng là đang nghĩ.`},
-    attempt:{type:`choice`,prompt:`Ở tuổi 13–15, không có lí tưởng rõ ràng là:`,choices:[`Đáng lo ngại`,`Bình thường — lí tưởng được hình thành dần`,`Thất bại`,`Lười biếng`],correct:1,errorMsg:`<b>STOP.</b> Lí tưởng được hình thành theo thời gian. Đang tìm hiểu = dấu hiệu tốt.`,explanation:`✅ Đúng. Lí tưởng đầu tiên có thể đơn giản — quan trọng là em đã viết nó ra.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Ở tuổi 13–15, không có lí tưởng rõ ràng là?`,choices:['Đáng lo ngại','Bình thường — lí tưởng hình thành dần','Thất bại','Lười biếng'],correct:1,errorMsg:`<b>STOP.</b> Bình thường.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Lí tưởng được hình thành dần qua việc làm và học hỏi?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Lí tưởng đầu tiên của em phải hoàn hảo?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Có thể đơn giản — quan trọng là em đã viết.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Câu hỏi nào KHÔNG giúp em tìm lí tưởng?`,choices:['Em làm gì giỏi nhất?','Em yêu việc gì?','Áo của em là gì?','Khi 30 tuổi, câu chuyện về em sẽ kể gì?'],correct:2,errorMsg:`<b>STOP.</b> Áo không liên quan đến lí tưởng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Lí tưởng có thể thay đổi theo thời gian?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — em sẽ điều chỉnh theo từng năm.`,explanation:`✅ Đúng.`}
+    ]
   }
 ];
 
 let currentStep = 0;
-let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null, currentVar:0, streak:0};
+
+
+function getCurrentStepAttempt(s){
+  if(s.attempts && Array.isArray(s.attempts)){
+    if(typeof stepAttempt.currentVar !== 'number') stepAttempt.currentVar = 0;
+    return s.attempts[stepAttempt.currentVar % s.attempts.length];
+  }
+  return s.attempt;
+}
+function getMasteryRequired(){ return 3; }
+function getMasteryTotal(s){ return s.attempts ? s.attempts.length : 1; }
 
 function renderTheory(){
   const p=loadProg();
@@ -570,35 +653,36 @@ function renderTheory(){
   const i = currentStep;
   const s = steps[i];
   const isPassed = i < p.theory;
-  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null,currentVar:0,streak:0}; }
   
   let attemptHtml = '';
-  if(s.attempt){
-    if(s.attempt.type === 'choice'){
-      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+  if(s.attempts || s.attempt){
+    const _at = getCurrentStepAttempt(s);
+    if(_at.type === 'choice'){
+      attemptHtml = '<div class="opts">' + _at.choices.map((ch,j)=>{
         let cls='opt-btn';
         if(stepAttempt.picked!==null){
-          if(j===s.attempt.correct) cls += ' right';
+          if(j===_at.correct) cls += ' right';
           else if(j===stepAttempt.picked) cls += ' wrong';
         }
         const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
         return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
       }).join('') + '</div>';
-    } else if(s.attempt.type === 'yesno'){
+    } else if(_at.type === 'yesno'){
       const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
-      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
-      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      const yc = stepAttempt.picked==='yes' ? (_at.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (_at.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='no'?' right':'');
       attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
     }
   }
   
   let feedbackHtml = '';
   if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(getCurrentStepAttempt(s).errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
   } else if(stepAttempt.passed){
-    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(getCurrentStepAttempt(s).explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
   } else if(stepAttempt.tries >= CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(getCurrentStepAttempt(s).explanation)}</div>`;
   }
   
   let pauseHtml = '';
@@ -624,7 +708,15 @@ function renderTheory(){
           <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
           <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
         </div>
-        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>${s.attempts ? (function(){
+            const need = getMasteryRequired();
+            const streak = (stepAttempt.streak || 0);
+            let dots = '';
+            for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+            const total = getMasteryTotal(s);
+            const varN = (stepAttempt.currentVar || 0) % total + 1;
+            return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+          })() : ''}
           <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
           ${attemptHtml}
           ${feedbackHtml}
@@ -640,27 +732,41 @@ function renderTheory(){
   `;
 }
 
-function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null,currentVar:0,streak:0}; }
 
 function pickStep(j){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = j;
   stepAttempt.tries++;
-  if(j === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(j === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }
@@ -670,22 +776,36 @@ function pickStep(j){
 function pickStepYN(v){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = v;
   stepAttempt.tries++;
-  if(v === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(v === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }

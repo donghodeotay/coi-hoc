@@ -158,6 +158,12 @@ nav.tabs button:hover:not(.active){background:var(--green-soft);color:var(--gree
 .sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
 .problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 .problem-sgk .q{color:#7c2d12}
+
+.mastery-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:8px 12px;background:#fef3c7;border-radius:8px;font-size:12px;color:#78350f;flex-wrap:wrap}
+.m-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.m-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fcd34d;border:2px solid #d97706;margin-right:4px;transition:all .2s}
+.m-dot.on{background:#16a34a;border-color:#15803d;box-shadow:0 0 0 3px #dcfce7}
+.m-progress{font-size:11px;opacity:.85}
 </style>
 </head>
 <body>
@@ -413,7 +419,13 @@ const steps = [
     after:'Sau: Việt Nam = 54 dân tộc + 98.5 triệu người + cơ cấu đang thay đổi.'
   ,
     blueprint:{problem:`Việt Nam có 3 đặc điểm lớn: 54 dân tộc, ~98.5 triệu người, cơ cấu đang thay đổi.`,solution:`Đó là 3 điểm trung tâm của Địa lí dân cư Việt Nam.`},
-    attempt:{type:`choice`,prompt:`Việt Nam là một quốc gia có đặc điểm:`,choices:[`Đa dân tộc`,`Một dân tộc duy nhất`,`Hai dân tộc`,`Không có dân tộc thiểu số`],correct:0,errorMsg:`<b>STOP.</b> Việt Nam có 54 dân tộc — đa dân tộc.`,explanation:`✅ Đúng. Đa dân tộc — 54 nhóm khác nhau.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Việt Nam là một quốc gia có đặc điểm:`,choices:['Đa dân tộc','Một dân tộc','Hai dân tộc','Không có dân tộc thiểu số'],correct:0,errorMsg:`<b>STOP.</b> 54 dân tộc.`,explanation:`✅ Đa dân tộc.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Việt Nam có lịch sử như thế nào?`,choices:['Mới','Lâu đời','Vô danh','Không có'],correct:1,errorMsg:`<b>STOP.</b> Lịch sử lâu đời.`,explanation:`✅ Lâu đời — hàng nghìn năm.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Việt Nam có thành phần dân tộc đa dạng?`,correct:'yes',errorMsg:`<b>STOP.</b> 54 dân tộc.`,explanation:`✅ Đúng. 54 dân tộc.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Bài 1 trả lời 3 câu hỏi về:`,choices:['Toán học','Kinh tế','Dân tộc/dân số/cơ cấu','Lịch sử'],correct:2,errorMsg:`<b>STOP.</b> Bài 1 = dân tộc + dân số + cơ cấu.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Dân số Việt Nam thuộc loại ít ở thế giới?`,correct:'no',errorMsg:`<b>STOP.</b> Việt Nam đông dân (top 15 thế giới).`,explanation:`❌ KHÔNG. Việt Nam đông.`}
+    ]
   },
   {
     title:'2. 54 dân tộc Việt Nam',
@@ -426,7 +438,13 @@ const steps = [
     after:'Sau: hiểu "người Việt" = 54 dân tộc, trong đó Kinh đông nhất nhưng không phải duy nhất.'
   ,
     blueprint:{problem:`Việt Nam có 54 dân tộc. Kinh chiếm hơn 85%, các dân tộc thiểu số chiếm gần 15%.`,solution:`54 dân tộc làm văn hoá Việt Nam phong phú.`},
-    attempt:{type:`choice`,prompt:`Việt Nam có bao nhiêu dân tộc?`,choices:[`42`,`54`,`63`,`72`],correct:1,errorMsg:`<b>STOP.</b> Số đặc trưng cho Việt Nam là 54.`,explanation:`✅ Đúng. 54 dân tộc.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Việt Nam có bao nhiêu dân tộc?`,choices:['42','54','63','72'],correct:1,errorMsg:`<b>STOP.</b> 54.`,explanation:`✅ 54.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Dân tộc Kinh chiếm bao nhiêu % dân số?`,choices:['<50%','60-70%','>85%','100%'],correct:2,errorMsg:`<b>STOP.</b> >85%.`,explanation:`✅ >85%.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Các dân tộc thiểu số chiếm bao nhiêu %?`,choices:['<5%','gần 15%','30%','50%'],correct:1,errorMsg:`<b>STOP.</b> gần 15%.`,explanation:`✅ Gần 15%.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Mỗi dân tộc có ngôn ngữ và phong tục riêng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Đa dạng văn hoá.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> 54 dân tộc có làm văn hoá Việt Nam phong phú hơn?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Đa dạng = phong phú.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'3. Dân tộc Kinh — phân bố ở đâu?',
@@ -438,7 +456,13 @@ const steps = [
     after:'Sau: người Kinh tập trung ở đồng bằng và trung du — vì lịch sử nông nghiệp lúa nước.'
   ,
     blueprint:{problem:`Người Kinh tập trung ở đồng bằng và trung du — vì lịch sử nông nghiệp lúa nước.`,solution:`Người Kinh trồng lúa → cần đất bằng, có nước → đồng bằng/trung du.`},
-    attempt:{type:`choice`,prompt:`Người Kinh tập trung chủ yếu ở:`,choices:[`Miền núi cao`,`Đồng bằng và trung du`,`Đảo và biển`,`Vùng sa mạc`],correct:1,errorMsg:`<b>STOP.</b> Lúa nước cần đất bằng và nguồn nước → đồng bằng + trung du.`,explanation:`✅ Đúng. Đồng bằng và trung du.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Người Kinh tập trung chủ yếu ở:`,choices:['Miền núi cao','Đồng bằng và trung du','Đảo và biển','Sa mạc'],correct:1,errorMsg:`<b>STOP.</b> Đồng bằng và trung du.`,explanation:`✅ Đồng bằng và trung du.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Người Kinh trồng lúa nước → cần đất bằng phẳng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Vì sao Kinh tập trung ở đồng bằng?`,choices:['Vì đẹp','Vì lịch sử nông nghiệp lúa nước','Vì gần biển','Ngẫu nhiên'],correct:1,errorMsg:`<b>STOP.</b> Lịch sử nông nghiệp.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Người Kinh có thể tìm thấy ở mọi tỉnh thành phố Việt Nam?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Cư trú khắp nước.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Vùng nào có nhiều người Kinh nhất?`,choices:['Tây Bắc','Tây Nguyên','Đồng bằng sông Hồng','Cao Bằng'],correct:2,errorMsg:`<b>STOP.</b> Đồng bằng sông Hồng.`,explanation:`✅ Đồng bằng sông Hồng.`}
+    ]
   },
   {
     title:'4. Các dân tộc thiểu số — ở đâu?',
@@ -452,7 +476,13 @@ const steps = [
     after:'Sau: dân tộc thiểu số phân bố cả miền núi, Tây Nguyên, đồng bằng sông Cửu Long — và đan xen với dân tộc Kinh.'
   ,
     blueprint:{problem:`Các dân tộc thiểu số tập trung đông nhất ở trung du và miền núi (Bắc Bộ, Trường Sơn-Tây Nguyên).`,solution:`Sau 1960, chính sách kinh tế làm các dân tộc phân bố đan xen.`},
-    attempt:{type:`choice`,prompt:`Dân tộc thiểu số tập trung đông nhất ở:`,choices:[`Đồng bằng sông Hồng`,`Trung tâm thành phố`,`Trung du và miền núi`,`Đảo Phú Quốc`],correct:2,errorMsg:`<b>STOP.</b> Trung du và miền núi (Bắc Bộ, Trường Sơn-Tây Nguyên).`,explanation:`✅ Đúng. Trung du và miền núi.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Dân tộc thiểu số tập trung đông nhất ở:`,choices:['Đồng bằng','Trung tâm thành phố','Trung du và miền núi','Đảo Phú Quốc'],correct:2,errorMsg:`<b>STOP.</b> Trung du và miền núi.`,explanation:`✅ Trung du và miền núi.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Một dân tộc thiểu số ở miền Bắc:`,choices:['Tày','Khmer','Chăm','Hoa'],correct:0,errorMsg:`<b>STOP.</b> Tày, Thái, Mường, Mông... ở miền Bắc.`,explanation:`✅ Tày.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Một dân tộc thiểu số ở Tây Nguyên:`,choices:['Tày','Ê-đê','Mường','Khmer'],correct:1,errorMsg:`<b>STOP.</b> Ê-đê, Gia-rai... ở Tây Nguyên.`,explanation:`✅ Ê-đê.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Một dân tộc thiểu số ở đồng bằng sông Cửu Long:`,choices:['Tày','Mường','Khmer','Mông'],correct:2,errorMsg:`<b>STOP.</b> Khmer, Hoa, Chăm ở đồng bằng sông Cửu Long.`,explanation:`✅ Khmer.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Sau 1960, dân tộc Việt Nam phân bố đan xen?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Chính sách kinh tế.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'5. Người Việt ở nước ngoài',
@@ -463,7 +493,13 @@ const steps = [
     after:'Sau: 5.3 triệu người Việt khắp 130 quốc gia vẫn là một phần của cộng đồng dân tộc.'
   ,
     blueprint:{problem:`Năm 2021: ~5.3 triệu người Việt sống ở 130 quốc gia trên thế giới.`,solution:`Người Việt ở nước ngoài là một bộ phận không tách rời của dân tộc.`},
-    attempt:{type:`choice`,prompt:`Năm 2021, người Việt ở nước ngoài khoảng:`,choices:[`500 ngàn`,`5.3 triệu`,`15 triệu`,`50 triệu`],correct:1,errorMsg:`<b>STOP.</b> Khoảng 5.3 triệu người ở 130 quốc gia.`,explanation:`✅ Đúng. 5.3 triệu, 130 quốc gia.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Năm 2021, người Việt ở nước ngoài khoảng:`,choices:['500 ngàn','5,3 triệu','15 triệu','50 triệu'],correct:1,errorMsg:`<b>STOP.</b> ~5,3 triệu.`,explanation:`✅ 5,3 triệu.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Người Việt ở nước ngoài sống ở khoảng bao nhiêu quốc gia?`,choices:['10','50','130','200'],correct:2,errorMsg:`<b>STOP.</b> 130 quốc gia.`,explanation:`✅ 130.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Người Việt ở nước ngoài là một bộ phận của cộng đồng dân tộc Việt Nam?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Người Việt ở nước ngoài có giữ tiếng Việt và truyền thống?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Quốc gia có nhiều người Việt nhất là?`,choices:['Pháp','Mỹ','Lào','Thái Lan'],correct:1,errorMsg:`<b>STOP.</b> Mỹ (lớn nhất).`,explanation:`✅ Mỹ — khoảng 2,2 triệu người Việt-Mỹ.`}
+    ]
   },
   {
     title:'6. Dân số Việt Nam — 98,5 triệu (2021)',
@@ -479,7 +515,13 @@ const steps = [
     after:'Sau: 98,5 triệu, top 15 thế giới — đông nhưng tỉ lệ tăng đang giảm.'
   ,
     blueprint:{problem:`Năm 2021: 98.5 triệu người. Đứng thứ 15 trên thế giới về dân số.`,solution:`Trong 32 năm (1989→2021), tăng từ 64.4 → 98.5 triệu.`},
-    attempt:{type:`choice`,prompt:`Dân số Việt Nam năm 2021 khoảng:`,choices:[`65 triệu`,`86 triệu`,`98.5 triệu`,`120 triệu`],correct:2,errorMsg:`<b>STOP.</b> Bảng SGK: 98.5 triệu năm 2021.`,explanation:`✅ Đúng. 98.5 triệu — top 15 thế giới.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Dân số Việt Nam năm 2021 khoảng:`,choices:['65 triệu','86 triệu','98,5 triệu','120 triệu'],correct:2,errorMsg:`<b>STOP.</b> 98,5 triệu.`,explanation:`✅ 98,5 triệu.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Việt Nam đứng thứ mấy thế giới về dân số?`,choices:['Top 5','Top 10','Top 15','Top 30'],correct:2,errorMsg:`<b>STOP.</b> Top 15.`,explanation:`✅ Top 15.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Dân số Việt Nam năm 1989 là?`,choices:['50 triệu','64,4 triệu','86 triệu','98,5 triệu'],correct:1,errorMsg:`<b>STOP.</b> 64,4 triệu.`,explanation:`✅ 64,4 triệu.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Trong 32 năm (1989–2021), dân số tăng hơn 30 triệu?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. 64,4 → 98,5 = +34 triệu.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Việt Nam có dân số đông nhất Đông Nam Á?`,choices:['Đúng — đông nhất','Sai, Indonesia đông hơn','Sai, Thái Lan','Sai, Philippines'],correct:1,errorMsg:`<b>STOP.</b> Indonesia ~270M, đông nhất ĐNA. Việt Nam đứng thứ 3 ĐNA.`,explanation:`✅ Indonesia đông hơn.`}
+    ]
   },
   {
     title:'7. Gia tăng dân số — đang giảm dần',
@@ -495,7 +537,13 @@ const steps = [
     after:'Sau: tỉ lệ TĂNG giảm, nhưng dân số tổng vẫn TĂNG (chỉ tăng chậm hơn).'
   ,
     blueprint:{problem:`1989: 2.10% → 2021: 0.94%. Tỉ lệ tăng đang GIẢM (nhưng tổng dân số vẫn tăng).`,solution:`Mỗi % vẫn là gần 1 triệu người mỗi năm.`},
-    attempt:{type:`choice`,prompt:`Tỉ lệ gia tăng dân số Việt Nam có xu hướng:`,choices:[`Tăng nhanh`,`Giảm dần`,`Không đổi`,`Tăng rồi giảm`],correct:1,errorMsg:`<b>STOP.</b> 1989: 2.10% → 2021: 0.94% — đang giảm.`,explanation:`✅ Đúng. Giảm dần. Lưu ý: TỔNG dân số vẫn tăng.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Tỉ lệ gia tăng dân số Việt Nam có xu hướng:`,choices:['Tăng nhanh','Giảm dần','Không đổi','Tăng rồi giảm'],correct:1,errorMsg:`<b>STOP.</b> Giảm dần.`,explanation:`✅ Giảm dần.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Tỉ lệ gia tăng năm 1989 là?`,choices:['1,06%','1,51%','2,10%','3,5%'],correct:2,errorMsg:`<b>STOP.</b> 2,10%.`,explanation:`✅ 2,10%.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Tỉ lệ gia tăng năm 2021 là?`,choices:['0,94%','1,15%','1,51%','2,10%'],correct:0,errorMsg:`<b>STOP.</b> 0,94%.`,explanation:`✅ 0,94%.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Tỉ lệ tăng giảm có nghĩa là tổng dân số đang giảm?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Tỉ lệ giảm nhưng tổng vẫn TĂNG (chỉ chậm hơn).`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Lý do tỉ lệ giảm là?`,choices:['Chiến tranh','Mỗi gia đình ít con + đời sống tốt','Bệnh dịch','Di cư'],correct:1,errorMsg:`<b>STOP.</b> Chính sách dân số + đời sống đô thị.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'8. Đọc bảng số liệu — kĩ năng quan trọng',
@@ -511,7 +559,13 @@ const steps = [
     after:'Sau: nhìn bảng có 5 bước rõ ràng → biết bảng đang "kể chuyện" gì.'
   ,
     blueprint:{problem:`5 bước đọc bảng: tiêu đề → cột năm → so sánh đầu/cuối → tính độ thay đổi → nhận xét.`,solution:`Đọc bảng số liệu là kĩ năng cốt lõi của Địa lí.`},
-    attempt:{type:`choice`,prompt:`Khi đọc bảng số liệu, bước nào KHÔNG cần làm?`,choices:[`Đọc tiêu đề`,`So sánh đầu-cuối`,`Tô màu hình`,`Tính độ thay đổi`],correct:2,errorMsg:`<b>STOP.</b> Tô màu không phải bước đọc bảng — chỉ là cách trang trí.`,explanation:`✅ Đúng. Tô màu không cần.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Khi đọc bảng số liệu, bước nào KHÔNG cần làm?`,choices:['Đọc tiêu đề','So sánh đầu-cuối','Tô màu hình','Tính độ thay đổi'],correct:2,errorMsg:`<b>STOP.</b> Tô màu chỉ là trang trí.`,explanation:`✅ Tô màu không cần.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Bước đầu tiên khi đọc bảng số liệu?`,choices:['Tính số mới','Đọc tiêu đề bảng','Tô màu','Đoán'],correct:1,errorMsg:`<b>STOP.</b> Đọc tiêu đề.`,explanation:`✅ Đọc tiêu đề.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Cần so sánh số đầu kì và cuối kì để thấy xu hướng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Dân số 1989 = 64,4M, 2021 = 98,5M. Độ tăng?`,choices:['+30M','+34,1M','+50M','-10M'],correct:1,errorMsg:`<b>STOP.</b> 98,5 - 64,4 = 34,1.`,explanation:`✅ +34,1 triệu.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> 64,4 triệu tăng lên 98,5 triệu trong 32 năm. % tăng?`,choices:['~10%','~25%','~53%','~100%'],correct:2,errorMsg:`<b>STOP.</b> 34,1/64,4 ≈ 53%.`,explanation:`✅ ~53%.`}
+    ]
   },
   {
     title:'9. Cơ cấu dân số theo tuổi',
@@ -535,7 +589,13 @@ const steps = [
     after:'Sau: dân số có cấu trúc 3 nhóm — Việt Nam đang có ít trẻ em và nhiều người già hơn xưa.'
   ,
     blueprint:{problem:`Nhóm 0-14 tuổi GIẢM mạnh (39.2 → 24.1%); 15-64 ổn định ~67%; ≥65 TĂNG (4.7 → 8.3%).`,solution:`Việt Nam đang chuyển từ "trẻ" sang "già hoá".`},
-    attempt:{type:`choice`,prompt:`Nhóm tuổi 0-14 ở Việt Nam có xu hướng:`,choices:[`Tăng`,`Giảm mạnh`,`Không đổi`,`Tăng nhanh`],correct:1,errorMsg:`<b>STOP.</b> Bảng SGK: 39.2% (1989) → 24.1% (2021). Giảm rõ rệt.`,explanation:`✅ Đúng. Giảm mạnh do gia đình sinh ít con hơn.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Nhóm tuổi 0-14 ở Việt Nam có xu hướng:`,choices:['Tăng','Giảm mạnh','Không đổi','Tăng nhanh'],correct:1,errorMsg:`<b>STOP.</b> Giảm.`,explanation:`✅ Giảm mạnh.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Nhóm tuổi ≥65 có xu hướng:`,choices:['Giảm','Không đổi','Tăng nhanh','Đứng yên'],correct:2,errorMsg:`<b>STOP.</b> Tăng (4,7→8,3%).`,explanation:`✅ Tăng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Nhóm tuổi 15-64 chiếm tỉ trọng?`,choices:['10%','30%','67-69%','99%'],correct:2,errorMsg:`<b>STOP.</b> ~67-69%.`,explanation:`✅ ~67-69%.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Việt Nam đang chuyển từ "trẻ" sang "già hoá"?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Năm 1989, % nhóm 0-14 là bao nhiêu?`,choices:['24%','39,2%','56%','67%'],correct:1,errorMsg:`<b>STOP.</b> 39,2%.`,explanation:`✅ 39,2%.`}
+    ]
   },
   {
     title:'10. "Dân số vàng" và "dân số già"',
@@ -552,7 +612,13 @@ const steps = [
     after:'Sau: hiểu cơ cấu quan trọng hơn tổng số — dân số vàng quan trọng nhất.'
   ,
     blueprint:{problem:`Dân số vàng = nhóm 15-64 chiếm ~67%. Việt Nam đang trong giai đoạn này từ 2009.`,solution:`Sau 2024, có thể bắt đầu chuyển sang già hoá.`},
-    attempt:{type:`choice`,prompt:`"Dân số vàng" nghĩa là:`,choices:[`Có nhiều người giàu nhất`,`Nhóm 15-64 (lao động) chiếm tỉ trọng lớn`,`Có nhiều trẻ em nhất`,`Có nhiều người già nhất`],correct:1,errorMsg:`<b>STOP.</b> Vàng = thời kì lao động đông — nhóm 15-64 chiếm ~67%.`,explanation:`✅ Đúng. Cơ hội vàng để phát triển kinh tế.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> "Dân số vàng" nghĩa là:`,choices:['Có nhiều người giàu','Nhóm 15-64 chiếm tỉ trọng lớn','Có nhiều trẻ em','Có nhiều người già'],correct:1,errorMsg:`<b>STOP.</b> Nhóm lao động chiếm ~67%.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Việt Nam đang trong giai đoạn dân số vàng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng (từ 2009).`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Sau 2024, Việt Nam có thể bước vào giai đoạn:`,choices:['Dân số trẻ','Dân số già hoá','Bùng nổ dân số','Không gì'],correct:1,errorMsg:`<b>STOP.</b> Già hoá đang đến.`,explanation:`✅ Già hoá.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Dân số vàng là cơ hội để phát triển kinh tế?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Nếu không tận dụng dân số vàng, hậu quả?`,choices:['Không gì','Mất cơ hội phát triển','Tăng dân số','Giảm tuổi thọ'],correct:1,errorMsg:`<b>STOP.</b> Mất cơ hội — sau giai đoạn vàng, lao động sẽ ít.`,explanation:`✅ Mất cơ hội.`}
+    ]
   },
   {
     title:'11. Cơ cấu dân số theo giới tính',
@@ -574,12 +640,29 @@ const steps = [
     after:'Sau: tỉ số giới tính có thể bị lệch do văn hoá → ảnh hưởng cả thế hệ sau.'
   ,
     blueprint:{problem:`Tỉ số nam/100 nữ: 1989 = 94.2 → 2021 = 99.4. Đang TĂNG dần, gần với 100/100.`,solution:`Lý do: tâm lí trọng nam, lựa chọn giới tính khi sinh.`},
-    attempt:{type:`choice`,prompt:`Tỉ số giới tính (nam/100 nữ) ở Việt Nam có xu hướng:`,choices:[`Giảm dần`,`Tăng dần`,`Cân bằng tuyệt đối`,`Không đổi`],correct:1,errorMsg:`<b>STOP.</b> 1989: 94.2 → 2021: 99.4 — đang tăng dần.`,explanation:`✅ Đúng. Tăng dần — gần với cân bằng 100/100.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Tỉ số giới tính ở Việt Nam có xu hướng:`,choices:['Giảm dần','Tăng dần','Cân bằng tuyệt đối','Không đổi'],correct:1,errorMsg:`<b>STOP.</b> Tăng dần.`,explanation:`✅ Tăng dần.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Tỉ số giới tính 1989 là (nam/100 nữ):`,choices:['80','94,2','99,4','110'],correct:1,errorMsg:`<b>STOP.</b> 94,2.`,explanation:`✅ 94,2.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Tỉ số giới tính 2021 là (nam/100 nữ):`,choices:['80','94,2','99,4','110'],correct:2,errorMsg:`<b>STOP.</b> 99,4.`,explanation:`✅ 99,4.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Lý do tỉ số tăng?`,choices:['Tâm lí trọng nam','Đời sống tốt','Lựa chọn giới tính khi sinh','Tất cả các lý do trên'],correct:3,errorMsg:`<b>STOP.</b> Cả 3.`,explanation:`✅ Tất cả.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Việc lựa chọn giới tính khi sinh có bị nhà nước cấm?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Hiện cấm.`,explanation:`✅ Đúng.`}
+    ]
   }
 ];
 
 let currentStep = 0;
-let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null, currentVar:0, streak:0};
+
+
+function getCurrentStepAttempt(s){
+  if(s.attempts && Array.isArray(s.attempts)){
+    if(typeof stepAttempt.currentVar !== 'number') stepAttempt.currentVar = 0;
+    return s.attempts[stepAttempt.currentVar % s.attempts.length];
+  }
+  return s.attempt;
+}
+function getMasteryRequired(){ return 3; }
+function getMasteryTotal(s){ return s.attempts ? s.attempts.length : 1; }
 
 function renderTheory(){
   const p=loadProg();
@@ -588,35 +671,36 @@ function renderTheory(){
   const i = currentStep;
   const s = steps[i];
   const isPassed = i < p.theory;
-  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null,currentVar:0,streak:0}; }
   
   let attemptHtml = '';
-  if(s.attempt){
-    if(s.attempt.type === 'choice'){
-      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+  if(s.attempts || s.attempt){
+    const _at = getCurrentStepAttempt(s);
+    if(_at.type === 'choice'){
+      attemptHtml = '<div class="opts">' + _at.choices.map((ch,j)=>{
         let cls='opt-btn';
         if(stepAttempt.picked!==null){
-          if(j===s.attempt.correct) cls += ' right';
+          if(j===_at.correct) cls += ' right';
           else if(j===stepAttempt.picked) cls += ' wrong';
         }
         const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
         return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
       }).join('') + '</div>';
-    } else if(s.attempt.type === 'yesno'){
+    } else if(_at.type === 'yesno'){
       const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
-      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
-      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      const yc = stepAttempt.picked==='yes' ? (_at.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (_at.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='no'?' right':'');
       attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
     }
   }
   
   let feedbackHtml = '';
   if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(getCurrentStepAttempt(s).errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
   } else if(stepAttempt.passed){
-    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(getCurrentStepAttempt(s).explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
   } else if(stepAttempt.tries >= CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(getCurrentStepAttempt(s).explanation)}</div>`;
   }
   
   let pauseHtml = '';
@@ -642,7 +726,15 @@ function renderTheory(){
           <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
           <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
         </div>
-        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>${s.attempts ? (function(){
+            const need = getMasteryRequired();
+            const streak = (stepAttempt.streak || 0);
+            let dots = '';
+            for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+            const total = getMasteryTotal(s);
+            const varN = (stepAttempt.currentVar || 0) % total + 1;
+            return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+          })() : ''}
           <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
           ${attemptHtml}
           ${feedbackHtml}
@@ -658,27 +750,41 @@ function renderTheory(){
   `;
 }
 
-function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null,currentVar:0,streak:0}; }
 
 function pickStep(j){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = j;
   stepAttempt.tries++;
-  if(j === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(j === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }
@@ -688,22 +794,36 @@ function pickStep(j){
 function pickStepYN(v){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = v;
   stepAttempt.tries++;
-  if(v === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(v === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }

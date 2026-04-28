@@ -161,6 +161,12 @@ nav.tabs button:hover:not(.active){background:var(--leaf-soft);color:var(--leaf-
 .sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
 .problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 .problem-sgk .q{color:#7c2d12}
+
+.mastery-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:8px 12px;background:#fef3c7;border-radius:8px;font-size:12px;color:#78350f;flex-wrap:wrap}
+.m-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.m-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fcd34d;border:2px solid #d97706;margin-right:4px;transition:all .2s}
+.m-dot.on{background:#16a34a;border-color:#15803d;box-shadow:0 0 0 3px #dcfce7}
+.m-progress{font-size:11px;opacity:.85}
 </style>
 </head>
 <body>
@@ -422,7 +428,13 @@ const steps = [
     after:'Sau: di truyền là quy luật, không phải ngẫu nhiên. Có khoa học giải thích.'
   ,
     blueprint:{problem:'Mika có mắt giống mẹ (di truyền), nhưng tính cách khác cả hai (biến dị). Hai hiện tượng đi đôi với nhau.',solution:`<b>Di truyền + biến dị</b> luôn song hành. Bố mẹ truyền đặc điểm (di truyền) NHƯNG con vẫn có nét riêng (biến dị).`},
-    attempt:{type:'choice',prompt:`Hiện tượng con cái có những đặc điểm <b>KHÁC</b> bố mẹ gọi là gì?`,choices:['Di truyền','Biến dị','Tiến hoá','Đột biến'],correct:1,errorMsg:`<b>STOP.</b> Di truyền = giống bố mẹ (truyền lại). Biến dị = khác bố mẹ (xuất hiện mới).`,explanation:`✅ Đúng. <b>Biến dị</b> = con khác bố mẹ. Đột biến chỉ là một loại biến dị đặc biệt.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Hiện tượng con cái có những đặc điểm <b>KHÁC</b> bố mẹ gọi là gì?`,choices:['Di truyền','Biến dị','Tiến hoá','Đột biến'],correct:1,errorMsg:`<b>STOP.</b> Di truyền = giống. Biến dị = khác.`,explanation:`✅ <b>Biến dị</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Hiện tượng con cái <b>GIỐNG</b> bố mẹ về một số đặc điểm gọi là gì?`,choices:['Di truyền','Biến dị','Tiến hoá','Đột biến'],correct:0,errorMsg:`<b>STOP.</b> Giống = di truyền.`,explanation:`✅ <b>Di truyền</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Di truyền và biến dị có thể cùng tồn tại trong một gia đình?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Hai hiện tượng song hành.`,explanation:`✅ Đúng. Mọi gia đình đều có cả hai.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Trong một gia đình, anh em ruột giống nhau ở 1 đặc điểm và khác ở đặc điểm khác. Đó là minh chứng cho:`,choices:['Chỉ di truyền','Chỉ biến dị','Cả di truyền và biến dị','Không liên quan'],correct:2,errorMsg:`<b>STOP.</b> Giống = di truyền + Khác = biến dị → cả hai.`,explanation:`✅ <b>Cả hai</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Đột biến là một loại biến dị đặc biệt?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Đột biến = biến dị do thay đổi vật chất di truyền.`,explanation:`✅ Đúng. Đột biến là biến dị có nguồn gốc từ thay đổi gene.`}
+    ]
   },
   {
     title:'2. Di truyền là gì?',
@@ -433,7 +445,13 @@ const steps = [
     after:'Sau: di truyền có định nghĩa rõ — bố mẹ chuyển đặc điểm cho con qua gene.'
   ,
     blueprint:{problem:'Bố nhóm máu A, mẹ nhóm máu A. Con sẽ có nhóm máu gì?',solution:`Thường là <b>nhóm A</b>, vì di truyền = truyền đặc điểm từ bố mẹ sang con.`},
-    attempt:{type:'choice',prompt:`Mèo mẹ tam thể, mèo bố tam thể. Mèo con thường:`,choices:['Cũng tam thể','Có màu lông hoàn toàn mới','Toàn trắng','Không thể đoán'],correct:0,errorMsg:`<b>STOP.</b> Đây là di truyền — đặc điểm bố mẹ truyền lại cho con.`,explanation:`✅ Đúng. Bố mẹ tam thể → con thường tam thể. Đó là di truyền.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Mèo mẹ tam thể, mèo bố tam thể. Mèo con thường:`,choices:['Cũng tam thể','Có màu lông hoàn toàn mới','Toàn trắng','Không thể đoán'],correct:0,errorMsg:`<b>STOP.</b> Đặc điểm bố mẹ truyền lại cho con.`,explanation:`✅ <b>Cũng tam thể</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Bố nhóm máu A, mẹ nhóm máu A. Con có thể có nhóm máu nào (cao nhất)?`,choices:['B','AB','A hoặc O','Không thể đoán'],correct:2,errorMsg:`<b>STOP.</b> Bố mẹ A → con thường A hoặc O (gene di truyền).`,explanation:`✅ <b>A hoặc O</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Di truyền là hiện tượng bố mẹ truyền những đặc điểm của mình cho con cái?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Đó là định nghĩa SGK.`,explanation:`✅ Đúng. Định nghĩa chuẩn.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Nếu cả bố và mẹ đều cao, con thường:`,choices:['Cao','Thấp','Trung bình','Không liên quan'],correct:0,errorMsg:`<b>STOP.</b> Chiều cao là đặc điểm di truyền.`,explanation:`✅ <b>Cao</b>. Bố mẹ cao → con xu hướng cao.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Một con vẹt biết nói tiếng Việt vì bố mẹ nó cũng biết nói tiếng Việt — đây có phải di truyền?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Tiếng nói là HỌC, không phải gene. Vẹt học nói từ con người.`,explanation:`❌ KHÔNG. Học không phải di truyền.`}
+    ]
   },
   {
     title:'3. Biến dị là gì?',
@@ -444,7 +462,13 @@ const steps = [
     after:'Sau: anh chị em đều có biến dị — đó là chuyện bình thường, có thật và đo được.'
   ,
     blueprint:{problem:'Hai chị em ruột phải có chiều cao bằng nhau?',solution:`<b>KHÔNG.</b> Anh chị em ruột vẫn khác nhau — đó là biến dị, hoàn toàn bình thường.`},
-    attempt:{type:'yesno',prompt:`Anh chị em ruột phải có cùng màu mắt, cùng chiều cao, cùng tính cách?`,correct:'no',errorMsg:`<b>STOP.</b> Không phải. Anh chị em ruột vẫn khác nhau — đó là biến dị.`,explanation:`❌ KHÔNG. Anh chị em ruột đều có biến dị (khác nhau ở vài đặc điểm) dù chung bố mẹ.`}
+    attempts:[
+      {type:'yesno',prompt:`<b>Lượt em (1/5):</b> Anh chị em ruột phải có cùng màu mắt, cùng chiều cao, cùng tính cách?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Anh chị em ruột vẫn khác nhau — đó là biến dị.`,explanation:`❌ KHÔNG. Biến dị là tự nhiên.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Hai anh em ruột khác nhau về tính cách. Đây là ví dụ của:`,choices:['Di truyền','Biến dị','Đột biến','Không liên quan đến gene'],correct:1,errorMsg:`<b>STOP.</b> Khác = biến dị.`,explanation:`✅ <b>Biến dị</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Biến dị là hiện tượng bình thường trong tự nhiên?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Biến dị xảy ra ở mọi loài.`,explanation:`✅ Đúng. Không có biến dị thì không có đa dạng sinh học.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Trong một mẻ trứng cá, có cá to, cá nhỏ, cá nhiều màu. Đây là:`,choices:['Di truyền','Biến dị','Đột biến','Tiến hoá'],correct:1,errorMsg:`<b>STOP.</b> Cùng cha mẹ nhưng khác nhau → biến dị.`,explanation:`✅ <b>Biến dị</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Tất cả con của một bố mẹ đều giống nhau hoàn toàn?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Có biến dị — vẫn khác nhau.`,explanation:`❌ KHÔNG. Đó là biến dị.`}
+    ]
   },
   {
     title:'4. Tính trạng — đặc điểm đo được',
@@ -455,7 +479,13 @@ const steps = [
     after:'Sau: tính trạng có thể đo, đếm, so sánh giữa các cá thể.'
   ,
     blueprint:{problem:'Trong các sau đây, đâu là tính trạng?',solution:`<b>Tính trạng = đặc điểm đo/đếm được</b>: chiều cao, màu mắt, hình dạng hạt. Cảm xúc thoáng qua KHÔNG phải tính trạng (không bền vững).`},
-    attempt:{type:'choice',prompt:`Đâu <b>KHÔNG</b> phải là tính trạng?`,choices:['Chiều cao của cây','Màu hoa của cây','Cảm xúc thoáng qua khi vui','Hình dạng hạt'],correct:2,errorMsg:`<b>STOP.</b> Tính trạng phải đo/đếm được và bền vững. Cảm xúc thoáng qua thì không.`,explanation:`✅ Cảm xúc thoáng qua không phải tính trạng. Tính trạng là đặc điểm bền vững và đo được.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Đâu <b>KHÔNG</b> phải là tính trạng?`,choices:['Chiều cao của cây','Màu hoa của cây','Cảm xúc thoáng qua khi vui','Hình dạng hạt'],correct:2,errorMsg:`<b>STOP.</b> Cảm xúc thoáng qua = không bền vững → không phải tính trạng.`,explanation:`✅ <b>Cảm xúc thoáng qua</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Đặc điểm nào sau đây <b>LÀ</b> tính trạng?`,choices:['Tâm trạng hôm nay','Màu mắt','Bộ quần áo đang mặc','Bài hát yêu thích tuần này'],correct:1,errorMsg:`<b>STOP.</b> Tính trạng phải bền vững và đo được. Màu mắt là vậy.`,explanation:`✅ <b>Màu mắt</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Hình dạng hạt (tròn/nhăn) là tính trạng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Hình dạng hạt là đặc điểm bền vững và đo được.`,explanation:`✅ Đúng. Đây là tính trạng Mendel nghiên cứu.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Tính trạng có thể được:`,choices:['Đo, đếm, so sánh','Chỉ cảm nhận','Chỉ nói','Không gì'],correct:0,errorMsg:`<b>STOP.</b> Tính trạng = đặc điểm bền vững có thể đo lường.`,explanation:`✅ <b>Đo, đếm, so sánh</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Cân nặng của một người có thể được coi là tính trạng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Cân nặng là đặc điểm vật lí đo được, mặc dù có thay đổi.`,explanation:`✅ Đúng. Là tính trạng (về sinh lí).`}
+    ]
   },
   {
     title:'5. Tính trạng tương phản',
@@ -467,7 +497,13 @@ const steps = [
     after:'Sau: với mỗi tính trạng có thể tách thành các cặp tương phản — dễ nghiên cứu hơn.'
   ,
     blueprint:{problem:'"Cao" và "thấp" có phải là cặp tính trạng tương phản không?',solution:`<b>CÓ.</b> Cao và thấp là hai trạng thái đối lập của cùng một tính trạng (chiều cao). Đó là tương phản.`},
-    attempt:{type:'choice',prompt:`Cặp nào sau đây là <b>tính trạng tương phản</b>?`,choices:['Cao và thấp','Cao và dài','Tím và đỏ','Hạt và lá'],correct:0,errorMsg:`<b>STOP.</b> Tương phản = hai trạng thái đối lập của CÙNG một tính trạng. Tím và đỏ là hai trong nhiều màu, không tương phản.`,explanation:`✅ Cao/thấp là cặp đối lập của tính trạng "chiều cao". Đó là tương phản.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Cặp nào sau đây là <b>tính trạng tương phản</b>?`,choices:['Cao và thấp','Cao và dài','Tím và đỏ','Hạt và lá'],correct:0,errorMsg:`<b>STOP.</b> Tương phản = 2 trạng thái đối lập của CÙNG tính trạng.`,explanation:`✅ <b>Cao/thấp</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Cặp nào sau đây là <b>tính trạng tương phản</b>?`,choices:['Hạt trơn và hạt nhăn','Hạt và lá','Trơn và xanh','Xanh và to'],correct:0,errorMsg:`<b>STOP.</b> Trơn/nhăn cùng tính trạng "hình dạng hạt" → tương phản.`,explanation:`✅ <b>Trơn/nhăn</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> "Tím và đỏ" có phải tính trạng tương phản?`,correct:'no',errorMsg:`<b>STOP.</b> Tím và đỏ là 2 trong nhiều màu — không phải đối lập. Tương phản phải là 2 trạng thái đối lập rõ.`,explanation:`❌ KHÔNG. Cần "tím vs trắng" hoặc "đỏ vs trắng".`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Trong các cặp sau, cặp nào là tương phản đúng nghĩa?`,choices:['Hoa tím và hoa trắng','Hoa và lá','Tím và xanh','Cao và đẹp'],correct:0,errorMsg:`<b>STOP.</b> Tương phản = 2 trạng thái ĐỐI LẬP của CÙNG tính trạng (màu hoa).`,explanation:`✅ <b>Tím/trắng</b> đúng tương phản.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Tính trạng tương phản dùng để giúp Mendel nghiên cứu dễ hơn?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Hai trạng thái đối lập rõ ràng dễ phân biệt và đếm.`,explanation:`✅ Đúng. Lý do Mendel chọn đậu Hà Lan.`}
+    ]
   },
   {
     title:'6. Mendel — cha đẻ di truyền học',
@@ -478,7 +514,13 @@ const steps = [
     after:'Sau: từ năm 1865, di truyền đã có khoa học — nhờ Mendel.'
   ,
     blueprint:{problem:'Mendel sống vào thời nào?',solution:`<b>1822–1884.</b> Thế kỉ XIX. Người Áo-Hung. Là tu sĩ và nhà sinh học.`},
-    attempt:{type:'choice',prompt:`Gregor Mendel sống vào năm nào?`,choices:['1822–1884','1822–1900','1850–1920','1900–1965'],correct:0,errorMsg:`<b>STOP.</b> Theo bài: Mendel (1822–1884), thế kỉ XIX, sống cách đây ~200 năm.`,explanation:`✅ Đúng. <b>1822–1884</b>. Mendel sống ở thế kỉ XIX, không phải XX.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Gregor Mendel sống vào năm nào?`,choices:['1822–1884','1822–1900','1850–1920','1900–1965'],correct:0,errorMsg:`<b>STOP.</b> Mendel: 1822–1884, thế kỉ XIX.`,explanation:`✅ <b>1822–1884</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Mendel là người ở đâu?`,choices:['Pháp','Anh','Áo–Hung','Việt Nam'],correct:2,errorMsg:`<b>STOP.</b> Mendel là người Áo–Hung, sống ở vùng Brno (nay là CH Czech).`,explanation:`✅ <b>Áo–Hung</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Mendel được gọi là "cha đẻ của di truyền học"?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Ông là người đầu tiên nghiên cứu di truyền có hệ thống.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Mendel nghiên cứu di truyền trên cây nào?`,choices:['Lúa','Đậu Hà Lan','Hoa hồng','Cải bắp'],correct:1,errorMsg:`<b>STOP.</b> Đậu Hà Lan (Pisum sativum).`,explanation:`✅ <b>Đậu Hà Lan</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Mendel là một tu sĩ?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Ông là tu sĩ ở tu viện Brno + nhà sinh học.`,explanation:`✅ Đúng. Vừa tu sĩ vừa nhà khoa học.`}
+    ]
   },
   {
     title:'7. Vì sao Mendel chọn đậu Hà Lan?',
@@ -492,7 +534,13 @@ const steps = [
     after:'Sau: Mendel chọn vì đậu là "đối tượng nghiên cứu lý tưởng" — quan trọng cho thiết kế thí nghiệm.'
   ,
     blueprint:{problem:'Liệt kê 4 lý do Mendel chọn đậu Hà Lan.',solution:`(1) Vòng đời ngắn — 2 vụ/năm. (2) Nhiều tính trạng tương phản. (3) Tự thụ phấn — dễ tạo dòng thuần. (4) Giao phấn nhân tạo được — kiểm soát phép lai.`},
-    attempt:{type:'choice',prompt:`Lý do nào <b>KHÔNG</b> phải là lý do Mendel chọn đậu Hà Lan?`,choices:['Vòng đời ngắn','Có nhiều tính trạng tương phản','Hoa rất đẹp','Tự thụ phấn được'],correct:2,errorMsg:`<b>STOP.</b> Mendel chọn vì lý do KHOA HỌC, không phải thẩm mỹ. Đậu Hà Lan có hoa nhỏ, không đặc biệt đẹp.`,explanation:`✅ Đậu Hà Lan không được chọn vì hoa đẹp. Lý do là khoa học: vòng đời ngắn, tính trạng tương phản, tự thụ phấn được.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Lý do nào <b>KHÔNG</b> phải là lý do Mendel chọn đậu Hà Lan?`,choices:['Vòng đời ngắn','Có nhiều tính trạng tương phản','Hoa rất đẹp','Tự thụ phấn được'],correct:2,errorMsg:`<b>STOP.</b> Hoa đẹp không phải lý do khoa học.`,explanation:`✅ <b>Hoa đẹp</b> không phải lý do.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Đậu Hà Lan có vòng đời ngắn (nghĩa là Mendel có thể trồng nhiều thế hệ trong một thời gian ngắn)?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Vòng đời ngắn → kiểm tra giả thuyết nhanh.`,explanation:`✅ Đúng. Khoảng 4 tháng/thế hệ.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Đậu Hà Lan có ưu điểm gì đặc biệt cho thí nghiệm di truyền?`,choices:['Lá to dễ nhìn','Có nhiều tính trạng tương phản rõ ràng','Sống lâu','Cây cao'],correct:1,errorMsg:`<b>STOP.</b> Tương phản rõ rệt → dễ phân biệt và đếm.`,explanation:`✅ <b>Tính trạng tương phản rõ</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Đậu Hà Lan có thể tự thụ phấn (tự lai)?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Tự thụ phấn → dễ tạo dòng thuần.`,explanation:`✅ Đúng. Đó là yếu tố quyết định.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Có "nhiều tính trạng tương phản rõ" có nghĩa là Mendel quan sát:`,choices:['Chỉ 1 đặc điểm','Nhiều đặc điểm có 2 trạng thái rõ rệt','Đặc điểm mơ hồ','Đặc điểm chết'],correct:1,errorMsg:`<b>STOP.</b> Mỗi tính trạng có 2 trạng thái rõ (cao/thấp, trơn/nhăn,...).`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'8. Thí nghiệm: P → F₁ → F₂',
@@ -510,7 +558,13 @@ const steps = [
     after:'Sau: tính trạng không "pha trộn" — chúng theo quy luật trội/lặn.'
   ,
     blueprint:{problem:'Lai cây hoa tím thuần × cây hoa trắng thuần. F₁ ra sao?',solution:`<b>F₁ = 100% hoa tím</b>. Trắng "biến mất" ở F₁. Đến F₂ (cho F₁×F₁) trắng quay lại theo tỉ lệ 1/4.`},
-    attempt:{type:'choice',prompt:`Lai hoa tím thuần × hoa trắng thuần. F₁ là gì?`,choices:['100% hoa tím','100% hoa trắng','50% tím : 50% trắng','3 tím : 1 trắng'],correct:0,errorMsg:`<b>STOP.</b> F₁ là thế hệ đầu tiên. Tím là tính trạng trội → F₁ toàn tím. Tỉ lệ 3:1 chỉ xuất hiện ở F₂.`,explanation:`✅ Đúng. F₁ = 100% tím vì tím trội. Trắng "ẩn" rồi xuất hiện trở lại ở F₂ (3 tím : 1 trắng).`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Lai hoa tím thuần × hoa trắng thuần. F₁ là gì?`,choices:['100% hoa tím','100% hoa trắng','50% tím : 50% trắng','3 tím : 1 trắng'],correct:0,errorMsg:`<b>STOP.</b> F₁ là thế hệ đầu. Tím trội → 100% tím.`,explanation:`✅ <b>100% hoa tím</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Cho F₁ tự thụ phấn (F₁ × F₁) → F₂. Tỉ lệ kiểu hình ở F₂ là?`,choices:['100% tím','3 tím : 1 trắng','1:1','100% trắng'],correct:1,errorMsg:`<b>STOP.</b> Aa × Aa → 3 trội : 1 lặn = 3 tím : 1 trắng.`,explanation:`✅ <b>3:1</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Tính trạng "trắng" biến mất hoàn toàn ở F₁ rồi xuất hiện trở lại ở F₂?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Đây là phát hiện chính của Mendel — tính trạng lặn KHÔNG mất, chỉ "ẩn".`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Trong "P × P", "P" là viết tắt của?`,choices:['Plant','Parent','Pollen','Pea'],correct:1,errorMsg:`<b>STOP.</b> P = Parents = bố mẹ.`,explanation:`✅ <b>Parent</b> (bố mẹ).`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Khi lai 2 cây, kết quả phụ thuộc vào việc cây nào là "bố", cây nào là "mẹ"?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Mendel chứng minh kết quả không phụ thuộc — di truyền là đối xứng.`,explanation:`❌ KHÔNG. Lai thuận và lai nghịch cho kết quả như nhau.`}
+    ]
   },
   {
     title:'9. Tính trạng trội và lặn',
@@ -527,7 +581,13 @@ const steps = [
     after:'Sau: tính trạng có cấp bậc — trội thì hiện ra, lặn thì ẩn cho đến khi gặp aa.'
   ,
     blueprint:{problem:'Cây có kiểu gene Aa có kiểu hình gì?',solution:`<b>Tím</b>. Vì A trội, Aa biểu hiện theo A → tím. Chỉ aa mới cho trắng.`},
-    attempt:{type:'choice',prompt:`Cây có kiểu gene <b>Aa</b> sẽ có kiểu hình gì? (A trội tím, a lặn trắng)`,choices:['Tím','Trắng','Hồng (pha)','Không xác định'],correct:0,errorMsg:`<b>STOP.</b> A trội → khi có A là biểu hiện theo A. Tính trạng KHÔNG pha trộn.`,explanation:`✅ Đúng. Aa = tím (vì có A trội). Tính trạng không pha trộn — đó là phát hiện chính của Mendel.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Cây có kiểu gene <b>Aa</b> sẽ có kiểu hình gì? (A trội tím, a lặn trắng)`,choices:['Tím','Trắng','Hồng (pha)','Không xác định'],correct:0,errorMsg:`<b>STOP.</b> A trội → có A là biểu hiện theo A.`,explanation:`✅ <b>Tím</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Cây có kiểu gene <b>aa</b> sẽ có kiểu hình gì?`,choices:['Tím','Trắng','Hồng','Không xác định'],correct:1,errorMsg:`<b>STOP.</b> aa = đồng hợp lặn → biểu hiện kiểu hình lặn (trắng).`,explanation:`✅ <b>Trắng</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Cây có kiểu gene <b>AA</b> sẽ có kiểu hình gì?`,choices:['Tím','Trắng','Hồng','Đen'],correct:0,errorMsg:`<b>STOP.</b> AA = đồng hợp trội → tím.`,explanation:`✅ <b>Tím</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Tính trạng "không pha trộn" — Aa cho kiểu hình tím (giống AA), không phải hồng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Đây là phát hiện chính của Mendel — tính trạng theo trội/lặn, không pha.`,explanation:`✅ Đúng. Không có "hồng" — chỉ có tím hoặc trắng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Trong 3 kiểu gene AA, Aa, aa, kiểu nào cho kiểu hình KHÁC với 2 kiểu kia?`,choices:['AA','Aa','aa','Cả ba khác nhau'],correct:2,errorMsg:`<b>STOP.</b> AA và Aa đều cho TÍM. Chỉ aa cho TRẮNG.`,explanation:`✅ <b>aa</b>.`}
+    ]
   },
   {
     title:'10. Thuật ngữ và kí hiệu',
@@ -545,7 +605,13 @@ const steps = [
     after:'Sau: đọc đề "P: AA × aa, tìm F₁" thì hiểu ngay là đang nói về phép lai bố mẹ.'
   ,
     blueprint:{problem:'Aa là kiểu gene gì?',solution:`<b>Dị hợp</b>. Hai allele khác nhau (A và a). Aa luôn biểu hiện theo allele trội.`},
-    attempt:{type:'choice',prompt:`Kiểu gene <b>Aa</b> được gọi là gì?`,choices:['Đồng hợp trội','Dị hợp','Đồng hợp lặn','Kiểu hình trắng'],correct:1,errorMsg:`<b>STOP.</b> Đồng hợp = 2 allele giống nhau (AA hoặc aa). Aa có 2 allele khác → dị hợp.`,explanation:`✅ Đúng. <b>Dị hợp</b> = 2 allele khác nhau (A và a). AA = đồng hợp trội. aa = đồng hợp lặn.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Kiểu gene <b>Aa</b> được gọi là gì?`,choices:['Đồng hợp trội','Dị hợp','Đồng hợp lặn','Kiểu hình trắng'],correct:1,errorMsg:`<b>STOP.</b> Đồng hợp = 2 allele giống. Aa có 2 allele KHÁC → dị hợp.`,explanation:`✅ <b>Dị hợp</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Kiểu gene <b>AA</b> được gọi là gì?`,choices:['Đồng hợp trội','Dị hợp','Đồng hợp lặn','Kiểu hình tím'],correct:0,errorMsg:`<b>STOP.</b> 2 allele giống nhau (cả 2 là A trội) → đồng hợp trội.`,explanation:`✅ <b>Đồng hợp trội</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Kiểu gene <b>aa</b> được gọi là gì?`,choices:['Đồng hợp trội','Dị hợp','Đồng hợp lặn','Kiểu hình trắng'],correct:2,errorMsg:`<b>STOP.</b> 2 allele giống nhau (cả 2 là a lặn) → đồng hợp lặn.`,explanation:`✅ <b>Đồng hợp lặn</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> "Kiểu gene" và "kiểu hình" là cùng một thứ?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Kiểu gene = tổ hợp allele (Aa). Kiểu hình = biểu hiện ra ngoài (tím).`,explanation:`❌ KHÔNG. Kiểu gene = công thức; kiểu hình = món ăn.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> "F₁" trong di truyền học có nghĩa là?`,choices:['Bố mẹ','Thế hệ con đời 1','Thế hệ con đời 2','Cây thuần chủng'],correct:1,errorMsg:`<b>STOP.</b> F = Filial (thế hệ con). F₁ = đời con đầu tiên.`,explanation:`✅ <b>Thế hệ con đời 1</b>.`}
+    ]
   },
   {
     title:'11. Ý nghĩa của di truyền học',
@@ -559,12 +625,29 @@ const steps = [
     after:'Sau: di truyền học có mặt trong cuộc sống hằng ngày — từ bữa cơm đến bệnh viện.'
   ,
     blueprint:{problem:'Di truyền học ứng dụng trong lĩnh vực nào?',solution:`Y học (chẩn đoán bệnh di truyền), Nông nghiệp (giống tốt), Pháp y (ADN), Bảo tồn (đa dạng sinh học).`},
-    attempt:{type:'choice',prompt:`Di truyền học <b>KHÔNG</b> ứng dụng trực tiếp trong lĩnh vực nào?`,choices:['Y học','Nông nghiệp','Pháp y','Trang trí nội thất'],correct:3,errorMsg:`<b>STOP.</b> Trang trí nội thất không liên quan đến gene/di truyền.`,explanation:`✅ Trang trí nội thất không cần di truyền học. Y, nông, pháp y đều là ứng dụng thực tế.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Di truyền học <b>KHÔNG</b> ứng dụng trực tiếp trong lĩnh vực nào?`,choices:['Y học','Nông nghiệp','Pháp y','Trang trí nội thất'],correct:3,errorMsg:`<b>STOP.</b> Trang trí nội thất không liên quan đến gene.`,explanation:`✅ <b>Trang trí</b>.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Trong y học, di truyền học giúp:`,choices:['Trang trí phòng bệnh','Phát hiện và phòng các bệnh di truyền','Pha chế thuốc tương phản','Thiết kế máy móc'],correct:1,errorMsg:`<b>STOP.</b> Phát hiện bệnh di truyền (Down, thalassemia,...).`,explanation:`✅ <b>Phát hiện bệnh di truyền</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> ADN có thể được dùng để xác định danh tính trong pháp y?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Mỗi người có ADN duy nhất (trừ song sinh giống hệt).`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Trong nông nghiệp, di truyền học giúp:`,choices:['Tô màu hoa','Tạo giống lúa năng suất cao','Đặt tên cây','Đếm hạt'],correct:1,errorMsg:`<b>STOP.</b> Lai tạo giống tốt là ứng dụng cốt lõi.`,explanation:`✅ <b>Tạo giống tốt</b>.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Bảo tồn loài hiếm là một ứng dụng của di truyền học?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Lưu giữ đa dạng gene = bảo tồn loài.`,explanation:`✅ Đúng. Đa dạng gene = đa dạng sinh học.`}
+    ]
   }
 ];
 
 let currentStep = 0;
-let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null, currentVar:0, streak:0};
+
+
+function getCurrentStepAttempt(s){
+  if(s.attempts && Array.isArray(s.attempts)){
+    if(typeof stepAttempt.currentVar !== 'number') stepAttempt.currentVar = 0;
+    return s.attempts[stepAttempt.currentVar % s.attempts.length];
+  }
+  return s.attempt;
+}
+function getMasteryRequired(){ return 3; }
+function getMasteryTotal(s){ return s.attempts ? s.attempts.length : 1; }
 
 function renderTheory(){
   const p=loadProg();
@@ -574,35 +657,36 @@ function renderTheory(){
   const i = currentStep;
   const s = steps[i];
   const isPassed = i < p.theory;
-  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null,currentVar:0,streak:0}; }
   
   let attemptHtml = '';
-  if(s.attempt){
-    if(s.attempt.type === 'choice'){
-      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+  if(s.attempts || s.attempt){
+    const _at = getCurrentStepAttempt(s);
+    if(_at.type === 'choice'){
+      attemptHtml = '<div class="opts">' + _at.choices.map((ch,j)=>{
         let cls='opt-btn';
         if(stepAttempt.picked!==null){
-          if(j===s.attempt.correct) cls += ' right';
+          if(j===_at.correct) cls += ' right';
           else if(j===stepAttempt.picked) cls += ' wrong';
         }
         const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
         return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
       }).join('') + '</div>';
-    } else if(s.attempt.type === 'yesno'){
+    } else if(_at.type === 'yesno'){
       const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
-      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
-      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      const yc = stepAttempt.picked==='yes' ? (_at.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (_at.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='no'?' right':'');
       attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
     }
   }
   
   let feedbackHtml = '';
   if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(getCurrentStepAttempt(s).errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
   } else if(stepAttempt.passed){
-    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(getCurrentStepAttempt(s).explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
   } else if(stepAttempt.tries >= CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(getCurrentStepAttempt(s).explanation)}</div>`;
   }
   
   let pauseHtml = '';
@@ -629,7 +713,15 @@ function renderTheory(){
           <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
           <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
         </div>
-        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>${s.attempts ? (function(){
+            const need = getMasteryRequired();
+            const streak = (stepAttempt.streak || 0);
+            let dots = '';
+            for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+            const total = getMasteryTotal(s);
+            const varN = (stepAttempt.currentVar || 0) % total + 1;
+            return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+          })() : ''}
           <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
           ${attemptHtml}
           ${feedbackHtml}
@@ -645,19 +737,41 @@ function renderTheory(){
   `;
 }
 
-function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null,currentVar:0,streak:0}; }
 
 function pickStep(j){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = j;
   stepAttempt.tries++;
-  if(j === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
+  const isMastery = !!s.attempts;
+  if(j === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        // Correct but mastery not reached — show streaking briefly, then advance
+        renderTheory();
+        setTimeout(()=>{
+          stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+          stepAttempt.picked = null;
+          renderTheory();
+        }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true;
+      bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
     stepAttempt.paused = true;
     renderTheory();
     let n = CFG.pauseSeconds;
@@ -665,7 +779,13 @@ function pickStep(j){
       n--;
       const t = document.getElementById('stepTimer');
       if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      if(n<=0){
+        clearInterval(tk);
+        stepAttempt.paused = false;
+        stepAttempt.picked = null;
+        if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+        renderTheory();
+      }
     }, 1000);
     return;
   }
@@ -675,14 +795,35 @@ function pickStep(j){
 function pickStepYN(v){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = v;
   stepAttempt.tries++;
-  if(v === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
+  const isMastery = !!s.attempts;
+  if(v === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{
+          stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+          stepAttempt.picked = null;
+          renderTheory();
+        }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true;
+      bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
     stepAttempt.paused = true;
     renderTheory();
     let n = CFG.pauseSeconds;
@@ -690,7 +831,13 @@ function pickStepYN(v){
       n--;
       const t = document.getElementById('stepTimer');
       if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      if(n<=0){
+        clearInterval(tk);
+        stepAttempt.paused = false;
+        stepAttempt.picked = null;
+        if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+        renderTheory();
+      }
     }, 1000);
     return;
   }

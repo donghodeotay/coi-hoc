@@ -176,6 +176,14 @@ body{background:#f0fdfa !important}
 .sgk-section-header .sgk-icon{font-size:18px}
 .sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
 .problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
+
+.mastery-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:8px 12px;background:#fef3c7;border-radius:8px;font-size:12px;color:#78350f;flex-wrap:wrap}
+.m-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.m-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fcd34d;border:2px solid #d97706;margin-right:4px;transition:all .2s}
+.m-dot.on{background:#16a34a;border-color:#15803d;box-shadow:0 0 0 3px #dcfce7}
+.m-progress{font-size:11px;opacity:.85}
+.success-card.streaking{background:linear-gradient(135deg,#dcfce7,#fef3c7) !important;border-color:#86efac !important;animation:pulse-streak 1.6s ease-out}
+@keyframes pulse-streak{0%{transform:scale(.97);opacity:.7}50%{transform:scale(1);opacity:1}100%{transform:scale(.99);opacity:.95}}
 </style>
 </head>
 <body>
@@ -466,21 +474,39 @@ const LESSON_CONTENT = {
         why:'Để hiểu vì sao mọi vật chuyển động hoặc ở độ cao đều "có" năng lượng.',
         analogy:'<strong>Như tiền trong ngân hàng</strong> — em không thấy nó nhưng nó tồn tại. Năng lượng cũng vậy: em không "thấy" nhưng nó làm cho mọi việc xảy ra.',
         body:'<span class="sgk-ref">📘 SGK trang 14-15</span> Năng lượng cơ học gồm <b>2 dạng chính</b>:<br>• <b>Động năng</b> — năng lượng do chuyển động<br>• <b>Thế năng</b> — năng lượng do vị trí (độ cao)<br><br>Vật nào có chuyển động hoặc ở độ cao đều có năng lượng cơ học.',
-        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Năng lượng cơ học gồm những dạng nào?',choices:['Chỉ động năng','Chỉ thế năng','Động năng và thế năng','Nhiệt năng và quang năng'],correct:2,errorMsg:'<b>STOP.</b> Năng lượng cơ học gồm 2 dạng chính: động năng (do chuyển động) VÀ thế năng (do vị trí cao). Nhiệt và ánh sáng là các dạng năng lượng khác.',explanation:'✅ Đúng! Cơ học = chuyển động + vị trí → động năng + thế năng.'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Năng lượng cơ học của một vật gồm những thành phần nào?`,choices:['Chỉ động năng','Chỉ thế năng','Động năng + thế năng','Nhiệt năng + động năng'],correct:2,errorMsg:`<b>STOP.</b> Cơ năng = động năng + thế năng (W = W_đ + W_t).`,explanation:`✅ <b>Động năng + thế năng</b>. Đó là 2 thành phần của cơ năng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Cơ năng W = W_đ + W_t (đúng hay sai)?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. W = W_đ + W_t là định nghĩa cơ năng.`,explanation:`✅ Đúng. <b>W = W_đ + W_t</b> — luôn nhớ công thức này.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Đơn vị của năng lượng cơ học là?`,choices:['Newton (N)','Joule (J)','Watt (W)','Pascal (Pa)'],correct:1,errorMsg:`<b>STOP.</b> Đơn vị Joule (J). Newton là đơn vị lực, Watt là công suất.`,explanation:`✅ <b>Joule (J)</b>. 1 J = 1 N·m = 1 kg·m²/s².`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Vật đứng yên trên mặt đất luôn có cơ năng = 0?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Vật có thể có thế năng (nếu chọn gốc thấp hơn) → cơ năng ≠ 0.`,explanation:`❌ KHÔNG. Vật đứng yên có động năng = 0, nhưng có thể có thế năng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Ký hiệu thường dùng cho năng lượng cơ học là?`,choices:['v','m','W','g'],correct:2,errorMsg:`<b>STOP.</b> W (work/energy). v=vận tốc, m=khối lượng, g=gia tốc trọng trường.`,explanation:`✅ <b>W</b> — chữ W viết hoa.`}
+    ]
       },
       {
         title:'Động năng — năng lượng của vật chuyển động',
         why:'Mọi vật đang chuyển động đều có động năng. Đây là lý do tại sao xe đụng vào tường gây hại — nó đang có động năng.',
         analogy:'<strong>Quả bóng đập vào em</strong> ⚽ — quả bóng càng nặng và bay càng nhanh thì đập càng đau. Đó là vì động năng phụ thuộc khối lượng và tốc độ.',
         body:'<span class="sgk-ref">📘 SGK trang 15</span> Vật chuyển động có động năng. Ví dụ:<br>• Quả bóng lăn → có động năng<br>• Gió làm quay tuabin → động năng của gió<br>• Dòng nước chảy quay tuabin thuỷ điện → động năng của nước',
-        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Vật nào KHÔNG có động năng?',choices:['Quả bóng đang lăn','Một quyển sách đặt yên trên bàn','Ô tô đang chạy trên đường','Máy bay đang bay'],correct:1,errorMsg:'<b>STOP.</b> Động năng = năng lượng do CHUYỂN ĐỘNG. Quyển sách đứng yên (không chuyển động) → không có động năng.',explanation:'✅ Đúng! Quyển sách đứng yên không có động năng. Còn các vật đang lăn, chạy, bay đều có.'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Động năng là gì?`,choices:['Năng lượng do vị trí','Năng lượng của vật chuyển động','Năng lượng của vật đứng yên','Năng lượng nội tại'],correct:1,errorMsg:`<b>STOP.</b> Động năng = năng lượng của vật do CHUYỂN ĐỘNG.`,explanation:`✅ Đúng. Động năng = năng lượng do chuyển động (động = motion).`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Vật đứng yên có động năng?`,correct:'no',errorMsg:`<b>STOP.</b> Vật đứng yên → v=0 → W_đ = ½m(0)² = 0. KHÔNG có động năng.`,explanation:`❌ KHÔNG. Đứng yên = v=0 → W_đ = 0.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Ký hiệu của động năng là?`,choices:['W_t','W_đ','W_n','W_x'],correct:1,errorMsg:`<b>STOP.</b> W_đ (W subscript đ — đ là viết tắt của "động").`,explanation:`✅ <b>W_đ</b>. Ký hiệu cho động năng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Động năng phụ thuộc vào tốc độ của vật?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. v càng lớn → W_đ càng lớn (theo công thức W_đ = ½mv²).`,explanation:`✅ Đúng. Tốc độ tăng → động năng tăng (tỉ lệ với v²).`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Động năng phụ thuộc vào khối lượng của vật?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. m càng lớn → W_đ càng lớn (tỉ lệ thuận với m).`,explanation:`✅ Đúng. Khối lượng tăng → động năng tăng.`}
+    ]
       },
       {
         title:'Hai yếu tố: khối lượng và tốc độ',
         why:'Động năng không chỉ phụ thuộc 1 thứ. Hiểu cả 2 yếu tố để dự đoán năng lượng.',
         analogy:'<strong>Xe tải vs xe đạp</strong> 🚛🚲 — cùng tốc độ, xe tải có động năng lớn hơn (khối lượng lớn). Cùng khối lượng, xe chạy nhanh có động năng lớn hơn.',
         body:'<span class="sgk-ref">📘 SGK trang 15</span> Động năng phụ thuộc <b>2 yếu tố</b>:<br>① <b>Khối lượng (m)</b> — vật càng nặng → động năng càng lớn<br>② <b>Tốc độ (v)</b> — vật càng nhanh → động năng càng lớn<br><br>Đặc biệt: <b>tốc độ ảnh hưởng MẠNH HƠN</b> khối lượng (vì v được bình phương).',
-        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Hai quả bóng cùng tốc độ. Quả A nặng 0,5 kg, quả B nặng 1 kg. Quả nào có động năng lớn hơn?',choices:['Quả A (nhẹ hơn)','Quả B (nặng hơn)','Bằng nhau','Không thể biết'],correct:1,errorMsg:'<b>STOP.</b> Cùng tốc độ → khối lượng càng lớn → động năng càng lớn. Quả B nặng hơn nên có động năng lớn hơn.',explanation:'✅ Đúng! Cùng v, m càng lớn → W<sub>đ</sub> càng lớn. B (1 kg) > A (0,5 kg).'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Động năng phụ thuộc vào MẤY yếu tố?`,choices:['1','2 (m và v)','3','4'],correct:1,errorMsg:`<b>STOP.</b> 2 yếu tố: khối lượng (m) và tốc độ (v).`,explanation:`✅ <b>2 yếu tố</b>: m và v.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Tốc độ tăng → động năng tăng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Tăng theo v² (mạnh hơn tăng theo m).`,explanation:`✅ Đúng. Và tăng theo v² — nghĩa là tốc độ gấp đôi → động năng gấp 4.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Khối lượng tăng → động năng giảm?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Khối lượng tăng → động năng TĂNG (tỉ lệ thuận).`,explanation:`❌ KHÔNG. Tăng — không giảm.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Yếu tố nào ảnh hưởng động năng MẠNH HƠN (vì có mũ 2)?`,choices:['Khối lượng','Tốc độ','Trọng lượng','Độ cao'],correct:1,errorMsg:`<b>STOP.</b> Tốc độ — vì v² (mũ 2) trong công thức, còn m chỉ mũ 1.`,explanation:`✅ <b>Tốc độ</b>. v² làm nó nhạy hơn nhiều.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> 2 vật cùng tốc độ, vật nặng hơn có động năng LỚN hơn?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. m lớn → W_đ lớn (cùng v).`,explanation:`✅ Đúng. Một xe tải và một xe đạp cùng tốc độ — xe tải có động năng lớn hơn nhiều.`}
+    ]
       },
       {
         title:'Công thức: W<sub>đ</sub> = ½mv²',
@@ -489,28 +515,52 @@ const LESSON_CONTENT = {
         body:'<span class="sgk-ref">📘 SGK trang 15-16 — Định nghĩa</span>'+
           '<div class="formula"><span class="lbl">Động năng</span>W<sub>đ</sub> = ½ m v²</div>'+
           '<b>Trong đó:</b><br>• <b>m</b> = khối lượng (kg)<br>• <b>v</b> = tốc độ (m/s)<br>• <b>W<sub>đ</sub></b> = động năng (jun, ký hiệu J)<br><br>⚠️ Lưu ý: <b>v² là v bình phương</b> = v × v. Tốc độ tăng gấp đôi → động năng tăng <b>4 lần</b>.',
-        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Nếu tốc độ của xe tăng GẤP ĐÔI (v → 2v), động năng của xe sẽ tăng:',choices:['Gấp đôi (2 lần)','Gấp ba (3 lần)','Gấp bốn (4 lần)','Không đổi'],correct:2,errorMsg:'<b>STOP.</b> W<sub>đ</sub> = ½mv². Khi v → 2v, ta có (2v)² = 4v². → Động năng tăng <b>4 lần</b>, không phải 2 lần!',explanation:'✅ Đúng! Vì v BÌNH PHƯƠNG. (2v)² = 4v² → động năng gấp 4 lần. Đây là lý do xe nhanh nguy hiểm hơn rất nhiều.'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Công thức động năng là?`,choices:['W_đ = mv','W_đ = mv²','W_đ = ½mv²','W_đ = m+v²'],correct:2,errorMsg:`<b>STOP.</b> W_đ = ½ × m × v².`,explanation:`✅ <b>W_đ = ½mv²</b>. Nửa, khối lượng, vận tốc bình phương.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Công thức W_đ = mv² (không có ½) đúng?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Phải có ½. Công thức đúng là W_đ = ½mv².`,explanation:`❌ KHÔNG. Thiếu ½ — đó là sai lầm phổ biến.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Động năng tỉ lệ với v² (vận tốc bình phương)?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Tốc độ gấp đôi → động năng gấp 4.`,explanation:`✅ Đúng. Tỉ lệ với v² — đó là lí do động năng "nhạy" với tốc độ.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Trong công thức W_đ = ½mv², số mũ của v là?`,choices:['0','1','2','½'],correct:2,errorMsg:`<b>STOP.</b> v² = v mũ 2. Thường dễ nhầm là v×v, nhưng phải nhớ là v².`,explanation:`✅ <b>2</b>. v² nghĩa là v mũ 2.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Nếu m = 2 kg, v = 3 m/s, thì v² = ?`,choices:['6','9','12','3'],correct:1,errorMsg:`<b>STOP.</b> v² = 3 × 3 = 9. Đừng nhầm với 2v hoặc m×v.`,explanation:`✅ <b>9</b>. v² = 3² = 9.`}
+    ]
       },
       {
         title:'Tính động năng — bước theo bước',
         why:'Áp dụng công thức vào bài toán cụ thể. Em cần làm thành thạo việc tính.',
         body:'<span class="sgk-ref">📘 SGK trang 16 — Câu hỏi 2</span> Bài toán: Tính động năng của quả bóng có khối lượng m = 0,5 kg, đang bay với tốc độ v = 10 m/s.',
         blueprint:{problem:'Tính W<sub>đ</sub> cho m = 0,5 kg, v = 10 m/s',solution:'<b>Bước:</b><br>① W<sub>đ</sub> = ½ × m × v²<br>② W<sub>đ</sub> = ½ × 0,5 × 10²<br>③ W<sub>đ</sub> = ½ × 0,5 × 100<br>④ W<sub>đ</sub> = <b>25 J</b>'},
-        attempt:{type:'text',prompt:'<b>Lượt em:</b> Tính W<sub>đ</sub> cho m = 2 kg, v = 3 m/s. Đáp án (số jun)?',placeholder:'VD: 25',answers:['9','9j','9 jun','9 J'],errors:[],explanation:'✅ <b>9 J</b>. W<sub>đ</sub> = ½ × 2 × 3² = ½ × 2 × 9 = 9 J.'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Tính động năng với <b>m = 2 kg, v = 3 m/s</b>:`,choices:['3 J','6 J','9 J','18 J'],correct:2,errorMsg:`<b>STOP.</b> W_đ = ½ × 2 × 3² = ½ × 2 × 9 = 9 J. Bước: bình phương v TRƯỚC, rồi nhân.`,explanation:`✅ <b>9 J</b>. ½ × 2 × 9 = 9.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Tính động năng với <b>m = 0,5 kg, v = 4 m/s</b>:`,choices:['2 J','4 J','8 J','16 J'],correct:1,errorMsg:`<b>STOP.</b> ½ × 0,5 × 4² = ½ × 0,5 × 16 = ¼ × 16 = 4 J.`,explanation:`✅ <b>4 J</b>. v² = 16, nhân 0,5 → 8, nhân ½ → 4.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Tính động năng với <b>m = 1 kg, v = 10 m/s</b>:`,choices:['10 J','25 J','50 J','100 J'],correct:2,errorMsg:`<b>STOP.</b> ½ × 1 × 10² = ½ × 100 = 50 J.`,explanation:`✅ <b>50 J</b>. ½ × 100 = 50.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Tính động năng với <b>m = 0,2 kg, v = 5 m/s</b>:`,choices:['1 J','2,5 J','5 J','10 J'],correct:1,errorMsg:`<b>STOP.</b> ½ × 0,2 × 5² = ½ × 0,2 × 25 = ½ × 5 = 2,5 J.`,explanation:`✅ <b>2,5 J</b>. v² = 25, nhân 0,2 → 5, nhân ½ → 2,5.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Tính động năng với <b>m = 4 kg, v = 2 m/s</b>:`,choices:['4 J','8 J','16 J','32 J'],correct:1,errorMsg:`<b>STOP.</b> ½ × 4 × 2² = ½ × 4 × 4 = 8 J.`,explanation:`✅ <b>8 J</b>. v² = 4, nhân 4 → 16, nhân ½ → 8.`}
+    ]
       },
       {
         title:'Thế năng — năng lượng do vị trí',
         why:'Vật ở độ cao có thể "rơi" → có năng lượng tiềm tàng. Đây là cách thuỷ điện hoạt động!',
         analogy:'<strong>Hộp quà trên kệ cao</strong> 🎁 — chưa rơi nhưng có "tiềm năng" rơi. Càng cao → càng dễ làm hư khi rơi → càng nhiều thế năng.',
         body:'<span class="sgk-ref">📘 SGK trang 16</span> <b>Thế năng trọng trường</b> (gọi tắt là thế năng) là năng lượng của vật khi ở một <b>độ cao</b> nhất định so với mặt đất.<br><br>Ví dụ:<br>• Nước trên đỉnh núi → có thế năng<br>• Đập thuỷ điện chứa nước cao → tích trữ thế năng<br>• Khi nước chảy xuống → thế năng → động năng → điện năng',
-        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Vật nào có thế năng lớn nhất?',choices:['Quyển sách trên bàn (cao 1m)','Quả táo trên cây (cao 3m)','Đá trên đỉnh núi (cao 1000m)','Cá dưới đáy hồ'],correct:2,errorMsg:'<b>STOP.</b> Thế năng = năng lượng do ĐỘ CAO. Đá trên núi cao nhất (1000m) → có thế năng lớn nhất.',explanation:'✅ Đúng! Càng cao càng nhiều thế năng. Cá dưới đáy hồ thậm chí có thể có thế năng âm (so với mặt đất).'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Thế năng là gì?`,choices:['Năng lượng của vật chuyển động','Năng lượng của vật do vị trí','Năng lượng do nóng','Năng lượng từ phản ứng hoá học'],correct:1,errorMsg:`<b>STOP.</b> Thế năng = năng lượng của vật do VỊ TRÍ (khác với động năng — do chuyển động).`,explanation:`✅ <b>Năng lượng do vị trí</b>. Vd: vật trên cao có thế năng so với mặt đất.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Vật ở mặt đất luôn có thế năng = 0?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Tuỳ vào việc ta CHỌN gốc thế năng ở đâu. Mặt đất chỉ là 1 cách chọn.`,explanation:`❌ KHÔNG. Phụ thuộc vào gốc thế năng đã chọn.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Ký hiệu của thế năng là?`,choices:['W_đ','W_t','W_n','W_x'],correct:1,errorMsg:`<b>STOP.</b> W_t (W subscript t — t là viết tắt của "thế").`,explanation:`✅ <b>W_t</b>. Ký hiệu cho thế năng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Vật càng cao, thế năng càng lớn (so với mặt đất)?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. W_t = mgh, h tăng → W_t tăng.`,explanation:`✅ Đúng. Thế năng tỉ lệ thuận với độ cao.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Thế năng phụ thuộc khối lượng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. m càng lớn → W_t càng lớn.`,explanation:`✅ Đúng. Cùng độ cao, vật nặng → thế năng lớn.`}
+    ]
       },
       {
         title:'Hai yếu tố: khối lượng và độ cao',
         why:'Như động năng, thế năng cũng phụ thuộc 2 yếu tố.',
         analogy:'<strong>Hai thùng nước trên đập</strong> — thùng nặng hơn ở cùng độ cao có thế năng lớn hơn. Cùng thùng, ở đập cao hơn có thế năng lớn hơn.',
         body:'<span class="sgk-ref">📘 SGK trang 16</span> Thế năng phụ thuộc <b>2 yếu tố</b>:<br>① <b>Khối lượng (m)</b> — vật càng nặng → thế năng càng lớn<br>② <b>Độ cao (h)</b> — vật càng cao → thế năng càng lớn<br><br>Khác với động năng: <b>cả m và h đều ảnh hưởng tuyến tính</b> (không bình phương).',
-        attempt:{type:'choice',prompt:'<b>Lượt em:</b> Hai vật ở cùng độ cao h. Vật A: 3 kg, Vật B: 1 kg. Thế năng của A so với B?',choices:['Bằng nhau','Gấp 3 lần','Gấp 9 lần','Không thể biết'],correct:1,errorMsg:'<b>STOP.</b> Cùng h → khối lượng càng lớn → thế năng càng lớn. m_A = 3 × m_B → W_t của A = 3 × W_t của B (gấp 3 lần, không phải 9).',explanation:'✅ Đúng! Cùng h, m gấp 3 → W<sub>t</sub> gấp 3. Không bình phương như động năng.'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Thế năng phụ thuộc vào MẤY yếu tố chính?`,choices:['1','2 (m và h)','3','4'],correct:1,errorMsg:`<b>STOP.</b> 2 yếu tố: khối lượng (m) và độ cao (h).`,explanation:`✅ <b>2 yếu tố</b>: m và h.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Độ cao tăng gấp đôi → thế năng tăng gấp đôi?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. W_t = mgh — h gấp đôi thì W_t gấp đôi (tỉ lệ thuận).`,explanation:`✅ Đúng. Thế năng tỉ lệ THUẬN với h (khác động năng — tỉ lệ với v²).`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Yếu tố nào KHÔNG ảnh hưởng trực tiếp đến thế năng?`,choices:['Khối lượng (m)','Độ cao (h)','Tốc độ (v)','Gia tốc trọng trường (g)'],correct:2,errorMsg:`<b>STOP.</b> Tốc độ ảnh hưởng ĐỘNG NĂNG, không phải thế năng.`,explanation:`✅ <b>Tốc độ</b>. Thế năng = mgh, không có v.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Khối lượng tăng → thế năng giảm?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. m tăng → W_t TĂNG (tỉ lệ thuận).`,explanation:`❌ KHÔNG. Tăng, không giảm.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> 2 vật ở cùng độ cao, vật nặng có thế năng LỚN hơn?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Cùng h, m lớn → W_t lớn.`,explanation:`✅ Đúng. Cùng độ cao, vật nặng có nhiều thế năng hơn.`}
+    ]
       },
       {
         title:'Công thức: W<sub>t</sub> = mgh = Ph',
@@ -518,20 +568,38 @@ const LESSON_CONTENT = {
         body:'<span class="sgk-ref">📘 SGK trang 16 — Định nghĩa</span>'+
           '<div class="formula"><span class="lbl">Thế năng trọng trường</span>W<sub>t</sub> = m·g·h = P·h</div>'+
           '<b>Trong đó:</b><br>• <b>m</b> = khối lượng (kg), <b>g ≈ 10 m/s²</b> trên Trái Đất<br>• <b>h</b> = độ cao so với gốc thế năng (m)<br>• <b>P = mg</b> = trọng lượng (N)<br>• <b>W<sub>t</sub></b> = thế năng (J)',
-        attempt:{type:'text',prompt:'<b>Lượt em:</b> Tính W<sub>t</sub> cho vật nặng 5 kg ở độ cao 4 m (lấy g = 10 m/s²). Đáp án (J)?',placeholder:'VD: 25',answers:['200','200j','200 J','200 jun'],errors:[],explanation:'✅ <b>200 J</b>. W<sub>t</sub> = m × g × h = 5 × 10 × 4 = 200 J.'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Công thức thế năng là?`,choices:['W_t = mh','W_t = mgh','W_t = ½mh','W_t = m+g+h'],correct:1,errorMsg:`<b>STOP.</b> W_t = m × g × h. Phép NHÂN cả ba.`,explanation:`✅ <b>W_t = mgh</b>. m × g × h.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Trong công thức W_t = mgh, g = ?`,choices:['9.8 m/s²','10 m/s²','Có thể dùng cả 9.8 hoặc 10','3 m/s²'],correct:2,errorMsg:`<b>STOP.</b> g chính xác là ~9.8, nhưng để đơn giản tính, thường dùng g = 10.`,explanation:`✅ Cả hai đều OK. Trong bài tập trường thường dùng g = 10 m/s² để dễ tính.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Công thức W_t = mh (không có g) đúng?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Phải có g (gia tốc trọng trường).`,explanation:`❌ KHÔNG. Thiếu g — đó là sai phổ biến.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Công thức là W_t = m + g + h (phép cộng)?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Phép NHÂN, không phải cộng. W_t = m × g × h.`,explanation:`❌ KHÔNG. Nhân, không cộng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Đơn vị của W_t (thế năng) là?`,choices:['Newton (N)','Joule (J)','Watt (W)','Meter (m)'],correct:1,errorMsg:`<b>STOP.</b> Joule. Cũng giống động năng — đơn vị năng lượng.`,explanation:`✅ <b>Joule (J)</b>. Mọi loại năng lượng đều có đơn vị J.`}
+    ]
       },
       {
         title:'Gốc thế năng — chọn ở đâu?',
         why:'Thế năng phụ thuộc vào ĐIỂM SO SÁNH. Cùng vật, chọn gốc khác → thế năng khác.',
         analogy:'<strong>Đo độ cao của em</strong> — so với mặt đất em cao 1,5m; nhưng so với đỉnh núi em "thấp" -1000m. Cùng em, gốc khác → số khác.',
         body:'<span class="sgk-ref">📘 SGK trang 16-17</span> Khi tính thế năng, ta phải chọn <b>gốc thế năng</b> (điểm có thế năng = 0).<br><br>Ví dụ SGK: Công nhân vác bao xi măng 500N trên tầng thượng cao 20m. Bao cách sàn 1,4m.<br>• Chọn gốc tại <b>sàn thượng</b>: h = 1,4m → W<sub>t</sub> = 500 × 1,4 = 700 J<br>• Chọn gốc tại <b>mặt đất</b>: h = 20 + 1,4 = 21,4m → W<sub>t</sub> = 500 × 21,4 = 10 700 J<br><br>👉 Cả hai đều đúng — chỉ khác gốc! Trong vật lý, thường chọn <b>mặt đất làm gốc</b>.',
-        attempt:{type:'yesno',prompt:'<b>Lượt em:</b> Cùng một vật, có thể có thế năng khác nhau tuỳ chọn gốc thế năng?',correct:'yes',errorMsg:'<b>STOP.</b> CÓ. Thế năng là tương đối — phụ thuộc gốc đã chọn. Vật ở 20m so với đất → 0m so với chính nó.',explanation:'✅ Đúng. Thế năng KHÔNG TUYỆT ĐỐI — phụ thuộc vào gốc. Đó là lý do trong bài toán phải nói rõ "gốc tại đâu".'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Gốc thế năng (h=0) thường được chọn ở đâu?`,choices:['Đỉnh núi','Mặt đất hoặc điểm thấp nhất','Trên cao','Vô cực'],correct:1,errorMsg:`<b>STOP.</b> Thường mặt đất hoặc điểm thấp nhất — tuỳ bài.`,explanation:`✅ <b>Mặt đất hoặc điểm thấp nhất</b>. Có thể chọn linh hoạt.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Gốc thế năng có thể chọn ở bất kỳ vị trí nào em muốn?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Gốc là quy ước. Chỉ cần ghi rõ trong bài.`,explanation:`✅ Đúng. Gốc tự chọn — miễn nhất quán trong bài toán.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Nếu chọn gốc tại đỉnh tháp, thế năng dưới đất có thể ÂM?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Nếu vật ở dưới gốc → h âm → W_t âm.`,explanation:`✅ Đúng. Đó là điều quan trọng — thế năng có dấu, tuỳ gốc chọn.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Trong mỗi bài tập, gốc thế năng phải được nói rõ?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Bài tập KHÔNG có ý nghĩa nếu không nói gốc.`,explanation:`✅ Đúng. Phải ghi rõ "gốc tại mặt đất" hoặc "gốc tại điểm thấp nhất".`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Đối với 2 vật khác nhau trong cùng bài, gốc thế năng có thể khác nhau?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Gốc là quy ước cho từng tính toán.`,explanation:`✅ Đúng. Tuy nhiên trong cùng bài, thường chọn 1 gốc chung cho thuận tiện.`}
+    ]
       },
       {
         title:'🏁 TÍCH HỢP: Trả lời bài toán xích đu',
         why:'Em quay về câu hỏi mở đầu — giờ em có công cụ để trả lời.',
         body:'<b>Câu hỏi mở đầu:</b> Khi chơi xích đu, động năng của người chơi thay đổi như thế nào giữa vị trí cao nhất A và vị trí thấp nhất O?<br><br><div class="recap"><h4>Tóm tắt Bài 2:</h4><ul class="simple"><li>Động năng W<sub>đ</sub> = ½mv² (do chuyển động)</li><li>Thế năng W<sub>t</sub> = mgh (do độ cao)</li><li>Năng lượng cơ học = động năng + thế năng</li></ul></div><br><b>Phân tích:</b><br>• Tại A (cao nhất): tốc độ ≈ 0 → W<sub>đ</sub> = 0; nhưng h lớn → W<sub>t</sub> lớn<br>• Tại O (thấp nhất): h = 0 → W<sub>t</sub> = 0; nhưng tốc độ cao → W<sub>đ</sub> lớn<br><br>👉 <b>Năng lượng "chuyển hoá" giữa thế năng và động năng!</b> Đây là nguyên lý em sẽ học sâu hơn ở Bài 3 (Cơ năng).',
-        attempt:{type:'choice',prompt:'<b>Câu cuối:</b> Tại vị trí cao nhất A của xích đu, động năng của người chơi là:',choices:['Lớn nhất','Bằng 0 (vì tốc độ = 0)','Bằng thế năng','Không thể biết'],correct:1,errorMsg:'<b>STOP.</b> Tại điểm cao nhất, xích đu DỪNG LẠI một khoảnh khắc (đổi hướng). Tốc độ v = 0 → W<sub>đ</sub> = ½m(0)² = 0.',explanation:'🎉 Đúng! Tại A, v = 0 → W<sub>đ</sub> = 0. Toàn bộ năng lượng là thế năng. Mika đã hoàn thành Bài 2!'}
+        attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Tính W_t với <b>m = 30 kg, h = 1,2 m</b> (g = 10):`,choices:['120 J','240 J','360 J','3600 J'],correct:2,errorMsg:`<b>STOP.</b> W_t = 30 × 10 × 1,2 = 360 J.`,explanation:`✅ <b>360 J</b>. m × g × h = 30 × 10 × 1,2.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Tại điểm cao nhất xích đu (đứng yên), động năng = 0?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. v=0 → W_đ = ½m(0)² = 0.`,explanation:`✅ Đúng. Điểm cao nhất → tốc độ = 0 → động năng = 0.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Tại điểm cao nhất, cơ năng tổng = ?`,choices:['0','W_đ + W_t','Chỉ W_đ','Chỉ W_t'],correct:3,errorMsg:`<b>STOP.</b> Tại đỉnh: W_đ = 0 → W = W_t.`,explanation:`✅ <b>Chỉ W_t</b>. Toàn bộ cơ năng = thế năng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Tại điểm thấp nhất xích đu (khi đến gốc), thế năng = 0?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng (nếu chọn gốc ở đó). h = 0 → W_t = 0.`,explanation:`✅ Đúng. Điểm thấp nhất → h=0 → W_t = 0.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Tại điểm thấp nhất xích đu (cơ năng bảo toàn), W_đ = 360 J. Vậy v ≈ ?`,choices:['v ≈ 4,9 m/s','v ≈ 12 m/s','v ≈ 24 m/s','v ≈ 360 m/s'],correct:0,errorMsg:`<b>STOP.</b> 360 = ½ × 30 × v² → v² = 24 → v = √24 ≈ 4,9 m/s.`,explanation:`✅ <b>v ≈ 4,9 m/s</b>. Cơ năng bảo toàn — toàn bộ thế năng (360J) thành động năng tại đáy.`}
+    ]
       }
     ],
     practice:[
@@ -631,6 +699,17 @@ function calcOverall(){
   CURRICULUM.forEach(ch=>ch.lessons.forEach(l=>{ if(l.built){ c++; if(isLessonDone(ch.id,l.id)) t++; } }));
   return c>0 ? Math.round(t/c*100) : 0;
 }
+function getCurrentAttempt(item){
+  if(item.attempts && Array.isArray(item.attempts)){
+    if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[], currentVar:0, streak:0 };
+    if(typeof lessonView.attempt.currentVar !== 'number') lessonView.attempt.currentVar = 0;
+    return item.attempts[lessonView.attempt.currentVar % item.attempts.length];
+  }
+  return item.attempt;
+}
+function getMasteryTotal(item){ return item.attempts ? item.attempts.length : 1; }
+function getMasteryRequired(){ return 3; }
+
 function getCurrentDpItem(){
   const lc = LESSON_CONTENT[view.chId+'-'+view.lId];
   if(lessonView.tab === 'theory') return lc.steps[lessonView.step];
@@ -736,12 +815,21 @@ function renderDeepPractice(item, ctx){
   if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
   const a = lessonView.attempt;
   const bp = item.blueprint;
-  const at = item.attempt;
+  const at = getCurrentAttempt(item);
   let h = '';
   if(bp){
     h += '<div class="blueprint"><div class="bp-tag">BƯỚC 1 · QUAN SÁT</div><h4>👀 Xem cách giải</h4><div class="bp-prob"><b>Bài:</b> '+highlight(bp.problem)+'</div><div class="bp-sol">'+highlight(bp.solution)+'</div></div>';
   }
-  h += '<div class="attempt"><div class="at-tag">BƯỚC 2 · LƯỢT EM</div><h4>✏️ Em hãy thử</h4><div class="at-prompt">'+highlight(at.prompt)+'</div>';
+  h += '<div class="attempt"><div class="at-tag">BƯỚC 2 · LƯỢT EM</div><h4>✏️ Em hãy thử</h4>'+
+    (item.attempts ? (function(){
+      const need = getMasteryRequired();
+      const streak = (a.streak || 0);
+      let dots = '';
+      for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+      const total = getMasteryTotal(item);
+      const varN = (a.currentVar || 0) % total + 1;
+      return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+    })() : '')+'<div class="at-prompt">'+highlight(at.prompt)+'</div>';
   if(at.type === 'yesno'){
     h += '<div class="choice-grid"><button data-act="dp-yesno" data-v="yes" '+(a.passed||a.state==='pause'?'disabled':'')+'>✓ Có</button><button data-act="dp-yesno" data-v="no" '+(a.passed||a.state==='pause'?'disabled':'')+'>✗ Không</button></div>';
   } else if(at.type === 'choice'){
@@ -768,6 +856,9 @@ function renderDeepPractice(item, ctx){
   }
   if(a.state === 'pause'){
     h += '<div class="replay"><div class="rp-title">🧘 Đọc thầm trong đầu...</div><div class="rp-count" id="rp-count">'+a.pauseLeft+'</div><div class="rp-text">Đọc lại bài giải mẫu, nhẩm các bước, rồi thử lại.</div></div>';
+  }
+  if(a.state === 'correct-streaking'){
+    h += '<div class="success-card streaking"><div class="sc-title">✅ Đúng — sang biến thể tiếp...</div><div class="sc-body">Mastery: '+(a.streak||0)+'/'+getMasteryRequired()+' đúng liên tiếp.</div></div>';
   }
   if(a.state === 'correct' && a.passed){
     h += '<div class="success-card"><div class="sc-title">🎯 Đúng rồi!</div><div class="sc-body">'+highlight(at.explanation||'')+'</div>';

@@ -154,6 +154,12 @@ nav.tabs button:hover:not(.active){background:var(--rose-soft);color:var(--rose-
 .sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
 .problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 .problem-sgk .q{color:#7c2d12}
+
+.mastery-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:8px 12px;background:#fef3c7;border-radius:8px;font-size:12px;color:#78350f;flex-wrap:wrap}
+.m-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.m-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fcd34d;border:2px solid #d97706;margin-right:4px;transition:all .2s}
+.m-dot.on{background:#16a34a;border-color:#15803d;box-shadow:0 0 0 3px #dcfce7}
+.m-progress{font-size:11px;opacity:.85}
 </style>
 </head>
 <body>
@@ -431,7 +437,13 @@ const steps = [
     after:'Sau: văn cổ là tấm gương — nhìn vào để hiểu lòng người, kể cả lòng mình.'
   ,
     blueprint:{problem:`Truyện cổ vẫn dạy ta hiểu lòng người — vì cảm xúc con người không thay đổi qua thời gian.`,solution:`Câu chuyện 400 năm trước vẫn nói về ghen tuông, hiểu lầm — chuyện hằng ngày.`},
-    attempt:{type:`choice`,prompt:`Vì sao học truyện 400 năm trước vẫn hữu ích?`,choices:[`Vì là bài tập bắt buộc`,`Vì cảm xúc con người mọi thời đều giống nhau`,`Vì đọc cho đẹp`,`Vì sẽ thi`],correct:1,errorMsg:`<b>STOP.</b> Cảm xúc, mâu thuẫn — luôn giống nhau qua các thời đại.`,explanation:`✅ Đúng. Văn cổ là gương soi lòng người.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vì sao học sinh ngày nay vẫn học truyện cổ 400 năm?`,choices:['Vì là bài tập','Vì cảm xúc con người không thay đổi','Vì đẹp','Vì sẽ thi'],correct:1,errorMsg:`<b>STOP.</b> Cảm xúc giống qua thời.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Văn cổ vẫn nói về ghen tuông, hiểu lầm — chuyện hằng ngày?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Truyện này được viết khi nào?`,choices:['~100 năm','~200 năm','~400 năm','~800 năm'],correct:2,errorMsg:`<b>STOP.</b> Thế kỉ XVI ~ 400 năm.`,explanation:`✅ ~400 năm.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Đọc truyện cổ giúp ta hiểu lòng người ngày nay?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Văn học là gì với cuộc đời?`,choices:['Thông tin nhanh','Tấm gương soi lòng người','Trò giải trí','Nội dung nhạt'],correct:1,errorMsg:`<b>STOP.</b> Tấm gương.`,explanation:`✅ Tấm gương.`}
+    ]
   },
   {
     title:'2. Truyện truyền kì — thể loại đặc biệt',
@@ -444,7 +456,13 @@ const steps = [
     after:'Sau: kì ảo là "cái áo" — bên trong vẫn là nhận xét về đời thực.'
   ,
     blueprint:{problem:`Truyện truyền kì = văn xuôi trung đại có yếu tố kì ảo + phản ánh hiện thực xã hội.`,solution:`Kì ảo là cách nói, hiện thực là điều muốn nói.`},
-    attempt:{type:`choice`,prompt:`Truyện truyền kì có đặc điểm gì?`,choices:[`Chỉ là cổ tích đơn thuần`,`Có yếu tố kì ảo + phản ánh hiện thực xã hội`,`Là truyện viết bằng thơ`,`Chỉ về thần linh`],correct:1,errorMsg:`<b>STOP.</b> Truyền kì khác cổ tích — có cả kì ảo VÀ hiện thực.`,explanation:`✅ Đúng. Kì ảo + phản ánh hiện thực.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Truyện truyền kì có đặc điểm gì?`,choices:['Chỉ cổ tích','Có yếu tố kì ảo + phản ánh hiện thực','Là thơ','Chỉ về thần linh'],correct:1,errorMsg:`<b>STOP.</b> Kì ảo + hiện thực.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Truyện truyền kì là văn xuôi (không phải thơ)?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Trong truyền kì, "kì ảo" đóng vai trò:`,choices:['Trang trí','Cách nói để phản ánh hiện thực','Lừa độc giả','Gây sợ'],correct:1,errorMsg:`<b>STOP.</b> Cách nói.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Truyện truyền kì khác cổ tích?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Cổ tích đơn thuần, truyền kì có cả phản ánh hiện thực.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> "Kì ảo là cách nói, hiện thực là điều muốn nói" — câu này nghĩa là gì?`,choices:['Thực và ảo cùng tồn tại','Tác giả muốn truyền tải hiện thực qua hình ảnh kì ảo','Chỉ kì ảo quan trọng','Chỉ hiện thực quan trọng'],correct:1,errorMsg:`<b>STOP.</b> Kì ảo là phương tiện, hiện thực là thông điệp.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'3. Tác giả Nguyễn Dữ',
@@ -455,7 +473,13 @@ const steps = [
     after:'Sau: Nguyễn Dữ là người trí thức bất mãn, dùng truyện kì ảo để phê phán xã hội.'
   ,
     blueprint:{problem:`Nguyễn Dữ (thế kỉ XVI), tác giả "Truyền kì mạn lục" (20 truyện). Đây là truyện thứ 16.`,solution:`Đừng nhầm với Nguyễn Du (Truyện Kiều, thế kỉ XVIII).`},
-    attempt:{type:`choice`,prompt:`Tác giả "Chuyện người con gái Nam Xương" là:`,choices:[`Nguyễn Du`,`Nguyễn Dữ`,`Nguyễn Trãi`,`Hồ Xuân Hương`],correct:1,errorMsg:`<b>STOP.</b> Nguyễn DỮ (có dấu nặng), không phải Nguyễn Du.`,explanation:`✅ Đúng. Nguyễn Dữ — thế kỉ XVI.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Tác giả Chuyện người con gái Nam Xương là?`,choices:['Nguyễn Du','Nguyễn Dữ','Nguyễn Trãi','Hồ Xuân Hương'],correct:1,errorMsg:`<b>STOP.</b> Nguyễn DỮ (có dấu nặng), không phải Nguyễn Du.`,explanation:`✅ Nguyễn Dữ.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Nguyễn Dữ sống vào thế kỉ?`,choices:['XV','XVI','XVII','XVIII'],correct:1,errorMsg:`<b>STOP.</b> Thế kỉ XVI.`,explanation:`✅ XVI.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Tác phẩm nổi tiếng của Nguyễn Dữ là?`,choices:['Truyện Kiều','Truyền kì mạn lục','Bình Ngô đại cáo','Hịch tướng sĩ'],correct:1,errorMsg:`<b>STOP.</b> Truyền kì mạn lục.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Nguyễn Dữ và Nguyễn Du là cùng một người?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Hai người khác nhau!`,explanation:`❌ KHÔNG. Du = Truyện Kiều, Dữ = Nam Xương.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Truyền kì mạn lục có bao nhiêu truyện?`,choices:['10','15','20','30'],correct:2,errorMsg:`<b>STOP.</b> 20 truyện.`,explanation:`✅ 20.`}
+    ]
   },
   {
     title:'4. Bối cảnh — Việt Nam thời phong kiến',
@@ -469,7 +493,13 @@ const steps = [
     after:'Sau: phụ nữ thời phong kiến không có tiếng nói. Đó là cái nền của bi kịch trong truyện.'
   ,
     blueprint:{problem:`Phụ nữ phong kiến: tam tòng tứ đức; không học hành như đàn ông; một lời nghi oan có thể phá huỷ cả cuộc đời.`,solution:`Đó là cái nền của bi kịch trong truyện.`},
-    attempt:{type:`choice`,prompt:`Trong xã hội phong kiến, người phụ nữ:`,choices:[`Có quyền tự do`,`Phải tuân theo cha-chồng-con trai (tam tòng)`,`Học hành như đàn ông`,`Có quyền chọn chồng tự do`],correct:1,errorMsg:`<b>STOP.</b> Tam tòng = phụ thuộc cha → chồng → con trai.`,explanation:`✅ Đúng. Phụ nữ không có tiếng nói tự bảo vệ.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Trong xã hội phong kiến, người phụ nữ:`,choices:['Có quyền tự do','Phải tuân tam tòng','Học như đàn ông','Tự chọn chồng'],correct:1,errorMsg:`<b>STOP.</b> Tam tòng.`,explanation:`✅ Tam tòng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> "Tam tòng" nghĩa là?`,choices:['3 lần kết hôn','Phụ thuộc cha-chồng-con trai','3 đức tính','3 phép tắc'],correct:1,errorMsg:`<b>STOP.</b> Cha → chồng → con trai.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Phụ nữ phong kiến được học hành như đàn ông?`,correct:'no',errorMsg:`<b>STOP.</b> SAI.`,explanation:`❌ KHÔNG.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Một lời nghi oan có thể phá huỷ cuộc đời người phụ nữ phong kiến?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — không có cách bào chữa.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Truyện diễn ra trong bối cảnh nào?`,choices:['Thời hiện đại','Việt Nam phong kiến + chiến tranh với Chiêm','Châu Âu trung cổ','Thế giới thần thoại'],correct:1,errorMsg:`<b>STOP.</b> Việt Nam phong kiến.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'5. Nhân vật chính — Vũ Nương',
@@ -483,7 +513,13 @@ const steps = [
     after:'Sau: hiểu Vũ Nương là biểu tượng của người phụ nữ Việt Nam đức hạnh.'
   ,
     blueprint:{problem:`Vũ Thị Thiết (Vũ Nương): hiền dịu, nết na, đẹp người. Là vợ tốt + con dâu hiếu thảo + mẹ tốt.`,solution:`Mọi điều tốt đẹp được tô đậm để bi kịch sau càng đau lòng.`},
-    attempt:{type:`choice`,prompt:`Vũ Nương được mô tả là:`,choices:[`Hiền dịu, nết na, đẹp người`,`Lười biếng`,`Phản bội chồng`,`Ác độc`],correct:0,errorMsg:`<b>STOP.</b> SGK: "thuỳ mị, nết na, lại thêm tư dung tốt đẹp".`,explanation:`✅ Đúng. Biểu tượng người phụ nữ Việt đức hạnh.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vũ Nương được mô tả là:`,choices:['Lười biếng','Thuỳ mị, nết na, đẹp người','Phản bội','Ác'],correct:1,errorMsg:`<b>STOP.</b> SGK: thuỳ mị, nết na, tư dung tốt đẹp.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Tên đầy đủ của Vũ Nương là?`,choices:['Vũ Hồng Hạnh','Vũ Thị Thiết','Vũ Phương Lan','Vũ Mai'],correct:1,errorMsg:`<b>STOP.</b> Vũ Thị Thiết.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Vũ Nương là vợ tốt + con dâu hiếu thảo + mẹ tốt?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — ba vai đều xuất sắc.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Vũ Nương sinh con với chồng tên là gì?`,choices:['Đản','Linh','Hoa','Phong'],correct:0,errorMsg:`<b>STOP.</b> Bé Đản.`,explanation:`✅ Đản.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Vũ Nương là biểu tượng người phụ nữ Việt Nam đức hạnh?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'6. Nhân vật chính — Trương Sinh',
@@ -497,7 +533,13 @@ const steps = [
     after:'Sau: Trương Sinh là biểu tượng của xã hội phong kiến nam quyền — nơi đàn ông có quyền phán xét mà không cần bằng chứng.'
   ,
     blueprint:{problem:`Trương Sinh: con nhà giàu nhưng KHÔNG có học, ĐA NGHI, nóng nảy.`,solution:`Sự dốt nát + ghen tuông là kết hợp nguy hiểm.`},
-    attempt:{type:`choice`,prompt:`Trương Sinh có đặc điểm chính nào?`,choices:[`Có học cao và hiền lành`,`Đa nghi và không có học`,`Yêu vợ vô điều kiện`,`Là quan trong triều`],correct:1,errorMsg:`<b>STOP.</b> SGK: "không có học", "có tính đa nghi".`,explanation:`✅ Đúng. Đa nghi + không học → nguy hiểm.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Trương Sinh có đặc điểm chính?`,choices:['Có học cao','Đa nghi và không có học','Yêu vợ tuyệt đối','Là quan trong triều'],correct:1,errorMsg:`<b>STOP.</b> Đa nghi + không học.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Trương Sinh là con nhà giàu (hào phú)?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng nhưng không có học.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Trương Sinh phải làm gì khi chiến tranh?`,choices:['Trốn lính','Đi tòng quân','Đi du học','Trốn vào núi'],correct:1,errorMsg:`<b>STOP.</b> Bị bắt lính đánh Chiêm.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Sự kết hợp nào ở Trương Sinh là nguy hiểm?`,choices:['Giàu + đẹp','Đa nghi + không có học','Trẻ + cao','Hiền + nhút nhát'],correct:1,errorMsg:`<b>STOP.</b> Dốt nát + ghen tuông = bi kịch.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Trương Sinh chịu trách nhiệm chính cho bi kịch?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — ông không hỏi rõ.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'7. Cốt truyện — phần 1: Hôn nhân và xa cách',
@@ -513,7 +555,13 @@ const steps = [
     after:'Sau: hiểu rằng tác giả đang xây dựng nhân vật để chuẩn bị cho bi kịch.'
   ,
     blueprint:{problem:`Trương Sinh đi lính 3 năm. Vũ Nương ở nhà sinh con (bé Đản) + chăm mẹ chồng + lo tang lễ chu đáo.`,solution:`Phần "êm ả" để chuẩn bị cho bi kịch.`},
-    attempt:{type:`choice`,prompt:`Trong khi Trương Sinh đi lính, Vũ Nương đã làm gì?`,choices:[`Đi du lịch`,`Sinh con + chăm mẹ chồng + lo tang lễ`,`Tái hôn`,`Bỏ về nhà bố mẹ`],correct:1,errorMsg:`<b>STOP.</b> Nàng làm tròn cả 3 vai: vợ, con dâu, mẹ.`,explanation:`✅ Đúng. Đó là vẻ đẹp của Vũ Nương.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Khi Trương Sinh đi lính, Vũ Nương ở nhà làm gì?`,choices:['Đi du lịch','Sinh con + chăm mẹ chồng + lo tang lễ','Tái hôn','Bỏ về nhà bố mẹ'],correct:1,errorMsg:`<b>STOP.</b> Ba vai đều tròn.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Trương Sinh đi lính bao lâu?`,choices:['1 năm','2 năm','~3 năm','5 năm'],correct:2,errorMsg:`<b>STOP.</b> ~3 năm.`,explanation:`✅ ~3 năm.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Mẹ chồng Vũ Nương qua đời trong khi Trương Sinh đi lính?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Vũ Nương lo tang lễ chu đáo cho mẹ chồng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — đó là phẩm chất tốt.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Vũ Nương sinh con với ai?`,choices:['Một người khác','Trương Sinh','Mẹ chồng','Phan Lang'],correct:1,errorMsg:`<b>STOP.</b> Với chồng Trương Sinh.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'8. Cốt truyện — phần 2: Hiểu lầm và bi kịch',
@@ -528,7 +576,13 @@ const steps = [
     after:'Sau: trẻ con không cố tình nói dối, nhưng người lớn phải biết hỏi rõ trước khi tin.'
   ,
     blueprint:{problem:`Bé Đản nói "đêm nào cũng có người đến" — đó là CÁI BÓNG của Vũ Nương trên tường (lúc thắp đèn). Trương Sinh không hỏi rõ → đuổi vợ.`,solution:`Một câu chuyện nhỏ đầy yêu thương bị hiểu sai bởi người lớn không chịu nghe.`},
-    attempt:{type:`choice`,prompt:`Thứ gì gây ra hiểu lầm dẫn tới bi kịch của Vũ Nương?`,choices:[`Lá thư của ai đó`,`Cái bóng trên tường`,`Người hàng xóm`,`Một bức ảnh`],correct:1,errorMsg:`<b>STOP.</b> Vũ Nương trỏ bóng nói "cha con" để dỗ bé Đản. Bé tưởng thật.`,explanation:`✅ Đúng. Cái bóng — chi tiết nhỏ nhất giết một con người.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Thứ gì gây hiểu lầm dẫn tới bi kịch?`,choices:['Lá thư','Cái bóng trên tường','Người hàng xóm','Một bức ảnh'],correct:1,errorMsg:`<b>STOP.</b> Cái bóng.`,explanation:`✅ Cái bóng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Vũ Nương trỏ bóng nói gì với bé Đản?`,choices:['"Mẹ"','"Cha"','"Bà"','"Người lạ"'],correct:1,errorMsg:`<b>STOP.</b> "Cha con" — để dỗ con.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Bé Đản cố ý nói dối cha?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Bé chỉ kể lại điều mình thấy.`,explanation:`❌ KHÔNG.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Trương Sinh có hỏi rõ trước khi kết tội vợ?`,correct:'no',errorMsg:`<b>STOP.</b> SAI — đó là lỗi lớn nhất.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Vũ Nương đã làm gì cuối cùng?`,choices:['Chạy về nhà bố mẹ','Trầm mình xuống sông Hoàng Giang','Tái hôn','Đến gặp vua'],correct:1,errorMsg:`<b>STOP.</b> Trầm mình.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'9. Cốt truyện — phần 3: Yếu tố kì ảo',
@@ -544,7 +598,13 @@ const steps = [
     after:'Sau: phần kì ảo là cách Nguyễn Dữ "trả lại công bằng" cho Vũ Nương — và phê phán xã hội đã giết nàng.'
   ,
     blueprint:{problem:`Linh Phi (Dragon Queen) cứu Vũ Nương → sống ở thuỷ cung. Phan Lang gặp nàng. Nàng hiện về trong khói.`,solution:`Đây là phần kì ảo đặc trưng của truyền kì.`},
-    attempt:{type:`choice`,prompt:`Yếu tố KÌ ẢO trong truyện thể hiện ở:`,choices:[`Trương Sinh đi lính`,`Vũ Nương sống ở thuỷ cung và hiện về sau khi chết`,`Mẹ chồng bị bệnh`,`Bé Đản nói chuyện với cha`],correct:1,errorMsg:`<b>STOP.</b> Kì ảo = thuỷ cung, Linh Phi, hiện về trong khói — không có thật.`,explanation:`✅ Đúng. Đó là kì ảo của truyền kì.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Yếu tố kì ảo trong truyện thể hiện ở:`,choices:['Chiến tranh','Thuỷ cung và hiện về','Mẹ chồng bệnh','Bé Đản nói chuyện'],correct:1,errorMsg:`<b>STOP.</b> Thuỷ cung + hiện về.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Linh Phi trong truyện là?`,choices:['Một bà tiên','Vợ vua Thuỷ Tề (Dragon Queen)','Mẹ chồng','Vợ Trương Sinh'],correct:1,errorMsg:`<b>STOP.</b> Linh Phi = vợ vua Thuỷ Tề.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Ai cứu Vũ Nương khỏi chết đuối?`,choices:['Phan Lang','Bé Đản','Linh Phi','Trương Sinh'],correct:2,errorMsg:`<b>STOP.</b> Linh Phi.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Vũ Nương sống ở thuỷ cung sau khi gieo mình?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng (theo yếu tố kì ảo).`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Cuối truyện, Vũ Nương hiện về như thế nào?`,choices:['Sống bình thường','Trong làn khói rồi biến mất','Trong tiếng hát','Không hiện về'],correct:1,errorMsg:`<b>STOP.</b> Trong khói.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'10. Chủ đề — số phận người phụ nữ phong kiến',
@@ -558,7 +618,13 @@ const steps = [
     after:'Sau: là tiếng nói phê phán cả một thời đại — nơi phụ nữ là nạn nhân.'
   ,
     blueprint:{problem:`Truyện vừa ca ngợi đức hạnh người phụ nữ vừa phê phán xã hội phong kiến.`,solution:`Một bức tranh hai mặt — mặt sáng và mặt tối cùng lúc.`},
-    attempt:{type:`choice`,prompt:`Chủ đề chính của truyện là:`,choices:[`Ca ngợi chiến tranh`,`Phê phán xã hội phong kiến và số phận người phụ nữ`,`Khoe sự giàu có`,`Mô tả thiên nhiên Việt Nam`],correct:1,errorMsg:`<b>STOP.</b> Truyện là tiếng nói phê phán xã hội — nơi phụ nữ là nạn nhân.`,explanation:`✅ Đúng. Phê phán + ca ngợi cùng lúc.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Chủ đề chính của truyện là?`,choices:['Ca ngợi chiến tranh','Phê phán xã hội phong kiến + số phận phụ nữ','Khoe giàu','Mô tả thiên nhiên'],correct:1,errorMsg:`<b>STOP.</b> Phê phán + ca ngợi đức hạnh.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Truyện vừa phê phán xã hội vừa ca ngợi đức hạnh phụ nữ?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng — bức tranh hai mặt.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Theo truyện, ai chịu trách nhiệm chính cho cái chết Vũ Nương?`,choices:['Bé Đản','Trương Sinh + xã hội phong kiến','Mẹ chồng','Vũ Nương tự gây'],correct:1,errorMsg:`<b>STOP.</b> Trương Sinh + xã hội.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Vũ Nương là nạn nhân của xã hội phong kiến nam quyền?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Tiếng nói của Nguyễn Dữ qua truyện là?`,choices:['Ủng hộ xã hội đương thời','Phê phán + ca ngợi','Khen ngợi vua','Châm biếm Phật giáo'],correct:1,errorMsg:`<b>STOP.</b> Phê phán + ca ngợi.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title:'11. Yếu tố kì ảo — vì sao có?',
@@ -575,12 +641,29 @@ const steps = [
     after:'Sau: yếu tố kì ảo là cách văn học chữa lành — và cũng là cách phê phán hiện thực bằng đường vòng.'
   ,
     blueprint:{problem:`Kì ảo = ước mơ công bằng. Trong hiện thực Vũ Nương chết oan; trong cõi tâm linh nàng được giải oan.`,solution:`Văn học chữa lành nỗi đau bằng tưởng tượng.`},
-    attempt:{type:`choice`,prompt:`Vì sao tác giả dùng yếu tố kì ảo?`,choices:[`Vì truyện cần lạ`,`Để "trả lại công bằng" cho Vũ Nương trong cõi tâm linh`,`Vì độc giả sợ ma`,`Vì đẹp`],correct:1,errorMsg:`<b>STOP.</b> Kì ảo là cách Nguyễn Dữ trả lại công bằng cho Vũ Nương — và phê phán xã hội đã giết nàng.`,explanation:`✅ Đúng. Kì ảo = công bằng tâm linh, không có trong hiện thực.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vì sao tác giả dùng yếu tố kì ảo?`,choices:['Vì truyện cần fancy','Để "trả công bằng" cho Vũ Nương trong cõi tâm linh','Vì độc giả sợ ma','Vì đẹp'],correct:1,errorMsg:`<b>STOP.</b> Trả công bằng tâm linh.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Trong cõi tâm linh, Vũ Nương được giải oan?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Trong hiện thực, Vũ Nương được sống lại?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Trong hiện thực phong kiến, không thể.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Yếu tố kì ảo có 2 chức năng:`,choices:['An ủi + phê phán','Trang trí + giải trí','Lừa + đe doạ','Khoe + che giấu'],correct:0,errorMsg:`<b>STOP.</b> An ủi (Vũ Nương) + phê phán (xã hội).`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Văn học dùng kì ảo để chữa lành nỗi đau bằng tưởng tượng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`}
+    ]
   }
 ];
 
 let currentStep = 0;
-let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null, currentVar:0, streak:0};
+
+
+function getCurrentStepAttempt(s){
+  if(s.attempts && Array.isArray(s.attempts)){
+    if(typeof stepAttempt.currentVar !== 'number') stepAttempt.currentVar = 0;
+    return s.attempts[stepAttempt.currentVar % s.attempts.length];
+  }
+  return s.attempt;
+}
+function getMasteryRequired(){ return 3; }
+function getMasteryTotal(s){ return s.attempts ? s.attempts.length : 1; }
 
 function renderTheory(){
   const p=loadProg();
@@ -589,35 +672,36 @@ function renderTheory(){
   const i = currentStep;
   const s = steps[i];
   const isPassed = i < p.theory;
-  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null,currentVar:0,streak:0}; }
   
   let attemptHtml = '';
-  if(s.attempt){
-    if(s.attempt.type === 'choice'){
-      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+  if(s.attempts || s.attempt){
+    const _at = getCurrentStepAttempt(s);
+    if(_at.type === 'choice'){
+      attemptHtml = '<div class="opts">' + _at.choices.map((ch,j)=>{
         let cls='opt-btn';
         if(stepAttempt.picked!==null){
-          if(j===s.attempt.correct) cls += ' right';
+          if(j===_at.correct) cls += ' right';
           else if(j===stepAttempt.picked) cls += ' wrong';
         }
         const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
         return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
       }).join('') + '</div>';
-    } else if(s.attempt.type === 'yesno'){
+    } else if(_at.type === 'yesno'){
       const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
-      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
-      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      const yc = stepAttempt.picked==='yes' ? (_at.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (_at.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='no'?' right':'');
       attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
     }
   }
   
   let feedbackHtml = '';
   if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(getCurrentStepAttempt(s).errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
   } else if(stepAttempt.passed){
-    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(getCurrentStepAttempt(s).explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
   } else if(stepAttempt.tries >= CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(getCurrentStepAttempt(s).explanation)}</div>`;
   }
   
   let pauseHtml = '';
@@ -643,7 +727,15 @@ function renderTheory(){
           <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
           <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
         </div>
-        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>${s.attempts ? (function(){
+            const need = getMasteryRequired();
+            const streak = (stepAttempt.streak || 0);
+            let dots = '';
+            for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+            const total = getMasteryTotal(s);
+            const varN = (stepAttempt.currentVar || 0) % total + 1;
+            return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+          })() : ''}
           <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
           ${attemptHtml}
           ${feedbackHtml}
@@ -659,27 +751,41 @@ function renderTheory(){
   `;
 }
 
-function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null,currentVar:0,streak:0}; }
 
 function pickStep(j){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = j;
   stepAttempt.tries++;
-  if(j === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(j === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }
@@ -689,22 +795,36 @@ function pickStep(j){
 function pickStepYN(v){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = v;
   stepAttempt.tries++;
-  if(v === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(v === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }

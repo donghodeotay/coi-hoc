@@ -153,6 +153,12 @@ nav.tabs button:hover:not(.active){background:var(--mint-soft);color:var(--mint-
 .sgk-section-header .sgk-page{font-size:11px;font-weight:500;background:#fed7aa;color:#7c2d12;padding:2px 8px;border-radius:99px;margin-left:auto}
 .problem-sgk{border-color:#fed7aa !important;background:#fffbeb !important}
 .problem-sgk .q{color:#7c2d12}
+
+.mastery-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:8px 12px;background:#fef3c7;border-radius:8px;font-size:12px;color:#78350f;flex-wrap:wrap}
+.m-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.m-dot{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fcd34d;border:2px solid #d97706;margin-right:4px;transition:all .2s}
+.m-dot.on{background:#16a34a;border-color:#15803d;box-shadow:0 0 0 3px #dcfce7}
+.m-progress{font-size:11px;opacity:.85}
 </style>
 </head>
 <body>
@@ -435,7 +441,13 @@ const steps = [
     after:'Sau: kim loại = bộ chất có 4 tính chất chung và phản ứng theo quy luật.'
   ,
     blueprint:{problem:`Kim loại có 4 tính chất vật lí + phản ứng theo quy luật. Mỗi kim loại dùng cho mỗi việc.`,solution:`Bài hôm nay trả lời: vì sao mỗi kim loại được dùng cho việc khác nhau.`},
-    attempt:{type:`choice`,prompt:`Vì sao mỗi kim loại được dùng cho mỗi việc khác nhau?`,choices:[`Vì giá khác nhau`,`Vì có tính chất riêng`,`Vì màu đẹp`,`Ngẫu nhiên`],correct:1,errorMsg:`<b>STOP.</b> Mỗi kim loại có tính chất riêng — đó là lí do.`,explanation:`✅ Đúng. Tính chất quyết định việc dùng.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vì sao mỗi kim loại được dùng cho mỗi việc khác nhau?`,choices:['Vì giá khác nhau','Vì có tính chất riêng','Vì màu đẹp','Ngẫu nhiên'],correct:1,errorMsg:`<b>STOP.</b> Mỗi kim loại có tính chất riêng.`,explanation:`✅ Tính chất quyết định việc dùng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Đâu là kim loại?`,choices:['Gỗ','Nhựa','Đồng','Thuỷ tinh'],correct:2,errorMsg:`<b>STOP.</b> Đồng (Cu) là kim loại.`,explanation:`✅ Đồng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Kim loại có 4 tính chất vật lí chung?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Dẻo + dẫn điện + dẫn nhiệt + ánh kim.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Kim loại được dùng cho cuộc sống vì:`,choices:['Nhiều màu','Có tính chất hữu ích','Đắt tiền','Dễ tìm'],correct:1,errorMsg:`<b>STOP.</b> Vì tính chất.`,explanation:`✅ Tính chất.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Mỗi kim loại có cả tính chất vật lí và hoá học?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '2. Tính dẻo — uốn không gãy',
@@ -447,7 +459,13 @@ const steps = [
     after:'Sau: kim loại không gãy như gỗ, mà cong lại — đó là tính dẻo.'
   ,
     blueprint:{problem:`Tính dẻo = bị biến dạng (kéo, dát) mà không gãy. Vàng dẻo nhất.`,solution:`Như bột nặn — vẫn dính lại với nhau.`},
-    attempt:{type:`choice`,prompt:`Vàng có tính dẻo nghĩa là:`,choices:[`Vàng dễ vỡ`,`Vàng có thể dát mỏng mà không gãy`,`Vàng tan trong nước`,`Vàng cứng nhất`],correct:1,errorMsg:`<b>STOP.</b> Dẻo = uốn được mà không gãy. Vàng dát thành lá rất mỏng.`,explanation:`✅ Đúng. Vàng dẻo → dát mỏng được.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vàng có tính dẻo nghĩa là:`,choices:['Vàng dễ vỡ','Có thể dát mỏng mà không gãy','Vàng tan trong nước','Vàng cứng nhất'],correct:1,errorMsg:`<b>STOP.</b> Dẻo = uốn được mà không gãy.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Tính dẻo cho phép kéo kim loại thành sợi dài?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Dây đồng được kéo từ thỏi đồng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Kim loại dẻo nhất là:`,choices:['Sắt','Vàng','Kẽm','Chì'],correct:1,errorMsg:`<b>STOP.</b> Vàng — 1g có thể dát thành lá ~1m².`,explanation:`✅ Vàng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Gỗ có tính dẻo như kim loại?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Gỗ gãy khi bẻ — không có tính dẻo.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> "Dát mỏng" trong tiếng Anh là?`,choices:['Stretch','Beat into thin sheets','Cut','Burn'],correct:1,errorMsg:`<b>STOP.</b> Beat into thin sheets / hammer.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '3. Tính dẫn điện — vì sao dây điện làm bằng đồng?',
@@ -459,7 +477,13 @@ const steps = [
     after:'Sau: dây điện làm bằng đồng vì đồng dẫn điện tốt và giá hợp lí.'
   ,
     blueprint:{problem:`Đồng dẫn điện tốt + giá hợp lí (rẻ hơn bạc) → dùng cho dây điện.`,solution:`Bạc dẫn điện tốt nhất nhưng quá đắt.`},
-    attempt:{type:`choice`,prompt:`Dây điện thường làm bằng đồng vì:`,choices:[`Đồng đẹp`,`Đồng dẫn điện tốt và giá hợp lí`,`Đồng nhẹ nhất`,`Đồng cứng nhất`],correct:1,errorMsg:`<b>STOP.</b> Bạc dẫn tốt nhất nhưng quá đắt → đồng là lựa chọn cân bằng.`,explanation:`✅ Đúng. Vừa dẫn tốt, vừa rẻ hơn bạc.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Dây điện thường làm bằng:`,choices:['Đồng','Vàng','Sắt','Nhôm'],correct:0,errorMsg:`<b>STOP.</b> Đồng — dẫn điện tốt + giá hợp lí.`,explanation:`✅ Đồng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Vì sao đồng được dùng cho dây điện?`,choices:['Đẹp','Dẫn điện tốt và giá hợp lí','Nhẹ nhất','Cứng nhất'],correct:1,errorMsg:`<b>STOP.</b> Cân bằng: dẫn tốt + giá rẻ hơn bạc.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Kim loại dẫn điện tốt NHẤT là:`,choices:['Đồng','Vàng','Bạc','Sắt'],correct:2,errorMsg:`<b>STOP.</b> Bạc (Ag) dẫn tốt nhất, nhưng quá đắt.`,explanation:`✅ Bạc.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Gỗ dẫn điện tốt?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Gỗ là chất cách điện.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Thứ tự dẫn điện (giảm dần) đúng là?`,choices:['Bạc > Đồng > Vàng > Nhôm','Đồng > Bạc > Sắt','Sắt > Vàng > Đồng','Nhôm > Bạc > Đồng'],correct:0,errorMsg:`<b>STOP.</b> Bạc > Đồng > Vàng > Nhôm > Sắt.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '4. Tính dẫn nhiệt — đáy nồi nóng nhanh',
@@ -470,7 +494,13 @@ const steps = [
     after:'Sau: nồi nhôm nóng vì nhôm dẫn nhiệt — truyền nhiệt từ đáy lên thành.'
   ,
     blueprint:{problem:`Nhôm dẫn nhiệt tốt → nhiệt từ đáy nồi truyền nhanh lên thành nồi.`,solution:`Gỗ ngược lại — không dẫn nhiệt.`},
-    attempt:{type:`choice`,prompt:`Vì sao nồi thường làm bằng nhôm?`,choices:[`Vì nhôm rẻ nhất`,`Vì nhôm dẫn nhiệt tốt`,`Vì nhôm bền`,`Vì nhôm nhẹ và đẹp`],correct:1,errorMsg:`<b>STOP.</b> Nồi cần dẫn nhiệt tốt — nhôm là lựa chọn.`,explanation:`✅ Đúng. Dẫn nhiệt tốt → nấu nhanh.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vì sao nồi nấu thường làm bằng nhôm?`,choices:['Vì nhôm rẻ nhất','Vì nhôm dẫn nhiệt tốt','Vì nhôm bền','Vì nhôm nhẹ và đẹp'],correct:1,errorMsg:`<b>STOP.</b> Dẫn nhiệt tốt → nấu nhanh.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Cán muỗng gỗ trong nồi canh nóng — gỗ có dẫn nhiệt tốt?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Gỗ KHÔNG dẫn nhiệt — nên cán muỗng vẫn mát.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Kim loại dẫn nhiệt là vì:`,choices:['Có nước trong kim loại','Có electron tự do','Có phản ứng hoá học','Có ánh sáng'],correct:1,errorMsg:`<b>STOP.</b> Electron tự do truyền nhiệt nhanh.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Trong các vật liệu sau, vật nào dẫn nhiệt KÉM?`,choices:['Đồng','Nhôm','Gỗ','Sắt'],correct:2,errorMsg:`<b>STOP.</b> Gỗ là chất cách nhiệt.`,explanation:`✅ Gỗ.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Thau nhôm để cây nến nóng dưới đáy → cả thau nóng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Nhôm dẫn nhiệt → cả thau nóng.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '5. Ánh kim — vì sao đồ kim loại bóng?',
@@ -481,7 +511,13 @@ const steps = [
     after:'Sau: nhẫn vàng đẹp vì có ánh kim — đặc tính chung của kim loại.'
   ,
     blueprint:{problem:`Ánh kim = bề mặt bóng phản chiếu ánh sáng → dùng làm trang sức, gương.`,solution:`Vàng, bạc, đồng đều có ánh kim đẹp.`},
-    attempt:{type:`choice`,prompt:`Vì sao nhẫn vàng đẹp lấp lánh?`,choices:[`Vì có ánh kim`,`Vì được sơn bóng`,`Vì rất đắt`,`Vì rất cứng`],correct:0,errorMsg:`<b>STOP.</b> Ánh kim là tính chất tự nhiên của vàng.`,explanation:`✅ Đúng. Ánh kim — đặc tính chung của kim loại.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vì sao nhẫn vàng đẹp lấp lánh?`,choices:['Vì có ánh kim','Vì được sơn bóng','Vì rất đắt','Vì rất cứng'],correct:0,errorMsg:`<b>STOP.</b> Ánh kim.`,explanation:`✅ Ánh kim.`},
+      {type:'yesno',prompt:`<b>Lượt em (2/5):</b> Ánh kim nghĩa là kim loại phản chiếu ánh sáng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Vật nào sau đây KHÔNG có ánh kim?`,choices:['Bạc','Vàng','Gỗ','Đồng'],correct:2,errorMsg:`<b>STOP.</b> Gỗ không phải kim loại.`,explanation:`✅ Gỗ.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Kim loại nào được dùng làm gương trong tiếng Việt cổ?`,choices:['Sắt','Bạc','Đồng','Vàng'],correct:1,errorMsg:`<b>STOP.</b> Bạc — vì ánh kim đẹp + bền.`,explanation:`✅ Bạc.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Cùng một kim loại, mặt được đánh bóng có ánh kim đẹp hơn mặt nhám?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '6. Tổng kết tính chất vật lí',
@@ -493,7 +529,13 @@ const steps = [
     after:'Sau: kim loại đều có 4 tính chất chung, nhưng mức độ khác nhau.'
   ,
     blueprint:{problem:`4 tính chất vật lí chung của kim loại: tính dẻo + dẫn điện + dẫn nhiệt + ánh kim.`,solution:`Mỗi kim loại đều có cả 4, nhưng mức độ khác nhau.`},
-    attempt:{type:`choice`,prompt:`Tính chất nào KHÔNG phải là tính chất vật lí của kim loại?`,choices:[`Tính dẻo`,`Dẫn điện`,`Cháy mạnh trong không khí`,`Ánh kim`],correct:2,errorMsg:`<b>STOP.</b> Cháy là phản ứng HOÁ HỌC (với O₂), không phải tính chất vật lí.`,explanation:`✅ Đúng. 4 vật lí: dẻo + dẫn điện + dẫn nhiệt + ánh kim.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Tính chất nào KHÔNG phải là tính chất vật lí của kim loại?`,choices:['Tính dẻo','Dẫn điện','Cháy mạnh trong không khí','Ánh kim'],correct:2,errorMsg:`<b>STOP.</b> Cháy là phản ứng HOÁ HỌC.`,explanation:`✅ Cháy mạnh là hoá học.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Có bao nhiêu tính chất vật lí chung của kim loại?`,choices:['2','3','4','5'],correct:2,errorMsg:`<b>STOP.</b> 4: dẻo + dẫn điện + dẫn nhiệt + ánh kim.`,explanation:`✅ 4.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Mỗi kim loại đều có 4 tính chất vật lí chung?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Bạc dẫn điện hơn vàng?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Bạc dẫn điện tốt nhất.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> 4 tính chất vật lí chung của kim loại theo thứ tự đúng:`,choices:['Dẻo + dẫn điện + dẫn nhiệt + ánh kim','Cứng + nặng + đẹp + bóng','Cháy + tan + đen','Mềm + dài + mỏng + cao'],correct:0,errorMsg:`<b>STOP.</b> Dẻo + dẫn điện + dẫn nhiệt + ánh kim.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '7. Tác dụng với oxygen — vì sao sắt bị gỉ?',
@@ -507,7 +549,13 @@ const steps = [
     after:'Sau: dao bị gỉ vì sắt + oxygen → iron oxide. Đó là phản ứng hoá học.'
   ,
     blueprint:{problem:`3Fe + 2O₂ → Fe₃O₄. Sắt + oxygen tạo iron oxide (gỉ). Vàng/bạc KHÔNG phản ứng.`,solution:`Vì vậy nhẫn vàng không gỉ.`},
-    attempt:{type:`choice`,prompt:`Vì sao dao sắt bị gỉ khi để ngoài trời lâu?`,choices:[`Vì sắt phản ứng với oxygen`,`Vì sắt cũ`,`Vì sắt mềm`,`Vì có vi khuẩn`],correct:0,errorMsg:`<b>STOP.</b> Sắt + O₂ → iron oxide (gỉ).`,explanation:`✅ Đúng. Sắt + oxygen → gỉ. Au, Ag không phản ứng.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Vì sao dao sắt bị gỉ khi để ngoài trời lâu?`,choices:['Vì sắt phản ứng với oxygen','Vì sắt cũ','Vì sắt mềm','Vì có vi khuẩn'],correct:0,errorMsg:`<b>STOP.</b> Sắt + O₂ → iron oxide.`,explanation:`✅ Sắt + oxygen → gỉ.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Phương trình đúng cho sắt + oxygen:`,choices:['Fe + O₂ → FeO','3Fe + 2O₂ → Fe₃O₄','2Fe + O₂ → Fe₂O₂','Fe + 2O₂ → FeO₂'],correct:1,errorMsg:`<b>STOP.</b> 3Fe + 2O₂ → Fe₃O₄.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Đốt nhôm trong oxygen — sản phẩm là?`,choices:['AlO','Al₂O₃','AlO₂','Không phản ứng'],correct:1,errorMsg:`<b>STOP.</b> 4Al + 3O₂ → 2Al₂O₃.`,explanation:`✅ Al₂O₃.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Vàng phản ứng với oxygen ở nhiệt độ thường?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Vàng KHÔNG phản ứng với O₂.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Vì sao trang sức bạc không bị gỉ như sắt?`,choices:['Bạc đắt hơn','Bạc nhẹ hơn','Bạc kém hoạt động hoá học','Bạc to hơn'],correct:2,errorMsg:`<b>STOP.</b> Bạc kém hoạt động — không phản ứng với O₂ thường.`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '8. Tác dụng với chlorine và sulfur',
@@ -521,7 +569,13 @@ const steps = [
     after:'Sau: kim loại phản ứng được với nhiều phi kim — tạo muối khác nhau.'
   ,
     blueprint:{problem:`2Fe + 3Cl₂ → 2FeCl₃. Đa số kim loại phản ứng Cl₂. Au/Ag/Pt KHÔNG phản ứng.`,solution:`Phi kim (oxygen, chlorine, sulfur) là "bạn năng động" — kim loại nào cũng thân.`},
-    attempt:{type:`choice`,prompt:`Khi cho sắt phản ứng với khí Cl₂ dư, sản phẩm là:`,choices:[`FeCl₂`,`FeCl₃`,`Fe₂Cl₃`,`Không phản ứng`],correct:1,errorMsg:`<b>STOP.</b> Với Cl₂ dư, Fe → FeCl₃ (sắt(III) chloride).`,explanation:`✅ Đúng. 2Fe + 3Cl₂ → 2FeCl₃.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Khi cho sắt phản ứng với khí Cl₂ dư, sản phẩm là:`,choices:['FeCl₂','FeCl₃','Fe₂Cl₃','Không phản ứng'],correct:1,errorMsg:`<b>STOP.</b> Cl₂ dư → FeCl₃ (Fe(III)).`,explanation:`✅ FeCl₃.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Đốt nhôm với clo:`,choices:['Al + Cl₂ → AlCl','2Al + 3Cl₂ → 2AlCl₃','Al + Cl₂ → AlCl₂','Không phản ứng'],correct:1,errorMsg:`<b>STOP.</b> 2Al + 3Cl₂ → 2AlCl₃.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Vàng phản ứng với chlorine?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Vàng không phản ứng với Cl₂.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Sắt + lưu huỳnh (đun nóng):`,choices:['Fe + S → FeS','Fe + 2S → FeS₂','Không phản ứng','Fe + S → Fe + S'],correct:0,errorMsg:`<b>STOP.</b> Fe + S → FeS.`,explanation:`✅ FeS.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Phản ứng kim loại với phi kim luôn cần phải đun nóng?`,correct:'no',errorMsg:`<b>STOP.</b> KHÔNG hoàn toàn. Một số phản ứng xảy ra ở nhiệt độ thường (vd: bạc + ozone).`,explanation:`❌ Không phải luôn.`}
+    ]
   },
   {
     title: '9. Tác dụng với nước — chỉ kim loại kiềm và Ca, Ba',
@@ -535,7 +589,13 @@ const steps = [
     after:'Sau: chỉ vài kim loại "mạnh" phản ứng nước; còn lại không hoặc chỉ phản ứng khi rất nóng.'
   ,
     blueprint:{problem:`Chỉ K, Na, Ca, Ba phản ứng với nước thường. Fe, Cu, Al KHÔNG.`,solution:`Kim loại kiềm (Na, K) phản ứng mạnh — sủi bọt + tỏa nhiệt + có thể cháy.`},
-    attempt:{type:`choice`,prompt:`Kim loại nào phản ứng với NƯỚC ở nhiệt độ thường?`,choices:[`Sắt`,`Đồng`,`Natri`,`Vàng`],correct:2,errorMsg:`<b>STOP.</b> Chỉ vài kim loại "mạnh" (Na, K, Ca, Ba) phản ứng nước thường.`,explanation:`✅ Đúng. 2Na + 2H₂O → 2NaOH + H₂↑.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Kim loại nào phản ứng với NƯỚC ở nhiệt độ thường?`,choices:['Sắt','Đồng','Natri','Vàng'],correct:2,errorMsg:`<b>STOP.</b> Na (kim loại kiềm).`,explanation:`✅ Na.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Phương trình natri + nước:`,choices:['Na + H₂O → NaOH + H₂','2Na + 2H₂O → 2NaOH + H₂','Na + H₂O → Na(OH)₂','Không phản ứng'],correct:1,errorMsg:`<b>STOP.</b> 2Na + 2H₂O → 2NaOH + H₂.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Sắt phản ứng với nước ở nhiệt độ thường?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Fe không phản ứng nước thường.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Sắt phản ứng với HƠI nước (nóng) tạo ra:`,choices:['Fe(OH)₂','Fe₃O₄ + H₂','FeO + H₂O','Không phản ứng'],correct:1,errorMsg:`<b>STOP.</b> 3Fe + 4H₂O → Fe₃O₄ + 4H₂.`,explanation:`✅ Fe₃O₄ + H₂.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Bộ kim loại phản ứng với nước thường:`,choices:['Au, Ag, Pt','K, Na, Ca, Ba','Fe, Cu, Zn','Tất cả kim loại'],correct:1,errorMsg:`<b>STOP.</b> Chỉ kim loại kiềm + Ca, Ba.`,explanation:`✅ K, Na, Ca, Ba.`}
+    ]
   },
   {
     title: '10. Tác dụng với acid — sủi bọt H₂',
@@ -548,7 +608,13 @@ const steps = [
     after:'Sau: acid loãng chỉ phản ứng với kim loại "đứng trước H" trong dãy hoạt động. Cu, Ag, Au — không.'
   ,
     blueprint:{problem:`Zn + 2HCl → ZnCl₂ + H₂↑. Cu/Ag/Au KHÔNG phản ứng với HCl loãng.`,solution:`Quy tắc: kim loại đứng trước H mới phản ứng với HCl/H₂SO₄ loãng.`},
-    attempt:{type:`choice`,prompt:`Đồng (Cu) có phản ứng với HCl loãng không?`,choices:[`Có, tạo CuCl₂ + H₂`,`Không, vì Cu đứng sau H trong dãy hoạt động`,`Có, nhưng chậm`,`Có, tạo CuO`],correct:1,errorMsg:`<b>STOP.</b> Cu đứng SAU H → KHÔNG phản ứng với HCl loãng.`,explanation:`✅ Đúng. Cu, Ag, Au đứng sau H → không phản ứng.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Đồng (Cu) có phản ứng với HCl loãng không?`,choices:['Có, tạo CuCl₂ + H₂','Không, vì Cu đứng sau H','Có nhưng chậm','Có, tạo CuO'],correct:1,errorMsg:`<b>STOP.</b> Cu đứng SAU H → KHÔNG phản ứng với HCl loãng.`,explanation:`✅ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Phương trình Zn + HCl:`,choices:['Zn + HCl → ZnCl + H','Zn + 2HCl → ZnCl₂ + H₂↑','Zn + HCl → ZnH + Cl','Không phản ứng'],correct:1,errorMsg:`<b>STOP.</b> Zn + 2HCl → ZnCl₂ + H₂.`,explanation:`✅ Đúng.`},
+      {type:'yesno',prompt:`<b>Lượt em (3/5):</b> Mọi kim loại đều phản ứng với HCl?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Cu, Ag, Au không phản ứng.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (4/5):</b> Quy tắc kim loại phản ứng HCl:`,choices:['Tất cả phản ứng','Chỉ kim loại "đứng trước H" trong dãy hoạt động','Chỉ kim loại đắt','Chỉ kim loại nặng'],correct:1,errorMsg:`<b>STOP.</b> Đứng trước H → có phản ứng.`,explanation:`✅ Đứng trước H.`},
+      {type:'yesno',prompt:`<b>Lượt em (5/5):</b> Phản ứng kim loại + HCl giải phóng khí H₂?`,correct:'yes',errorMsg:`<b>STOP.</b> Đúng. Khí thoát ra là H₂ (sủi bọt).`,explanation:`✅ Đúng.`}
+    ]
   },
   {
     title: '11. Tác dụng với muối — kim loại đẩy nhau',
@@ -561,12 +627,29 @@ const steps = [
     after:'Sau: bỏ đinh sắt vào dung dịch xanh sẽ thấy đồng đỏ xuất hiện — đó là phản ứng đẩy kim loại.'
   ,
     blueprint:{problem:`Fe + CuSO₄ → FeSO₄ + Cu. Kim loại mạnh đẩy kim loại yếu ra khỏi muối.`,solution:`Như chen chỗ trên xe — bạn to hơn đẩy bạn nhỏ.`},
-    attempt:{type:`choice`,prompt:`Bỏ đinh sắt vào dung dịch CuSO₄ (xanh lam). Hiện tượng:`,choices:[`Không có gì`,`Đinh sắt phủ lớp đỏ nâu, dung dịch nhạt màu`,`Sắt tan hoàn toàn`,`Sắt cháy`],correct:1,errorMsg:`<b>STOP.</b> Fe đẩy Cu ra. Cu (đỏ nâu) bám lên đinh, dung dịch FeSO₄ nhạt màu hơn.`,explanation:`✅ Đúng. Sắt mạnh hơn đồng → đẩy ra.`}
+    attempts:[
+      {type:'choice',prompt:`<b>Lượt em (1/5):</b> Bỏ đinh sắt vào dung dịch CuSO₄. Hiện tượng:`,choices:['Không có gì','Đinh sắt phủ lớp đỏ nâu, dung dịch nhạt màu','Sắt tan hoàn toàn','Sắt cháy'],correct:1,errorMsg:`<b>STOP.</b> Cu (đỏ nâu) bám lên đinh, dung dịch FeSO₄ nhạt hơn.`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (2/5):</b> Phương trình Fe + CuSO₄:`,choices:['Fe + CuSO₄ → FeSO₄ + Cu','Fe + CuSO₄ → Fe(SO₄)₂ + Cu','Cu + FeSO₄ → CuSO₄ + Fe','Không phản ứng'],correct:0,errorMsg:`<b>STOP.</b> Fe + CuSO₄ → FeSO₄ + Cu (Fe đẩy Cu).`,explanation:`✅ Đúng.`},
+      {type:'choice',prompt:`<b>Lượt em (3/5):</b> Quy luật phản ứng kim loại + muối:`,choices:['Yếu đẩy mạnh','Mạnh đẩy yếu','Cùng loại đẩy nhau','Ngẫu nhiên'],correct:1,errorMsg:`<b>STOP.</b> Mạnh đẩy yếu (kim loại mạnh hơn đẩy yếu hơn ra khỏi muối).`,explanation:`✅ Mạnh đẩy yếu.`},
+      {type:'yesno',prompt:`<b>Lượt em (4/5):</b> Bỏ Cu vào FeSO₄. Có phản ứng?`,correct:'no',errorMsg:`<b>STOP.</b> SAI. Cu yếu hơn Fe → không đẩy được → không phản ứng.`,explanation:`❌ KHÔNG.`},
+      {type:'choice',prompt:`<b>Lượt em (5/5):</b> Bỏ Mg vào CuSO₄. Phản ứng:`,choices:['Không có gì','Mg + CuSO₄ → MgSO₄ + Cu','Mg + CuSO₄ → Mg(SO₄)₂','Cu phủ lên Mg, Mg tan'],correct:1,errorMsg:`<b>STOP.</b> Mg mạnh hơn Cu → đẩy Cu ra. Mg + CuSO₄ → MgSO₄ + Cu.`,explanation:`✅ Đúng.`}
+    ]
   }
 ];
 
 let currentStep = 0;
-let stepAttempt = {tries:0, paused:false, passed:false, picked:null};
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null, currentVar:0, streak:0};
+
+
+function getCurrentStepAttempt(s){
+  if(s.attempts && Array.isArray(s.attempts)){
+    if(typeof stepAttempt.currentVar !== 'number') stepAttempt.currentVar = 0;
+    return s.attempts[stepAttempt.currentVar % s.attempts.length];
+  }
+  return s.attempt;
+}
+function getMasteryRequired(){ return 3; }
+function getMasteryTotal(s){ return s.attempts ? s.attempts.length : 1; }
 
 function renderTheory(){
   const p=loadProg();
@@ -575,35 +658,36 @@ function renderTheory(){
   const i = currentStep;
   const s = steps[i];
   const isPassed = i < p.theory;
-  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null}; }
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null,currentVar:0,streak:0}; }
   
   let attemptHtml = '';
-  if(s.attempt){
-    if(s.attempt.type === 'choice'){
-      attemptHtml = '<div class="opts">' + s.attempt.choices.map((ch,j)=>{
+  if(s.attempts || s.attempt){
+    const _at = getCurrentStepAttempt(s);
+    if(_at.type === 'choice'){
+      attemptHtml = '<div class="opts">' + _at.choices.map((ch,j)=>{
         let cls='opt-btn';
         if(stepAttempt.picked!==null){
-          if(j===s.attempt.correct) cls += ' right';
+          if(j===_at.correct) cls += ' right';
           else if(j===stepAttempt.picked) cls += ' wrong';
         }
         const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
         return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
       }).join('') + '</div>';
-    } else if(s.attempt.type === 'yesno'){
+    } else if(_at.type === 'yesno'){
       const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
-      const yc = stepAttempt.picked==='yes' ? (s.attempt.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='yes'?' right':'');
-      const nc = stepAttempt.picked==='no' ? (s.attempt.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && s.attempt.correct==='no'?' right':'');
+      const yc = stepAttempt.picked==='yes' ? (_at.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (_at.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='no'?' right':'');
       attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
     }
   }
   
   let feedbackHtml = '';
   if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">${applyTooltips(s.attempt.errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(getCurrentStepAttempt(s).errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
   } else if(stepAttempt.passed){
-    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(s.attempt.explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(getCurrentStepAttempt(s).explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
   } else if(stepAttempt.tries >= CFG.attemptLimit){
-    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(s.attempt.explanation)}</div>`;
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(getCurrentStepAttempt(s).explanation)}</div>`;
   }
   
   let pauseHtml = '';
@@ -629,7 +713,15 @@ function renderTheory(){
           <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
           <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
         </div>
-        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>${s.attempts ? (function(){
+            const need = getMasteryRequired();
+            const streak = (stepAttempt.streak || 0);
+            let dots = '';
+            for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+            const total = getMasteryTotal(s);
+            const varN = (stepAttempt.currentVar || 0) % total + 1;
+            return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+          })() : ''}
           <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
           ${attemptHtml}
           ${feedbackHtml}
@@ -645,27 +737,41 @@ function renderTheory(){
   `;
 }
 
-function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null}; }
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null,currentVar:0,streak:0}; }
 
 function pickStep(j){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = j;
   stepAttempt.tries++;
-  if(j === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(j === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }
@@ -675,22 +781,36 @@ function pickStep(j){
 function pickStepYN(v){
   if(stepAttempt.passed || stepAttempt.paused) return;
   const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
   stepAttempt.picked = v;
   stepAttempt.tries++;
-  if(v === s.attempt.correct){
-    stepAttempt.passed = true;
-    bumpActivity();
-    const p = loadProg();
-    if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
-  } else if(stepAttempt.tries < CFG.attemptLimit){
-    stepAttempt.paused = true;
-    renderTheory();
+  const isMastery = !!s.attempts;
+  if(v === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{ stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; stepAttempt.picked = null; renderTheory(); }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true; bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true; renderTheory();
     let n = CFG.pauseSeconds;
     const tk = setInterval(()=>{
       n--;
-      const t = document.getElementById('stepTimer');
-      if(t) t.textContent = n;
-      if(n<=0){ clearInterval(tk); stepAttempt.paused = false; stepAttempt.picked = null; renderTheory(); }
+      const t = document.getElementById('stepTimer'); if(t) t.textContent = n;
+      if(n<=0){ clearInterval(tk); stepAttempt.paused=false; stepAttempt.picked=null; if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1; renderTheory(); }
     }, 1000);
     return;
   }
