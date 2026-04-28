@@ -213,6 +213,10 @@ body{background:#faf5ff !important}
 .m-progress{font-size:11px;opacity:.85}
 .success-card.streaking{background:linear-gradient(135deg,#dcfce7,#fef3c7) !important;border-color:#86efac !important;animation:pulse-streak 1.6s ease-out}
 @keyframes pulse-streak{0%{transform:scale(.97);opacity:.7}50%{transform:scale(1);opacity:1}100%{transform:scale(.99);opacity:.95}}
+
+/* === Mastery model: per-attempt visual feedback === */
+.choice-grid button.ok, .yesno button.ok{background:#dcfce7 !important;border-color:#16a34a !important;color:#14532d !important;font-weight:600}
+.choice-grid button.no, .yesno button.no{background:#fee2e2 !important;border-color:#dc2626 !important;color:#7f1d1d !important}
 </style>
 </head>
 <body>
@@ -1261,7 +1265,11 @@ function renderDeepPractice(item, ctx){
       return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
     })() : '')+'<div class="at-prompt">'+highlight(at.prompt)+'</div>';
   if(at.type === 'yesno'){
-    h += '<div class="yesno"><button data-act="dp-yesno" data-v="yes" '+(a.passed||a.state==='pause'?'disabled':'')+'>✓ Có</button><button data-act="dp-yesno" data-v="no" '+(a.passed||a.state==='pause'?'disabled':'')+'>✗ Không</button></div>';
+    const ynShowFb = (a.state==='wrong' || a.state==='correct' || a.state==='correct-streaking');
+    const yesCls = ynShowFb ? (at.correct==='yes' ? 'ok' : (a.lastPicked==='yes' ? 'no' : '')) : '';
+    const noCls = ynShowFb ? (at.correct==='no' ? 'ok' : (a.lastPicked==='no' ? 'no' : '')) : '';
+    const ynDis = (a.passed || a.state==='pause' || ynShowFb) ? 'disabled' : '';
+    h += '<div class="yesno"><button data-act="dp-yesno" data-v="yes" class="'+yesCls+'" '+ynDis+'>✓ Có</button><button data-act="dp-yesno" data-v="no" class="'+noCls+'" '+ynDis+'>✗ Không</button></div>';
   } else {
     h += '<input type="text" class="at-input" id="dp-input" placeholder="'+(at.placeholder||'')+'" value="'+(a.lastInput||'').replace(/"/g,'&quot;')+'" '+(a.passed||a.state==='pause'?'disabled':'')+' autocomplete="off">';
     h += '<div class="attempt-actions"><button class="btn" data-act="dp-submit" '+(a.passed||a.state==='pause'?'disabled':'')+'>Kiểm tra</button>'+(a.tries>0 && !a.passed?'<button class="btn sec" data-act="dp-reset">↻ Bắt đầu lại</button>':'')+'</div>';
@@ -1462,6 +1470,7 @@ function handleDeepSubmit(input){
   if(typeof a.streak !== 'number') a.streak = 0;
   if(a.passed || a.state === 'pause') return;
   a.lastInput = input;
+  a.lastPicked = (typeof input === 'number') ? input : input;
   const result = validateAttempt(at, input);
   a.tries++;
   a.history.push(result.ok);
