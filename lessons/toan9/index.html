@@ -1464,45 +1464,47 @@ function handleDeepSubmit(input){
   const item = getCurrentDpItem();
   if(!item) return;
   const at = getCurrentAttempt(item);
+  if(!at) return;
   if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[], currentVar:0, streak:0 };
   const a = lessonView.attempt;
   if(typeof a.currentVar !== 'number') a.currentVar = 0;
   if(typeof a.streak !== 'number') a.streak = 0;
   if(a.passed || a.state === 'pause') return;
   a.lastInput = input;
-  a.lastPicked = (typeof input === 'number') ? input : input;
+  a.lastPicked = input;
   const result = validateAttempt(at, input);
   a.tries++;
   a.history.push(result.ok);
-  
-  // Mastery model (5+ variations, need 3 correct in a row)
-  if(item.attempts){
+  if(item.attempts && Array.isArray(item.attempts)){
     if(result.ok){
       a.streak++;
       if(a.streak >= getMasteryRequired()){
         a.passed = true;
         a.state = 'correct';
       } else {
-        // Got it right but mastery not reached — advance to next variation, stay in idle
-        a.currentVar = (a.currentVar + 1) % item.attempts.length;
-        a.lastInput = '';
-        a.state = 'correct-streaking'; // intermediate state — show "Đúng! Sang câu tiếp..."
-        a.lastMsg = result.msg || '';
-        // Auto-advance after 2 sec
-        setTimeout(()=>{ if(a.state==='correct-streaking'){ a.state='idle'; render(); } }, 1800);
+        a.state = 'correct-streaking';
+        // After 1.8s, advance to next variation and reset visual feedback
+        setTimeout(()=>{
+          if(lessonView.attempt && lessonView.attempt.state === 'correct-streaking'){
+            lessonView.attempt.currentVar = (lessonView.attempt.currentVar || 0) + 1;
+            lessonView.attempt.state = 'idle';
+            lessonView.attempt.lastInput = '';
+            lessonView.attempt.lastPicked = undefined;
+            render();
+          }
+        }, 1800);
       }
     } else {
       a.state = 'wrong';
-      a.streak = 0; // reset streak on wrong
-      a.lastMsg = result.msg || '<b>Chưa đúng.</b> Nhìn lại bài mẫu, đọc nhẩm trong đầu, rồi thử lại.';
-      if(a.tries >= 8){ // safety: 8 total tries, reveal and allow advance
+      a.streak = 0;
+      a.lastMsg = result.msg || '<b>Chưa đúng.</b> Đọc lại bài, nhẩm trong đầu, rồi thử lại.';
+      if(a.tries >= 8){
         a.revealed = true;
         a.passed = true;
         a.state = 'correct';
       }
     }
   } else {
-    // Old single-attempt path (legacy)
     if(result.ok){ a.passed = true; a.state = 'correct'; }
     else {
       a.state = 'wrong';
@@ -1511,7 +1513,7 @@ function handleDeepSubmit(input){
     }
   }
   render();
-  if(!a.passed && !a.revealed && a.state==='wrong'){ setTimeout(()=>startReplay(), 500); }
+  if(!a.passed && !a.revealed && a.state === 'wrong'){ setTimeout(()=>startReplay(), 500); }
 }
 function startReplay(){
   const a = lessonView.attempt;

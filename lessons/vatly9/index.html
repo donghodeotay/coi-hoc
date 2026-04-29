@@ -1037,23 +1037,57 @@ function handleAction(act, el){
 function handleDeepSubmit(input){
   const item = getCurrentDpItem();
   if(!item) return;
-  const at = item.attempt;
-  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[] };
+  const at = getCurrentAttempt(item);
+  if(!at) return;
+  if(!lessonView.attempt) lessonView.attempt = { tries:0, passed:false, state:'idle', lastInput:'', revealed:false, history:[], currentVar:0, streak:0 };
   const a = lessonView.attempt;
+  if(typeof a.currentVar !== 'number') a.currentVar = 0;
+  if(typeof a.streak !== 'number') a.streak = 0;
   if(a.passed || a.state === 'pause') return;
   a.lastInput = input;
-  a.lastPicked = (typeof input === 'number') ? input : input;
+  a.lastPicked = input;
   const result = validateAttempt(at, input);
   a.tries++;
   a.history.push(result.ok);
-  if(result.ok){ a.passed = true; a.state = 'correct'; }
-  else {
-    a.state = 'wrong';
-    a.lastMsg = result.msg || '<b>Chưa đúng.</b> Đọc lại bài, nhẩm trong đầu, rồi thử lại.';
-    if(a.tries >= 3){ a.revealed = true; a.passed = true; a.state = 'correct'; }
+  if(item.attempts && Array.isArray(item.attempts)){
+    if(result.ok){
+      a.streak++;
+      if(a.streak >= getMasteryRequired()){
+        a.passed = true;
+        a.state = 'correct';
+      } else {
+        a.state = 'correct-streaking';
+        // After 1.8s, advance to next variation and reset visual feedback
+        setTimeout(()=>{
+          if(lessonView.attempt && lessonView.attempt.state === 'correct-streaking'){
+            lessonView.attempt.currentVar = (lessonView.attempt.currentVar || 0) + 1;
+            lessonView.attempt.state = 'idle';
+            lessonView.attempt.lastInput = '';
+            lessonView.attempt.lastPicked = undefined;
+            render();
+          }
+        }, 1800);
+      }
+    } else {
+      a.state = 'wrong';
+      a.streak = 0;
+      a.lastMsg = result.msg || '<b>Chưa đúng.</b> Đọc lại bài, nhẩm trong đầu, rồi thử lại.';
+      if(a.tries >= 8){
+        a.revealed = true;
+        a.passed = true;
+        a.state = 'correct';
+      }
+    }
+  } else {
+    if(result.ok){ a.passed = true; a.state = 'correct'; }
+    else {
+      a.state = 'wrong';
+      a.lastMsg = result.msg || '<b>Chưa đúng.</b>';
+      if(a.tries >= 3){ a.revealed = true; a.passed = true; a.state = 'correct'; }
+    }
   }
   render();
-  if(!a.passed && !a.revealed){ setTimeout(()=>startReplay(), 500); }
+  if(!a.passed && !a.revealed && a.state === 'wrong'){ setTimeout(()=>startReplay(), 500); }
 }
 function startReplay(){
   const a = lessonView.attempt;
@@ -1068,6 +1102,10 @@ function startReplay(){
     if(a.pauseLeft <= 0){
       clearInterval(replayTimer); replayTimer = null;
       a.state = 'idle';
+      a.lastInput = '';
+      a.lastPicked = undefined;
+      const item = getCurrentDpItem();
+      if(item && item.attempts){ a.currentVar = (a.currentVar || 0) + 1; }
       render();
     }
   }, 1000);
