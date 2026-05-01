@@ -774,17 +774,17 @@ function isLessonDone(chId,lId){
   return p.theorySteps >= lc.steps.length && p.practice >= 80 && p.quiz >= 80;
 }
 function isLessonUnlocked(chId,lId){
-  const ch = CURRICULUM.find(c=>c.id===chId);
-  const idx = ch.lessons.findIndex(l=>l.id===lId);
-  if(idx === 0){
-    const chIdx = CURRICULUM.findIndex(c=>c.id===chId);
-    if(chIdx === 0) return true;
-    const prevCh = CURRICULUM[chIdx-1];
-    return prevCh.lessons.every(l=>isLessonDone(prevCh.id, l.id));
-  }
-  const prev = ch.lessons[idx-1];
-  return isLessonDone(chId, prev.id);
+  // Free navigation: any built lesson clickable at any time.
+  // (Within-lesson mastery model still gates step→step inside a lesson.)
+  return true;
 }
+function isLessonBuilt(chId,lId){
+  const ch = CURRICULUM.find(c=>c.id===chId);
+  if(!ch) return false;
+  const l = ch.lessons.find(x=>x.id===lId);
+  return !!(l && l.built);
+}
+
 function calcOverall(){
   let t=0,c=0;
   CURRICULUM.forEach(ch=>ch.lessons.forEach(l=>{ if(l.built){ c++; if(isLessonDone(ch.id,l.id)) t++; } }));
@@ -832,7 +832,7 @@ function renderHub(){
     const tot = built > 0 ? built : ch.lessons.length;
     const pct = tot>0 ? Math.round(done/tot*100) : 0;
     const u = isLessonUnlocked(ch.id, ch.lessons[0].id);
-    h += '<div class="card '+(u?'click':'locked')+' '+(pct===100&&built>0?'done':'')+'" data-act="open-ch" data-ch="'+ch.id+'"><div class="tag">'+ch.num+(u?'':' 🔒')+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div><div class="row"><div class="mp"><div class="mpf" style="width:'+pct+'%"></div></div><span>'+done+'/'+tot+'</span></div></div>';
+    h += '<div class="card '+(u?'click':'locked')+' '+(pct===100&&built>0?'done':'')+'" data-act="open-ch" data-ch="'+ch.id+'"><div class="tag">'+ch.num+''+'</div><div class="title">'+highlight(ch.title)+'</div><div class="desc">'+ch.desc+'</div><div class="row"><div class="mp"><div class="mpf" style="width:'+pct+'%"></div></div><span>'+done+'/'+tot+'</span></div></div>';
   });
   return h;
 }
@@ -843,7 +843,7 @@ function renderChapter(chId){
     const u = isLessonUnlocked(chId, l.id);
     const d = isLessonDone(chId, l.id);
     const tagColor = !l.built ? 'gray' : '';
-    const tagSuffix = !u ? ' 🔒' : (!l.built ? ' • Sắp ra mắt' : '');
+    const tagSuffix = !l.built ? ' • Sắp ra mắt' : '';
     h += '<div class="card '+(((!u||!l.built))?'locked':'click')+' '+(d?'done':'')+'" data-act="open-l" data-ch="'+chId+'" data-l="'+l.id+'"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div style="flex:1;min-width:0"><div class="tag '+tagColor+'">'+l.num+tagSuffix+'</div><div class="title" style="font-size:14px">'+highlight(l.title)+'</div><div class="desc">'+l.desc+'</div></div>'+(d?'<span class="badge">✓ Đạt</span>':'')+'</div></div>';
   });
   return h;
@@ -1078,7 +1078,7 @@ function handleAction(act, el){
       const chId = el.dataset.ch, lId = el.dataset.l;
       const ch = CURRICULUM.find(c=>c.id===chId);
       const l = ch.lessons.find(x=>x.id===lId);
-      if(!isLessonUnlocked(chId,lId)){ showToast('🔒 Bài này chưa mở.'); return; }
+      if(!isLessonBuilt(chId,lId)){ showToast('🛠️ Bài này đang được xây dựng. Sắp ra mắt!'); return; }
       if(!l.built){ showToast('🚧 Bài này đang phát triển.'); return; }
       view = {type:'lesson', chId:chId, lId:lId};
       resetLessonView();
