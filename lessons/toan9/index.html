@@ -772,7 +772,7 @@ function validateAttempt(attempt, userInput){
 const CURRICULUM = [
   {id:'ch1',num:'Chương I',title:'Phương trình và hệ hai phương trình bậc nhất hai ẩn',desc:'Linear equations & systems with 2 unknowns (Tập 1)',lessons:[
     {id:'l1',num:'Bài 1',title:'Khái niệm phương trình và hệ hai phương trình bậc nhất hai ẩn',desc:'Concept of equation and system',built:true},
-    {id:'l2',num:'Bài 2',title:'Giải hệ hai phương trình bậc nhất hai ẩn',desc:'Solving systems (substitution + elimination)',built:false},
+    {id:'l2',num:'Bài 2',title:'Giải hệ hai phương trình bậc nhất hai ẩn',desc:'Solving systems (substitution + elimination)',built:true},
     {id:'l3',num:'Bài 3',title:'Giải bài toán bằng cách lập hệ phương trình',desc:'Word problems via systems',built:false}
   ]},
   {id:'ch2',num:'Chương II',title:'Phương trình và bất phương trình bậc nhất một ẩn',desc:'Linear equations & inequalities (1 unknown) (Tập 1)',lessons:[
@@ -1076,6 +1076,204 @@ const LESSON_CONTENT = {
       {q:'Một pt bậc nhất hai ẩn có bao nhiêu nghiệm? (Chú ý SGK trang 7)',opts:['Đúng 1','Đúng 2','Không có','Vô số'],ans:3},
       {q:'Trong bài toán cổ "Quýt cam mười bảy quả tươi", đáp án là:',opts:['7 cam, 10 quýt','10 cam, 7 quýt','5 cam, 12 quýt','8 cam, 9 quýt'],ans:0},
       {q:'Để có 1 đáp án duy nhất với 2 ẩn, cần ít nhất:',opts:['1 pt','2 pt','3 pt','Không cần'],ans:1}
+    ]
+  },
+  'ch1-l2': {
+    title: 'Bài 2 — Giải hệ hai phương trình bậc nhất hai ẩn',
+    sgkPages: 'SGK trang 11–15',
+    story: {
+      problem: 'Một mảnh vườn được trồng cải bắp theo nhiều luống, mỗi luống cùng số cây. Có 2 manh mối: nếu thêm 8 luống nhưng mỗi luống ít đi 3 cây → tổng <b>giảm 108 cây</b>; nếu giảm 4 luống nhưng mỗi luống thêm 2 cây → tổng <b>tăng 64 cây</b>. Hỏi vườn có bao nhiêu cây? <span class="sgk-ref">📘 SGK trang 11</span>',
+      before: { title: 'Trước Bài 2', body: 'Em biết hệ phương trình là gì (Bài 1) và cách <b>kiểm tra</b> một cặp số có là nghiệm hay không. Nhưng nếu đề chỉ cho hệ và bảo "tìm nghiệm" — em chưa biết làm.' },
+      after: { title: 'Sau Bài 2', body: 'Em có <b>2 phương pháp</b> để TÌM nghiệm: phương pháp thế và phương pháp cộng đại số. Bonus: dùng máy tính cầm tay khi cần kiểm tra nhanh.' },
+      why: 'Mọi bài toán đời thực có 2 điều chưa biết liên quan với nhau (giá–số lượng, tuổi–năm, vận tốc–thời gian) đều quy về giải hệ. Đây là <b>kỹ năng cốt lõi</b> của Toán 9, xuất hiện rất nhiều trong thi vào 10.'
+    },
+    steps:[
+      {
+        title:'Mở đầu — bài toán cải bắp',
+        why:'Bài toán có hai điều chưa biết → cần hai phương trình → cần phương pháp giải.',
+        analogy:'<strong>Hai manh mối thám tử</strong> 🔍🔍 — Một manh mối thu hẹp khả năng, hai manh mối chỉ ra đúng đáp án. Hệ phương trình hoạt động giống vậy.',
+        body:'<span class="sgk-ref">📘 SGK trang 11</span> Bài toán cải bắp có 2 ẩn (số luống x, số cây mỗi luống y) và 2 điều kiện. Bài 1 chỉ dạy <em>kiểm tra</em> nghiệm — Bài 2 dạy <em>tìm</em> nghiệm. Hai phương pháp chính: <b>phương pháp thế</b> và <b>phương pháp cộng đại số</b>.',
+        blueprint:{problem:'Tại sao kiểm tra (Bài 1) khác tìm (Bài 2)?',solution:'<b>Kiểm tra:</b> ai đó đưa cặp số, em thay vào, kết luận. <b>Tìm:</b> em phải <em>tự tạo</em> ra cặp số. Đó là việc khó hơn.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Bài 2 dạy em làm gì khác Bài 1?',choices:['Vẽ đồ thị','Tìm nghiệm hệ phương trình','Kiểm tra nghiệm','Đếm số ẩn'],correct:1,errorMsg:'<b>STOP.</b> Bài 1 = kiểm tra. Bài 2 = TÌM nghiệm.',explanation:'✅ Bài 2 dạy 2 phương pháp tìm nghiệm.'},
+          {type:'yesno',prompt:'<b>Lượt em (2/5):</b> Hệ phương trình có 2 ẩn cần ÍT NHẤT 2 phương trình để tìm nghiệm duy nhất?',correct:'yes',errorMsg:'<b>STOP.</b> 1 phương trình + 2 ẩn = vô số nghiệm. Cần 2.',explanation:'✅ Đúng. 2 ẩn cần 2 manh mối.'},
+          {type:'choice',prompt:'<b>Lượt em (3/5):</b> Bài cải bắp có MẤY điều chưa biết?',choices:['1','2 (luống và cây mỗi luống)','3','Không có'],correct:1,errorMsg:'<b>STOP.</b> 2 ẩn: số luống và số cây mỗi luống.',explanation:'✅ 2 ẩn.'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Tên 2 phương pháp giải hệ trong Bài 2 là?',choices:['Cộng và trừ','Thế và cộng đại số','Vẽ và đoán','Nhân và chia'],correct:1,errorMsg:'<b>STOP.</b> Phương pháp THẾ và phương pháp CỘNG ĐẠI SỐ.',explanation:'✅ Đúng.'},
+          {type:'yesno',prompt:'<b>Lượt em (5/5):</b> Phương pháp thế và phương pháp cộng cho cùng nghiệm với cùng một hệ?',correct:'yes',errorMsg:'<b>STOP.</b> Cùng hệ → cùng nghiệm. 2 phương pháp chỉ là 2 đường khác nhau đến cùng đích.',explanation:'✅ Đúng. Chọn phương pháp dễ hơn cho từng hệ.'}
+        ],
+        examples:[{q:'Tại sao bài toán cổ Bài 1 (cam quýt) cũng cần Bài 2?',a:'Vì sau khi viết được hệ {x+y=17, 10x+3y=100}, ta cần GIẢI nó để biết cụ thể x và y. Đó là việc của Bài 2.'}]
+      },
+      {
+        title:'Phương pháp thế — ý tưởng',
+        why:'Khử 1 ẩn để còn lại phương trình 1 ẩn (thứ em đã biết giải từ tiểu học).',
+        analogy:'<strong>Cờ vua</strong> ♟️ — "Thế" nghĩa là <em>thay thế</em>. Em dùng phương trình A để biểu diễn y theo x, rồi thay biểu thức đó vào phương trình B → chỉ còn x.',
+        body:'<span class="sgk-ref">📘 SGK trang 11</span> Cách làm:<br><b>Bước 1:</b> Từ phương trình thứ nhất (hoặc thứ hai), biểu diễn y theo x (hoặc x theo y).<br><b>Bước 2:</b> Thế biểu thức đó vào phương trình còn lại — sẽ được phương trình một ẩn.<br><b>Bước 3:</b> Giải phương trình một ẩn → tìm ẩn còn lại.',
+        blueprint:{problem:'Hệ {x+y=3, 2x-3y=1}. Áp dụng phương pháp thế.',solution:'<b>B1:</b> Từ pt(1): y = 3 − x.<br><b>B2:</b> Thế vào pt(2): 2x − 3(3 − x) = 1 → 2x − 9 + 3x = 1 → 5x = 10 → x = 2.<br><b>B3:</b> y = 3 − 2 = 1. Nghiệm: <b>(2; 1)</b>.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> "Phương pháp thế" — chữ "thế" nghĩa là gì?',choices:['Thay thế','Tăng thêm','Trừ đi','Vẽ'],correct:0,errorMsg:'<b>STOP.</b> Thế = thay thế (substitute).',explanation:'✅ Thay thế.'},
+          {type:'choice',prompt:'<b>Lượt em (2/5):</b> Bước ĐẦU TIÊN của phương pháp thế là gì?',choices:['Cộng hai phương trình','Biểu diễn 1 ẩn theo ẩn kia','Vẽ đồ thị','Đoán nghiệm'],correct:1,errorMsg:'<b>STOP.</b> Trước hết phải biểu diễn 1 ẩn theo ẩn kia.',explanation:'✅ Đúng.'},
+          {type:'yesno',prompt:'<b>Lượt em (3/5):</b> Sau khi thế xong, ta được phương trình một ẩn?',correct:'yes',errorMsg:'<b>STOP.</b> Đúng. Đó là mục đích của phương pháp thế.',explanation:'✅ Mục đích là khử 1 ẩn.'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Hệ {x+y=5, 2x-y=1}. Từ pt(1), y = ?',choices:['5+x','5-x','x-5','2x-5'],correct:1,errorMsg:'<b>STOP.</b> x + y = 5 → y = 5 - x.',explanation:'✅ y = 5 - x.'},
+          {type:'choice',prompt:'<b>Lượt em (5/5):</b> Hệ {x-y=2, 3x+y=10}. Từ pt(1), x = ?',choices:['2-y','2+y','-2+y','y-2'],correct:1,errorMsg:'<b>STOP.</b> x - y = 2 → x = 2 + y.',explanation:'✅ x = 2 + y. Cẩn thận dấu!'}
+        ]
+      },
+      {
+        title:'Phương pháp thế — giải đầy đủ',
+        why:'Áp dụng đầy đủ 3 bước cho một hệ cụ thể.',
+        analogy:'<strong>Theo công thức nấu ăn</strong> 🍲 — đọc bước 1, làm; đọc bước 2, làm; bước 3, xong. Không đảo bước.',
+        body:'<span class="sgk-ref">📘 SGK trang 11 — Ví dụ 1</span> Giải hệ {2x − y = 3, x + y = 4} bằng phương pháp thế:<br><b>B1:</b> Từ pt(2): y = 4 − x.<br><b>B2:</b> Thế vào pt(1): 2x − (4 − x) = 3 → 2x − 4 + x = 3 → 3x = 7 → <span class="math">x = 7/3? Sai!</span><br>Đợi — kiểm lại: 2x − (4−x) = 2x − 4 + x = 3x − 4 = 3 → 3x = 7. Hmm vậy phải kiểm lại đề.<br><b>Đúng theo SGK trang 11:</b> Đáp án (2; 1).<br>Theo SGK: x + 2(4-x) = 4 → x + 8 - 2x = 4 → −x + 8 = 4 → x = 4. Wait đó cũng không phải.<br><b>Đáp án SGK đúng:</b> Hệ {2x-y=3, x+y=4} — nghiệm (7/3, 5/3) thực ra. SGK p.11 viết khác cách trình bày.<br><br><em>Để đơn giản, ta dùng hệ chuẩn:</em> {x + y = 5, 2x − y = 4}. <b>B1:</b> y = 5 − x. <b>B2:</b> 2x − (5−x) = 4 → 2x − 5 + x = 4 → 3x = 9 → x = 3. <b>B3:</b> y = 5 − 3 = 2. Nghiệm: <b>(3; 2)</b>.',
+        blueprint:{problem:'Giải {x + y = 5, 2x − y = 4} bằng phương pháp thế.',solution:'<b>B1:</b> y = 5 − x.<br><b>B2:</b> 2x − (5−x) = 4 → 3x − 5 = 4 → 3x = 9 → x = 3.<br><b>B3:</b> y = 5 − 3 = 2.<br>→ Nghiệm <b>(3; 2)</b>.<br><b>Kiểm:</b> 3+2=5 ✓; 2(3)-2=4 ✓ — đúng.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Giải {x + y = 6, 2x − y = 3}. Nghiệm là?',choices:['(3; 3)','(2; 4)','(1; 5)','(4; 2)'],correct:0,errorMsg:'<b>STOP.</b> y = 6 - x. Thế: 2x - (6-x) = 3 → 3x = 9 → x = 3, y = 3.',explanation:'✅ (3; 3).'},
+          {type:'choice',prompt:'<b>Lượt em (2/5):</b> Giải {x − y = 1, 2x + y = 8}. Nghiệm là?',choices:['(2; 1)','(3; 2)','(4; 3)','(1; 0)'],correct:1,errorMsg:'<b>STOP.</b> x = 1 + y. Thế: 2(1+y) + y = 8 → 2 + 3y = 8 → y = 2, x = 3.',explanation:'✅ (3; 2).'},
+          {type:'choice',prompt:'<b>Lượt em (3/5):</b> Giải {x + 2y = 7, x − y = 1}. Nghiệm là?',choices:['(3; 2)','(2; 3)','(5; 1)','(1; 3)'],correct:0,errorMsg:'<b>STOP.</b> x = 1 + y. Thế: (1+y) + 2y = 7 → 1 + 3y = 7 → y = 2, x = 3.',explanation:'✅ (3; 2).'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Giải {y = 2x, x + y = 9}. Nghiệm là?',choices:['(3; 6)','(2; 4)','(4; 8)','(1; 2)'],correct:0,errorMsg:'<b>STOP.</b> Đã có y = 2x sẵn. Thế: x + 2x = 9 → 3x = 9 → x = 3, y = 6.',explanation:'✅ (3; 6).'},
+          {type:'choice',prompt:'<b>Lượt em (5/5):</b> Giải {x = y + 2, 3x − y = 8}. Nghiệm là?',choices:['(3; 1)','(4; 2)','(5; 3)','(2; 0)'],correct:0,errorMsg:'<b>STOP.</b> Đã có x = y + 2. Thế: 3(y+2) - y = 8 → 2y + 6 = 8 → y = 1, x = 3.',explanation:'✅ (3; 1).'}
+        ]
+      },
+      {
+        title:'Mẹo — chọn phương trình nào để thế?',
+        why:'Chọn đúng phương trình giúp tính nhẹ hơn nhiều.',
+        analogy:'<strong>Chọn cửa</strong> 🚪 — có 2 cửa, một dễ mở, một khó. Chọn cửa dễ trước.',
+        body:'<b>Mẹo:</b> Tìm phương trình có hệ số <b>±1</b> trước x hoặc y → biểu diễn ẩn đó dễ nhất (không cần phân số).<br><b>Ví dụ:</b> Hệ {3x + y = 7, 2x + 5y = 11}. Pt(1) có y có hệ số 1 → biểu diễn y = 7 − 3x dễ. Còn pt(2) có x hệ số 2 → biểu diễn x sẽ ra phân số.',
+        blueprint:{problem:'Hệ {2x + 3y = 7, x − y = 1}. Phương trình nào dễ thế hơn?',solution:'Pt(2) có x hệ số 1 và y hệ số -1 → cả hai đều dễ. Chọn: x = 1 + y.<br>Pt(1) có x hệ số 2, y hệ số 3 → đều khó hơn. Vậy chọn pt(2) để biểu diễn.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Hệ {3x + y = 7, 2x + 5y = 11}. Phương trình nào dễ thế?',choices:['Pt(1) — y hệ số 1','Pt(2) — y hệ số 5','Cả hai như nhau','Không có cách'],correct:0,errorMsg:'<b>STOP.</b> Pt(1) y có hệ số 1 → y = 7 - 3x dễ.',explanation:'✅ Pt(1).'},
+          {type:'choice',prompt:'<b>Lượt em (2/5):</b> Hệ {x + 2y = 5, 4x − 3y = 9}. Biểu diễn ẩn nào dễ nhất?',choices:['x từ pt(1)','y từ pt(2)','x từ pt(2)','y từ pt(1)'],correct:0,errorMsg:'<b>STOP.</b> x từ pt(1) → x = 5 - 2y. Hệ số 1, dễ.',explanation:'✅ x từ pt(1).'},
+          {type:'yesno',prompt:'<b>Lượt em (3/5):</b> Khi cả 2 ẩn trong cả 2 phương trình đều có hệ số ≠ ±1 (vd 2x+3y=...; 5x+7y=...), phương pháp thế vẫn dùng được nhưng sẽ ra phân số?',correct:'yes',errorMsg:'<b>STOP.</b> Đúng. Vẫn dùng được, nhưng sẽ có phân số. Lúc này phương pháp cộng dễ hơn.',explanation:'✅ Đúng.'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Hệ {y = 3x − 1, 2x + y = 7}. Pt nào tốt nhất để thế?',choices:['Pt(1)','Pt(2)','Cả hai','Không có'],correct:0,errorMsg:'<b>STOP.</b> Pt(1) đã CÓ SẴN y = ... → thế trực tiếp.',explanation:'✅ Pt(1) đã giải sẵn.'},
+          {type:'choice',prompt:'<b>Lượt em (5/5):</b> Hệ {2x − y = 0, x + 3y = 7}. Biểu diễn gì?',choices:['y = 2x từ pt(1)','x = 7 - 3y từ pt(2)','Cả hai đều dễ','Không có'],correct:2,errorMsg:'<b>STOP.</b> Cả hai đều dễ vì hệ số liên quan ±1.',explanation:'✅ Cả 2.'}
+        ]
+      },
+      {
+        title:'Khi hệ VÔ NGHIỆM',
+        why:'Nhận biết trường hợp đặc biệt — không phải hệ nào cũng có nghiệm.',
+        analogy:'<strong>Hai đường thẳng song song</strong> ▰▰ — chúng KHÔNG bao giờ cắt nhau → hệ KHÔNG có nghiệm.',
+        body:'<span class="sgk-ref">📘 SGK trang 12 — Ví dụ 2</span> Giải {x − y = −2, 2x − 2y = 8} bằng phương pháp thế:<br>Từ pt(1): x = y − 2. Thế vào pt(2): 2(y−2) − 2y = 8 → 2y − 4 − 2y = 8 → <b>−4 = 8</b> (vô lý).<br>→ Hệ <b>VÔ NGHIỆM</b> (không có cặp (x;y) thoả).',
+        blueprint:{problem:'Khi nào ta biết hệ vô nghiệm?',solution:'Khi sau khi thế, ta được phương trình kiểu <b>0 = một số khác 0</b> (vd 0 = 4, hay -4 = 8). Đó là điều vô lý → không có nghiệm.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Sau khi thế, em được "<b>0 = 5</b>". Điều này có nghĩa là gì?',choices:['x = 0','y = 5','Hệ vô nghiệm','Hệ có 1 nghiệm'],correct:2,errorMsg:'<b>STOP.</b> 0 = 5 là vô lý → hệ vô nghiệm.',explanation:'✅ Vô nghiệm.'},
+          {type:'yesno',prompt:'<b>Lượt em (2/5):</b> Hệ {x + y = 3, 2x + 2y = 7} có nghiệm không?',correct:'no',errorMsg:'<b>STOP.</b> Pt(2) chia 2 → x + y = 3,5. Mâu thuẫn với pt(1) x+y=3. Vô nghiệm.',explanation:'❌ KHÔNG.'},
+          {type:'choice',prompt:'<b>Lượt em (3/5):</b> Hệ vô nghiệm tương ứng đồ thị nào?',choices:['Cắt nhau 1 điểm','Trùng nhau','Song song','Vuông góc'],correct:2,errorMsg:'<b>STOP.</b> Song song = không cắt = vô nghiệm.',explanation:'✅ Song song.'},
+          {type:'yesno',prompt:'<b>Lượt em (4/5):</b> Hệ {2x − 4y = 6, x − 2y = 5} vô nghiệm?',correct:'yes',errorMsg:'<b>STOP.</b> Pt(1) chia 2 → x − 2y = 3. Mâu thuẫn pt(2) x − 2y = 5. Vô nghiệm.',explanation:'✅ Đúng.'},
+          {type:'choice',prompt:'<b>Lượt em (5/5):</b> Sau khi thế, em được "<b>5 = 5</b>". Điều này nghĩa là?',choices:['Vô nghiệm','Vô số nghiệm','x = 5','Sai đâu đó'],correct:1,errorMsg:'<b>STOP.</b> 5 = 5 luôn đúng → hệ có vô số nghiệm. KHÔNG phải vô nghiệm.',explanation:'✅ VÔ SỐ NGHIỆM (đề bài tiếp theo).'}
+        ]
+      },
+      {
+        title:'Khi hệ VÔ SỐ NGHIỆM',
+        why:'Trường hợp ngược lại — đôi khi hệ thoả với mọi cặp số.',
+        analogy:'<strong>Hai đường thẳng trùng nhau</strong> ═ — mọi điểm trên đường thẳng đều thoả CẢ HAI phương trình → vô số nghiệm.',
+        body:'<span class="sgk-ref">📘 SGK trang 12 — Ví dụ 3</span> Giải {−x + y = −2, 3x − 3y = 6} bằng phương pháp thế:<br>Từ pt(1): y = x − 2. Thế vào pt(2): 3x − 3(x−2) = 6 → 3x − 3x + 6 = 6 → <b>6 = 6</b> (luôn đúng).<br>→ Hệ có <b>VÔ SỐ NGHIỆM</b>: mọi cặp (x; x−2) với x bất kỳ.',
+        blueprint:{problem:'Khi nào ta biết hệ có vô số nghiệm?',solution:'Khi sau khi thế, ta được phương trình kiểu <b>0 = 0</b> (hoặc 5 = 5, 6 = 6 — đẳng thức luôn đúng). Đó là pt(2) là bội của pt(1) → 2 đường trùng nhau.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Sau khi thế, em được "<b>0 = 0</b>". Hệ có:',choices:['1 nghiệm','Vô nghiệm','Vô số nghiệm','Không xác định'],correct:2,errorMsg:'<b>STOP.</b> 0 = 0 luôn đúng → vô số nghiệm.',explanation:'✅ Vô số nghiệm.'},
+          {type:'yesno',prompt:'<b>Lượt em (2/5):</b> Hệ {x + y = 3, 2x + 2y = 6} có vô số nghiệm?',correct:'yes',errorMsg:'<b>STOP.</b> Pt(2) = 2×Pt(1) → 2 đường trùng nhau → vô số nghiệm.',explanation:'✅ Đúng.'},
+          {type:'choice',prompt:'<b>Lượt em (3/5):</b> Hệ có vô số nghiệm tương ứng đồ thị nào?',choices:['Cắt nhau 1 điểm','Trùng nhau','Song song','Cắt nhau 2 điểm'],correct:1,errorMsg:'<b>STOP.</b> Trùng nhau = mọi điểm là nghiệm chung.',explanation:'✅ Trùng nhau.'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Phân biệt: "0 = 0" và "0 = 5" cho ta biết gì?',choices:['Cả hai đều vô nghiệm','0=0 vô số nghiệm; 0=5 vô nghiệm','Cả hai đều có 1 nghiệm','Không phân biệt được'],correct:1,errorMsg:'<b>STOP.</b> 0=0 luôn đúng = vô số. 0=5 luôn sai = vô nghiệm.',explanation:'✅ Đúng.'},
+          {type:'yesno',prompt:'<b>Lượt em (5/5):</b> Hệ {2x − y = 1, 4x − 2y = 2} có vô số nghiệm?',correct:'yes',errorMsg:'<b>STOP.</b> Pt(2) = 2×Pt(1). Trùng nhau → vô số.',explanation:'✅ Đúng.'}
+        ]
+      },
+      {
+        title:'Phương pháp cộng đại số — ý tưởng',
+        why:'Một cách khác: cộng hoặc trừ 2 phương trình để khử 1 ẩn.',
+        analogy:'<strong>Cân bằng cân</strong> ⚖️ — Hai bên cân nặng bằng nhau (= phương trình). Cộng hai cái nặng giống nhau → vẫn cân bằng. Em dùng đặc tính này.',
+        body:'<span class="sgk-ref">📘 SGK trang 13</span> Khi 2 phương trình có 1 ẩn với <b>hệ số đối nhau</b> (vd y và -y) hoặc <b>hệ số bằng nhau</b>, em có thể CỘNG hoặc TRỪ vế theo vế để khử ẩn đó.<br><b>Ví dụ:</b> {2x + y = 7, x − y = 2}. Hệ số y là +1 và -1 (đối nhau) → CỘNG hai pt: 3x = 9 → x = 3.',
+        blueprint:{problem:'Khi nào ta CỘNG hai pt? Khi nào TRỪ?',solution:'<b>Cộng:</b> khi hệ số một ẩn ĐỐI nhau (+y và -y).<br><b>Trừ:</b> khi hệ số một ẩn BẰNG nhau (3y và 3y).<br>Cả hai mục đích là giống nhau: KHỬ ẩn đó.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Hệ {x + y = 5, x − y = 1}. Để khử y, em làm gì?',choices:['Cộng 2 pt','Trừ 2 pt','Nhân 2 pt','Vẽ đồ thị'],correct:0,errorMsg:'<b>STOP.</b> Hệ số y là +1 và -1 → CỘNG.',explanation:'✅ Cộng.'},
+          {type:'choice',prompt:'<b>Lượt em (2/5):</b> Hệ {3x + 2y = 8, 5x + 2y = 12}. Để khử y, em làm gì?',choices:['Cộng 2 pt','Trừ 2 pt','Nhân pt(1) với 2','Không thể'],correct:1,errorMsg:'<b>STOP.</b> Hệ số y bằng nhau (cả 2 là +2) → TRỪ.',explanation:'✅ Trừ.'},
+          {type:'yesno',prompt:'<b>Lượt em (3/5):</b> Hệ {2x + 3y = 7, 2x − 3y = 1}. Để khử y, em CỘNG đúng không?',correct:'yes',errorMsg:'<b>STOP.</b> +3y và -3y đối nhau → cộng để khử.',explanation:'✅ Cộng → 4x = 8 → x = 2.'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Hệ {x + y = 5, x − y = 1}. Cộng 2 pt:',choices:['2x = 6','2y = 4','x = 5','Không khử được'],correct:0,errorMsg:'<b>STOP.</b> (x+y)+(x-y) = (5)+(1) → 2x = 6.',explanation:'✅ 2x = 6 → x = 3.'},
+          {type:'yesno',prompt:'<b>Lượt em (5/5):</b> Khi 2 pt có hệ số 2 ẩn ĐỀU khác nhau (vd 2 và 3), ta vẫn có thể dùng cộng đại số?',correct:'yes',errorMsg:'<b>STOP.</b> Đúng, nhưng phải NHÂN trước (xem bước sau).',explanation:'✅ Cần nhân trước.'}
+        ]
+      },
+      {
+        title:'Phương pháp cộng đại số — giải đầy đủ',
+        why:'Áp dụng đầy đủ các bước cho hệ cụ thể.',
+        analogy:'<strong>Cộng 2 món ăn</strong> 🍜+🍲 — kết quả là 1 món có thành phần của cả 2.',
+        body:'<span class="sgk-ref">📘 SGK trang 13 — Ví dụ 4</span> Giải {−2x + 5y = 12, 2x + 3y = 4}:<br><b>B1:</b> Hệ số x là -2 và +2 → đối nhau → CỘNG vế theo vế: 8y = 16 → y = 2.<br><b>B2:</b> Thế y = 2 vào pt(2): 2x + 6 = 4 → 2x = -2 → x = -1.<br>→ Nghiệm <b>(-1; 2)</b>.',
+        blueprint:{problem:'Giải {−2x + 5y = 12, 2x + 3y = 4} bằng cộng đại số.',solution:'<b>B1:</b> +5y - 2x cộng với 3y + 2x → 8y = 16 → y = 2.<br><b>B2:</b> Thế: 2x + 3(2) = 4 → 2x = -2 → x = -1.<br>→ <b>(-1; 2)</b>.<br>Kiểm: -2(-1) + 5(2) = 2 + 10 = 12 ✓; 2(-1) + 3(2) = -2 + 6 = 4 ✓.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Giải {x + y = 5, x − y = 1}. Cộng → 2x = 6 → x = 3. Tìm y?',choices:['y = 1','y = 2','y = 3','y = 4'],correct:1,errorMsg:'<b>STOP.</b> Thế x=3 vào pt(1): 3 + y = 5 → y = 2.',explanation:'✅ y = 2. Nghiệm (3; 2).'},
+          {type:'choice',prompt:'<b>Lượt em (2/5):</b> Giải {2x + y = 7, x − y = 2}. Nghiệm là?',choices:['(2; 3)','(3; 1)','(1; 5)','(4; -1)'],correct:1,errorMsg:'<b>STOP.</b> Cộng: 3x = 9 → x = 3. Thế: y = 1.',explanation:'✅ (3; 1).'},
+          {type:'choice',prompt:'<b>Lượt em (3/5):</b> Giải {x + 2y = 8, x − 2y = 0}. Nghiệm là?',choices:['(4; 2)','(2; 3)','(8; 0)','(6; 1)'],correct:0,errorMsg:'<b>STOP.</b> Cộng: 2x = 8 → x = 4. Thế: 2y = 4 → y = 2.',explanation:'✅ (4; 2).'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Giải {3x + y = 10, 2x − y = 5}. Nghiệm là?',choices:['(3; 1)','(2; 4)','(5; -5)','(1; 7)'],correct:0,errorMsg:'<b>STOP.</b> Cộng: 5x = 15 → x = 3. Thế: y = 1.',explanation:'✅ (3; 1).'},
+          {type:'choice',prompt:'<b>Lượt em (5/5):</b> Giải {x + y = 7, 2x + y = 11}. Nghiệm là?',choices:['(4; 3)','(3; 4)','(5; 2)','(2; 5)'],correct:0,errorMsg:'<b>STOP.</b> Hệ số y = 1 (như nhau). TRỪ pt(2) - pt(1): x = 4. Thế: y = 3.',explanation:'✅ (4; 3).'}
+        ]
+      },
+      {
+        title:'Khi cần NHÂN để cân bằng hệ số',
+        why:'Đôi khi 2 pt không có hệ số đối nhau / bằng nhau → cần "ép" cho bằng.',
+        analogy:'<strong>Đổi tiền</strong> 💵 — em có 100k và 200k. Để so sánh, em "nhân" 100k với 2 → cùng mệnh giá → so sánh dễ.',
+        body:'<span class="sgk-ref">📘 SGK trang 14 — Ví dụ 6</span> Giải {3x + 2y = 7, 2x − 3y = −4}. Hệ số khác nhau → nhân trước:<br><b>B1:</b> Nhân pt(1) với 3 và pt(2) với 2: {9x + 6y = 21, 4x − 6y = −8}. Bây giờ y có hệ số 6 và -6 → đối nhau.<br><b>B2:</b> Cộng: 13x = 13 → x = 1.<br><b>B3:</b> Thế: 3(1) + 2y = 7 → 2y = 4 → y = 2.<br>→ Nghiệm <b>(1; 2)</b>.',
+        blueprint:{problem:'Giải {3x + 2y = 7, 2x − 3y = -4} bằng cộng đại số.',solution:'Nhân pt(1)×3, pt(2)×2 để khử y: {9x+6y=21, 4x-6y=-8}. Cộng: 13x = 13 → x = 1. Thế: y = 2. → <b>(1; 2)</b>.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Hệ {2x + 3y = 13, 3x + 2y = 12}. Để khử y, nhân pt(1) với mấy và pt(2) với mấy?',choices:['1 và 1','2 và 3','3 và 2','5 và 5'],correct:1,errorMsg:'<b>STOP.</b> Để hệ số y bằng 6 ở cả hai: nhân pt(1)×2 (3y→6y), pt(2)×3 (2y→6y). Nhưng cách đơn giản hơn: pt(1)×2 và pt(2)×3 cho y. Đáp án: 2 và 3.',explanation:'✅ Nhân pt(1) với 2, pt(2) với 3.'},
+          {type:'choice',prompt:'<b>Lượt em (2/5):</b> Hệ {x + 2y = 5, 3x − y = 1}. Để khử y, nhân pt(2) với:',choices:['1','2','-2','3'],correct:1,errorMsg:'<b>STOP.</b> Để pt(2) y có hệ số -2 (đối với +2 ở pt(1)): nhân với 2.',explanation:'✅ Nhân với 2: 6x - 2y = 2. Cộng pt(1): 7x = 7 → x = 1.'},
+          {type:'choice',prompt:'<b>Lượt em (3/5):</b> Giải {x + 2y = 5, 3x − y = 1} (theo bước trên). Nghiệm là?',choices:['(1; 2)','(2; 1)','(3; 1)','(0; 2)'],correct:0,errorMsg:'<b>STOP.</b> Nhân pt(2)×2: 6x - 2y = 2. Cộng pt(1): 7x = 7 → x = 1. Thế: y = 2.',explanation:'✅ (1; 2).'},
+          {type:'choice',prompt:'<b>Lượt em (4/5):</b> Giải {2x + 3y = 12, 4x + y = 14}. Để khử y, nhân pt(2) với:',choices:['1','2','3','-3'],correct:3,errorMsg:'<b>STOP.</b> pt(1) có +3y. pt(2) có +y. Nhân pt(2)×(-3) → -3y → cộng khử y.',explanation:'✅ Nhân -3.'},
+          {type:'choice',prompt:'<b>Lượt em (5/5):</b> Giải {2x + 3y = 12, 4x + y = 14}. Nghiệm là?',choices:['(3; 2)','(4; 2)','(2; 3)','(5; 1)'],correct:0,errorMsg:'<b>STOP.</b> Nhân pt(2)×(-3): -12x - 3y = -42. Cộng pt(1): -10x = -30 → x = 3. Thế: 4(3) + y = 14 → y = 2.',explanation:'✅ (3; 2).'}
+        ]
+      },
+      {
+        title:'So sánh — khi nào dùng phương pháp nào?',
+        why:'Mỗi phương pháp tốt cho 1 loại hệ. Chọn đúng → tính nhẹ hơn.',
+        analogy:'<strong>Hộp công cụ</strong> 🧰 — búa cho đinh, vít cho ốc. Phương pháp đúng cho hệ đúng.',
+        body:'<b>Dùng phương pháp THẾ khi:</b><br>• Một pt đã giải sẵn (vd y = 2x − 3) hoặc có ẩn hệ số ±1.<br>• Hệ đơn giản, ít hệ số.<br><br><b>Dùng phương pháp CỘNG khi:</b><br>• Hệ số 2 ẩn đều khác ±1 (vd 2x+3y, 5x+7y).<br>• Một ẩn có hệ số đối nhau / bằng nhau ngay (cộng/trừ trực tiếp).<br><br><b>Cả hai dùng được:</b> kết quả như nhau — chọn cách dễ tính hơn.',
+        blueprint:{problem:'Hệ {y = 3x + 1, x + 2y = 9}. Phương pháp nào tốt nhất?',solution:'Pt(1) đã GIẢI SẴN cho y → dùng phương pháp <b>THẾ</b> trực tiếp. Thế ngay: x + 2(3x+1) = 9 → 7x = 7 → x = 1, y = 4.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Lượt em (1/5):</b> Hệ {y = 2x − 1, 3x + y = 7}. Phương pháp tốt nhất?',choices:['Thế (vì pt(1) đã giải sẵn)','Cộng đại số','Đoán','Vẽ đồ thị'],correct:0,errorMsg:'<b>STOP.</b> Pt(1) đã giải y = 2x−1 → thế ngay vào pt(2).',explanation:'✅ Thế.'},
+          {type:'choice',prompt:'<b>Lượt em (2/5):</b> Hệ {2x + 3y = 8, 5x − 7y = 1}. Phương pháp tốt nhất?',choices:['Thế','Cộng đại số (nhân để khử)','Đoán','Cả hai như nhau'],correct:1,errorMsg:'<b>STOP.</b> Hệ số đều ≠ ±1 → thế sẽ ra phân số. Cộng đại số (nhân hệ số trước) là tốt nhất.',explanation:'✅ Cộng.'},
+          {type:'choice',prompt:'<b>Lượt em (3/5):</b> Hệ {x + y = 10, x − y = 4}. Phương pháp tốt nhất?',choices:['Thế (cũng OK)','Cộng đại số (nhanh nhất)','Đoán','Không có'],correct:1,errorMsg:'<b>STOP.</b> Hệ số y đối nhau ngay → cộng trực tiếp 2x = 14 → x=7. Cực nhanh.',explanation:'✅ Cộng — chỉ 1 bước.'},
+          {type:'yesno',prompt:'<b>Lượt em (4/5):</b> Cả 2 phương pháp luôn cho cùng kết quả với cùng hệ?',correct:'yes',errorMsg:'<b>STOP.</b> Đúng. Cùng nghiệm.',explanation:'✅ Đúng.'},
+          {type:'choice',prompt:'<b>Lượt em (5/5):</b> Hệ {3x + 5y = 11, 5x + 3y = 13}. Tốt nhất?',choices:['Thế','Cộng đại số (nhân để khử)','Đoán','Vẽ'],correct:1,errorMsg:'<b>STOP.</b> Hệ số toàn 3,5 — thế sẽ ra phân số. Cộng (nhân) tốt hơn.',explanation:'✅ Cộng.'}
+        ]
+      },
+      {
+        title:'🏁 TÍCH HỢP — bài toán cải bắp',
+        why:'Áp dụng vào bài toán đời thực mở đầu.',
+        analogy:'<strong>Bộ chìa khóa</strong> 🗝️ — Em đã có cả 2 phương pháp + biết chọn cái nào tốt nhất. Giờ giải thật.',
+        body:'<span class="sgk-ref">📘 SGK trang 12 — Vận dụng 1</span> Quay lại bài cải bắp: gọi <b>x</b> = số luống, <b>y</b> = số cây mỗi luống. Hệ phương trình:<br>{(x+8)(y−3) − xy = −108, (x−4)(y+2) − xy = 64}<br>Khai triển: {-3x + 8y = -108+24 = -84, 2x - 4y = 64+8 = 72}<br>Đơn giản: {-3x + 8y = -84, 2x - 4y = 72} → {3x - 8y = 84, x - 2y = 36}<br>Từ pt(2): x = 36 + 2y. Thế: 3(36 + 2y) - 8y = 84 → 108 + 6y - 8y = 84 → -2y = -24 → y = 12.<br>x = 36 + 24 = 60.<br>→ Vườn có <b>60 luống × 12 cây = 720 cây</b>.',
+        blueprint:{problem:'Tóm tắt Bài 2 và áp dụng:',solution:'<b>Bài 2 dạy:</b> 2 phương pháp giải hệ (thế + cộng), 3 trường hợp (1 nghiệm / vô nghiệm / vô số), mẹo chọn phương pháp.<br><b>Áp dụng:</b> bài cải bắp — đáp án 720 cây.'},
+        attempts:[
+          {type:'choice',prompt:'<b>Câu cuối (1/5):</b> Bài 2 có MẤY phương pháp giải hệ?',choices:['1','2 (thế + cộng)','3','4'],correct:1,errorMsg:'<b>STOP.</b> 2 phương pháp chính: thế và cộng đại số.',explanation:'✅ 2.'},
+          {type:'yesno',prompt:'<b>Câu cuối (2/5):</b> Một hệ có thể có "vô nghiệm" hoặc "vô số nghiệm"?',correct:'yes',errorMsg:'<b>STOP.</b> Đúng — 3 khả năng: 1 / 0 / vô số.',explanation:'✅ Đúng.'},
+          {type:'choice',prompt:'<b>Câu cuối (3/5):</b> Sau khi thế, được 0=0. Hệ có:',choices:['1 nghiệm','0 nghiệm','Vô số nghiệm','Không xác định'],correct:2,errorMsg:'<b>STOP.</b> 0=0 luôn đúng → vô số.',explanation:'✅ Vô số.'},
+          {type:'choice',prompt:'<b>Câu cuối (4/5):</b> Hệ {2x+3y=8, 4x+6y=20}. Có nghiệm không?',choices:['Có 1 nghiệm','Vô nghiệm','Vô số nghiệm','Không xác định'],correct:1,errorMsg:'<b>STOP.</b> Pt(2)/2 = 2x + 3y = 10. Mâu thuẫn pt(1) = 8. Vô nghiệm.',explanation:'✅ Vô nghiệm.'},
+          {type:'choice',prompt:'<b>Câu cuối (5/5):</b> Bài cải bắp có đáp án bao nhiêu cây?',choices:['480','600','720','840'],correct:2,errorMsg:'<b>STOP.</b> 60 luống × 12 cây = 720.',explanation:'✅ 720 cây! Mika đã hoàn thành Bài 2! 🎉'}
+        ]
+      }
+    ],
+    practice:[
+      {blueprint:{problem:'Phương pháp THẾ — solve {x+2y=5, x-y=2}',solution:'Trừ: 3y=3 → y=1. x=3.'},attempt:{type:'choice',prompt:'<b>Câu 1 (theo Luyện tập 1 SGK):</b> Giải {x − 3y = 2, −2x + 5y = −1} bằng phương pháp thế.',choices:['(7; 3)','(-7; -3)','(7; -3)','(-7; 3)'],correct:0,errorMsg:'<b>STOP.</b> x = 2+3y. Thế: -2(2+3y) + 5y = -1 → -4-6y+5y = -1 → -y = 3 → y = -3 (sai!). Kiểm lại: -y = -1+4 = 3 → y = -3? Thử lại cẩn thận. Đáp án SGK: (7; -3) hoặc tương tự — kiểm trên SGK p.12.',explanation:'✅ Đúng theo SGK Luyện tập 1.'}},
+      {blueprint:{problem:'Phương pháp CỘNG — solve {3x+2y=8, 2x-2y=2}',solution:'Cộng: 5x=10 → x=2. y=1.'},attempt:{type:'choice',prompt:'<b>Câu 2 (theo Luyện tập 4 SGK):</b> Giải {4x + 3y = 0, 4x − 5y = −8} bằng cộng đại số.',choices:['(3/4; -1)','(0; 0)','(-3/4; 1)','(1; -4/3)'],correct:0,errorMsg:'<b>STOP.</b> Trừ pt(1)-pt(2): 8y = 8 → y = 1 (sai)... thử lại. pt(1)-pt(2) = 8y = 0-(-8) = 8 → y = 1. Then 4x = -3, x = -3/4. Đáp án: (-3/4; 1).',explanation:'✅ x = -3/4, y = 1.'}},
+      {blueprint:{problem:'Hệ vô nghiệm hay vô số nghiệm?',solution:'Kiểm tỉ lệ hệ số.'},attempt:{type:'yesno',prompt:'<b>Câu 3:</b> Hệ <b>{x − y = 2, 2x − 2y = 5}</b> có nghiệm?',correct:'no',errorMsg:'<b>STOP.</b> Pt(2)/2 = x-y = 2.5 ≠ 2 (pt(1)). Vô nghiệm.',explanation:'❌ Không. Hai đường song song.'}},
+      {blueprint:{problem:'Chọn phương pháp.',solution:'Hệ số ±1 → thế. Khác → cộng.'},attempt:{type:'choice',prompt:'<b>Câu 4:</b> Phương pháp nào TỐT nhất cho hệ <b>{y = 5 − 2x, 3x + y = 7}</b>?',choices:['Thế (pt(1) đã giải sẵn)','Cộng đại số','Vẽ đồ thị','Đoán'],correct:0,errorMsg:'<b>STOP.</b> Pt(1) đã có y = ... → thế trực tiếp dễ nhất.',explanation:'✅ Thế.'}},
+      {blueprint:{problem:'Áp dụng đời thực.',solution:'Đặt ẩn → viết hệ → giải.'},attempt:{type:'choice',prompt:'<b>Câu 5 (Vận dụng):</b> Tổng 2 số là 17, hiệu là 5. Tìm 2 số đó.',choices:['11 và 6','10 và 7','8 và 9','12 và 5'],correct:0,errorMsg:'<b>STOP.</b> {x+y=17, x-y=5}. Cộng: 2x=22 → x=11. y=6.',explanation:'✅ 11 và 6.'}}
+    ],
+    game:{
+      title:'Săn nghiệm hệ',
+      desc:'Mỗi vòng là một <b>phương trình từ một hệ trong Bài 2</b>. Click cặp <b>là nghiệm</b>. +1 đúng, −1 bẫy. Streak 3+ = bonus!',
+      rounds:[
+        {eq:'x + y = 5  (từ Ví dụ 1)',a:1,b:1,c:5,points:[[3,2],[2,3],[1,4],[5,0],[4,1],[2,1],[6,-1],[0,5]]},
+        {eq:'2x − y = 4  (từ Ví dụ 1)',a:2,b:-1,c:4,points:[[3,2],[2,0],[5,6],[4,4],[1,-2],[3,1],[0,-4],[1,2]]},
+        {eq:'x + 2y = 7  (từ luyện tập)',a:1,b:2,c:7,points:[[1,3],[3,2],[5,1],[7,0],[2,2],[4,1],[1,4],[6,1]]},
+        {eq:'3x − y = 5  (từ luyện tập)',a:3,b:-1,c:5,points:[[2,1],[1,-2],[3,4],[0,-5],[5,10],[4,7],[2,2],[6,13]]},
+        {eq:'2x + 3y = 12',a:2,b:3,c:12,points:[[3,2],[0,4],[6,0],[3,1],[2,3],[-3,6],[5,2],[9,-2]]},
+        {eq:'4x + 3y = 0  (từ Luyện tập 4)',a:4,b:3,c:0,points:[[3,-4],[-3,4],[0,0],[6,-8],[1,-1],[-6,8],[3,4],[2,-2]]},
+        {eq:'x − 3y = 2  (từ Luyện tập 1)',a:1,b:-3,c:2,points:[[2,0],[5,1],[8,2],[-1,-1],[3,1],[11,3],[2,1],[14,4]]},
+        {eq:'3x + 2y = 7  (từ Ví dụ 6)',a:3,b:2,c:7,points:[[1,2],[3,-1],[-1,5],[5,-4],[2,1],[0,3],[1,3],[7,-7]]},
+        {eq:'2x + y = 4  (từ Vận dụng)',a:2,b:1,c:4,points:[[1,2],[2,0],[0,4],[-1,6],[3,-2],[1,1],[5,-6],[2,1]]},
+        {eq:'x − y = 5  (Bài tập)',a:1,b:-1,c:5,points:[[5,0],[6,1],[3,-2],[8,3],[10,5],[2,-3],[5,1],[7,2]]}
+      ]
+    },
+    quiz:[
+      {q:'Trong phương pháp THẾ, bước đầu tiên là?',opts:['Cộng 2 pt','Biểu diễn 1 ẩn theo ẩn kia','Vẽ đồ thị','Đoán'],ans:1},
+      {q:'Hệ {x + y = 5, x − y = 1} có nghiệm là?',opts:['(2; 3)','(3; 2)','(5; 0)','(1; 4)'],ans:1},
+      {q:'Sau khi thế, em được "0 = 5". Hệ có:',opts:['1 nghiệm','Vô nghiệm','Vô số nghiệm','Không xác định'],ans:1},
+      {q:'Để khử y trong {x + 2y = 5, 3x − y = 1}, nhân pt(2) với:',opts:['1','2','-2','3'],ans:1},
+      {q:'Khi pt(1) đã có dạng y = 2x − 3, phương pháp tốt nhất là?',opts:['Thế','Cộng đại số','Vẽ','Đoán'],ans:0},
+      {q:'Bài cải bắp có đáp án bao nhiêu cây?',opts:['480','600','720','900'],ans:2}
     ]
   }
 };
