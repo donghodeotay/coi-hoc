@@ -236,7 +236,7 @@ nav.tabs button:hover:not(.active){background:var(--green-soft);color:var(--gree
 <!-- THEORY -->
 <section id="tab-theory" class="tab hidden">
   <div class="card">
-    <h2>Bài 1 — Dân tộc, gia tăng dân số và cơ cấu dân số <span class="cite">SGK trang 106–108</span></h2>
+    <h2 id="theoryLessonTitle">Bài 1 — Dân tộc, gia tăng dân số và cơ cấu dân số <span class="cite">SGK trang 106–108</span></h2>
     <p class="muted">11 bước nhỏ. Đọc xong từng bước, đánh dấu ✓.</p>
   </div>
   <div id="theoryContent"></div>
@@ -15641,6 +15641,405 @@ const gameRounds = _L.gameRounds;
 const quiz = _L.quiz;
 
 
+
+
+// === RESTORED rendering functions (was accidentally removed in multi-lesson refactor) ===
+
+let currentStep = 0;
+let stepAttempt = {tries:0, paused:false, passed:false, picked:null, currentVar:0, streak:0};
+
+
+function getCurrentStepAttempt(s){
+  if(s.attempts && Array.isArray(s.attempts)){
+    if(typeof stepAttempt.currentVar !== 'number') stepAttempt.currentVar = 0;
+    return s.attempts[stepAttempt.currentVar % s.attempts.length];
+  }
+  return s.attempt;
+}
+function getMasteryRequired(){ return 3; }
+function getMasteryTotal(s){ return s.attempts ? s.attempts.length : 1; }
+
+function renderTheory(){
+  const p=loadProg();
+  // Resume at last step user was on
+  if(currentStep===0 && p.theory>0) currentStep = Math.min(p.theory, steps.length-1);
+  const cont=document.getElementById('theoryContent');
+  const i = currentStep;
+  const s = steps[i];
+  const isPassed = i < p.theory;
+  if(isPassed && !stepAttempt.passed){ stepAttempt = {tries:0,paused:false,passed:true,picked:null,currentVar:0,streak:0}; }
+  
+  let attemptHtml = '';
+  if(s.attempts || s.attempt){
+    const _at = getCurrentStepAttempt(s);
+    if(_at.type === 'choice'){
+      attemptHtml = '<div class="opts">' + _at.choices.map((ch,j)=>{
+        let cls='opt-btn';
+        if(stepAttempt.picked!==null){
+          if(j===_at.correct) cls += ' right';
+          else if(j===stepAttempt.picked) cls += ' wrong';
+        }
+        const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+        return `<button class="${cls}" onclick="pickStep(${j})" ${dis}>${applyTooltips(ch)}</button>`;
+      }).join('') + '</div>';
+    } else if(_at.type === 'yesno'){
+      const dis = (stepAttempt.passed||stepAttempt.paused) ? 'disabled' : '';
+      const yc = stepAttempt.picked==='yes' ? (_at.correct==='yes'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='yes'?' right':'');
+      const nc = stepAttempt.picked==='no' ? (_at.correct==='no'?' right':' wrong') : (stepAttempt.picked!==null && _at.correct==='no'?' right':'');
+      attemptHtml = `<div class="opts"><button class="opt-btn${yc}" onclick="pickStepYN('yes')" ${dis}>✓ Có</button><button class="opt-btn${nc}" onclick="pickStepYN('no')" ${dis}>✗ Không</button></div>`;
+    }
+  }
+  
+  let feedbackHtml = '';
+  if(stepAttempt.picked !== null && !stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">${applyTooltips(getCurrentStepAttempt(s).errorMsg)}<br><span class="tries-left">Còn ${CFG.attemptLimit-stepAttempt.tries} lần thử.</span></div>`;
+  } else if(stepAttempt.passed){
+    feedbackHtml = `<div class="step-feedback ok">${applyTooltips(getCurrentStepAttempt(s).explanation)}<div class="step-after">✨ <b>Sau bước này:</b> ${applyTooltips(s.after)}</div></div>`;
+  } else if(stepAttempt.tries >= CFG.attemptLimit){
+    feedbackHtml = `<div class="step-feedback err">Đã thử ${CFG.attemptLimit} lần. ${applyTooltips(getCurrentStepAttempt(s).explanation)}</div>`;
+  }
+  
+  let pauseHtml = '';
+  if(stepAttempt.paused){
+    pauseHtml = `<div class="step-pause">⏸️ Dừng 5 giây trong đầu — suy nghĩ lại — rồi thử tiếp.<div class="step-pause-timer" id="stepTimer">5</div></div>`;
+  }
+  
+  // Step indicator dots
+  const dots = steps.map((_,k)=>{
+    let cls='step-dot';
+    if(k===i) cls+=' curr';
+    else if(k<p.theory) cls+=' done';
+    return `<span class="${cls}" onclick="jumpStep(${k})" title="Bước ${k+1}"></span>`;
+  }).join('');
+  
+  cont.innerHTML = `
+    <div class="step-card">
+      <div class="step-header">Bước ${i+1}/${steps.length}: ${applyTooltips(s.title.replace(/^\d+\.\s/,''))}</div>
+      <div class="step-why"><b>🤔 Trước khi học bước này:</b> ${applyTooltips(s.before)}</div>
+      <div class="step-mnem"><b>💡 Ghi nhớ dễ:</b> ${applyTooltips(s.analogy)}</div>
+      <div class="step-body">${applyTooltips(s.body)}</div>
+      ${s.attempt ? `
+        <div class="step-blueprint"><div class="step-bp-tag">BƯỚC 1 · QUAN SÁT</div>
+          <div class="step-bp-q"><b>Câu hỏi:</b> ${applyTooltips(s.blueprint.problem)}</div>
+          <div class="step-bp-a">${applyTooltips(s.blueprint.solution)}</div>
+        </div>
+        <div class="step-attempt"><div class="step-at-tag">BƯỚC 2 · LƯỢT EM</div>${s.attempts ? (function(){
+            const need = getMasteryRequired();
+            const streak = (stepAttempt.streak || 0);
+            let dots = '';
+            for(let k=0;k<need;k++){ dots += '<span class="m-dot ' + (k<streak?'on':'') + '"></span>'; }
+            const total = getMasteryTotal(s);
+            const varN = (stepAttempt.currentVar || 0) % total + 1;
+            return '<div class="mastery-row"><span class="m-label">Mastery: ' + dots + '</span><span class="m-progress">' + streak + '/' + need + ' đúng liên tiếp · biến thể ' + varN + '/' + total + '</span></div>';
+          })() : ''}
+          <div class="step-at-q"><b>Lượt em:</b> ${applyTooltips(s.attempt.prompt)}</div>
+          ${attemptHtml}
+          ${feedbackHtml}
+          ${pauseHtml}
+        </div>
+      ` : ''}
+    </div>
+    <div class="step-nav">
+      <button class="step-nav-btn" onclick="prevStep()" ${i===0?'disabled':''}>← Trước</button>
+      <div class="step-dots">${dots}</div>
+      <button class="step-nav-btn primary" onclick="nextStep()" ${(!stepAttempt.passed && stepAttempt.tries < CFG.attemptLimit && s.attempt) ? 'disabled' : ''}>Sau →</button>
+    </div>
+  `;
+}
+
+function resetStepAttempt(){ stepAttempt = {tries:0,paused:false,passed:false,picked:null,currentVar:0,streak:0}; }
+
+function pickStep(j){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
+  stepAttempt.picked = j;
+  stepAttempt.tries++;
+  const isMastery = !!s.attempts;
+  if(j === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        // Correct but mastery not reached — show streaking briefly, then advance
+        renderTheory();
+        setTimeout(()=>{
+          stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+          stepAttempt.picked = null;
+          renderTheory();
+        }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true;
+      bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){
+        clearInterval(tk);
+        stepAttempt.paused = false;
+        stepAttempt.picked = null;
+        if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+        renderTheory();
+      }
+    }, 1000);
+    return;
+  }
+  renderTheory();
+}
+
+function pickStepYN(v){
+  if(stepAttempt.passed || stepAttempt.paused) return;
+  const s = steps[currentStep];
+  const at = getCurrentStepAttempt(s);
+  stepAttempt.picked = v;
+  stepAttempt.tries++;
+  const isMastery = !!s.attempts;
+  if(v === at.correct){
+    if(isMastery){
+      stepAttempt.streak = (stepAttempt.streak || 0) + 1;
+      bumpActivity();
+      if(stepAttempt.streak >= getMasteryRequired()){
+        stepAttempt.passed = true;
+        const p = loadProg();
+        if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+      } else {
+        renderTheory();
+        setTimeout(()=>{
+          stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+          stepAttempt.picked = null;
+          renderTheory();
+        }, 1800);
+        return;
+      }
+    } else {
+      stepAttempt.passed = true;
+      bumpActivity();
+      const p = loadProg();
+      if(currentStep+1 > p.theory){ p.theory = currentStep+1; saveProg(p); updateOverall(); }
+    }
+  } else if(stepAttempt.tries < (isMastery ? 8 : CFG.attemptLimit)){
+    if(isMastery) stepAttempt.streak = 0;
+    stepAttempt.paused = true;
+    renderTheory();
+    let n = CFG.pauseSeconds;
+    const tk = setInterval(()=>{
+      n--;
+      const t = document.getElementById('stepTimer');
+      if(t) t.textContent = n;
+      if(n<=0){
+        clearInterval(tk);
+        stepAttempt.paused = false;
+        stepAttempt.picked = null;
+        if(isMastery) stepAttempt.currentVar = (stepAttempt.currentVar || 0) + 1;
+        renderTheory();
+      }
+    }, 1000);
+    return;
+  }
+  renderTheory();
+}
+
+function nextStep(){
+  if(currentStep < steps.length-1){
+    currentStep++;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    switchTab('practice');
+  }
+}
+function prevStep(){
+  if(currentStep > 0){
+    currentStep--;
+    resetStepAttempt();
+    const p = loadProg();
+    if(currentStep < p.theory) stepAttempt.passed = true;
+    renderTheory();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+function jumpStep(k){
+  const p = loadProg();
+  if(k <= p.theory){
+    currentStep = k;
+    resetStepAttempt();
+    if(k < p.theory) stepAttempt.passed = true;
+    renderTheory();
+  }
+}
+
+function markStep(){ /* legacy no-op, replaced by step-by-step engine */ }
+
+let prState = practice.map(()=>({attempts:0,solved:false,paused:false}));
+function renderPractice(){
+  const cont=document.getElementById('practiceContent');
+  cont.innerHTML='';
+  let prevSource = null;
+  practice.forEach((p,i)=>{
+    if(p.source==='sgk' && prevSource!=='sgk'){
+      const hdr=document.createElement('div');
+      hdr.className='sgk-section-header';
+      hdr.innerHTML='<span class="sgk-icon">📘</span> Bài tập từ Sách giáo khoa <span class="sgk-page">trang 158-161</span>';
+      cont.appendChild(hdr);
+    }
+    prevSource = p.source;
+    const div=document.createElement('div');
+    div.className='problem' + (p.source==='sgk' ? ' problem-sgk' : '');
+    div.innerHTML=`<div class="q">Câu ${i+1}. ${applyTooltips(p.q)}</div>
+    <input type="text" id="pin-${i}" placeholder="Nhập câu trả lời..." ${prState[i].solved?'disabled':''}>
+    <div class="attempts">Lần thử: <span id="pat-${i}">${prState[i].attempts}</span>/${CFG.attemptLimit}</div>
+    <div style="margin-top:8px">
+      <button class="btn" id="pbtn-${i}" onclick="checkAnswer(${i})" ${prState[i].solved?'disabled':''}>Kiểm tra</button>
+      <button class="btn ghost" onclick="showHint(${i})">💡 Gợi ý</button>
+    </div>
+    <div id="pause-${i}" class="pause">⏸️ Dừng lại 5 giây — nhắm mắt, hình dung lại lý thuyết, rồi thử lại.<div class="timer" id="ptimer-${i}">5</div></div>
+    <div id="pfb-${i}" class="feedback"></div>`;
+    cont.appendChild(div);
+  });
+}
+function showHint(i){
+  const fb=document.getElementById('pfb-'+i);
+  fb.className='feedback show';fb.style.background='#fef3c7';fb.style.color='#78350f';fb.style.borderLeftColor='#d97706';
+  fb.innerHTML='💡 '+applyTooltips(practice[i].hint);
+}
+function checkAnswer(i){
+  if(prState[i].paused||prState[i].solved)return;
+  const val=(document.getElementById('pin-'+i).value||'').trim();
+  if(!val)return;
+  const ok=practice[i].accept.some(re=>re.test(val.replace(/\s+/g,' ').trim()));
+  prState[i].attempts++;
+  document.getElementById('pat-'+i).textContent=prState[i].attempts;
+  const fb=document.getElementById('pfb-'+i);
+  if(ok){
+    prState[i].solved=true;
+    fb.className='feedback show ok';
+    fb.innerHTML=`✓ Đúng rồi! ${applyTooltips(practice[i].explain)}`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    const p=loadProg();const solvedNow=prState.filter(s=>s.solved).length;
+    if(solvedNow>p.practice){p.practice=solvedNow;saveProg(p);bumpActivity()}
+    updateOverall();
+    return;
+  }
+  if(prState[i].attempts>=CFG.attemptLimit){
+    fb.className='feedback show no';
+    fb.innerHTML=`Đã thử ${CFG.attemptLimit} lần. Đáp án: <strong>${practice[i].answer}</strong>.<br><span class="muted">${applyTooltips(practice[i].explain)}</span>`;
+    document.getElementById('pin-'+i).disabled=true;
+    document.getElementById('pbtn-'+i).disabled=true;
+    return;
+  }
+  fb.className='feedback show no';
+  fb.innerHTML=`Chưa đúng. Hãy đọc lại câu hỏi và <em>nghĩ kĩ</em>. Còn ${CFG.attemptLimit-prState[i].attempts} lần.`;
+  prState[i].paused=true;
+  document.getElementById('pbtn-'+i).disabled=true;
+  document.getElementById('pin-'+i).disabled=true;
+  const pauseEl=document.getElementById('pause-'+i);
+  pauseEl.classList.add('show');
+  let n=CFG.pauseSeconds;
+  document.getElementById('ptimer-'+i).textContent=n;
+  const tk=setInterval(()=>{
+    n--;document.getElementById('ptimer-'+i).textContent=n;
+    if(n<=0){
+      clearInterval(tk);
+      pauseEl.classList.remove('show');
+      prState[i].paused=false;
+      document.getElementById('pbtn-'+i).disabled=false;
+      document.getElementById('pin-'+i).disabled=false;
+      document.getElementById('pin-'+i).focus();
+    }
+  },1000);
+}
+
+// ===== Game: Vườn đậu Mendel =====
+
+let gameIdx=0,gameOk=0,gameStarted=false;
+function startGame(){
+  gameStarted=true;gameIdx=0;gameOk=0;
+  document.getElementById('gameStartBtn').classList.add('hidden');
+  showGameRound();
+}
+function showGameRound(){
+  const r=gameRounds[gameIdx];
+  document.getElementById('gameRound').textContent=(gameIdx+1)+'/10';
+  document.getElementById('gameScore').textContent=gameOk+'/'+gameIdx;
+  document.getElementById('gameEmoji').textContent=r.emoji;
+  document.getElementById('gameQ').innerHTML=applyTooltips(r.q);
+  const ob=document.getElementById('gameOptions');
+  ob.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';b.textContent=o.t;
+    b.onclick=()=>pickGame(i);
+    ob.appendChild(b);
+  });
+  document.getElementById('gameFb').className='feedback';
+  document.getElementById('gameFb').innerHTML='';
+  document.getElementById('gameNextBtn').classList.add('hidden');
+}
+function pickGame(i){
+  const r=gameRounds[gameIdx];
+  const opts=document.querySelectorAll('#gameOptions .opt');
+  opts.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===i)b.classList.add(r.opts[j].ok?'right':'wrong');
+    else if(r.opts[j].ok)b.classList.add('right');
+  });
+  const fb=document.getElementById('gameFb');
+  if(r.opts[i].ok){
+    gameOk++;
+    fb.className='feedback show ok';
+    fb.innerHTML='✓ Tuyệt! '+applyTooltips(r.opts[i].why);
+  }else{
+    fb.className='feedback show no';
+    fb.innerHTML='✗ '+applyTooltips(r.opts[i].why);
+  }
+  document.getElementById('gameScore').textContent=gameOk+'/'+(gameIdx+1);
+  document.getElementById('gameNextBtn').classList.remove('hidden');
+}
+function nextGameRound(){
+  gameIdx++;
+  if(gameIdx>=gameRounds.length){
+    const stage=document.getElementById('gameStage');
+    const flowers=gameOk>=8?'🌺🌺🌺':gameOk>=6?'🌺🌺':gameOk>=4?'🌺':'🌱';
+    stage.innerHTML=`<div class="garden-emoji">${flowers}</div><h3>Vườn đậu Mendel hoàn thành!</h3><p>Mika đoán đúng <strong>${gameOk}/10</strong> phép lai.</p><button class="btn ghost" onclick="resetGame()">Chơi lại</button> <button class="btn" onclick="switchTab('quiz')">Sang Kiểm tra →</button>`;
+    const p=loadProg();
+    if(gameOk>p.game){p.game=gameOk;saveProg(p);bumpActivity();updateOverall()}
+    return;
+  }
+  showGameRound();
+}
+function resetGame(){
+  gameIdx=0;gameOk=0;gameStarted=false;
+  document.getElementById('gameStage').innerHTML=`<div class="garden-emoji" id="gameEmoji">🌱</div>
+  <div class="garden-q" id="gameQ">Bấm Bắt đầu để chơi</div>
+  <div id="gameOptions"></div>
+  <div id="gameFb" class="feedback"></div>
+  <div style="margin-top:12px"><button class="btn" id="gameStartBtn" onclick="startGame()">Bắt đầu</button>
+  <button class="btn ghost hidden" id="gameNextBtn" onclick="nextGameRound()">Lượt tiếp →</button></div>`;
+  document.getElementById('gameRound').textContent='1/10';
+  document.getElementById('gameScore').textContent='0/0';
+}
+
+// ===== Quiz =====
+
 function renderQuiz(){
   const cont=document.getElementById('quizContent');
   cont.innerHTML='';
@@ -15700,6 +16099,16 @@ function resetQuiz(){
   document.getElementById('quizResult').classList.add('hidden');
   renderQuiz();
 }
+
+
+// Update theory tab title with current lesson
+document.addEventListener("DOMContentLoaded", function(){
+  const t = document.getElementById("theoryLessonTitle");
+  if(t && _L && _L.storyTitle){
+    t.innerHTML = _L.storyTitle + ' <span class="cite">' + (_L.sgkPages || '') + '</span>';
+  }
+  document.title = (_L.storyTitle || "Địa lí 9") + " — Coi Học";
+});
 
 renderTheory();renderPractice();renderQuiz();
 updateStreak();updateOverall();
