@@ -103,24 +103,54 @@ footer{margin-top:24px;text-align:center;font-size:11px;color:var(--ink-2)}
 <script>
 // Subject registry — keep in one place so future updates touch a single file
 const SUBJECTS = [
-  {slug:'toan9',     icon:'➗', name:'Toán 9',      lesson:'Bài 1 — Phương trình bậc nhất hai ẩn'},
-  {slug:'lichsu9',   icon:'📜', name:'Lịch sử 9',   lesson:'Bài 1 — Liên Xô 1918–1945'},
-  {slug:'diali9',    icon:'🌾', name:'Địa lí 9',    lesson:'Bài 1 — Dân tộc và dân số'},
-  {slug:'vatly9',    icon:'⚡', name:'Vật lý 9',    lesson:'Bài 2 — Động năng. Thế năng'},
-  {slug:'hoahoc9',   icon:'🧪', name:'Hoá học 9',   lesson:'Bài 18 — Tính chất chung của kim loại'},
-  {slug:'sinhhoc9',  icon:'🌱', name:'Sinh học 9',  lesson:'Bài 36 — Di truyền học'},
-  {slug:'nguvan9',   icon:'📖', name:'Ngữ văn 9',   lesson:'Bài 1 — Chuyện người con gái Nam Xương'},
-  {slug:'gdcd9',     icon:'☀️', name:'GDCD 9',      lesson:'Bài 1 — Sống có lí tưởng'}
+  {slug:'toan9',     icon:'➗', name:'Toán 9',      lesson:'Bài 1 — Phương trình bậc nhất hai ẩn',     totalLessons:32},
+  {slug:'lichsu9',   icon:'📜', name:'Lịch sử 9',   lesson:'Bài 1 — Liên Xô 1918–1945',                totalLessons:22},
+  {slug:'diali9',    icon:'🌾', name:'Địa lí 9',    lesson:'Bài 1 — Dân tộc và dân số',                totalLessons:14},
+  {slug:'vatly9',    icon:'⚡', name:'Vật lý 9',    lesson:'Bài 2 — Động năng. Thế năng',              totalLessons:15},
+  {slug:'hoahoc9',   icon:'🧪', name:'Hoá học 9',   lesson:'Bài 18 — Tính chất chung của kim loại',    totalLessons:12},
+  {slug:'sinhhoc9',  icon:'🌱', name:'Sinh học 9',  lesson:'Bài 36 — Di truyền học',                   totalLessons:16},
+  {slug:'nguvan9',   icon:'📖', name:'Ngữ văn 9',   lesson:'Bài 1 — Chuyện người con gái Nam Xương',   totalLessons:10},
+  {slug:'gdcd9',     icon:'☀️', name:'GDCD 9',      lesson:'Bài 1 — Sống có lí tưởng',                  totalLessons:10}
 ];
 
 const ACTIVITY_KEY = 'toan9-activity'; // shared across all subjects — see project skill §7
 
-function loadProg(slug){
+function loadProg(slug, totalLessons){
+  // Multi-lesson refactored subjects (Địa lí, Hoá học, Sinh học, Ngữ văn, GDCD)
+  // store progress under <slug>-baiN-progress per lesson. Aggregate when present.
+  const lessonKeys = [];
+  for(let i=0; i<localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith(slug+'-bai') && k.endsWith('-progress')) lessonKeys.push(k);
+  }
+  if(lessonKeys.length > 0){
+    let totalDone=0, lessonsPassed=0;
+    const perLessonMax = 11 + 5 + 10 + 1;
+    for(const k of lessonKeys){
+      try{
+        const p = JSON.parse(localStorage.getItem(k)) || {};
+        totalDone += (p.theory||0) + (p.practice||0) + (p.game||0) + (p.quizPassed?1:0);
+        if(p.quizPassed) lessonsPassed++;
+      }catch(e){}
+    }
+    // pct = done across ALL lessons (touched + untouched) for accurate subject completion
+    const totalMax = (totalLessons||lessonKeys.length) * perLessonMax;
+    return {
+      theory:0, practice:0, game:0, quizPassed: lessonsPassed>0, quizBest:0,
+      aggregated: true,
+      aggregatePct: totalMax>0 ? Math.round(100*totalDone/totalMax) : 0,
+      lessonsPassed: lessonsPassed,
+      lessonsTouched: lessonKeys.length,
+      totalLessons: totalLessons || 0
+    };
+  }
+  // Older-engine subjects (Toán, Lịch sử, Vật lý): single aggregate key
   try{return JSON.parse(localStorage.getItem(slug+'-progress'))||{theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
   catch(e){return {theory:0,practice:0,game:0,quizPassed:false,quizBest:0}}
 }
 
 function calcPct(p){
+  if(p.aggregated) return p.aggregatePct;
   // Same formula as inside each lesson: 11 theory + 5 practice + 10 game + 1 quiz
   const total = 11 + 5 + 10 + 1;
   const done = (p.theory||0) + (p.practice||0) + (p.game||0) + (p.quizPassed?1:0);
@@ -145,7 +175,7 @@ function render(){
   cont.innerHTML = '';
   let passed = 0;
   SUBJECTS.forEach(s => {
-    const p = loadProg(s.slug);
+    const p = loadProg(s.slug, s.totalLessons);
     const pct = calcPct(p);
     if(p.quizPassed) passed++;
     const a = document.createElement('a');
@@ -153,7 +183,7 @@ function render(){
     a.href = 'lessons/' + s.slug + '/';
     a.innerHTML = `
       <div class="accent"></div>
-      ${p.quizPassed ? '<span class="badge-passed">✓ Đã đạt</span>' : (pct>0 ? `<span class="badge-locked">${pct}%</span>` : '<span class="badge-locked">Chưa bắt đầu</span>')}
+      ${p.aggregated ? (p.lessonsPassed>0 ? `<span class="badge-passed">✓ ${p.lessonsPassed}/${s.totalLessons} bài</span>` : (pct>0 ? `<span class="badge-locked">${pct}%</span>` : '<span class="badge-locked">Chưa bắt đầu</span>')) : (p.quizPassed ? '<span class="badge-passed">✓ Đã đạt</span>' : (pct>0 ? `<span class="badge-locked">${pct}%</span>` : '<span class="badge-locked">Chưa bắt đầu</span>'))}
       <div class="icon">${s.icon}</div>
       <div class="name">${s.name}</div>
       <div class="lesson">${s.lesson}</div>
